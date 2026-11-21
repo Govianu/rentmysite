@@ -1,0 +1,5404 @@
+{
+"source": "Google Drive: Business.network.revenue (team research sheets and creatives)",
+"sectors": {
+"1": {
+"types": [
+{
+"name": "Independent family restaurant",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Kitchen and dining space before 12 PM; Mon–Thu evenings",
+"opportunities": [
+"Cloud kitchen in morning hours",
+"Kids' birthday events (15 guests) in the morning",
+"Weekday corporate lunches and meetings",
+"Chef-led cooking workshops",
+"Packaged signature masalas"
+],
+"partners": "Cloud-kitchen brands, event managers, corporate HR teams",
+"hook": "Your kitchen sleeps till noon. Wake it up.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Darshini / tiffin room",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Kitchen after 11 AM",
+"opportunities": [
+"Packaged chutney powders and batters",
+"Corporate breakfast boxes",
+"Filter-coffee retail packs",
+"Heritage food walks",
+"Afternoon cloud-kitchen menu"
+],
+"partners": "Office admins, retail outlets, food-walk organisers",
+"hook": "Your kitchen goes quiet at 11.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Microbrewery",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Entire space 11 AM–6 PM",
+"opportunities": [
+"Daytime brunch café",
+"Corporate team outings",
+"Stand-up and live music shows",
+"Brewery merchandise",
+"Product launch venue"
+],
+"partners": "Event managers, comedians, corporate HR",
+"hook": "Packed by night. Silent by day.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Military hotel / biryani house",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Kitchen and hall outside lunch peak",
+"opportunities": [
+"Bulk event catering",
+"Packaged biryani masala",
+"Cloud-kitchen delivery brand",
+"Weekend biryani masterclass",
+"Office lunch subscriptions"
+],
+"partners": "Caterers, delivery platforms, event managers",
+"hook": "Famous at lunch. Empty by 4.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Tech-park food court",
+"category": "Restaurants & Food",
+"chain": true,
+"idle": "Counters after 3 PM",
+"opportunities": [
+"Evening snack counters",
+"Healthy meal subscriptions",
+"Weekend pop-up markets",
+"Brand activations",
+"Employee cooking contests"
+],
+"partners": "Corporate HR, FMCG brands, pop-up vendors",
+"hook": "Lunch rush. Then empty counters.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Fine-dine hotel restaurant",
+"category": "Restaurants & Food",
+"chain": true,
+"idle": "Private dining room on weekdays",
+"opportunities": [
+"Private chef's table",
+"Corporate board dinners",
+"Wine and food pairing evenings",
+"Cooking masterclasses",
+"Proposal and anniversary setups"
+],
+"partners": "Corporate EA networks, event planners, sommeliers",
+"hook": "Your private room, booked every night.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Donne biryani point",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Kitchen after the lunch rush",
+"opportunities": [
+"Bulk event and party orders",
+"Office biryani Fridays",
+"Cloud-kitchen evening menu",
+"Packaged biryani masala",
+"Weekend biryani masterclass"
+],
+"partners": "Event managers, corporates, retailers",
+"hook": "Sold out by 2. Idle by 3.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Wood-fired pizzeria",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Oven and seating before 6 PM",
+"opportunities": [
+"Pizza-making workshops",
+"Kids' birthday parties",
+"Corporate lunch boxes",
+"Frozen pizza bases",
+"Late-night delivery"
+],
+"partners": "Party planners, corporates, retailers",
+"hook": "A hot oven at noon with no one to feed.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "BBQ buffet restaurant",
+"category": "Restaurants & Food",
+"chain": true,
+"idle": "Hall on weekday lunches",
+"opportunities": [
+"Corporate team lunches",
+"Birthday packages",
+"Grill catering for events",
+"Marinade retail packs",
+"Weekday combo deals"
+],
+"partners": "Corporates, party planners, retailers",
+"hook": "Full weekend dinners. Empty weekday lunches.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Shawarma and grill shop",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Grill before 5 PM",
+"opportunities": [
+"College event stalls",
+"Party platters",
+"Office lunch rolls",
+"Marinated meat retail",
+"Second counter at food courts"
+],
+"partners": "Colleges, party planners, food courts",
+"hook": "Busy at night. Slow at noon.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Food street stall cluster",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Stalls in the daytime",
+"opportunities": [
+"Guided food walks",
+"Corporate food-street evenings",
+"Wedding live counters",
+"Food-festival participation",
+"Packaged snacks"
+],
+"partners": "Tour guides, corporates, wedding planners",
+"hook": "Famous at night. Unknown at events.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Highway dhaba",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Seating and open yard outside meal times",
+"opportunities": [
+"Truck-driver rest and shower stop",
+"Bus-tour meal contracts",
+"Packaged parathas and pickles",
+"Weekend family outings",
+"EV charging"
+],
+"partners": "Bus operators, logistics firms, EV partners",
+"hook": "Travellers stop to eat. Give them more reasons to stay.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Food truck",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Truck in the morning and on weekdays",
+"opportunities": [
+"Corporate campus visits",
+"Wedding and party live counters",
+"College fest stalls",
+"Apartment weekend visits",
+"Brand sampling tours"
+],
+"partners": "Corporates, colleges, RWAs",
+"hook": "A kitchen on wheels can go where the crowd is.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Kebab and grill restaurant",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Grill and space before 6 PM",
+"opportunities": [
+"Ramzan and festive bulk orders",
+"Barbecue catering for events",
+"Marinated ready-to-grill packs",
+"Grill masterclasses",
+"Lunch cloud-kitchen menu"
+],
+"partners": "Caterers, event planners, retail stores",
+"hook": "The grill fires at 6. Light it earlier.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Pan-Asian restaurant",
+"category": "Restaurants & Food",
+"chain": true,
+"idle": "Dining area at lunch on weekdays",
+"opportunities": [
+"Corporate lunch sets",
+"Sushi and dim-sum workshops",
+"Packaged sauces",
+"Private dining for teams",
+"Late-night delivery brand"
+],
+"partners": "Corporates, event hosts, delivery apps",
+"hook": "Busy on weekends. Weekday lunch is wide open.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Thali restaurant",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Hall after 3 PM",
+"opportunities": [
+"Office thali subscriptions",
+"Wedding and puja catering",
+"Festival thali specials",
+"Cooking-staff training",
+"Hostel meal contracts"
+],
+"partners": "Offices, caterers, hostels",
+"hook": "Unlimited thali, limited hours.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Millet-based restaurant",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Kitchen and seating mid-afternoon",
+"opportunities": [
+"Millet product retail",
+"Corporate health lunches",
+"Millet cooking workshops",
+"Diabetes-friendly meal plans",
+"School nutrition talks"
+],
+"partners": "Corporates, nutritionists, clinics",
+"hook": "Healthy food that more people want.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Snack kiosk franchise",
+"category": "Restaurants & Food",
+"chain": true,
+"idle": "Counter outside rush hours",
+"opportunities": [
+"Office snack boxes",
+"Event counters",
+"Combo deals with nearby PGs",
+"Breakfast pre-orders",
+"Second kiosk in tech parks"
+],
+"partners": "Offices, PGs, event managers",
+"hook": "Snacks sell at 5. What about 11?",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+}
+],
+"videos": [
+{
+"id": "16PSeNnkEo9-3xSC3HM14VWaHyuJgNa3x",
+"title": "PMB.MG Road.Fine-dine hotel restaurant.010 - 30s Video",
+"type": "fine dine hotel restaurant"
+},
+{
+"id": "1acwNXda7DkcQWSGKnpkyaW6_dJj40QMQ",
+"title": "PMB.Malleshwaram.Darshini - tiffin room.003 - 30s Video",
+"type": "darshini tiffin room"
+},
+{
+"id": "1K25ZUSxOCRD86oTuMqVp9udaWLsw2g4c",
+"title": "PMB.Whitefield.Tech-park food court.009 - 30s Video",
+"type": "tech park food court"
+},
+{
+"id": "1gP6a8hRTEzzzu2RAyS1d-0v_f0OoTKQz",
+"title": "PMB.Koramangala.Microbrewery.004 - 30s Video",
+"type": "microbrewery"
+},
+{
+"id": "16eT_mIF46uabr6GEGp6uQJihn9RwhZ8-",
+"title": "PMB.Rajajinagar.Military hotel - biryani house.006 - 30s Video",
+"type": "military hotel biryani house"
+},
+{
+"id": "1R8zVH3H_1DbhuES_o0HEClNeeAVNmCoh",
+"title": "PMB.Sadashivanagar.Independent family restaurant.001 - 30s Video",
+"type": "independent family restaurant"
+},
+{
+"id": "1wrjNP3oMsc1dJDTBYdhjwWVmB_iScQjk",
+"title": "PMB.Marathahalli.BBQBuffetRestaurant.005 30sec Video",
+"type": "bbqbuffet restaurant"
+},
+{
+"id": "1k6iXEO6sadUjwQI4lUd5i430LwacDS3F",
+"title": "PMB.FrazerTown.ShawarmaGrillShop.007 30sec Video",
+"type": "shawarma grill shop"
+},
+{
+"id": "1c2P671zXIE4qbeflfnO29bgYpPx7kKg8",
+"title": "PMB.Kengeri.DonneBiryaniPoint.001 30sec Video",
+"type": "donne biryani point"
+},
+{
+"id": "1A3t3OM4I5sXLyPxPYskFPaUOY-c9Y3AU",
+"title": "PMB.VVPuram.FoodStreetCluster.008 30sec Video",
+"type": "food street cluster"
+},
+{
+"id": "1TDQsRcD2KH1D4YxhuKrikbl0L--5KB3z",
+"title": "PMB.Indiranagar.WoodFiredPizzeria.004 30sec Video",
+"type": "wood fired pizzeria"
+},
+{
+"id": "1M7RCsfxdYxEWsCV6SY16NY-tJWe2geBI",
+"title": "PartnerMyBusiness x Darshini - tiffin room - Collaboration Reel",
+"type": "partner my business x darshini tiffin room collaboration reel mp4"
+}
+],
+"images": [
+{
+"id": "1tsoRYoWXemcWGqeomFX6PRNrA4q2BDbY",
+"title": "Proposal and anniversary setups",
+"type": "fine dine hotel restaurant"
+},
+{
+"id": "1rNJjUR_pv56r-E--5ivcsM_5AEQvLt7x",
+"title": "Weekday corporate lunches and meetings",
+"type": "independent family restaurant"
+},
+{
+"id": "1IDtC0tl-YWCOSR4SW3qbUD5jgkJUDrkN",
+"title": "Weekend pop-up markets",
+"type": "tech park food court"
+},
+{
+"id": "1wKrkm78Rfl1LiU9ayA52RLduNZFKtw3o",
+"title": "Cooking masterclasses",
+"type": "fine dine hotel restaurant"
+},
+{
+"id": "16xxwjPeqEnZC83yLtOAQqMbBFZyfDjPm",
+"title": "Cloud kitchen in morning hours",
+"type": "independent family restaurant"
+},
+{
+"id": "1fj0vDT8ciVIVqMwstvpgxuMEsOkdxNb2",
+"title": "Packaged chutney powders and batters",
+"type": "darshini tiffin room"
+},
+{
+"id": "122_CLZIPWgCHqFm8BzeZGNYl89BVfbDM",
+"title": "Daytime brunch café",
+"type": "microbrewery"
+},
+{
+"id": "18g3aYUv45iuXPAhq9W5n-mc5IxsaDue8",
+"title": "Afternoon cloud-kitchen menu",
+"type": "darshini tiffin room"
+},
+{
+"id": "1RBoXz2sDrYHnwDQ3olOmKMfzOl1BVO4_",
+"title": "Heritage food walks",
+"type": "darshini tiffin room"
+},
+{
+"id": "1UR0Jd_81FNH1OW2_tFodemyuJSkR2S4t",
+"title": "Kids' birthday events (15 guests) in the morning",
+"type": "independent family restaurant"
+},
+{
+"id": "1o7bPgM00GMK3Ba4h3Ju3ddu0Is9N3-nq",
+"title": "Filter-coffee retail packs",
+"type": "darshini tiffin room"
+},
+{
+"id": "1m46dyVNBSdshI2LZhK92jJK74GX9uv9k",
+"title": "Chef-led cooking workshops",
+"type": "independent family restaurant"
+},
+{
+"id": "1Xye7FOIM3EDx7XU75YBM85ik2vjiH1p2",
+"title": "Evening snack counters",
+"type": "tech park food court"
+},
+{
+"id": "1KTC8QVYLQFXb9J8MBbxH4XiGcrAvaMBY",
+"title": "Packaged signature masalas",
+"type": "independent family restaurant"
+},
+{
+"id": "1qaSgtnJwVbdSWLFYzchS1c2DyG6EjR0s",
+"title": "WeekdayComboDeals",
+"type": "bbqbuffet restaurant"
+},
+{
+"id": "1h1OsCkaogyZdB5plFjx_NJ0Qj7jcD_ss",
+"title": "GuidedFoodWalks",
+"type": "food street cluster"
+},
+{
+"id": "1YNBV_BsdLoc-CjVVybF9hMrgRGMtvb8i",
+"title": "OfficeLunchRolls",
+"type": "shawarma grill shop"
+},
+{
+"id": "1AZMEUVVceERbfx-fbzmdEcP3ft2f-h27",
+"title": "BirthdayPackages",
+"type": "bbqbuffet restaurant"
+},
+{
+"id": "1f7MI0Dr0_2sUppxNXirEsJiyC2Wlv73A",
+"title": "MarinadeRetailPacks",
+"type": "bbqbuffet restaurant"
+},
+{
+"id": "1y7Q9GBzvlxeN2J5me1nnqMSJExYsfyih",
+"title": "PizzaMakingWorkshops",
+"type": "wood fired pizzeria"
+},
+{
+"id": "1d1K4ofThWj-wx3tjjG0r1TQOPKwbYdpS",
+"title": "LateNightDelivery",
+"type": "wood fired pizzeria"
+},
+{
+"id": "1r9MHr7jN0gGpWN56YbS-0tOIxznoM1XL",
+"title": "FrozenPizzaBases",
+"type": "wood fired pizzeria"
+},
+{
+"id": "1VZXJF4Nqtx4FegP4aYFDFj30K9JBi2vn",
+"title": "FoodFestivalParticipation",
+"type": "food street cluster"
+},
+{
+"id": "1luR6XBSClSqO223zBoruahAPvsRHuA3f",
+"title": "PackagedSnacks",
+"type": "food street cluster"
+},
+{
+"id": "1hl7gDaj3i4d9_rtaEBYAS8rq-mboexvi",
+"title": "KidsBirthdayParties",
+"type": "wood fired pizzeria"
+},
+{
+"id": "1rorqBMo0HvMbVtJ2IodGkoD5okKf9uCB",
+"title": "CorporateFoodStreetEvenings",
+"type": "food street cluster"
+},
+{
+"id": "1nNzVClhuH8YvWD0TzHyF1-f81DYg1wRp",
+"title": "WeekendBiryaniMasterclass",
+"type": "donne biryani point"
+},
+{
+"id": "1SgaYzAalGpMbawz7mC6U2prnLOR2x8ix",
+"title": "PartyPlatters",
+"type": "shawarma grill shop"
+},
+{
+"id": "12E0hcemRuuPiUbBn5V7yZPEBfUTSdQcv",
+"title": "BulkEventAndPartyOrders",
+"type": "donne biryani point"
+},
+{
+"id": "14PtuiOwILwH807oTD4HwNDMWaNA9ZzDv",
+"title": "CorporateTeamLunches",
+"type": "bbqbuffet restaurant"
+},
+{
+"id": "1UgOyx0LVSx6xc9Ijanf0OEBqzM1Xn3In",
+"title": "PackagedBiryaniMasala",
+"type": "donne biryani point"
+},
+{
+"id": "183ntqHzsl4Nn4sJwDRTVD-EKrQEwuG11",
+"title": "SecondCounterAtFoodCourts",
+"type": "shawarma grill shop"
+},
+{
+"id": "1OkF4olh37z3LwOJCDjOcUdrXVgAsgYBp",
+"title": "OfficeBiryaniFridays",
+"type": "donne biryani point"
+},
+{
+"id": "1A5AcgQffsUibXW8TjOIY-2rBCS03Mc07",
+"title": "MarinatedMeatRetail",
+"type": "shawarma grill shop"
+},
+{
+"id": "1Ycg7AmO3CLgF4Nd-jjBFGqM6WsnP72OP",
+"title": "CollegeEventStalls",
+"type": "shawarma grill shop"
+},
+{
+"id": "1n29aHNrqojlEZwmsB-jEEp4NcQihKya-",
+"title": "CorporateLunchBoxes",
+"type": "wood fired pizzeria"
+},
+{
+"id": "16VQY6gVys0ZJQO2L9uSpJgmQlqUZIkPc",
+"title": "WeddingLiveCounters",
+"type": "food street cluster"
+},
+{
+"id": "18rsAizXfWBvurfbWYO_Ffr7cLLYsMIVG",
+"title": "GrillCateringForEvents",
+"type": "bbqbuffet restaurant"
+},
+{
+"id": "1281DDlhCe8lug9DRxrAMrXYLMLHWUV2O",
+"title": "CloudKitchenEveningMenu",
+"type": "donne biryani point"
+},
+{
+"id": "1ES2LK6faSvL6oaQtbeFyjM0hhq9OQI09",
+"title": "Poster 3 - Darshini - tiffin room",
+"type": "darshini tiffin room"
+}
+]
+},
+"2": {
+"types": [
+{
+"name": "Boutique hotel",
+"category": "Hospitality",
+"chain": false,
+"idle": "Lobby and rooms 10 AM–5 PM",
+"opportunities": [
+"In-room dining partners",
+"Spa partners",
+"City tours",
+"Airport transfers",
+"Day-use coworking rooms"
+],
+"partners": "Tour operators, spa brands, cab fleets",
+"hook": "Guests check in. Then spend outside.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Budget lodge",
+"category": "Hospitality",
+"chain": false,
+"idle": "Empty rooms mid-week",
+"opportunities": [
+"Long-stay packages for students and job seekers",
+"Luggage storage",
+"Day-use rooms for travellers",
+"Laundry service",
+"Bus and train ticket desk"
+],
+"partners": "Coaching centres, travel agents, laundry partners",
+"hook": "Rooms empty on Tuesday?",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Serviced apartments",
+"category": "Hospitality",
+"chain": true,
+"idle": "Vacant units between corporate stays",
+"opportunities": [
+"Corporate long-stay contracts",
+"Housekeeping plus meal plans",
+"Car rentals",
+"Grocery delivery",
+"Relocation packages"
+],
+"partners": "Corporate HR, relocation agents, car rentals",
+"hook": "Between guests, nothing earns.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Farm stay / homestay",
+"category": "Hospitality",
+"chain": false,
+"idle": "Weekdays and open land",
+"opportunities": [
+"Corporate offsites",
+"Pre-wedding shoots",
+"Farm-to-table dining",
+"School nature camps",
+"Organic produce subscriptions"
+],
+"partners": "Event planners, photographers, schools",
+"hook": "Weekends full. Weekdays quiet.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Resort",
+"category": "Hospitality",
+"chain": true,
+"idle": "Banquet lawn and pool on weekdays",
+"opportunities": [
+"Corporate offsites",
+"Destination weddings",
+"Wellness retreats",
+"Day-out packages",
+"Film and ad shoots"
+],
+"partners": "Event managers, wellness coaches, production houses",
+"hook": "Weekday lawns, waiting for guests.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Co-living building",
+"category": "Hospitality",
+"chain": true,
+"idle": "Ground floor and terrace",
+"opportunities": [
+"Laundry service",
+"Meal subscriptions",
+"Coworking corner",
+"Bike rentals",
+"Resident events"
+],
+"partners": "Laundry operators, cloud kitchens, bike fleets",
+"hook": "Residents spend daily. Where does it go?",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "PG hostel",
+"category": "Hospitality",
+"chain": false,
+"idle": "Common room and terrace",
+"opportunities": [
+"Tiffin and meal plans",
+"Laundry pickup",
+"Wi-Fi upgrade plans",
+"Study room hours",
+"Bike and cycle rentals"
+],
+"partners": "Tiffin services, laundry partners, ISPs",
+"hook": "More than a bed. A monthly business.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Homestay apartments",
+"category": "Hospitality",
+"chain": false,
+"idle": "Units between bookings",
+"opportunities": [
+"Corporate long stays",
+"Medical-stay packages",
+"Wedding guest blocks",
+"Cleaning and laundry add-ons",
+"Local experience tours"
+],
+"partners": "Corporates, hospitals, wedding planners",
+"hook": "Empty nights are lost forever.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "University-area hostel",
+"category": "Hospitality",
+"chain": false,
+"idle": "Common areas and kitchen",
+"opportunities": [
+"Meal plans",
+"Exam coaching on site",
+"Laundry and bike rentals",
+"Internship and placement events",
+"Holiday stays for visitors"
+],
+"partners": "Coaching centres, meal services, colleges",
+"hook": "Students live here. Serve them here.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Highway motel",
+"category": "Hospitality",
+"chain": false,
+"idle": "Rooms by day, yard and restaurant",
+"opportunities": [
+"Hourly rest rooms",
+"Truck-driver stopovers",
+"Bus-tour meal contracts",
+"EV charging",
+"Event venue for nearby villages"
+],
+"partners": "Logistics firms, bus operators, EV partners",
+"hook": "Travellers pass by. Make them stop.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Heritage hotel",
+"category": "Hospitality",
+"chain": false,
+"idle": "Courtyard and rooms on weekdays",
+"opportunities": [
+"Destination weddings",
+"Heritage walks and tours",
+"Film and photo shoots",
+"Corporate retreats",
+"Cultural evenings"
+],
+"partners": "Wedding planners, tour operators, production houses",
+"hook": "History that can earn every weekday.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Farmhouse villa rental",
+"category": "Hospitality",
+"chain": false,
+"idle": "Villa on weekdays",
+"opportunities": [
+"Corporate offsites",
+"Pre-wedding shoots",
+"Small weddings",
+"Farm-to-table dinners",
+"Yoga retreats"
+],
+"partners": "Corporates, photographers, yoga teachers",
+"hook": "Weekend parties. Weekday silence.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Corporate dormitory",
+"category": "Hospitality",
+"chain": false,
+"idle": "Beds between project teams",
+"opportunities": [
+"Intern housing",
+"Training-batch stays",
+"Meal and laundry plans",
+"Weekend tourist beds",
+"Shuttle partnerships"
+],
+"partners": "Corporates, colleges, cab fleets",
+"hook": "Beds empty between projects.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Hotel basement parking",
+"category": "Spaces",
+"chain": true,
+"idle": "Unused slots",
+"opportunities": [
+"Public paid parking",
+"EV charging",
+"Car detailing",
+"Valet partnerships",
+"Event parking"
+],
+"partners": "EV firms, detailers, event managers",
+"hook": "Parking slots that sit empty.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Heritage bungalow stay",
+"category": "Hospitality",
+"chain": false,
+"idle": "Rooms and garden on weekdays",
+"opportunities": [
+"Heritage walks and talks",
+"Pre-wedding and film shoots",
+"Small weddings and functions",
+"Cultural evenings",
+"Corporate offsites"
+],
+"partners": "Photographers, cultural groups, event planners",
+"hook": "Old walls, new revenue.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Airport transit hotel",
+"category": "Hospitality",
+"chain": true,
+"idle": "Rooms by the hour",
+"opportunities": [
+"Hourly rest packages",
+"Airline crew contracts",
+"Airport transfer bundles",
+"Meeting rooms for travellers",
+"Luggage storage"
+],
+"partners": "Airlines, cab fleets, travel agents",
+"hook": "Travellers need a few hours, not a night.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Student hostel",
+"category": "Hospitality",
+"chain": false,
+"idle": "Common areas and kitchen",
+"opportunities": [
+"Meal plans",
+"Coaching batches on site",
+"Laundry and bike rentals",
+"Internship and career events",
+"Holiday stays for visitors"
+],
+"partners": "Coaching centres, meal services, colleges",
+"hook": "Students live here. Serve them here.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Glamping site",
+"category": "Hospitality",
+"chain": false,
+"idle": "Weekdays and daytime",
+"opportunities": [
+"Corporate team days",
+"Sunrise trek packages",
+"Stargazing nights",
+"Photography workshops",
+"School camps"
+],
+"partners": "Corporates, trek guides, schools",
+"hook": "Weekend tents, weekday silence.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Corporate guest house",
+"category": "Hospitality",
+"chain": false,
+"idle": "Rooms between corporate bookings",
+"opportunities": [
+"Medical-stay packages",
+"Wedding guest blocks",
+"Long-stay interns",
+"Meal and laundry add-ons",
+"Day-use rooms"
+],
+"partners": "Hospitals, wedding planners, colleges",
+"hook": "Corporate bookings dip. Rooms don't have to.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Lake-view resort",
+"category": "Hospitality",
+"chain": false,
+"idle": "Lawns and rooms on weekdays",
+"opportunities": [
+"Corporate offsites",
+"Bird-watching tours",
+"Pre-wedding shoots",
+"Wellness retreats",
+"School picnics"
+],
+"partners": "Corporates, naturalists, photographers",
+"hook": "A lake view that waits for weekends.",
+"budgetFocus": "Top costs: linen and laundry, toiletries, power, staff. Bulk laundry contracts, group buying of amenities, rooftop solar."
+},
+{
+"name": "Hotel management college",
+"category": "Education",
+"chain": true,
+"idle": "Training kitchen and restaurant on weekends",
+"opportunities": [
+"Public cooking workshops",
+"Weekend restaurant for the public",
+"Staffing for events",
+"Chef certification courses",
+"Corporate catering"
+],
+"partners": "Event managers, food lovers, corporates",
+"hook": "Students cook all week. Let the public taste it.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+}
+],
+"videos": [
+{
+"id": "1eTbkFHyATzOJal2vLL6WB4O00HS-g2B7",
+"title": "PMB.Kanakapura Road.Resort.015 - 30s Video",
+"type": "resort"
+},
+{
+"id": "1ukN6RInovJStW_LIar4H4jbwtklzoIm4",
+"title": "PMB.Devanahalli.Farm stay - homestay.014 - 30s Video",
+"type": "farm stay homestay"
+},
+{
+"id": "1j3Y_3rvcFfqkhm2tDZSRcpf6bx7NXr_Y",
+"title": "PMB.Whitefield.Boutique hotel.011 - 30s Video",
+"type": "boutique hotel"
+},
+{
+"id": "1DRobyjk9t2o1PXCpaH7jPaVzv13nbuXu",
+"title": "PMB.HSR Layout.Co-living building.016 - 30s Video",
+"type": "co living building"
+},
+{
+"id": "1QXq2ugN0lUn7I63YOkv5CX477_nXKD5v",
+"title": "PMB.Majestic.Budget lodge.012 - 30s Video",
+"type": "budget lodge"
+},
+{
+"id": "1k3cIM5I0pWk3cHKz8jSC_X-4D_99I-bE",
+"title": "PMB.Electronic City.Serviced apartments.013 - 30s Video",
+"type": "serviced apartments"
+},
+{
+"id": "16uR3GYzkENU2VRDFDJDcGjzfPH3nkPM4",
+"title": "PMB.BTM Layout.PG hostel.017 - 30s Video",
+"type": "pg hostel"
+},
+{
+"id": "1QzA2uXTMGOBC6Vy0IOt1QiXFqsKeFBNa",
+"title": "PMB.Hesaraghatta.FarmhouseVillaRental.015 30sec Video",
+"type": "farmhouse villa rental"
+},
+{
+"id": "1adkFHVs5h8n_oB8VkXLi0lIvbicYGS2U",
+"title": "PMB.Whitefield.CorporateDormitory.016 30sec Video",
+"type": "corporate dormitory"
+},
+{
+"id": "1CNXxcy4ShvhjsmY4_iSku7QvOfe6bETI",
+"title": "PMB.MysoreRoad.HeritageHotel.014 30sec Video",
+"type": "heritage hotel"
+},
+{
+"id": "1K3utCxcHRDvWjuQ1sdfJ05BlL2uK7-a8",
+"title": "PMB.Indiranagar.HomestayApartments.011 30sec Video",
+"type": "homestay apartments"
+},
+{
+"id": "1gdQTQI-emA7ARTvTOMuDlgwzeEie6cMA",
+"title": "PMB.Jnanabharathi.UniversityAreaHostel.012 30sec Video",
+"type": "university area hostel"
+}
+],
+"images": [
+{
+"id": "1LcznXboTdlIkODYNelbgwmZ7qv4cPzw1",
+"title": "School nature camps",
+"type": "farm stay homestay"
+},
+{
+"id": "135PDX_CZRxVl84b1xhpmDzUCi2RtUmg7",
+"title": "Corporate offsites",
+"type": "farm stay homestay"
+},
+{
+"id": "1zxnygabODvTJKkJh1pQqngOEGJ6pWfK_",
+"title": "Meal subscriptions",
+"type": "co living building"
+},
+{
+"id": "1MLYZi-mDIQfa8vqhF82DmP5d2JvWvTpH",
+"title": "Laundry pickup",
+"type": "pg hostel"
+},
+{
+"id": "17pIAjhNzYH7PepUq7cCujeuLVd3GzUOO",
+"title": "Corporate long-stay contracts",
+"type": "serviced apartments"
+},
+{
+"id": "1I1zRrskCxYUIJ4HL_cSvvOvSmqMlNwH2",
+"title": "Laundry service",
+"type": "budget lodge"
+},
+{
+"id": "1nc30ptwFFqpaIlH20Rw4f_cEDmTLaJfM",
+"title": "Housekeeping plus meal plans",
+"type": "serviced apartments"
+},
+{
+"id": "1KP9M3Ih4dwqnRrL_3hNtraBTiaAVxG8T",
+"title": "Organic produce subscriptions",
+"type": "farm stay homestay"
+},
+{
+"id": "1UYbDwGd2dPLBWQ9CNsVWuXsc3LcGQhG1",
+"title": "Tiffin and meal plans",
+"type": "pg hostel"
+},
+{
+"id": "1oKDpP4iq9cLBUbLl87oIWsBkrwSVci89",
+"title": "Pre-wedding shoots",
+"type": "farm stay homestay"
+},
+{
+"id": "1LV6nzNYlKTxKm9Ix6VRWW7n1tautb3rY",
+"title": "Airport transfers",
+"type": "boutique hotel"
+},
+{
+"id": "1L21YD9lfzY_m4hfsGfdGNcV1OhPTQ547",
+"title": "Luggage storage",
+"type": "budget lodge"
+},
+{
+"id": "1OeSfqYy67NQUso8_r65-8AtAl13Yw3GL",
+"title": "City tours",
+"type": "boutique hotel"
+},
+{
+"id": "1dRV2dZYao4cGsV7aekTcCBQj-CElSU4E",
+"title": "Corporate offsites",
+"type": "resort"
+},
+{
+"id": "1wt-gTGFYeUAdWBOwNgpMfwBQwQxEMdLh",
+"title": "Car rentals",
+"type": "serviced apartments"
+},
+{
+"id": "1EOVENsJtB6lgSM2OjLyqPiMqm6HPeiil",
+"title": "Bike and cycle rentals",
+"type": "pg hostel"
+},
+{
+"id": "1GQF6wBkcqW_5aaVoX_JrBSM3oPqBjPYt",
+"title": "Bus and train ticket desk",
+"type": "budget lodge"
+},
+{
+"id": "192jLvXQqCZU0H9o7Cq6E5XVJv87lalKc",
+"title": "Day-out packages",
+"type": "resort"
+},
+{
+"id": "1x9QmYVMnc5pKNNlEQqf98upFY-qUICct",
+"title": "Grocery delivery",
+"type": "serviced apartments"
+},
+{
+"id": "17lWkUc12U-eLFiKt_3VelR56i1FxHAZV",
+"title": "YogaRetreats",
+"type": "farmhouse villa rental"
+},
+{
+"id": "14lPRHz2rk3xOo4difqQsc9yKdo7O_1jZ",
+"title": "FilmAndPhotoShoots",
+"type": "heritage hotel"
+},
+{
+"id": "1I5tX2T4Qmhxm7Xy8oYPfrKto8Celcr7Y",
+"title": "MealAndLaundryPlans",
+"type": "corporate dormitory"
+},
+{
+"id": "1Gwc-BiJ_OtbDlLDSy3v9vXK1568hKrY9",
+"title": "InternshipAndPlacementEvents",
+"type": "university area hostel"
+},
+{
+"id": "1dUnMDhkYJJOdDNE9xWVzlpdeBvk2bBmC",
+"title": "Pre-WeddingShoots",
+"type": "farmhouse villa rental"
+},
+{
+"id": "1BbyQ19Q-SlsS5zfV8Jb-jLp19O1_WDfd",
+"title": "HeritageWalksAndTours",
+"type": "heritage hotel"
+},
+{
+"id": "1LvNtOsJsRaXTKuT2H6nx9yFLv8BV-mZw",
+"title": "CorporateRetreats",
+"type": "heritage hotel"
+},
+{
+"id": "1htH-nD0LJdW1MlwXH17JjVvrtUcBJcwG",
+"title": "CulturalEvenings",
+"type": "heritage hotel"
+},
+{
+"id": "17pEmQuhFtEaGddHIVeSI-cut4jhj7S7r",
+"title": "Truck-DriverStopovers",
+"type": "highway motel"
+},
+{
+"id": "1-Ndtc4muqpOOyH_wwoWzqFB9DzOo8wvM",
+"title": "EVCharging",
+"type": "highway motel"
+},
+{
+"id": "1MmdhcA9AnnHR255jLF5iiRWZvcL5iYU6",
+"title": "CorporateOffsites",
+"type": "farmhouse villa rental"
+},
+{
+"id": "1zQx_GKNBtl_np9HCSeYPwNhJe2Gnxjm2",
+"title": "Training-BatchStays",
+"type": "corporate dormitory"
+},
+{
+"id": "1yTl2earRLMyC5qG5w5_FGjn00qidjQ0K",
+"title": "CorporateLongStays",
+"type": "homestay apartments"
+},
+{
+"id": "1XUE83ZgcV1YDPpws8l5-oJNYDmuLL3DQ",
+"title": "WeekendTouristBeds",
+"type": "corporate dormitory"
+},
+{
+"id": "1KKVqnHOEcJmil4NHFhmBTXOPQ2GEUjmW",
+"title": "WeddingGuestBlocks",
+"type": "homestay apartments"
+},
+{
+"id": "1ZLJNv4-ogCx21nUws6xwbDMyYEUYqUzR",
+"title": "SmallWeddings",
+"type": "farmhouse villa rental"
+},
+{
+"id": "1A3wszOVfCAv-bIgqzmzITwo7kakcJDN4",
+"title": "HourlyRestRooms",
+"type": "highway motel"
+},
+{
+"id": "1j1lGKAi67vJsGmZDQm6VDQINmh8SJDdF",
+"title": "Medical-StayPackages",
+"type": "homestay apartments"
+},
+{
+"id": "1g0yLtCi70B6VtFg-y0fVTGIrgU7uRCRh",
+"title": "VillageEventVenue",
+"type": "highway motel"
+},
+{
+"id": "1fp5xTms6UpIuBjxWI5P0hvk1hLQob749",
+"title": "Bus-TourMealContracts",
+"type": "highway motel"
+},
+{
+"id": "1yrsHtqLwnwMOgWsh3hJvmlC5vPdZc4mW",
+"title": "HolidayStaysforVisitors",
+"type": "university area hostel"
+}
+]
+},
+"3": {
+"types": [
+{
+"name": "Multi-branch café chain",
+"category": "Restaurants & Food",
+"chain": true,
+"idle": "Seating in afternoon lull; walls and counters",
+"opportunities": [
+"Paid coworking seats 11 AM–4 PM",
+"Brand sampling counters",
+"Book-club and workshop nights",
+"Local artist exhibitions",
+"Corporate coffee subscriptions"
+],
+"partners": "Coworking members, FMCG brands, event hosts",
+"hook": "One coffee. Four hours. Make the seat pay.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Ice-cream / juice parlour",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Space and freezers in winter months",
+"opportunities": [
+"Birthday party packages",
+"School and college stalls",
+"Dessert catering for events",
+"Healthy smoothie subscriptions",
+"Make-your-own sundae workshops"
+],
+"partners": "Schools, event planners, gyms",
+"hook": "Summer is full. Winter is free.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Coffee estate",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Estate bungalow and off-season land",
+"opportunities": [
+"Estate stays",
+"Coffee subscriptions to Bengaluru cafés",
+"Harvest experience tours",
+"Pepper and spice retail",
+"Corporate offsites"
+],
+"partners": "Cafés, travel agents, corporate HR",
+"hook": "Your estate can host as well as grow.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Corporate office cafeteria",
+"category": "Services",
+"chain": true,
+"idle": "Cafeteria after lunch",
+"opportunities": [
+"Evening snack counters",
+"Employee meal subscriptions",
+"Pop-up brand stalls",
+"Cooking contests",
+"Weekend events"
+],
+"partners": "Cloud kitchens, FMCG brands, event hosts",
+"hook": "Lunch at 1. Empty by 3.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+},
+{
+"name": "Chai tapri",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Stall outside rush hours",
+"opportunities": [
+"Office chai deliveries",
+"Event chai counters",
+"Packaged chai masala",
+"Second stall at bus stands",
+"Snack combo tie-ups"
+],
+"partners": "Offices, event managers, bakeries",
+"hook": "Every office needs chai at 4.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Vegan café",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Kitchen and tables mid-afternoon",
+"opportunities": [
+"Plant-based cooking classes",
+"Office healthy-lunch plans",
+"Vegan bakery supply",
+"Wellness events",
+"Retail of vegan products"
+],
+"partners": "Corporates, gyms, wellness brands",
+"hook": "Healthy menu, more customers.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "All-day breakfast café",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Seating after 2 PM",
+"opportunities": [
+"Brunch parties",
+"Office breakfast deliveries",
+"Weekend cooking classes",
+"Coworking afternoons",
+"Bakery retail"
+],
+"partners": "Party planners, offices, freelancers",
+"hook": "Breakfast sells out. Afternoons don't.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Waffle and dessert café",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Seating before 4 PM",
+"opportunities": [
+"Birthday dessert tables",
+"Corporate dessert boxes",
+"Dessert-making classes",
+"Café supply of waffle mix",
+"Study-hour seating"
+],
+"partners": "Party planners, corporates, cafés",
+"hook": "Sweet evenings. Slow afternoons.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Coffee roastery",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Roaster capacity and tasting room",
+"opportunities": [
+"Café bean supply",
+"Office coffee subscriptions",
+"Cupping and brewing sessions",
+"Private-label coffee for brands",
+"Estate tours"
+],
+"partners": "Cafés, offices, coffee estates",
+"hook": "Roast for more than one shop.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Board-game café",
+"category": "Entertainment",
+"chain": false,
+"idle": "Tables on weekday daytime",
+"opportunities": [
+"Corporate team games",
+"School and college events",
+"Game nights for communities",
+"Game retail",
+"Kids' birthday packages"
+],
+"partners": "Corporates, schools, communities",
+"hook": "Games that bring teams together.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+}
+],
+"videos": [
+{
+"id": "1-T1_yaxbU-ibxQRU0nXbskctekw2Zvx1",
+"title": "PMB.Jayanagar.Ice-cream - juice parlour.008 - 30s Video",
+"type": "ice cream juice parlour"
+},
+{
+"id": "1EW0-J9hpXMK-ZInP7ljdXJ0JzJqx3kjS",
+"title": "PMB.Indiranagar.Multi-branch café chain.002 - 30s Video",
+"type": "multi branch cafe chain"
+},
+{
+"id": "1P7757vsgXqgk22yIi5CrD_gE4i-Hc_OU",
+"title": "PMB.Majestic.ChaiTapri.003 30sec Video",
+"type": "chai tapri"
+},
+{
+"id": "1OREJuNjAtWG82Wds-0V-uKQGd4UHSgTa",
+"title": "PMB.Jayanagar.AllDayBreakfastCafe.009 30sec Video",
+"type": "all day breakfast cafe"
+},
+{
+"id": "1e8rMRPNxhkFJzK4Eyf61HbgCMscNuGoZ",
+"title": "PMB.Koramangala.VeganCafe.006 30sec Video",
+"type": "vegan cafe"
+},
+{
+"id": "1OITRy7vMq6Ru_kOdjFOzU2KTJg5qun1X",
+"title": "chai-days-jayanagar-x-partnermybusiness-ai",
+"type": "chai days jayanagar x partnermybusiness ai mp4"
+}
+],
+"images": [
+{
+"id": "10lXLgreQS4euSvkZ0hqfrvOBwmD8-Hhy",
+"title": "Paid coworking seats 11 AM–4 PM",
+"type": "multi branch cafe chain"
+},
+{
+"id": "1ckUbg9LJRxn32_DBdKLZ8PABgGEMZUs8",
+"title": "Book-club and workshop nights",
+"type": "multi branch cafe chain"
+},
+{
+"id": "1xP9dXe7XdRzGI6HdHQ5C4oTsKWA_F5mU",
+"title": "Brand sampling counters",
+"type": "multi branch cafe chain"
+},
+{
+"id": "1iiThuu5oYCgrfxYt3oaYUmfq3wdkiV4D",
+"title": "WellnessEvents",
+"type": "vegan cafe"
+},
+{
+"id": "1lHT07LWhp6xECSV--tnVIIRCSiJVRVX_",
+"title": "WeekendCookingClasses",
+"type": "all day breakfast cafe"
+},
+{
+"id": "1_vzpeDup66l4cwUgTBT-c0YqMwZ5L_Cr",
+"title": "SnackComboTieUps",
+"type": "chai tapri"
+},
+{
+"id": "1wL3QkCDDboKIxZTyLlQ6mO4-yR2RaWC4",
+"title": "OfficeChaiDeliveries",
+"type": "chai tapri"
+},
+{
+"id": "1aTts8S2L3CRP6vW07iht6V93yrlt6jEW",
+"title": "OfficeHealthyLunchPlans",
+"type": "vegan cafe"
+},
+{
+"id": "1jSInjoJ3uPhT5Eb25RSK-W2qKjf4n6Zn",
+"title": "EventChaiCounters",
+"type": "chai tapri"
+},
+{
+"id": "1y9NRJYMbElNTlNeXN2F7hExicl3dbKhT",
+"title": "BakeryRetail",
+"type": "all day breakfast cafe"
+},
+{
+"id": "1TnICRdaGw98dRMsEwVxsGoTRiMEqRI7t",
+"title": "SecondStallAtBusStands",
+"type": "chai tapri"
+},
+{
+"id": "1NQAsqkrxtHOmBPqbTmn8oY5tHT-_7USg",
+"title": "PackagedChaiMasala",
+"type": "chai tapri"
+},
+{
+"id": "1-xlOipmfPTi3McxYfbsyxtNqCX3-bDNi",
+"title": "PlantBasedCookingClasses",
+"type": "vegan cafe"
+},
+{
+"id": "1TRJsXq_akTDY_5zyr2f4yjm0NO8znY5N",
+"title": "RetailOfVeganProducts",
+"type": "vegan cafe"
+},
+{
+"id": "1ogJAOOCGI4zg64OC3pCZ2FZmEUuShkPE",
+"title": "BrunchParties",
+"type": "all day breakfast cafe"
+},
+{
+"id": "1x3riwECYubvkbnKN4Rw-sDOzLeTCC_CJ",
+"title": "CoworkingAfternoons",
+"type": "all day breakfast cafe"
+},
+{
+"id": "1Eb2SthVSxqgC4rPWoZSL1ghyzWmIHF2a",
+"title": "VeganBakerySupply",
+"type": "vegan cafe"
+},
+{
+"id": "14Uxlc5ac7Xt0WnkVoBmg7Ua98wNmjtvd",
+"title": "OfficeBreakfastDeliveries",
+"type": "all day breakfast cafe"
+},
+{
+"id": "18hTvVAnZn2Z0BWq0UshfyNz2HKaZbTMe",
+"title": "Poster 1 - Multi-branch café chain",
+"type": "multi branch cafe chain"
+},
+{
+"id": "1wD3P7E0LPMCWXVND6lgxwrFzOgUhVXAV",
+"title": "Poster 1 - Ice-cream - juice parlour",
+"type": "ice cream juice parlour"
+},
+{
+"id": "13wdjSEhBHV1V3Uu-YBTulZorMoOddCSC",
+"title": "Poster 3 - Multi-branch café chain",
+"type": "multi branch cafe chain"
+},
+{
+"id": "1cG6q295rsvGrPnUyi-XFgFiKe54GrvBu",
+"title": "Poster 2 - Ice-cream - juice parlour",
+"type": "ice cream juice parlour"
+},
+{
+"id": "1GiWBOu-vMmin4D8fkn0Jbddyz-VniPXy",
+"title": "Harvest experience tours",
+"type": "coffee estate"
+},
+{
+"id": "1iwjbabXjvzsIHtJUe362ibYDuV_zaPFM",
+"title": "Healthy smoothie subscriptions",
+"type": "ice cream juice parlour"
+},
+{
+"id": "1a8b0IiuIXpvOYaB7dC8pzv2wqemk0_Re",
+"title": "Estate stays",
+"type": "coffee estate"
+},
+{
+"id": "1jexdTmKI-L5Svm62mdF6vHLNB0RiMvyL",
+"title": "Poster 1 Chai cafe Jayanagar",
+"type": "chai cafe jayanagar"
+},
+{
+"id": "1AKfaQKPR090pVjsJEAaTk5Ese6ewQqbm",
+"title": "Poster 1 Juice and salad bar Koramangala",
+"type": "juice and salad bar koramangala"
+},
+{
+"id": "1LjcBDREV7tvgV3uPla1NIQJ8GtP2wdaC",
+"title": "Poster 2 Juice and salad bar Koramangala",
+"type": "juice and salad bar koramangala"
+},
+{
+"id": "1kcQRHyO737WrxxVdue_iWiaZaQte0MFA",
+"title": "Poster 2 Chai cafe Jayanagar",
+"type": "chai cafe jayanagar"
+},
+{
+"id": "1cPFcpKahElkdl55LuXDAyZDyPsEDfr7c",
+"title": "Poster 3 Juice and salad bar Koramangala",
+"type": "juice and salad bar koramangala"
+},
+{
+"id": "1xRA3cL-2YGEEgtMiu9AVMpgRs8wFCPfU",
+"title": "Poster 3 Chai cafe Jayanagar",
+"type": "chai cafe jayanagar"
+}
+]
+},
+"4": {
+"types": [
+{
+"name": "Independent gym",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Floor 11 AM–5 PM; unused corner",
+"opportunities": [
+"Recovery studio",
+"Physiotherapy",
+"Protein café",
+"Corporate fitness batches",
+"Women-only afternoon batches"
+],
+"partners": "Physiotherapists, nutrition brands, corporate HR",
+"hook": "Packed at 6. Empty at noon.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Yoga studio",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Studio between morning and evening classes",
+"opportunities": [
+"Prenatal yoga",
+"Corporate wellness",
+"Weekend retreats",
+"Ayurveda product retail",
+"Teacher training"
+],
+"partners": "Gynaecologists, corporate HR, retreat hosts",
+"hook": "Your studio rests between classes.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Dance studio",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Studio daytime hours",
+"opportunities": [
+"Wedding sangeet choreography",
+"Corporate dance workshops",
+"Kids summer camps",
+"Studio rental for shoots",
+"Online classes"
+],
+"partners": "Wedding planners, schools, content creators",
+"hook": "Empty floor till evening.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Senior fitness centre",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Studio in the afternoon",
+"opportunities": [
+"Physio partnerships",
+"Diet and nutrition talks",
+"Social clubs",
+"Home-visit training",
+"Health camps"
+],
+"partners": "Physios, nutritionists, clinics",
+"hook": "Active ageing, more members.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Climbing wall gym",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Wall in weekday daytime",
+"opportunities": [
+"Corporate team challenges",
+"Kids' birthday climbs",
+"School adventure programmes",
+"Gear retail",
+"Outdoor trek tie-ups"
+],
+"partners": "Corporates, schools, trek organisers",
+"hook": "A wall waiting for climbers.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Boxing / MMA gym",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Ring and floor before 5 PM",
+"opportunities": [
+"Women's self-defence",
+"Corporate fitness boxing",
+"Kids' discipline classes",
+"Fight-night events",
+"Gear retail"
+],
+"partners": "Corporates, schools, brands",
+"hook": "The ring sits empty till evening.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Pilates studio",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Reformers mid-day",
+"opportunities": [
+"Prenatal and postnatal Pilates",
+"Physio rehab partnership",
+"Corporate posture sessions",
+"Teacher training",
+"Online classes"
+],
+"partners": "Physios, gynaecologists, corporates",
+"hook": "Reformers idle at noon.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Women-only gym",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Floor in the afternoon",
+"opportunities": [
+"Postnatal fitness",
+"Nutrition coaching",
+"Self-defence classes",
+"Teen fitness batches",
+"Wellness product retail"
+],
+"partners": "Nutritionists, trainers, clinics",
+"hook": "Afternoons can be her time.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+}
+],
+"videos": [
+{
+"id": "1S8XfG5M6YuvOqu8JhNs4WY5YUecaQWhW",
+"title": "PMB.JP Nagar.Yoga studio.019 - 30s Video",
+"type": "yoga studio"
+},
+{
+"id": "1JlYlLXb6zjVEIsq2xytSv-PL6u85-TW1",
+"title": "PMB.HSR Layout.Independent gym.018 - 30s Video",
+"type": "independent gym"
+},
+{
+"id": "1RKRzlPx5_ndYeT3sPUXKY06LuXDLbPiy",
+"title": "PMB.Jayanagar.SeniorFitnessCentre.020 30sec Video",
+"type": "senior fitness centre"
+}
+],
+"images": [
+{
+"id": "122UqYR0y1bJ8pQhyJrl0ihpU51Iejq6l",
+"title": "Women-only afternoon batches",
+"type": "independent gym"
+},
+{
+"id": "1s1FWJOA7rQDRwY-aoZHaQXp2Pa02u-G1",
+"title": "Corporate fitness batches",
+"type": "independent gym"
+},
+{
+"id": "1QSe-DSsyXQDU3z1M6lHb2Z543dzS39Yz",
+"title": "Teacher training",
+"type": "yoga studio"
+},
+{
+"id": "16U4EZS1LNGY4shco49T_z_CEp5LyDcaz",
+"title": "Prenatal yoga",
+"type": "yoga studio"
+},
+{
+"id": "1MhqK73fn6urKj-48Ftax5ay8eNWblsJK",
+"title": "Corporate wellness",
+"type": "yoga studio"
+},
+{
+"id": "1SdOApdgPLEGu_h2kBvu7_UW5QPrDvqiM",
+"title": "Protein café",
+"type": "independent gym"
+},
+{
+"id": "1mvDOReAWqNZLCwROG5qcSZLvsdT1VSXg",
+"title": "Weekend retreats",
+"type": "yoga studio"
+},
+{
+"id": "1tahkXpSjaya7EPCkwkualhNR-HDJRwEZ",
+"title": "Ayurveda product retail",
+"type": "yoga studio"
+},
+{
+"id": "1GDMX3NzpuVEy8EceKengkqlSZMaCk5CA",
+"title": "SocialClubs",
+"type": "senior fitness centre"
+},
+{
+"id": "1I4ISfrSCRy70Qpu8sB443HiOEbZ4noso",
+"title": "Home-VisitTraining",
+"type": "senior fitness centre"
+},
+{
+"id": "19C3gfDgj-w4S2i5lpUf9nqTLTgEpJmR7",
+"title": "DietAndNutritionTalks",
+"type": "senior fitness centre"
+},
+{
+"id": "17J6daeZiwriCyaMRoi87QZmtzSYdQvP3",
+"title": "HealthCamps",
+"type": "senior fitness centre"
+},
+{
+"id": "1n0-mNe1muJcomrkbgpjFaEMnfyQuzufI",
+"title": "PhysioPartnerships",
+"type": "senior fitness centre"
+},
+{
+"id": "1EbDCLcOitNegSwMD9hN_RG1bDbfxxYOT",
+"title": "Recovery studio",
+"type": "independent gym"
+},
+{
+"id": "1onu2B4zoD7-yBZs7BzCw_M4hYjXtv-S0",
+"title": "Kids summer camps",
+"type": "dance studio"
+},
+{
+"id": "1qmadxWGJelG_a9rsJ9m9gV7s9D7FeKUY",
+"title": "Studio rental for shoots",
+"type": "dance studio"
+}
+]
+},
+"5": {
+"types": [
+{
+"name": "Spa",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Rooms on weekday mornings",
+"opportunities": [
+"Corporate wellness vouchers",
+"Bridal packages",
+"Product retail",
+"Couple packages",
+"Membership plans"
+],
+"partners": "Corporate HR, wedding planners, skincare brands",
+"hook": "Weekday mornings, empty tables.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Naturopathy centre",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Rooms between programmes",
+"opportunities": [
+"Corporate detox retreats",
+"Diet and lifestyle programmes",
+"Herbal product retail",
+"Weekend wellness stays",
+"Yoga teacher tie-ups"
+],
+"partners": "Corporates, yoga teachers, clinics",
+"hook": "Healing space, half full.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Herbal and Ayurveda products store",
+"category": "Retail",
+"chain": false,
+"idle": "Shelf space and customer list",
+"opportunities": [
+"Doctor consultations in store",
+"Wellness subscriptions",
+"Corporate wellness kits",
+"Online orders",
+"Workshops on home remedies"
+],
+"partners": "Ayurvedic doctors, corporates, nutritionists",
+"hook": "Customers who trust you want more.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+}
+],
+"videos": [
+{
+"id": "175xAd93RgTywTxkauy_G925534PqO7Sx",
+"title": "PMB.Koramangala.Spa.020 - 30s Video",
+"type": "spa"
+}
+],
+"images": [
+{
+"id": "19ADPAOL_zabwCPviwX6tj36yT8Lb6NbO",
+"title": "Product retail",
+"type": "spa"
+},
+{
+"id": "1Ce6yTUZ_tsYbJ7OcRXn2Dzcelltb1OkS",
+"title": "Corporate wellness vouchers",
+"type": "spa"
+},
+{
+"id": "13r5G7XLoTTMZzzvIxxX0KwZOzZ8uO1bJ",
+"title": "Couple packages",
+"type": "spa"
+},
+{
+"id": "1fLskM2gQMBNpqxrTz8Xr_IvLwiKFFX_G",
+"title": "Bridal packages",
+"type": "spa"
+},
+{
+"id": "1nX3H9ZSWpEEzX2JpV6Qn_F0we92pW9Zv",
+"title": "Membership plans",
+"type": "spa"
+},
+{
+"id": "1jCV6dcWjvbGkn90AhKAFcXGNKnjFl2wq",
+"title": "Bridal packages",
+"type": "spa"
+}
+]
+},
+"6": {
+"types": [
+{
+"name": "Salon",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Chairs on weekdays; client budget leaving",
+"opportunities": [
+"Skincare retail",
+"Visiting specialists",
+"Bridal packages",
+"Monthly memberships",
+"Nail and lash station"
+],
+"partners": "Skincare brands, makeup artists, wedding planners",
+"hook": "Your mirror sees more money.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "199JuMMxjqatlSVjWNGWr2JCJBBfedTbL",
+"title": "Nail and lash station",
+"type": "salon"
+}
+]
+},
+"8": {
+"types": [
+{
+"name": "Shopping mall",
+"category": "Spaces",
+"chain": true,
+"idle": "Atrium and parking",
+"opportunities": [
+"Kiosk rentals",
+"Brand activations",
+"Weekend events",
+"EV charging",
+"Gaming zone"
+],
+"partners": "Brands, event managers, EV firms",
+"hook": "Footfall that walks past.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1fFoOmvx99FndMlbLh3a9-52n_I-pzDzF",
+"title": "Gaming zone",
+"type": "shopping mall"
+}
+]
+},
+"9": {
+"types": [
+{
+"name": "Kirana store",
+"category": "Retail",
+"chain": false,
+"idle": "Counter time and shop front",
+"opportunities": [
+"Courier pickup point",
+"Bill-payment counter",
+"Paid brand shelf space",
+"Home delivery for regulars",
+"Pre-order subscriptions"
+],
+"partners": "Courier companies, FMCG brands, delivery riders",
+"hook": "Daily customers. Single-item bills.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Supermarket",
+"category": "Retail",
+"chain": true,
+"idle": "Parking and entrance area",
+"opportunities": [
+"Weekend farmers' market",
+"EV charging in parking",
+"Brand sampling",
+"Pharmacy counter",
+"Home delivery partnership"
+],
+"partners": "Farmers, EV operators, FMCG brands",
+"hook": "Your parking can sell too.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Paan shop",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Counter and recipe",
+"opportunities": [
+"Wedding paan counters",
+"Corporate event stalls",
+"Packaged sweet paan",
+"Mukhwas retail",
+"Online orders"
+],
+"partners": "Wedding planners, corporates, retailers",
+"hook": "Every wedding wants a paan counter.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Puja items store",
+"category": "Retail",
+"chain": false,
+"idle": "Counter and supplier network",
+"opportunities": [
+"Festival hampers",
+"Corporate Diwali kits",
+"Home delivery subscriptions",
+"Event decoration supply",
+"Online orders"
+],
+"partners": "Corporates, decorators, apartments",
+"hook": "Every festival, bigger orders.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Dry fruits and spices store",
+"category": "Retail",
+"chain": false,
+"idle": "Stock and customer base",
+"opportunities": [
+"Corporate gift boxes",
+"Restaurant spice supply",
+"Wedding return gifts",
+"Online orders",
+"Health-mix packs"
+],
+"partners": "Corporates, restaurants, wedding planners",
+"hook": "Premium stock, more buyers.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Uniform shop",
+"category": "Retail",
+"chain": false,
+"idle": "Store outside school-reopening",
+"opportunities": [
+"Corporate uniforms",
+"Hospital and hotel uniforms",
+"Event T-shirts",
+"Stitching and alteration",
+"Online ordering for schools"
+],
+"partners": "Corporates, hospitals, event managers",
+"hook": "Busy in June. Quiet the rest of the year.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Party supplies store",
+"category": "Retail",
+"chain": false,
+"idle": "Stock and decorating skill",
+"opportunities": [
+"Birthday decoration packages",
+"Restaurant party setups",
+"Corporate event decor",
+"Balloon art services",
+"Online orders"
+],
+"partners": "Restaurants, corporates, parents",
+"hook": "Sell the balloons. Set up the party.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Toy store",
+"category": "Retail",
+"chain": false,
+"idle": "Floor space on weekdays",
+"opportunities": [
+"Birthday return-gift orders",
+"Play sessions for kids",
+"School supply",
+"Toy rental library",
+"Corporate family-day gifts"
+],
+"partners": "Party planners, schools, corporates",
+"hook": "Kids come weekends. Weekdays need a plan.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Kitchenware store",
+"category": "Retail",
+"chain": false,
+"idle": "Shop space and demo counter",
+"opportunities": [
+"Restaurant equipment supply",
+"Cooking demo events",
+"Wedding gift sets",
+"Online orders",
+"Repair and sharpening service"
+],
+"partners": "Restaurants, wedding planners, home chefs",
+"hook": "Sell to homes and to kitchens.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Bicycle store",
+"category": "Retail",
+"chain": false,
+"idle": "Workshop and floor",
+"opportunities": [
+"Cycle rentals",
+"Weekend group rides",
+"Corporate cycle-to-work plans",
+"Service subscriptions",
+"School cycling clubs"
+],
+"partners": "Corporates, schools, cycling clubs",
+"hook": "Sell the cycle. Then keep it riding.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Musical instruments store",
+"category": "Retail",
+"chain": false,
+"idle": "Store floor and repair skill",
+"opportunities": [
+"Instrument rentals",
+"Lesson tie-ups with teachers",
+"Repair and tuning service",
+"School band supply",
+"Open-mic evenings"
+],
+"partners": "Music teachers, schools, cafés",
+"hook": "Every instrument needs a teacher.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Paint store",
+"category": "Retail",
+"chain": false,
+"idle": "Counter and painter network",
+"opportunities": [
+"Painting packages with contractors",
+"Colour consultation",
+"Waterproofing service",
+"Apartment repainting contracts",
+"Wall art and textures"
+],
+"partners": "Painters, RWAs, interior designers",
+"hook": "Sell paint. Sell the paint job.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Handicrafts emporium",
+"category": "Retail",
+"chain": false,
+"idle": "Shop floor and artisan network",
+"opportunities": [
+"Corporate gifting",
+"Artisan workshops",
+"Hotel lobby displays",
+"Export orders",
+"Online store"
+],
+"partners": "Corporates, hotels, exporters",
+"hook": "Crafts that deserve more buyers.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Watch and clock store",
+"category": "Retail",
+"chain": false,
+"idle": "Repair desk and storefront",
+"opportunities": [
+"Repair and service plans",
+"Corporate award gifts",
+"Wall-clock supply to offices",
+"Vintage restoration",
+"Online orders"
+],
+"partners": "Corporates, collectors, offices",
+"hook": "Time to sell more than watches.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+}
+],
+"videos": [
+{
+"id": "1Oz0GmCdddva3lQpqa5zOTdbG7bUdyrDv",
+"title": "PMB.Malleshwaram.PaanShop.010 30sec Video",
+"type": "paan shop"
+}
+],
+"images": [
+{
+"id": "1-uxsJYG0V2c5BmZRnAOzaONZob8I-oHI",
+"title": "PackagedSweetPaan",
+"type": "paan shop"
+},
+{
+"id": "1tfZh5pSjpTrLqhNRMGvyKXTssI4D1M3J",
+"title": "CorporateEventStalls",
+"type": "paan shop"
+},
+{
+"id": "1b7xFM7I2ch7TofD7CFQ1eC5AkbEOZcOq",
+"title": "MukhwasRetail",
+"type": "paan shop"
+},
+{
+"id": "1Ydixdo_EiI8gs1nY6DyabBRAgKMU5zw9",
+"title": "OnlineOrders",
+"type": "paan shop"
+},
+{
+"id": "1NLjILlnNKVy3BUlbY_sQUbWrjvVktlmn",
+"title": "WeddingPaanCounters",
+"type": "paan shop"
+},
+{
+"id": "15p4OKYQJ61azR3JMR3WndAAIT6ycURk8",
+"title": "Paid brand shelf space",
+"type": "kirana store"
+}
+]
+},
+"10": {
+"types": [
+{
+"name": "Highway petrol pump",
+"category": "Automotive",
+"chain": false,
+"idle": "Open land beside the station",
+"opportunities": [
+"Café",
+"Convenience store",
+"EV charging",
+"Rest stop",
+"Tyre and puncture service"
+],
+"partners": "Food brands, store operators, EV partners",
+"hook": "They stop for 3 minutes. Make it 30.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1ktCAkKYyNCTP-usOCzanz76uUhtPa6MF",
+"title": "Convenience store",
+"type": "highway petrol pump"
+}
+]
+},
+"11": {
+"types": [
+{
+"name": "Coworking space",
+"category": "Spaces",
+"chain": true,
+"idle": "Meeting rooms in evenings",
+"opportunities": [
+"Virtual office services",
+"Evening workshops and meetups",
+"Podcast studio",
+"Legal and CA desk",
+"Corporate team days"
+],
+"partners": "Startup communities, CAs, podcasters",
+"hook": "Desks empty after 7.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1Ghwhk3F7-nFAlsDpNk3QUkWobmHz1Hit",
+"title": "Legal and CA desk",
+"type": "coworking space"
+}
+]
+},
+"12": {
+"types": [
+{
+"name": "IT park campus",
+"category": "Spaces",
+"chain": true,
+"idle": "Plazas, terraces, parking",
+"opportunities": [
+"Employee wellness",
+"Daycare",
+"EV charging",
+"Event spaces",
+"Laundry pickup"
+],
+"partners": "Corporate HR, daycare operators, EV firms",
+"hook": "Thousands walk in. Who's selling?",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Commercial rooftop",
+"category": "Spaces",
+"chain": false,
+"idle": "Rooftop",
+"opportunities": [
+"Rooftop café",
+"Private events",
+"Solar panels",
+"Telecom tower (where permitted)",
+"Film shoots"
+],
+"partners": "Café operators, event planners, solar firms",
+"hook": "Your best view is locked upstairs.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Paid parking lot",
+"category": "Spaces",
+"chain": false,
+"idle": "Parking slots mid-day",
+"opportunities": [
+"EV charging",
+"Car wash",
+"Vending machines",
+"Advertising boards",
+"Bike rentals"
+],
+"partners": "EV firms, car-wash operators, ad agencies",
+"hook": "Cars park. Money doesn't.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Corporate auditorium",
+"category": "Spaces",
+"chain": true,
+"idle": "Auditorium after hours and weekends",
+"opportunities": [
+"Conferences",
+"Cultural events",
+"Film screenings",
+"Training programmes",
+"Product launches"
+],
+"partners": "Event managers, corporates, cultural groups",
+"hook": "A big stage, empty on Saturday.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Shopping arcade corridors",
+"category": "Spaces",
+"chain": false,
+"idle": "Corridors and atrium",
+"opportunities": [
+"Kiosk rentals",
+"Pop-up stores",
+"Weekend events",
+"Advertising screens",
+"Art displays"
+],
+"partners": "Brands, event managers, ad agencies",
+"hook": "Footfall walking straight past.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Container yard",
+"category": "Spaces",
+"chain": false,
+"idle": "Empty yard and containers",
+"opportunities": [
+"Container cafés",
+"Storage rentals",
+"Pop-up markets",
+"Film sets",
+"Container offices"
+],
+"partners": "Café operators, startups, production houses",
+"hook": "Steel boxes that can become businesses.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Vacant showroom",
+"category": "Spaces",
+"chain": false,
+"idle": "Empty ground-floor shop",
+"opportunities": [
+"Pop-up stores",
+"Brand experience centre",
+"Short-term exhibitions",
+"Coworking floor",
+"Seasonal sale outlet"
+],
+"partners": "Brands, exhibitors, coworking operators",
+"hook": "Empty glass front, prime location.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Commercial basement",
+"category": "Spaces",
+"chain": false,
+"idle": "Unused basement floor",
+"opportunities": [
+"Storage units",
+"Gaming or bowling zone",
+"Studio and rehearsal rooms",
+"Dark-store for delivery apps",
+"Parking"
+],
+"partners": "Delivery apps, gaming operators, studios",
+"hook": "The floor below can pay too.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Startup office with spare desks",
+"category": "Spaces",
+"chain": false,
+"idle": "Unused desks and meeting room",
+"opportunities": [
+"Desk rental",
+"Evening workshops",
+"Meeting-room bookings",
+"Shared reception and mail service",
+"Hackathons"
+],
+"partners": "Freelancers, communities, startups",
+"hook": "Empty desks, full rent.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Bus terminal / travel hub",
+"category": "Spaces",
+"chain": false,
+"idle": "Waiting area and shops",
+"opportunities": [
+"Food court",
+"Luggage storage",
+"Ticket booking kiosks",
+"Rest rooms and showers",
+"Courier pickup point"
+],
+"partners": "Food brands, couriers, travel agents",
+"hook": "Thousands wait daily. Serve them.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "New project clubhouse before handover",
+"category": "Spaces",
+"chain": false,
+"idle": "Finished clubhouse not yet in use",
+"opportunities": [
+"Showcase events for buyers",
+"Gym and café pilots",
+"Interior designer demos",
+"Weekend community events",
+"Coworking for early residents"
+],
+"partners": "Interior designers, café operators, event hosts",
+"hook": "A ready clubhouse, waiting for residents.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1a4GTuJodQGhq7rEwvfg-RCZnPb1cjyRN",
+"title": "Poster - Paid parking lot",
+"type": "paid parking lot"
+},
+{
+"id": "1UHMt9DYe6WCzwRYSSEb_WjuAubA9hWEc",
+"title": "Car wash",
+"type": "paid parking lot"
+},
+{
+"id": "1CuX6SHz77848mghFSO3-z0UOyHLdUjWQ",
+"title": "Vending machines",
+"type": "paid parking lot"
+}
+]
+},
+"13": {
+"types": [
+{
+"name": "Gated community (RWA)",
+"category": "Spaces",
+"chain": false,
+"idle": "Clubhouse, parking corners, lawn",
+"opportunities": [
+"EV charging",
+"Laundry and grocery kiosks",
+"Weekend markets",
+"Clubhouse rentals",
+"Rooftop solar"
+],
+"partners": "EV operators, laundry partners, solar firms",
+"hook": "Your clubhouse is waiting.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Apartment basement",
+"category": "Spaces",
+"chain": false,
+"idle": "Unused basement corners",
+"opportunities": [
+"Storage units for residents",
+"EV charging",
+"Indoor games room",
+"Bike servicing point",
+"Parcel lockers"
+],
+"partners": "Storage firms, EV firms, couriers",
+"hook": "The floor no one uses can pay.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Co-operative society hall",
+"category": "Spaces",
+"chain": false,
+"idle": "Hall on weekdays",
+"opportunities": [
+"Training classes",
+"Health camps",
+"Small exhibitions",
+"Kids' activity classes",
+"Senior clubs"
+],
+"partners": "Instructors, clinics, exhibitors",
+"hook": "A hall that members use twice a month.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "11u7rwNnOjwJwul8A0lkdqf-NaH6R2l7D",
+"title": "Clubhouse rentals",
+"type": "gated community rwa"
+},
+{
+"id": "1rRhbXX5WQVQ3jOUXlBDKC2Px_Ol6VZPV",
+"title": "EV charging",
+"type": "gated community rwa"
+},
+{
+"id": "1SYaKMyTpwU5HjxBvPgb8GFo5SUuQb4_6",
+"title": "EV charging",
+"type": "gated community rwa"
+}
+]
+},
+"14": {
+"types": [
+{
+"name": "Single-screen cinema",
+"category": "Entertainment",
+"chain": false,
+"idle": "Morning shows and hall",
+"opportunities": [
+"Corporate screenings",
+"Gaming tournaments",
+"Product launches",
+"Comedy shows",
+"Film school sessions"
+],
+"partners": "Event managers, gaming leagues, comedians",
+"hook": "Morning shows, empty seats.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Gaming zone",
+"category": "Entertainment",
+"chain": false,
+"idle": "Weekday afternoons",
+"opportunities": [
+"Corporate team outings",
+"Birthday packages",
+"Esports tournaments",
+"School trips",
+"Food partnerships"
+],
+"partners": "Corporate HR, schools, esports organisers",
+"hook": "Weekends loud. Weekdays quiet.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Art gallery",
+"category": "Entertainment",
+"chain": false,
+"idle": "Gallery between exhibitions",
+"opportunities": [
+"Corporate art leasing",
+"Art workshops",
+"Private events",
+"Framing service",
+"Artist residencies"
+],
+"partners": "Corporates, art teachers, event planners",
+"hook": "Between shows, white walls.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Closed single-screen building",
+"category": "Spaces",
+"chain": false,
+"idle": "Empty hall and lobby",
+"opportunities": [
+"Event venue",
+"Film and ad shoots",
+"Indoor sports arena",
+"Exhibition space",
+"Rehearsal studio"
+],
+"partners": "Event managers, production houses, sports operators",
+"hook": "A landmark, waiting for a new life.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Drive-in cinema",
+"category": "Entertainment",
+"chain": false,
+"idle": "Ground in the daytime",
+"opportunities": [
+"Daytime car events",
+"Corporate screenings",
+"Food-truck festivals",
+"Concerts",
+"Car launches"
+],
+"partners": "Car brands, corporates, food trucks",
+"hook": "A big screen that sleeps by day.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Indoor snow park",
+"category": "Entertainment",
+"chain": true,
+"idle": "Slots in weekday mornings",
+"opportunities": [
+"School trips",
+"Corporate days",
+"Birthday packages",
+"Photo-shoot rentals",
+"Winter-themed events"
+],
+"partners": "Schools, corporates, photographers",
+"hook": "Snow all year. Visitors only on weekends.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Illusion and magic museum",
+"category": "Entertainment",
+"chain": false,
+"idle": "Galleries on weekday mornings",
+"opportunities": [
+"School trips",
+"Corporate outings",
+"Influencer shoots",
+"Birthday packages",
+"Brand activations"
+],
+"partners": "Schools, corporates, creators",
+"hook": "Wow moments, quiet mornings.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Karaoke studio",
+"category": "Entertainment",
+"chain": false,
+"idle": "Rooms before 7 PM",
+"opportunities": [
+"Corporate team evenings",
+"Birthday packages",
+"Singing classes",
+"Podcast and vocal recording",
+"College events"
+],
+"partners": "Corporates, music teachers, podcasters",
+"hook": "Rooms full at night, silent by day.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Snooker and pool parlour",
+"category": "Entertainment",
+"chain": false,
+"idle": "Tables in the daytime",
+"opportunities": [
+"Corporate leagues",
+"Coaching sessions",
+"Tournaments",
+"Café partnership",
+"Senior daytime clubs"
+],
+"partners": "Corporates, coaches, cafés",
+"hook": "Tables free till evening.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Film shooting floor",
+"category": "Entertainment",
+"chain": false,
+"idle": "Floor between productions",
+"opportunities": [
+"Ad and brand shoots",
+"Podcast and YouTube sets",
+"Photography rental",
+"Acting and filming workshops",
+"Event venue"
+],
+"partners": "Ad agencies, creators, event planners",
+"hook": "A studio floor waiting for a shoot.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Trampoline park",
+"category": "Entertainment",
+"chain": true,
+"idle": "Park on weekday mornings",
+"opportunities": [
+"School trips",
+"Corporate fun days",
+"Fitness trampoline classes",
+"Birthday packages",
+"Toddler sessions"
+],
+"partners": "Schools, corporates, parents",
+"hook": "Jumping on weekends. Quiet on weekdays.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1schB2M6HC9_s2YxGh67qEjuXeb-uT8QS",
+"title": "Poster - Single-screen cinema",
+"type": "single screen cinema"
+}
+]
+},
+"15": {
+"types": [
+{
+"name": "Community hall",
+"category": "Spaces",
+"chain": false,
+"idle": "Hall on weekdays",
+"opportunities": [
+"Yoga and fitness classes",
+"Kids' activity classes",
+"Small exhibitions",
+"Health camps",
+"Senior citizen clubs"
+],
+"partners": "Instructors, clinics, exhibitors",
+"hook": "Booked for functions. Idle in between.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Farmhouse event venue",
+"category": "Entertainment",
+"chain": false,
+"idle": "Weekdays",
+"opportunities": [
+"Corporate offsites",
+"Film and ad shoots",
+"Camping nights",
+"Organic farm tours",
+"Wedding events"
+],
+"partners": "Production houses, schools, event planners",
+"hook": "Weekdays, the land rests.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+}
+],
+"videos": [
+{
+"id": "1a-Hne_GZhMJe6yQW2ortMHFo_IcpN_SL",
+"title": "rooftop-church-street-x-partnermybusiness-ai (1)",
+"type": "rooftop church street x partnermybusiness ai 1 mp4"
+}
+],
+"images": [
+{
+"id": "1s8Gr56agLg3T6-0EiNB9Y5SSNaUITefC",
+"title": "Small exhibitions",
+"type": "community hall"
+}
+]
+},
+"16": {
+"types": [
+{
+"name": "Wedding & convention hall",
+"category": "Spaces",
+"chain": false,
+"idle": "Hall Monday to Friday",
+"opportunities": [
+"Corporate conferences",
+"Product launches",
+"Training workshops",
+"Birthday parties",
+"Exhibitions"
+],
+"partners": "Corporate HR, event managers, decorators",
+"hook": "Weekends booked. Weekdays?",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Exhibition ground",
+"category": "Spaces",
+"chain": false,
+"idle": "Ground between big events",
+"opportunities": [
+"Weekend flea markets",
+"Corporate sports days",
+"Car and bike shows",
+"Film shoots",
+"Food festivals"
+],
+"partners": "Event managers, brands, food vendors",
+"hook": "Big ground, long gaps between events.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "19OGFugBtxfRuw_Cowoc8fNzUe9xyxRqD",
+"title": "Training workshops",
+"type": "wedding convention hall"
+},
+{
+"id": "1LNYxAE5_uToQ5Xw3hD93C9qmdc5Ab0se",
+"title": "Product launches",
+"type": "wedding convention hall"
+},
+{
+"id": "154v_iB8_F7ypXX9YaOZSBGWv4KeqKH6D",
+"title": "Birthday parties",
+"type": "wedding convention hall"
+}
+]
+},
+"17": {
+"types": [
+{
+"name": "School",
+"category": "Education",
+"chain": true,
+"idle": "Campus after 3:30 PM and weekends",
+"opportunities": [
+"Evening coaching",
+"Sports academies",
+"Hobby classes",
+"Summer camps",
+"Exam centre rental"
+],
+"partners": "Coaching institutes, coaches, exam bodies",
+"hook": "School ends at 3:30. Your campus doesn't have to.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "Coaching centre",
+"category": "Education",
+"chain": false,
+"idle": "Classrooms in mornings",
+"opportunities": [
+"Rent slots to other courses",
+"Online test series",
+"Study-material sales",
+"Weekend workshops",
+"Hostel tie-ups"
+],
+"partners": "Course creators, publishers, PGs",
+"hook": "Classrooms empty till 4 PM.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "Music academy",
+"category": "Education",
+"chain": false,
+"idle": "Studios during school hours",
+"opportunities": [
+"Studio rental for recordings",
+"Event performances",
+"Instrument retail",
+"Corporate music therapy",
+"Online courses"
+],
+"partners": "Musicians, event planners, instrument brands",
+"hook": "Music after 4. Silence before.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "Art school",
+"category": "Education",
+"chain": false,
+"idle": "Studios in the daytime",
+"opportunities": [
+"Corporate art workshops",
+"Kids' holiday camps",
+"Art exhibitions",
+"Mural commissions",
+"Online courses"
+],
+"partners": "Corporates, schools, cafés",
+"hook": "Studios full of colour, empty till evening.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "Computer training centre",
+"category": "Education",
+"chain": false,
+"idle": "Labs in the mornings",
+"opportunities": [
+"Senior digital-literacy classes",
+"Corporate upskilling",
+"Online exam centre",
+"School coding clubs",
+"AI tools workshops"
+],
+"partners": "Seniors, corporates, exam bodies",
+"hook": "Computers waiting for students.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "Competitive exam coaching",
+"category": "Education",
+"chain": false,
+"idle": "Classrooms in the afternoons",
+"opportunities": [
+"Online test series",
+"Study-material sales",
+"Hostel tie-ups",
+"Interview coaching",
+"Weekend batches"
+],
+"partners": "Publishers, hostels, students",
+"hook": "Classrooms empty between batches.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "School rooftop",
+"category": "Spaces",
+"chain": true,
+"idle": "Rooftop",
+"opportunities": [
+"Rooftop solar",
+"Terrace garden lab",
+"Astronomy club nights",
+"Weekend yoga",
+"Telecom tower (where permitted)"
+],
+"partners": "Solar firms, gardeners, instructors",
+"hook": "The roof above the classrooms, unused.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Robotics and STEM lab",
+"category": "Education",
+"chain": false,
+"idle": "Lab during school hours",
+"opportunities": [
+"School robotics programmes",
+"Holiday camps",
+"Competitions",
+"Corporate family days",
+"Kit retail"
+],
+"partners": "Schools, parents, corporates",
+"hook": "A lab busy after 4, empty before.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1_cIAyeb6nPkIkY1lwY1Rjm-xf0KmhHgN",
+"title": "Evening coaching",
+"type": "school"
+},
+{
+"id": "1pM0ZgwnDMqZwznTRhn6Rb77rssbaCjpB",
+"title": "Summer camps",
+"type": "school"
+},
+{
+"id": "1bN4GD0eucpQgh2X82FeIjTDK7lPtvmCc",
+"title": "Studio rental for recordings",
+"type": "music academy"
+},
+{
+"id": "1bpqYZVI7ZtMMrFtev44clA363OoCq0CR",
+"title": "Corporate music therapy",
+"type": "music academy"
+},
+{
+"id": "1a5g2aAuyNt7fcCdQyoAIgZSX-6-27X6B",
+"title": "Weekend workshops",
+"type": "coaching centre"
+}
+]
+},
+"18": {
+"types": [
+{
+"name": "College auditorium",
+"category": "Education",
+"chain": true,
+"idle": "Auditorium and grounds on weekends",
+"opportunities": [
+"Corporate conferences",
+"Exam centre",
+"Cultural events",
+"Placement fairs",
+"Film shoots"
+],
+"partners": "Event managers, exam bodies, production houses",
+"hook": "Weekends locked. Weekends booked.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "Pre-university college",
+"category": "Education",
+"chain": true,
+"idle": "Campus on weekends",
+"opportunities": [
+"Entrance-exam coaching",
+"Skill weekend courses",
+"Exam centre rental",
+"Sports coaching",
+"Career fairs"
+],
+"partners": "Coaching institutes, exam bodies, coaches",
+"hook": "Classrooms that rest on Sundays.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "MBA college",
+"category": "Education",
+"chain": true,
+"idle": "Auditorium and classrooms on weekends",
+"opportunities": [
+"Executive education",
+"Startup events",
+"Corporate training",
+"Conference venue",
+"Placement fairs"
+],
+"partners": "Corporates, startups, event managers",
+"hook": "A campus built for business, empty on weekends.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "University sports complex",
+"category": "Spaces",
+"chain": true,
+"idle": "Grounds on weekends and holidays",
+"opportunities": [
+"Corporate sports days",
+"Marathon and event hosting",
+"Coaching academies",
+"School sports meets",
+"Fitness bootcamps"
+],
+"partners": "Corporates, event managers, coaches",
+"hook": "World-class grounds, empty holidays.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Polytechnic / ITI",
+"category": "Education",
+"chain": true,
+"idle": "Workshops on weekends",
+"opportunities": [
+"Contract fabrication work",
+"Skill certification for workers",
+"Corporate apprenticeship programmes",
+"Machine time rental",
+"Repair service centre"
+],
+"partners": "Factories, startups, corporates",
+"hook": "Machines that rest every weekend.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "Design institute",
+"category": "Education",
+"chain": false,
+"idle": "Studios on weekends",
+"opportunities": [
+"Short weekend courses",
+"Design services for small businesses",
+"Exhibitions",
+"Corporate design-thinking workshops",
+"Studio rental"
+],
+"partners": "Small businesses, corporates, creators",
+"hook": "Studios full of skill, empty on Sundays.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1q6PBAqBHqt-0Vqmo1rE7c7ZvZXw8FlpT",
+"title": "Exam centre",
+"type": "college auditorium"
+},
+{
+"id": "1ZHuNYhJM9KOjBw4lB9_Mi_oU7QlJlkAb",
+"title": "Cultural events",
+"type": "college auditorium"
+}
+]
+},
+"19": {
+"types": [
+{
+"name": "Preschool / daycare",
+"category": "Education",
+"chain": false,
+"idle": "Space after 1 PM and weekends",
+"opportunities": [
+"After-school activities",
+"Parenting workshops",
+"Birthday party venue",
+"Nutrition meal plans",
+"Summer camps"
+],
+"partners": "Activity tutors, nutritionists, event planners",
+"hook": "Bright rooms, empty afternoons.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+}
+],
+"videos": [],
+"images": []
+},
+"20": {
+"types": [
+{
+"name": "Multi-speciality clinic",
+"category": "Healthcare",
+"chain": false,
+"idle": "Waiting area and rooms after 6 PM",
+"opportunities": [
+"Diagnostic sample collection",
+"Pharmacy counter",
+"Physiotherapy",
+"Corporate health checks",
+"Teleconsultation"
+],
+"partners": "Diagnostic labs, pharmacies, corporate HR",
+"hook": "Patients wait. Revenue doesn't have to.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+},
+{
+"name": "Day-care surgery centre",
+"category": "Healthcare",
+"chain": false,
+"idle": "Recovery rooms on weekends",
+"opportunities": [
+"Physio and rehab",
+"Home-care nurse network",
+"Medical-tourism packages",
+"Post-op meal plans",
+"Health camps"
+],
+"partners": "Physios, nurses, cloud kitchens",
+"hook": "Recovery that continues at home.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+},
+{
+"name": "Fertility clinic",
+"category": "Healthcare",
+"chain": false,
+"idle": "Seminar room and counselling hours",
+"opportunities": [
+"Couple wellness workshops",
+"Nutrition and yoga programmes",
+"Corporate fertility benefits",
+"Diagnostic tie-ups",
+"Online consultations"
+],
+"partners": "Nutritionists, yoga teachers, corporates",
+"hook": "Support beyond the procedure.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1cxqfEOQbbVCRwo24NkWfgjOnko-rBH-H",
+"title": "Pharmacy counter",
+"type": "multi speciality clinic"
+},
+{
+"id": "1-OvyF0vrOWJylHX6eZjZhZqOcrtkzAYZ",
+"title": "Pharmacy counter",
+"type": "multi speciality clinic"
+}
+]
+},
+"21": {
+"types": [
+{
+"name": "ENT clinic",
+"category": "Healthcare",
+"chain": false,
+"idle": "Rooms after 6 PM",
+"opportunities": [
+"Hearing-aid partners",
+"School screening camps",
+"Corporate hearing checks",
+"Allergy programmes",
+"Teleconsultations"
+],
+"partners": "Hearing-aid firms, schools, corporates",
+"hook": "Care beyond the consult.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+},
+{
+"name": "Paediatric clinic",
+"category": "Healthcare",
+"chain": false,
+"idle": "Waiting room and evenings",
+"opportunities": [
+"Vaccination drives",
+"Parent workshops",
+"Child nutrition plans",
+"School health camps",
+"Lactation and newborn care"
+],
+"partners": "Schools, nutritionists, maternity hospitals",
+"hook": "Parents trust you. Serve more of their needs.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+},
+{
+"name": "Gynaecology clinic",
+"category": "Healthcare",
+"chain": false,
+"idle": "Rooms on weekday afternoons",
+"opportunities": [
+"Prenatal classes",
+"Postnatal yoga",
+"Fertility counselling tie-ups",
+"Women's health camps",
+"Nutrition programmes"
+],
+"partners": "Yoga teachers, nutritionists, corporates",
+"hook": "Care for every stage, under one roof.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+},
+{
+"name": "Preventive health-check centre",
+"category": "Healthcare",
+"chain": true,
+"idle": "Slots in late mornings",
+"opportunities": [
+"Corporate health packages",
+"Apartment camps",
+"Home sample collection",
+"Fitness tie-ups",
+"Senior packages"
+],
+"partners": "Corporates, RWAs, gyms",
+"hook": "Prevention that companies pay for.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+},
+{
+"name": "Homeopathy clinic",
+"category": "Healthcare",
+"chain": false,
+"idle": "Evening slots",
+"opportunities": [
+"Apartment health talks",
+"Online consultations",
+"Corporate wellness plans",
+"Remedy home delivery",
+"School health camps"
+],
+"partners": "RWAs, corporates, schools",
+"hook": "Gentle care, more patients.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+},
+{
+"name": "Child development centre",
+"category": "Healthcare",
+"chain": false,
+"idle": "Therapy rooms in mornings",
+"opportunities": [
+"School screening programmes",
+"Parent workshops",
+"Online therapy sessions",
+"Summer skill camps",
+"Paediatrician tie-ups"
+],
+"partners": "Schools, paediatricians, parents",
+"hook": "Help more children, earlier.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+},
+{
+"name": "Hearing aid centre",
+"category": "Healthcare",
+"chain": false,
+"idle": "Testing room on weekdays",
+"opportunities": [
+"Senior home visits",
+"Corporate hearing checks",
+"School screening",
+"Battery and accessory subscriptions",
+"ENT doctor tie-ups"
+],
+"partners": "Senior homes, corporates, ENT clinics",
+"hook": "Every test can become care.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+}
+],
+"videos": [
+{
+"id": "1jnW_wiSGjuNV5-SzomZTm9j2aZnGRyc9",
+"title": "PMB.Whitefield.PaediatricClinic.025 30sec Video",
+"type": "paediatric clinic"
+}
+],
+"images": [
+{
+"id": "19e9yEdyuxwQw9-x9e7azva_IwUmHH1Ym",
+"title": "VaccinationDrives",
+"type": "paediatric clinic"
+},
+{
+"id": "1UngA1KLulEMXsVAVM8ABO6yA1Zjk_oAC",
+"title": "LactationAndNewbornCare",
+"type": "paediatric clinic"
+},
+{
+"id": "1cN8yAkgzX5xj5c1vYMyqm8rpUZ5Ai0hK",
+"title": "ParentWorkshops",
+"type": "paediatric clinic"
+},
+{
+"id": "1Um91AzyFXtyFSW3IvZLuJmfb0dqz4bmO",
+"title": "ChildNutritionPlans",
+"type": "paediatric clinic"
+},
+{
+"id": "1CJs4tYZpe2jTAqLlrjwqKd6SI44EAKXE",
+"title": "SchoolHealthCamps",
+"type": "paediatric clinic"
+}
+]
+},
+"22": {
+"types": [
+{
+"name": "Dental clinic",
+"category": "Healthcare",
+"chain": false,
+"idle": "Chairs on weekday afternoons",
+"opportunities": [
+"Orthodontist visits",
+"Oral-care retail",
+"Corporate dental plans",
+"School dental camps",
+"EMI financing"
+],
+"partners": "Orthodontists, schools, finance partners",
+"hook": "Your chair is free at 3 PM.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1DuDOEp99JasO1FdkjOWah8_lO0hkOD3a",
+"title": "EMI financing",
+"type": "dental clinic"
+}
+]
+},
+"23": {
+"types": [
+{
+"name": "Diagnostic lab",
+"category": "Healthcare",
+"chain": true,
+"idle": "Phlebotomists after morning rush",
+"opportunities": [
+"Home sample collection",
+"Corporate health camps",
+"Apartment health camps",
+"Wellness packages",
+"Doctor tie-ups"
+],
+"partners": "RWAs, corporate HR, clinics",
+"hook": "Morning rush. Afternoon lull.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1dBKRgn7I2ZDAebyumVBk6Mo6PFHRKOLO",
+"title": "Poster - Diagnostic lab",
+"type": "diagnostic lab"
+},
+{
+"id": "1TQaynaE584mYIqaYSjpW_mvoNSa-6KlE",
+"title": "Corporate health camps",
+"type": "diagnostic lab"
+}
+]
+},
+"24": {
+"types": [
+{
+"name": "Pharmacy",
+"category": "Healthcare",
+"chain": false,
+"idle": "Counter space and delivery boys idle mid-day",
+"opportunities": [
+"Health-check kiosk",
+"Medicine home delivery",
+"Medical equipment rental",
+"Wellness product shelf",
+"Diagnostic pickup point"
+],
+"partners": "Labs, equipment suppliers, wellness brands",
+"hook": "More than a prescription counter.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1eOlGhNjNsSnH_LbThTADe8J2p6Lcoglm",
+"title": "Poster - Pharmacy",
+"type": "pharmacy"
+},
+{
+"id": "1Mq1CNdd6JXR1X7WL3XmxXU-JcyvY7ApI",
+"title": "Medicine home delivery",
+"type": "pharmacy"
+},
+{
+"id": "1WvjXkU6Lc7Xo3GrqjkDMx1wAPdJOJBjK",
+"title": "Wellness product shelf",
+"type": "pharmacy"
+},
+{
+"id": "1ua-UHY3diRIqZcbSMrSDihhRzfJDcKrb",
+"title": "Health check kiosk",
+"type": "pharmacy"
+}
+]
+},
+"25": {
+"types": [
+{
+"name": "Rehabilitation centre",
+"category": "Healthcare",
+"chain": false,
+"idle": "Therapy rooms and gym on weekends",
+"opportunities": [
+"Sports-injury rehab",
+"Senior mobility programmes",
+"Corporate ergonomics",
+"Home-visit therapy",
+"Caregiver training"
+],
+"partners": "Sports academies, senior homes, corporates",
+"hook": "Recovery spaces, under-booked.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+}
+],
+"videos": [],
+"images": []
+},
+"26": {
+"types": [
+{
+"name": "Pet clinic",
+"category": "Healthcare",
+"chain": false,
+"idle": "Space after vaccine visits",
+"opportunities": [
+"Grooming",
+"Pet boarding",
+"Food subscriptions",
+"Training classes",
+"Pet insurance desk"
+],
+"partners": "Groomers, pet-food brands, trainers",
+"hook": "They visit for vaccines. Then they leave.",
+"budgetFocus": "Top costs: consumables, reagents, power, staff. Group purchasing with other clinics; direct from distributors."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1sOgaCrGx84s5K-dQV-4RlzoGxzJ-OMYY",
+"title": "Pet boarding",
+"type": "pet clinic"
+},
+{
+"id": "1IZjjN-W67Mby_kzjEJ-NW6HWooYMmV4I",
+"title": "Food subscriptions",
+"type": "pet clinic"
+},
+{
+"id": "1B259ei__1aRzlOdvqADOxM4guz8P0vwr",
+"title": "Pet insurance desk",
+"type": "pet clinic"
+}
+]
+},
+"27": {
+"types": [
+{
+"name": "Car service centre",
+"category": "Automotive",
+"chain": true,
+"idle": "Customer waiting lounge",
+"opportunities": [
+"Car detailing",
+"Lounge café",
+"Insurance desk",
+"Accessories",
+"Used-car valuation"
+],
+"partners": "Detailing studios, insurers, cafés",
+"hook": "They wait for hours. You earn from one job.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Car wash",
+"category": "Automotive",
+"chain": false,
+"idle": "Waiting time and bays at night",
+"opportunities": [
+"Ceramic coating",
+"Monthly wash subscriptions",
+"Waiting café",
+"Apartment doorstep wash",
+"Fleet contracts"
+],
+"partners": "RWAs, cab fleets, coating brands",
+"hook": "Washed in 20 minutes. Customer gone.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Two-wheeler showroom",
+"category": "Automotive",
+"chain": false,
+"idle": "Showroom after sales",
+"opportunities": [
+"Bike rentals",
+"Riding school",
+"Insurance and loans",
+"Accessories",
+"Service subscriptions"
+],
+"partners": "Rental fleets, driving schools, insurers",
+"hook": "Sell once. Earn every month.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Tyre retreading unit",
+"category": "Automotive",
+"chain": false,
+"idle": "Machines between orders",
+"opportunities": [
+"Fleet contracts",
+"Bus operator tie-ups",
+"Doorstep tyre service",
+"Used-tyre resale",
+"Training mechanics"
+],
+"partners": "Fleets, bus operators, mechanics",
+"hook": "Machines idle between orders.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Two-wheeler rental",
+"category": "Automotive",
+"chain": false,
+"idle": "Bikes idle on weekdays",
+"opportunities": [
+"Delivery-rider rentals",
+"Corporate monthly plans",
+"Tourist weekend packages",
+"Student plans",
+"Helmet and gear retail"
+],
+"partners": "Delivery firms, corporates, colleges",
+"hook": "Bikes parked on Tuesday earn nothing.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Auto-rickshaw garage",
+"category": "Automotive",
+"chain": false,
+"idle": "Bays at night",
+"opportunities": [
+"Fleet servicing",
+"EV auto conversion",
+"Spare-parts supply",
+"Insurance desk",
+"Driver training"
+],
+"partners": "Fleets, EV firms, insurers",
+"hook": "Autos run all day. The garage can too.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Car denting and painting workshop",
+"category": "Automotive",
+"chain": false,
+"idle": "Booths between jobs",
+"opportunities": [
+"Insurance claim tie-ups",
+"Fleet contracts",
+"Bike painting",
+"Custom wraps",
+"Used-car refurbishing"
+],
+"partners": "Insurers, fleets, used-car dealers",
+"hook": "Paint booths waiting for cars.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Bike service centre",
+"category": "Automotive",
+"chain": false,
+"idle": "Bays mid-day",
+"opportunities": [
+"Doorstep pickup and drop",
+"Fleet servicing for delivery riders",
+"Accessory retail",
+"Riding-gear rental",
+"Insurance renewals"
+],
+"partners": "Delivery fleets, insurers, riders",
+"hook": "Bikes come in the morning. Bays wait after.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Commercial vehicle workshop",
+"category": "Automotive",
+"chain": false,
+"idle": "Bays at night",
+"opportunities": [
+"Fleet maintenance contracts",
+"Night-shift servicing",
+"Spare-parts supply",
+"Driver training",
+"Breakdown support"
+],
+"partners": "Logistics firms, fleets, parts suppliers",
+"hook": "Trucks run all night. So can the workshop.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1k-IjdzPaJYLq_mdlRXi6XmH-YGlL9a1e",
+"title": "Accessories",
+"type": "car service centre"
+},
+{
+"id": "1S3CPHy_eXIdy_-vZHFbnuCj7Ra_2BVPw",
+"title": "Ceramic coating",
+"type": "car wash"
+}
+]
+},
+"28": {
+"types": [
+{
+"name": "Used-car dealership",
+"category": "Automotive",
+"chain": false,
+"idle": "Yard and showroom",
+"opportunities": [
+"Car inspection service",
+"Loans and insurance desk",
+"Car detailing",
+"Weekend test-drive events",
+"Consignment sales"
+],
+"partners": "Banks, insurers, detailers",
+"hook": "Every car sold can come with services.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+},
+{
+"name": "Luxury car showroom",
+"category": "Automotive",
+"chain": true,
+"idle": "Showroom after hours",
+"opportunities": [
+"Private client events",
+"Art and fashion showcases",
+"Corporate launches",
+"Driving experiences",
+"Concierge services"
+],
+"partners": "Brands, event planners, corporates",
+"hook": "A beautiful showroom, empty at night.",
+"budgetFocus": "Top costs: spares, consumables, power, staff. Direct tie-ups with distributors; solar on canopy."
+}
+],
+"videos": [],
+"images": []
+},
+"29": {
+"types": [
+{
+"name": "Car rental agency",
+"category": "Services",
+"chain": false,
+"idle": "Cars idle mid-week",
+"opportunities": [
+"Corporate monthly rentals",
+"Wedding car packages",
+"Airport transfers for hotels",
+"Outstation tour packages",
+"Self-drive weekend plans"
+],
+"partners": "Corporates, hotels, wedding planners",
+"hook": "Cars parked on Tuesday earn nothing.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+}
+],
+"videos": [],
+"images": []
+},
+"30": {
+"types": [
+{
+"name": "Bike taxi fleet",
+"category": "Services",
+"chain": false,
+"idle": "Bikes and riders off-peak",
+"opportunities": [
+"Parcel deliveries",
+"Corporate commute plans",
+"Restaurant delivery tie-ups",
+"Advertising on helmets",
+"Rider training"
+],
+"partners": "Restaurants, corporates, brands",
+"hook": "Riders waiting between rides.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+}
+],
+"videos": [],
+"images": []
+},
+"32": {
+"types": [
+{
+"name": "Warehouse",
+"category": "Spaces",
+"chain": false,
+"idle": "Unused storage bays",
+"opportunities": [
+"Shared storage",
+"Last-mile delivery hub",
+"Packaging services",
+"E-commerce fulfilment",
+"Rooftop solar"
+],
+"partners": "E-commerce sellers, logistics firms, solar firms",
+"hook": "Half-empty racks, full rent.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+},
+{
+"name": "Market godown",
+"category": "Spaces",
+"chain": false,
+"idle": "Unused godown space",
+"opportunities": [
+"Storage for online sellers",
+"Packing and dispatch hub",
+"Wholesale pickup point",
+"Seasonal stock storage",
+"Small manufacturing"
+],
+"partners": "Online sellers, logistics firms, wholesalers",
+"hook": "Half-empty godown in the busiest market.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "16srqpfeaym-0MiQr_73O9W72oqG63JUN",
+"title": "Shared storage",
+"type": "warehouse"
+},
+{
+"id": "1mxyNu4Y9Tml94pJyEx8AjqViJa5qDlXb",
+"title": "Packaging services",
+"type": "warehouse"
+}
+]
+},
+"33": {
+"types": [
+{
+"name": "Cold storage",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Unused chambers",
+"opportunities": [
+"Storage for farmers",
+"Restaurant stock storage",
+"Pharma storage (where licensed)",
+"Fruit ripening service",
+"Distribution tie-ups"
+],
+"partners": "Farmers, restaurants, distributors",
+"hook": "Cold space, warm opportunity.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+}
+],
+"videos": [],
+"images": []
+},
+"34": {
+"types": [
+{
+"name": "Plant nursery",
+"category": "Retail",
+"chain": false,
+"idle": "Open land and gardener time",
+"opportunities": [
+"Terrace garden setups",
+"Corporate office plants",
+"Gardening workshops",
+"Plant subscriptions",
+"Landscaping for apartments"
+],
+"partners": "Builders, RWAs, offices",
+"hook": "Every plant can be a service.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Small factory / workshop",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Machines on second shift",
+"opportunities": [
+"Contract manufacturing",
+"Machine time rental",
+"Skill-training centre",
+"Rooftop solar",
+"Scrap recycling tie-up"
+],
+"partners": "Startups, ITIs, recyclers",
+"hook": "Machines stop at 6. Rent the night shift.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Dairy farm",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Milk sold through dealers",
+"opportunities": [
+"Direct supply to restaurants",
+"Milk subscriptions to apartments",
+"Farm visits for schools",
+"Paneer and ghee brand",
+"Manure and biogas sales"
+],
+"partners": "Restaurants, RWAs, schools",
+"hook": "Skip the dealer. Sell direct.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Printing press",
+"category": "Services",
+"chain": false,
+"idle": "Machines between orders",
+"opportunities": [
+"Corporate branding kits",
+"Wedding stationery",
+"Packaging printing",
+"Online orders",
+"Event signage"
+],
+"partners": "Corporates, wedding planners, D2C brands",
+"hook": "Presses idle between jobs.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+},
+{
+"name": "Dal mill",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Mill capacity",
+"opportunities": [
+"Direct supply to restaurants",
+"Branded dal packs",
+"Contract milling",
+"Apartment subscriptions",
+"Export orders"
+],
+"partners": "Restaurants, RWAs, exporters",
+"hook": "Dal straight to the kitchen.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Papad and pickle unit",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Production capacity",
+"opportunities": [
+"Restaurant supply",
+"Private-label for brands",
+"Corporate gifting",
+"Online store",
+"Export orders"
+],
+"partners": "Restaurants, D2C brands, exporters",
+"hook": "Homemade taste, bigger market.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Goat farm",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Output sold through traders",
+"opportunities": [
+"Direct supply to restaurants",
+"Milk and cheese products",
+"Farm visits",
+"Manure sales",
+"Breeding stock sales"
+],
+"partners": "Restaurants, schools, farmers",
+"hook": "Skip the trader. Sell direct.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Millet processing unit",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Processing capacity",
+"opportunities": [
+"Millet flour brand",
+"Restaurant and café supply",
+"School nutrition programmes",
+"Ready-to-cook mixes",
+"Export orders"
+],
+"partners": "Restaurants, schools, exporters",
+"hook": "Superfoods, sold through middlemen.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Herb and microgreens farm",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Produce sold to traders",
+"opportunities": [
+"Restaurant supply",
+"Home-grow kits",
+"Farm workshops",
+"Apartment subscriptions",
+"Hotel contracts"
+],
+"partners": "Restaurants, hotels, RWAs",
+"hook": "Fresh greens, direct to chefs.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Flour mill",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Milling capacity",
+"opportunities": [
+"Direct supply to restaurants and bakeries",
+"Branded atta and millet flour",
+"Contract milling",
+"Apartment subscriptions",
+"Fresh-ground spice service"
+],
+"partners": "Restaurants, bakeries, RWAs",
+"hook": "Fresh flour, straight to the kitchen.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Mushroom farm",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Produce sold through traders",
+"opportunities": [
+"Direct restaurant supply",
+"Apartment subscriptions",
+"Farm workshops",
+"Mushroom-growing kits",
+"Value-added products"
+],
+"partners": "Restaurants, RWAs, schools",
+"hook": "Fresh mushrooms, no middlemen.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Apiary / honey farm",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Honey sold in bulk",
+"opportunities": [
+"Branded honey retail",
+"Corporate gifting",
+"Farm visits for schools",
+"Beekeeping workshops",
+"Pollination services to farms"
+],
+"partners": "Corporates, schools, farmers",
+"hook": "Sell the story, not just the honey.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+},
+{
+"name": "Garment factory",
+"category": "Industrial & Agri",
+"chain": false,
+"idle": "Lines between export orders",
+"opportunities": [
+"Corporate uniform orders",
+"School uniform contracts",
+"Private-label for D2C brands",
+"Stitching training",
+"Surplus fabric sales"
+],
+"partners": "Corporates, schools, D2C brands",
+"hook": "Machines idle between export orders.",
+"budgetFocus": "Top costs: raw material, power, logistics. Direct sourcing, solar, shared transport."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "13hwE4NBCRDgHXohaTAs1U40FH1XDMnZG",
+"title": "Skill training centre",
+"type": "small factory workshop"
+},
+{
+"id": "1u6Ew1YaH6LSF-zM24krrDnzLV_mFcf7K",
+"title": "Plant subscriptions",
+"type": "plant nursery"
+},
+{
+"id": "1hZT_nPq82YSJkBLyWfOi3_IK03NNa1ea",
+"title": "Farm visits for schools",
+"type": "dairy farm"
+},
+{
+"id": "16T-Fkt_cllMErCJ24v3xkcuOdlo23WtE",
+"title": "Event signage",
+"type": "printing press"
+},
+{
+"id": "1JXIuUritrxx7Ajdw6CUrLjyR5S7IXKMQ",
+"title": "Landscaping for apartments",
+"type": "plant nursery"
+}
+]
+},
+"35": {
+"types": [
+{
+"name": "Real-estate site office / sample flat",
+"category": "Spaces",
+"chain": false,
+"idle": "Site office and sample flat",
+"opportunities": [
+"Interior designer showcase",
+"Home-loan desk",
+"Furniture partner displays",
+"Weekend buyer events",
+"Referral network"
+],
+"partners": "Interior designers, banks, furniture brands",
+"hook": "Visitors come once. Give them more.",
+"budgetFocus": "Top costs: maintenance, security, power, water. Pooled facility contracts, solar, water reuse."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1tO6-BUsnshulN2uIZaAavAkYCGe_Evak",
+"title": "Poster - Real-estate site office - sample flat",
+"type": "real estate site office sample flat"
+}
+]
+},
+"39": {
+"types": [
+{
+"name": "Furniture showroom",
+"category": "Retail",
+"chain": false,
+"idle": "Large display floor",
+"opportunities": [
+"Interior designer referrals",
+"Furniture rental",
+"Builder tie-ups",
+"Home-styling workshops",
+"Photo-shoot sets"
+],
+"partners": "Interior designers, builders, rental startups",
+"hook": "A showroom that only shows.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Second-hand furniture store",
+"category": "Retail",
+"chain": false,
+"idle": "Warehouse stock",
+"opportunities": [
+"Furniture rental",
+"PG and co-living supply",
+"Restoration service",
+"Office furniture resale",
+"Online listings"
+],
+"partners": "PGs, offices, students",
+"hook": "Old furniture, new customers.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Lighting and home décor store",
+"category": "Retail",
+"chain": false,
+"idle": "Showroom on weekdays",
+"opportunities": [
+"Interior designer referrals",
+"Builder tie-ups",
+"Festive décor rentals",
+"Styling consultations",
+"Smart-home installation"
+],
+"partners": "Interior designers, builders, electricians",
+"hook": "A bright showroom, quiet weekdays.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1n61lDycyr4wEfsrQXTmziObknC9Uu4YM",
+"title": "Home styling workshops",
+"type": "furniture showroom"
+}
+]
+},
+"40": {
+"types": [
+{
+"name": "Electronics store",
+"category": "Retail",
+"chain": false,
+"idle": "Service desk and storefront",
+"opportunities": [
+"Repair services",
+"Extended warranties",
+"Phone exchange offers",
+"Accessory kiosks",
+"Corporate bulk orders"
+],
+"partners": "Repair technicians, insurers, corporate buyers",
+"hook": "Sales once. Service forever.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Appliance repair centre",
+"category": "Services",
+"chain": false,
+"idle": "Technicians between jobs",
+"opportunities": [
+"Annual maintenance contracts",
+"Restaurant kitchen equipment",
+"Refurbished appliance sales",
+"Apartment service days",
+"Training apprentices"
+],
+"partners": "RWAs, restaurants, retailers",
+"hook": "Every appliance needs care.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1Nq9IJDSttv8cytiYGczJ_HRRYiIZ9kJ5",
+"title": "Phone exchange offers",
+"type": "electronics store"
+},
+{
+"id": "1TVIMxtqVMVvUK4mIZZG8-CVgdH5j9w1A",
+"title": "Accessory kiosks",
+"type": "electronics store"
+}
+]
+},
+"41": {
+"types": [
+{
+"name": "Silk saree showroom",
+"category": "Retail",
+"chain": false,
+"idle": "Customer's wider wedding budget",
+"opportunities": [
+"Bridal makeup partners",
+"Wedding photographers",
+"Jewellery tie-ups",
+"Blouse tailoring",
+"NRI video-call shopping"
+],
+"partners": "Makeup artists, photographers, jewellers",
+"hook": "She bought the saree. Who got the rest?",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Fashion boutique",
+"category": "Retail",
+"chain": false,
+"idle": "Trial room and stylist time",
+"opportunities": [
+"Personal styling sessions",
+"Tailoring and alterations",
+"Influencer shoots",
+"Pop-up collaborations",
+"Online store"
+],
+"partners": "Stylists, tailors, influencers",
+"hook": "Your trial room can be a studio.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Tailoring unit",
+"category": "Services",
+"chain": false,
+"idle": "Tailors between seasons",
+"opportunities": [
+"Boutique contract stitching",
+"School uniform orders",
+"Corporate uniforms",
+"Alteration pickup service",
+"Stitching classes"
+],
+"partners": "Boutiques, schools, corporates",
+"hook": "Busy in festivals. Slow in between.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+},
+{
+"name": "Kids' clothing store",
+"category": "Retail",
+"chain": false,
+"idle": "Store on weekdays",
+"opportunities": [
+"School uniform tie-ups",
+"Birthday gift boxes",
+"Kids' fashion shows",
+"Rental for occasions",
+"Online orders"
+],
+"partners": "Schools, party planners, photographers",
+"hook": "Kids grow fast. Keep them coming back.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Leather goods store",
+"category": "Retail",
+"chain": false,
+"idle": "Store and repair skill",
+"opportunities": [
+"Corporate gifting",
+"Repair and care service",
+"Custom monogramming",
+"Hotel and office supply",
+"Online store"
+],
+"partners": "Corporates, hotels, offices",
+"hook": "Leather that lasts, customers who return.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Men's ethnic wear store",
+"category": "Retail",
+"chain": false,
+"idle": "Showroom outside wedding season",
+"opportunities": [
+"Groom styling packages",
+"Wedding planner referrals",
+"Rentals for events",
+"Tailoring and alterations",
+"NRI video shopping"
+],
+"partners": "Wedding planners, tailors, stylists",
+"hook": "He needs more than a sherwani.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+},
+{
+"name": "Luggage store",
+"category": "Retail",
+"chain": false,
+"idle": "Store and repair skill",
+"opportunities": [
+"Corporate travel kits",
+"Repair service",
+"Luggage rental",
+"Travel agency tie-ups",
+"Online orders"
+],
+"partners": "Corporates, travel agents, tourists",
+"hook": "Every trip starts with a bag.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "19Uc-YbBrs_qPL_WW6MsF3jywP5hHYBR8",
+"title": "Personal styling sessions",
+"type": "fashion boutique"
+}
+]
+},
+"42": {
+"types": [
+{
+"name": "Jewellery store",
+"category": "Retail",
+"chain": false,
+"idle": "Showroom traffic on weekdays",
+"opportunities": [
+"Gold savings schemes",
+"Wedding planner referrals",
+"Repair and polishing service",
+"Jewellery exhibitions",
+"NRI orders"
+],
+"partners": "Wedding planners, NRI agents, polish technicians",
+"hook": "Weekday showroom, waiting for weddings.",
+"budgetFocus": "Top costs: stock purchase, rent, power, packaging. Buy direct from manufacturers; shared delivery."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "15b-ioPNki6GkaNV57w8EgEhYLT-4nm6W",
+"title": "Gold savings schemes",
+"type": "jewellery store"
+}
+]
+},
+"43": {
+"types": [
+{
+"name": "Artisan bakery",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Oven capacity after 2 PM; unsold stock",
+"opportunities": [
+"Corporate snack boxes",
+"Festive gift hampers",
+"Weekend baking classes",
+"Café supply contracts",
+"Custom cake pre-orders"
+],
+"partners": "Corporate admins, gifting companies, cafés",
+"hook": "Baked fresh. Sold half?",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Sweet shop",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Kitchen in non-festive months",
+"opportunities": [
+"Corporate Diwali and wedding orders",
+"Online sweet boxes",
+"Sweet-making workshops",
+"Temple and event supply",
+"Return-gift packs"
+],
+"partners": "Wedding planners, corporate gifting, temples",
+"hook": "Festivals sell out. Other months?",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+},
+{
+"name": "Namkeen and snacks outlet",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Frying capacity between batches",
+"opportunities": [
+"Corporate snack hampers",
+"Festival gift boxes",
+"Café and bakery supply",
+"Online orders",
+"Private-label snacks for brands"
+],
+"partners": "Corporates, cafés, D2C brands",
+"hook": "Crunchy snacks, bigger orders.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+}
+],
+"videos": [
+{
+"id": "1oAE5KnXzPM-0j2-h8x104KlfjXZe6JxC",
+"title": "PMB.Frazer Town.Artisan bakery.005 - 30s Video",
+"type": "artisan bakery"
+},
+{
+"id": "1bQOk-oZk4xrEKZOZG5raxv1hVSZA3Uaj",
+"title": "PMB.Basavanagudi.Sweet shop.007 - 30s Video",
+"type": "sweet shop"
+},
+{
+"id": "1KFPPI7uVU86jrUVIiTjkMa0XMK5sQWmK",
+"title": "PMB.Chickpet.NamkeenSnacksOutlet.002 30sec Video",
+"type": "namkeen snacks outlet"
+}
+],
+"images": [
+{
+"id": "19Q58yY2iLdDd28SGOrrwUuAIs4RF6BuM",
+"title": "Return-gift packs",
+"type": "sweet shop"
+},
+{
+"id": "1FwTa62H5x4oM8OvksyaLYZT_iMPFt34e",
+"title": "Corporate Diwali and wedding orders",
+"type": "sweet shop"
+},
+{
+"id": "18ZIDKAA3NlQKxzKTv4FlA3Z1LE50NxYc",
+"title": "Corporate snack boxes",
+"type": "artisan bakery"
+},
+{
+"id": "1W6Op_EUji55g-wR_4-JJ6AM45rUDuaBY",
+"title": "FestivalGiftBoxes",
+"type": "namkeen snacks outlet"
+},
+{
+"id": "1sf8gafQ88-9Zz5-3gvUXqgqAVmDVx-9N",
+"title": "PrivateLabelSnacksForBrands",
+"type": "namkeen snacks outlet"
+},
+{
+"id": "1VmRLbF1iHziO5-qpXQpzMO4Ut-WcS6aJ",
+"title": "CafeAndBakerySupply",
+"type": "namkeen snacks outlet"
+},
+{
+"id": "1U6Vl3vcZmFQ3wIkM3ZBUKlMrfOCK6XcB",
+"title": "OnlineOrders",
+"type": "namkeen snacks outlet"
+},
+{
+"id": "1o8iWWhqG09Egstln8baZV_p_qAZw62j1",
+"title": "CorporateSnackHampers",
+"type": "namkeen snacks outlet"
+},
+{
+"id": "12bFCORqPkKI9pymmSPPOLm_cUtFAsjz7",
+"title": "Poster 1 - Artisan bakery",
+"type": "artisan bakery"
+},
+{
+"id": "13MaRrL1gElllbzmbWPzyEq3H-9GNh07q",
+"title": "Poster 1 - Sweet shop",
+"type": "sweet shop"
+},
+{
+"id": "1E_NzAT6U6iBTnKWJ57HtLrIdYHp_o3k6",
+"title": "Poster 2 - Sweet shop",
+"type": "sweet shop"
+},
+{
+"id": "1zdhDZCCa2-nRDvhqo2Z7Y_H23jI39tsj",
+"title": "Poster 3 - Sweet shop",
+"type": "sweet shop"
+},
+{
+"id": "1Y8ibeI7IimGIZzW5pHgT24UNpkz8egR6",
+"title": "Sweet making workshops",
+"type": "sweet shop"
+},
+{
+"id": "1I1bTDjHlT1ne4hvEWAIVSWajAhbjTFt5",
+"title": "Temple and event supply",
+"type": "sweet shop"
+}
+]
+},
+"44": {
+"types": [
+{
+"name": "Central catering kitchen",
+"category": "Restaurants & Food",
+"chain": false,
+"idle": "Kitchen capacity between events",
+"opportunities": [
+"Factory canteen contracts",
+"School meal contracts",
+"Cloud-kitchen brands on shared lines",
+"Packaged ready meals",
+"Hospital meal supply"
+],
+"partners": "Factories, schools, hospitals",
+"hook": "Big kitchen, idle between events.",
+"budgetFocus": "Top costs: milk, vegetables, oil, gas, staff. Buy direct from farmers and producers instead of dealers; target 5 to 10% cost cut."
+}
+],
+"videos": [
+{
+"id": "1jVQijGK7CuB6lSiDxobQaDhGax6mpnCc",
+"title": "Cloud Kitchen HSR with voiceover (1)",
+"type": "cloud kitchen hsr with voiceover 1 mp4"
+}
+],
+"images": [
+{
+"id": "1s9_J8KEX4VP_4s6naum4GxKUqwy7SKjd",
+"title": "Poster 1 Cloud kitchen HSR Layout",
+"type": "cloud kitchen hsr layout"
+},
+{
+"id": "1YZGZHwpGOExrsbnckGnmOJx5lKhnIO1t",
+"title": "Poster 2 Cloud kitchen HSR Layout",
+"type": "cloud kitchen hsr layout"
+},
+{
+"id": "1zvwiFnRsprha7wPWst6T8qLpond5KQ2G",
+"title": "Poster 3 Cloud kitchen HSR Layout",
+"type": "cloud kitchen hsr layout"
+}
+]
+},
+"45": {
+"types": [
+{
+"name": "Event management company",
+"category": "Services",
+"chain": false,
+"idle": "Team between events",
+"opportunities": [
+"Weekday corporate events",
+"Venue partnerships",
+"Kids' party packages",
+"Destination events",
+"Lead-generator partner for PMB venues"
+],
+"partners": "Venues, corporates, parents",
+"hook": "Clients need venues. We have them.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+}
+],
+"videos": [],
+"images": []
+},
+"46": {
+"types": [
+{
+"name": "Photo studio",
+"category": "Services",
+"chain": false,
+"idle": "Studio on weekdays",
+"opportunities": [
+"Product photography for brands",
+"Passport and ID photo kiosk",
+"Studio rental for creators",
+"Photography workshops",
+"Wedding packages"
+],
+"partners": "D2C brands, creators, wedding planners",
+"hook": "A studio that waits for weddings.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "1qXxqOScWog7ePiTokj0DufjVC8ynkl_2",
+"title": "Product photography for brands",
+"type": "photo studio"
+},
+{
+"id": "18sRI2nC20ACVRuJMKb4onuQtF_SM2hmF",
+"title": "Studio rental for creators",
+"type": "photo studio"
+},
+{
+"id": "1zz0xwjTFSUpVVp8tMjrUzvMNQQ_u5_Rm",
+"title": "Passport and ID photo kiosk",
+"type": "photo studio"
+}
+]
+},
+"47": {
+"types": [
+{
+"name": "Sports turf",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Turf 9 AM–5 PM",
+"opportunities": [
+"Corporate leagues",
+"Coaching academies",
+"Sports café",
+"Gear retail",
+"School PE sessions"
+],
+"partners": "Corporate HR, coaches, schools",
+"hook": "Full at night. Empty at noon.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Swimming pool club",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Pool in weekday afternoons",
+"opportunities": [
+"Swimming lessons",
+"Aqua fitness",
+"Pool parties",
+"School swim programmes",
+"Lifeguard training"
+],
+"partners": "Swim coaches, schools, event planners",
+"hook": "Still water, still earning nothing.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Box cricket arena",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Arena in weekday daytime",
+"opportunities": [
+"Corporate box-cricket leagues",
+"School matches",
+"Birthday packages",
+"Café partnership",
+"Coaching for kids"
+],
+"partners": "Corporates, schools, cafés",
+"hook": "Night games. Empty days.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Table tennis academy",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Tables in school hours",
+"opportunities": [
+"Senior citizen batches",
+"Corporate leagues",
+"School coaching contracts",
+"Equipment retail",
+"Tournaments"
+],
+"partners": "Seniors, corporates, schools",
+"hook": "Tables free till 4 PM.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Fencing academy",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Hall on weekday mornings",
+"opportunities": [
+"School programmes",
+"Corporate experience days",
+"Summer camps",
+"Gear retail",
+"Competitions"
+],
+"partners": "Schools, corporates, parents",
+"hook": "A rare sport, ready for more students.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Kids' multi-sport academy",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Grounds during school hours",
+"opportunities": [
+"School PE contracts",
+"Toddler sports classes",
+"Holiday camps",
+"Birthday sports parties",
+"Gear retail"
+],
+"partners": "Schools, parents, party planners",
+"hook": "Busy after 4. Empty before.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Lake water-sports centre",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Boats and jetty on weekdays",
+"opportunities": [
+"Corporate team days",
+"School adventure trips",
+"Kayaking lessons",
+"Photo shoots",
+"Lakeside café"
+],
+"partners": "Corporates, schools, photographers",
+"hook": "A lake full of fun, quiet on weekdays.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Basketball and volleyball courts",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Courts in the daytime",
+"opportunities": [
+"Corporate leagues",
+"School coaching",
+"Weekend tournaments",
+"3x3 events with brands",
+"Fitness bootcamps"
+],
+"partners": "Corporates, schools, brands",
+"hook": "Courts that wait for evening.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Laser tag arena",
+"category": "Entertainment",
+"chain": false,
+"idle": "Arena in weekday daytime",
+"opportunities": [
+"Corporate team building",
+"School trips",
+"Birthday packages",
+"College events",
+"Fitness games"
+],
+"partners": "Corporates, schools, colleges",
+"hook": "Lights off till the weekend.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+},
+{
+"name": "Tennis and squash academy",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Courts in the late morning",
+"opportunities": [
+"Corporate memberships",
+"Senior and women's batches",
+"School coaching contracts",
+"Racket retail and stringing",
+"Weekend tournaments"
+],
+"partners": "Corporates, schools, brands",
+"hook": "Courts empty while the city works.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Skating rink",
+"category": "Fitness & Wellness",
+"chain": false,
+"idle": "Rink in school hours",
+"opportunities": [
+"School skating programmes",
+"Birthday parties",
+"Corporate fun days",
+"Gear retail and rental",
+"Competitions"
+],
+"partners": "Schools, party planners, corporates",
+"hook": "Wheels roll after school. Before school, nothing.",
+"budgetFocus": "Top costs: power, equipment maintenance, products, staff. Solar, shared trainers, direct product sourcing."
+},
+{
+"name": "Chess academy",
+"category": "Education",
+"chain": false,
+"idle": "Hall in the mornings",
+"opportunities": [
+"Senior citizen chess clubs",
+"School programmes",
+"Online coaching",
+"Tournaments",
+"Corporate chess events"
+],
+"partners": "Schools, RWAs, corporates",
+"hook": "More moves, more students.",
+"budgetFocus": "Top costs: transport, power, stationery, maintenance. Shared buses, solar, bulk stationery."
+},
+{
+"name": "Beauty academy",
+"category": "Services",
+"chain": false,
+"idle": "Training rooms on weekends",
+"opportunities": [
+"Bridal makeup courses",
+"Salon staff training",
+"Corporate grooming workshops",
+"Product partnerships",
+"Placement with salons"
+],
+"partners": "Salons, brands, corporates",
+"hook": "Train the stylists every salon needs.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+}
+],
+"videos": [
+{
+"id": "1eWSWRJRPNMEM5Sq7XzP-0UQrCC6N0EHp",
+"title": "PMB.Whitefield.KidsMultiSportAcademy.021 30sec Video",
+"type": "kids multi sport academy"
+},
+{
+"id": "1QxHyCMcXn_npDXUuA5lLaz3ISi3elB45",
+"title": "PMB.Koramangala.BasketballAndVolleyballCourts.023 30sec Video",
+"type": "basketball and volleyball courts"
+},
+{
+"id": "1P1L78rUKJlgw4SzB4SCgWBN_8EpJ0pEk",
+"title": "PMB.Basavanagudi.TableTennisAcademy.018 30sec Video",
+"type": "table tennis academy"
+},
+{
+"id": "1iDPyRpeH8qWMbgM0CAVm4nOZFgfF3JrQ",
+"title": "PMB.Hesaraghatta.LakeWaterSportsCentre.022 30sec Video",
+"type": "lake water sports centre"
+},
+{
+"id": "197FfKt2Eht_6L-QzMc6AIBK-ROwX5sr2",
+"title": "PMB.Indiranagar.FencingAcademy.019 30sec Video",
+"type": "fencing academy"
+},
+{
+"id": "1cgcwVtjT4nWDPF2ATbUhJpJqcBqYIZP4",
+"title": "PMB.KalyanNagar.BoxCricketArena.017 30sec Video",
+"type": "box cricket arena"
+}
+],
+"images": [
+{
+"id": "1tjvZDVBwEa7vVO1GA1eZDvweGsMxvo4U",
+"title": "GearRetail",
+"type": "fencing academy"
+},
+{
+"id": "1HD8Qu8K4zTU-SLL0RIwozFqNGEbBdoi4",
+"title": "SchoolCoaching",
+"type": "basketball and volleyball courts"
+},
+{
+"id": "1ltmaIyK4ZtwZ9-NXVs1-TFOVWfrmpPDr",
+"title": "CorporateExperienceDays",
+"type": "fencing academy"
+},
+{
+"id": "1UcGp36tNsMbnGrilD0fRL-FztJXyKY6X",
+"title": "CorporateBox-CricketLeagues",
+"type": "box cricket arena"
+},
+{
+"id": "1DUpYvZDta4Ia50pmQkB3xOvY2IsO8bZd",
+"title": "SummerCamps",
+"type": "fencing academy"
+},
+{
+"id": "13-azdeQeKXqKLjNjsG6zk8KYrlxryoAB",
+"title": "EquipmentRetail",
+"type": "table tennis academy"
+},
+{
+"id": "1Qw3qqDOYcVPnzrlmkD_x1ZDeJngHkp-D",
+"title": "SeniorCitizenBatches",
+"type": "table tennis academy"
+},
+{
+"id": "1sYZ9M4xgcVUw1iBa6F02E37oZHRuI7T1",
+"title": "LakesideCafe",
+"type": "lake water sports centre"
+},
+{
+"id": "1sB29-w1wHAUZrLijfYAg5RCuylEbFTN4",
+"title": "CorporateLeagues",
+"type": "table tennis academy"
+},
+{
+"id": "12qN9O3KkUFUd_0bVytCcySQVxjVM6M-a",
+"title": "CorporateTeamDays",
+"type": "lake water sports centre"
+},
+{
+"id": "1Ux4oOS-yIduPb6iIuUjN5NiRNfTuuvjw",
+"title": "SchoolPEContracts",
+"type": "kids multi sport academy"
+},
+{
+"id": "1g42at4Of-YCG3lH6arJZSgQ2dfpzdxFO",
+"title": "CorporateLeagues",
+"type": "basketball and volleyball courts"
+},
+{
+"id": "1qJGfg8qIlCFfYCIB9Mm2lje2J2bv29Tx",
+"title": "BirthdayPackages",
+"type": "box cricket arena"
+},
+{
+"id": "16RttEJ4rw89cDwfTTDEbxgbDu-_0tsot",
+"title": "HolidayCamps",
+"type": "kids multi sport academy"
+},
+{
+"id": "1ytOfYsPSFjNWdsTlG5kHFGLL-M7JAvGP",
+"title": "ToddlerSportsClasses",
+"type": "kids multi sport academy"
+},
+{
+"id": "1MRNG55gR2xZnY_7vDX1K6YA77fpVzRBh",
+"title": "FitnessBootcamps",
+"type": "basketball and volleyball courts"
+},
+{
+"id": "1oOcSFtGXvpSkTu0OPyhcVfJzxLBYEPOT",
+"title": "CoachingforKids",
+"type": "box cricket arena"
+},
+{
+"id": "1Ya8ye8qGrOJ0WZ_ugJx1n3edzSQw_fjg",
+"title": "SchoolMatches",
+"type": "box cricket arena"
+},
+{
+"id": "1MyxFn9v4wul6GBSQqA11l7L2rq4fLoz9",
+"title": "KayakingLessons",
+"type": "lake water sports centre"
+},
+{
+"id": "1aaFjDY6Xb_sjZc9F94x0a_hYb6Y9Mrlv",
+"title": "CafePartnership",
+"type": "box cricket arena"
+},
+{
+"id": "1BXz4Jg0G07q6HrOWjPfxGdHM5PuI2Ixx",
+"title": "BirthdaySportsParties",
+"type": "kids multi sport academy"
+},
+{
+"id": "1wdGvBGH7HmJBHtxne8Cyt9GFgzlfcyfs",
+"title": "GearRetail",
+"type": "kids multi sport academy"
+},
+{
+"id": "1Pe7JhDAc0SBJZICO8o_42G2uzu8lmBws",
+"title": "3x3EventswithBrands",
+"type": "basketball and volleyball courts"
+},
+{
+"id": "1319rgSRol5SfRkVRm07bO5ydgzAWh4Ab",
+"title": "Competitions",
+"type": "fencing academy"
+},
+{
+"id": "1rvQt3hMilhZWMoUmNVEXK-xlpTPTf0rD",
+"title": "SchoolProgrammes",
+"type": "fencing academy"
+},
+{
+"id": "14Dq9wUyeyDTBGCRhMesq8CogbsuzENVw",
+"title": "SchoolCoachingContracts",
+"type": "table tennis academy"
+},
+{
+"id": "1Wxj39YNioBP8EHz7zTMHm3A3CijrwBL8",
+"title": "WeekendTournaments",
+"type": "basketball and volleyball courts"
+},
+{
+"id": "1Paa4q53oKpaOGsCr4nP2PD0plR1T5NTI",
+"title": "PhotoShoots",
+"type": "lake water sports centre"
+},
+{
+"id": "192HfA5N1jSGvLVqjXwyPtAiMUnF_VEbG",
+"title": "Tournaments",
+"type": "table tennis academy"
+},
+{
+"id": "1Ba3qDbp_ppkVxbycHpaVDekkIpsXMkhV",
+"title": "SchoolAdventureTrips",
+"type": "lake water sports centre"
+},
+{
+"id": "1UM8RtkH17NI-VMjT4tfQrfdOk0cTS9pl",
+"title": "Aqua fitness",
+"type": "swimming pool club"
+},
+{
+"id": "1Vq_D3I8lbPAHkhx2KJuxFTkQeXT-7_8N",
+"title": "Pool parties",
+"type": "swimming pool club"
+},
+{
+"id": "15SLsXMt72l5fdt4NP3FrneCFToND5Tfx",
+"title": "Sports caf",
+"type": "sports caf"
+},
+{
+"id": "1srpAv4kYtC6MVa28ylIn3bfuJWPKnMnI",
+"title": "Gear retail",
+"type": "sports turf"
+},
+{
+"id": "1VQId0a1X22z7_umcqVNMlMuxbrUnaP33",
+"title": "School PE sessions",
+"type": "sports turf"
+}
+]
+},
+"48": {
+"types": [
+{
+"name": "Mini-golf course",
+"category": "Entertainment",
+"chain": false,
+"idle": "Course on weekday mornings",
+"opportunities": [
+"Corporate team days",
+"Birthday parties",
+"School outings",
+"Café partnership",
+"Leagues"
+],
+"partners": "Corporates, schools, cafés",
+"hook": "Fun on weekends, empty on weekdays.",
+"budgetFocus": "Top costs: power, staff, F&B stock, maintenance. Solar, shared event staff, direct F&B sourcing."
+}
+],
+"videos": [],
+"images": []
+},
+"49": {
+"types": [
+{
+"name": "Laundry / dry cleaner",
+"category": "Services",
+"chain": false,
+"idle": "Machines at night",
+"opportunities": [
+"Apartment pickup points",
+"PG and co-living contracts",
+"Hotel linen contracts",
+"Shoe and bag cleaning",
+"Subscription plans"
+],
+"partners": "RWAs, co-livings, hotels",
+"hook": "Machines run half the day.",
+"budgetFocus": "Top costs: materials, rent, power, staff. Bulk material buying, shared space and transport."
+}
+],
+"videos": [],
+"images": [
+{
+"id": "143mN_920kxhr5-r0llwkfe3sBZ_wIF3z",
+"title": "Hotel linen contracts",
+"type": "laundry dry cleaner"
+}
+]
+},
+"51": {
+"types": [
+{
+"name": "Esports coach",
+"category": "Education & Coaching",
+"chain": false,
+"idle": "Daytime",
+"opportunities": [
+"Gaming-zone coaching",
+"College esports teams",
+"Tournaments",
+"Streaming workshops",
+"Online coaching"
+],
+"partners": "Gaming zones, colleges, brands",
+"hook": "Gaming is a skill people pay to learn.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+},
+{
+"name": "Montessori teacher",
+"category": "Education & Coaching",
+"chain": false,
+"idle": "Afternoons",
+"opportunities": [
+"Preschool tie-ups",
+"Parent workshops",
+"Home tutoring",
+"Summer camps",
+"Teacher training"
+],
+"partners": "Preschools, parents, schools",
+"hook": "Early learning, more families.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+},
+{
+"name": "Special educator",
+"category": "Education & Coaching",
+"chain": false,
+"idle": "Free slots",
+"opportunities": [
+"School inclusion programmes",
+"Home sessions",
+"Parent training",
+"Online sessions",
+"Therapy-centre tie-ups"
+],
+"partners": "Schools, parents, therapy centres",
+"hook": "Support more children who need it.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"55": {
+"types": [
+{
+"name": "Senior fitness trainer",
+"category": "Sports & Fitness",
+"chain": false,
+"idle": "Afternoons",
+"opportunities": [
+"Senior centre classes",
+"Apartment senior batches",
+"Home visits",
+"Physio tie-ups",
+"Online classes"
+],
+"partners": "Senior centres, RWAs, physios",
+"hook": "Active ageing is a growing need.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"58": {
+"types": [
+{
+"name": "Massage therapist",
+"category": "Beauty & Wellness",
+"chain": false,
+"idle": "Weekdays",
+"opportunities": [
+"Spa partnerships",
+"Corporate chair massage",
+"Home visits",
+"Gym recovery tie-ups",
+"Hotel in-room services"
+],
+"partners": "Spas, corporates, hotels",
+"hook": "Relief that clients book again.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"67": {
+"types": [
+{
+"name": "Property valuer",
+"category": "Finance & Property",
+"chain": false,
+"idle": "Spare hours",
+"opportunities": [
+"JV deal valuations",
+"Bank loan valuations",
+"Idle-property assessments",
+"Rental valuations",
+"Workshops for landowners"
+],
+"partners": "Landowners, banks, builders",
+"hook": "Know what every property can earn.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+},
+{
+"name": "Land surveyor",
+"category": "Finance & Property",
+"chain": false,
+"idle": "Gaps between jobs",
+"opportunities": [
+"JV land surveys",
+"Plot demarcation",
+"Farm-stay planning",
+"Solar-farm site surveys",
+"Training assistants"
+],
+"partners": "Landowners, builders, solar firms",
+"hook": "Every land deal starts with a survey.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"79": {
+"types": [
+{
+"name": "GST practitioner",
+"category": "Finance & Property",
+"chain": false,
+"idle": "Off-peak months",
+"opportunities": [
+"GST filing for small businesses",
+"Partnership invoicing setup",
+"E-invoice training",
+"Compliance health checks",
+"Online consultations"
+],
+"partners": "Small businesses, PMB partners, startups",
+"hook": "Clean GST for every new revenue stream.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"80": {
+"types": [
+{
+"name": "Patent and trademark agent",
+"category": "Professional Services",
+"chain": false,
+"idle": "Spare hours",
+"opportunities": [
+"Trademarks for new partner brands",
+"Startup IP packages",
+"IP workshops",
+"Packaged-product brand filings",
+"Online consultations"
+],
+"partners": "Startups, PMB partners, D2C brands",
+"hook": "Every new brand needs protection.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"89": {
+"types": [
+{
+"name": "Mascot performer",
+"category": "Events",
+"chain": false,
+"idle": "Weekdays",
+"opportunities": [
+"Kids' birthday parties",
+"Mall promotions",
+"School events",
+"Brand activations",
+"Restaurant party packages"
+],
+"partners": "Restaurants, malls, brands",
+"hook": "Every kids' party needs a star.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"92": {
+"types": [
+{
+"name": "Fondant cake artist",
+"category": "Food Professionals",
+"chain": false,
+"idle": "Weekdays",
+"opportunities": [
+"Custom celebration cakes",
+"Bakery partnerships",
+"Cake-decorating workshops",
+"Wedding cakes",
+"Online orders"
+],
+"partners": "Bakeries, wedding planners, parents",
+"hook": "Cakes that become the centre of the party.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+},
+{
+"name": "Saree draping artist",
+"category": "Beauty & Fashion",
+"chain": false,
+"idle": "Weekdays",
+"opportunities": [
+"Wedding draping packages",
+"Saree showroom tie-ups",
+"Photo-shoot styling",
+"Draping workshops",
+"Corporate event draping"
+],
+"partners": "Saree showrooms, brides, photographers",
+"hook": "Every bride needs a perfect drape.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+},
+{
+"name": "Caricature artist",
+"category": "Events",
+"chain": false,
+"idle": "Weekdays",
+"opportunities": [
+"Wedding live caricatures",
+"Corporate events",
+"Mall weekend stalls",
+"Custom gift portraits",
+"Workshops"
+],
+"partners": "Wedding planners, corporates, malls",
+"hook": "A live act every guest remembers.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"93": {
+"types": [
+{
+"name": "Hip-hop dance instructor",
+"category": "Creative",
+"chain": false,
+"idle": "Mornings",
+"opportunities": [
+"Apartment batches",
+"School programmes",
+"Corporate events",
+"Wedding sangeet acts",
+"Online classes"
+],
+"partners": "RWAs, schools, wedding planners",
+"hook": "Moves that more people want to learn.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+},
+{
+"name": "Wedding choreographer",
+"category": "Events",
+"chain": false,
+"idle": "Off-season",
+"opportunities": [
+"Sangeet choreography",
+"Corporate event acts",
+"Hall partnerships",
+"Group dance workshops",
+"Online tutorials"
+],
+"partners": "Wedding planners, halls, corporates",
+"hook": "Every sangeet needs a choreographer.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"94": {
+"types": [
+{
+"name": "Kabaddi coach",
+"category": "Sports & Fitness",
+"chain": false,
+"idle": "Mornings",
+"opportunities": [
+"School kabaddi programmes",
+"Corporate tournaments",
+"Akhada coaching",
+"Summer camps",
+"Fitness bootcamps"
+],
+"partners": "Schools, corporates, akhadas",
+"hook": "India's game, more players.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+},
+{
+"name": "Basketball coach",
+"category": "Sports & Fitness",
+"chain": false,
+"idle": "Weekday mornings",
+"opportunities": [
+"Apartment court batches",
+"School programmes",
+"Corporate leagues",
+"Summer camps",
+"3x3 events"
+],
+"partners": "RWAs, schools, corporates",
+"hook": "Coach on every empty court.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+},
+{
+"name": "Lifeguard",
+"category": "Sports & Fitness",
+"chain": false,
+"idle": "Off shifts",
+"opportunities": [
+"Apartment pool duty",
+"Event and pool-party safety",
+"Swimming lessons",
+"Lifeguard training",
+"Water-sports centre shifts"
+],
+"partners": "RWAs, event managers, clubs",
+"hook": "Every pool needs a lifeguard.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"95": {
+"types": [
+{
+"name": "Pet sitter",
+"category": "Pet Care",
+"chain": false,
+"idle": "Free days",
+"opportunities": [
+"Home pet-sitting",
+"Dog walking groups",
+"Pet-clinic referrals",
+"Holiday boarding",
+"Pet-party hosting"
+],
+"partners": "Pet clinics, RWAs, pet shops",
+"hook": "Pets need care when owners travel.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+},
+"98": {
+"types": [
+{
+"name": "Sign language interpreter",
+"category": "Professional Services",
+"chain": false,
+"idle": "Spare hours",
+"opportunities": [
+"Corporate meetings",
+"Events and conferences",
+"Hospital support",
+"Online interpreting",
+"Sign language classes"
+],
+"partners": "Corporates, event managers, hospitals",
+"hook": "Making every event inclusive.",
+"budgetFocus": "Top costs: materials, travel, marketing. Shared venues through PMB, bulk material buying, one marketing platform."
+}
+],
+"videos": [],
+"images": []
+}
+}
+}

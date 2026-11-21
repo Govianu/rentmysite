@@ -1,0 +1,4636 @@
+{
+"sectors": [
+{
+"id": 1,
+"t": "b",
+"n": "Restaurants & QSRs",
+"cat": "Food & Hospitality",
+"p": [
+"Sauces, spice mixes and meal kits",
+"The tableware guests eat from",
+"Partner bakery desserts",
+"Gift hampers"
+],
+"s": [
+"Dining memberships",
+"Weekly meal subscriptions",
+"Celebration packages",
+"Idle-hour kitchen for a delivery brand"
+],
+"c": [
+"Chefs",
+"Bakers & Pastry Professionals",
+"Musicians & DJs",
+"Content Creators & Influencers",
+"Photographers"
+],
+"a": "Dining room on slow days, kitchen in idle hours, daily footfall",
+"e": "A chef runs a delivery brand from your kitchen in idle hours and you share the revenue.",
+"g": "food",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "restaurant"
+},
+{
+"id": 2,
+"t": "b",
+"n": "Hotels & Resorts",
+"cat": "Hospitality",
+"p": [
+"Robes, linen and signature scents",
+"Local artisan crafts",
+"Spa products used in rooms",
+"Minibar from local food brands"
+],
+"s": [
+"Daycation and pool passes",
+"Memberships for local residents",
+"Chef's table dinners",
+"Guest experiences and tours"
+],
+"c": [
+"Yoga Instructors",
+"Photographers",
+"Massage Therapists",
+"Tour Guides",
+"Event Planners"
+],
+"a": "Rooms at low occupancy, pool, banquet halls, lawns",
+"e": "A yoga instructor runs sunrise sessions for guests and locals on revenue share.",
+"g": "venue",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "hotel"
+},
+{
+"id": 3,
+"t": "b",
+"n": "Cafés & Coffee Shops",
+"cat": "Food & Hospitality",
+"p": [
+"House beans and drip bags",
+"Brewing gear and mugs",
+"Partner bakery counter",
+"Local art and books"
+],
+"s": [
+"Monthly coffee pass",
+"Office coffee subscription",
+"Work-from-café passes",
+"Private evening hire"
+],
+"c": [
+"Bakers & Pastry Professionals",
+"Content Creators & Influencers",
+"Artists & Illustrators",
+"Co-Working Spaces",
+"Musicians & DJs"
+],
+"a": "Seating in quiet hours, display shelves, kitchen, walls",
+"e": "A baker runs a weekend dessert counter and classes in your café.",
+"g": "food",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "café"
+},
+{
+"id": 4,
+"t": "b",
+"n": "Gyms & Fitness Centers",
+"cat": "Fitness",
+"p": [
+"Protein shakes and supplements",
+"Healthy meal boxes",
+"Activewear",
+"Recovery gear"
+],
+"s": [
+"Physiotherapy and recovery room",
+"Nutrition coaching plans",
+"Sauna and recovery sessions",
+"Personal training packs"
+],
+"c": [
+"Physiotherapists",
+"Nutritionists & Dietitians",
+"Personal Fitness Trainers",
+"Yoga Instructors",
+"Massage Therapists"
+],
+"a": "Spare room, floor in off-peak hours, member base",
+"e": "A physiotherapist runs a recovery room for your members on revenue share.",
+"g": "wellness",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "gym"
+},
+{
+"id": 5,
+"t": "b",
+"n": "Spas & Wellness Centers",
+"cat": "Wellness",
+"p": [
+"Oils and skincare used in treatments",
+"Candles and diffusers",
+"Herbal teas and wellness foods",
+"Sleep aids"
+],
+"s": [
+"Monthly wellness memberships",
+"Infrared sauna sessions",
+"Couples' packages and gift cards",
+"Meditation and sound-bath sessions"
+],
+"c": [
+"Massage Therapists",
+"Yoga Instructors",
+"Nutritionists & Dietitians",
+"Beauticians & Estheticians",
+"Hotels & Resorts"
+],
+"a": "Treatment rooms in quiet hours, reception retail space",
+"e": "A yoga instructor runs weekend sound-bath sessions in a free treatment room.",
+"g": "wellness",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "spa"
+},
+{
+"id": 6,
+"t": "b",
+"n": "Beauty Salons",
+"cat": "Beauty",
+"p": [
+"Hair and skin care used in the service",
+"Styling tools",
+"Cosmetics and fragrance",
+"Hair accessories"
+],
+"s": [
+"Grooming memberships",
+"Bridal and party packages",
+"At-home visits",
+"Specialist treatment room"
+],
+"c": [
+"Beauticians & Estheticians",
+"Makeup Artists",
+"Hair Stylists",
+"Wedding Planners",
+"Photographers"
+],
+"a": "Spare chairs and rooms, counter space, client base",
+"e": "A beautician runs a specialist treatment room inside the salon on revenue share.",
+"g": "wellness",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "beauty salon"
+},
+{
+"id": 7,
+"t": "b",
+"n": "Barber Shops",
+"cat": "Beauty",
+"p": [
+"Beard and grooming kits",
+"Hair styling products",
+"Fragrances",
+"Razors and trimmers"
+],
+"s": [
+"Grooming memberships",
+"Groom's wedding packages",
+"Home and office visits",
+"Scalp and skin care"
+],
+"c": [
+"Hair Stylists",
+"Wedding Planners",
+"Photographers",
+"Gyms & Fitness Centers",
+"Retail Boutiques & Clothing Stores"
+],
+"a": "Chairs in quiet hours, waiting area, loyal regulars",
+"e": "A menswear boutique places a grooming-and-style shelf in your waiting area on consignment.",
+"g": "wellness",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "barber shop"
+},
+{
+"id": 8,
+"t": "b",
+"n": "Shopping Malls",
+"cat": "Retail Real Estate",
+"p": [
+"Pop-up kiosks for D2C brands",
+"Seasonal markets",
+"Mall gift cards",
+"Vending"
+],
+"s": [
+"Event space hire",
+"Creator meet-and-shop events",
+"Kids' activity zones",
+"Advertising screens"
+],
+"c": [
+"Content Creators & Influencers",
+"Event Planners",
+"Musicians & DJs",
+"Artists & Illustrators",
+"Sports Coaches"
+],
+"a": "Atriums, corridors, terraces, parking, screens",
+"e": "A content creator hosts a meet-and-shop pop-up and brings their audience and brands to the atrium.",
+"g": "retail",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "shopping mall"
+},
+{
+"id": 9,
+"t": "b",
+"n": "Supermarkets & Grocery Stores",
+"cat": "Retail",
+"p": [
+"Featured shelf for local food brands",
+"Ready-to-cook kits from restaurants",
+"Fresh bakery counter",
+"Pet food aisle"
+],
+"s": [
+"Weekly essentials subscription",
+"Delivery membership",
+"Tastings and demos paid by brands",
+"Parcel lockers"
+],
+"c": [
+"Chefs",
+"Bakers & Pastry Professionals",
+"Nutritionists & Dietitians",
+"Cloud Kitchens",
+"Pharmacies"
+],
+"a": "Shelf ends, entrance space, parking, daily footfall",
+"e": "A nutritionist runs a healthy-basket desk, earns from consultations, and you sell the basket.",
+"g": "retail",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "supermarket"
+},
+{
+"id": 10,
+"t": "b",
+"n": "Petrol Stations",
+"cat": "Mobility Retail",
+"p": [
+"Convenience store",
+"Car care and accessories",
+"Food counter by a restaurant partner",
+"Travel essentials"
+],
+"s": [
+"Express car wash subscription",
+"EV charging",
+"Tyre and quick-check service",
+"Parcel lockers"
+],
+"c": [
+"Auto Repair & Service Garages",
+"Cafés & Coffee Shops",
+"Restaurants & QSRs",
+"Logistics & Courier Services",
+"Insurance Advisers"
+],
+"a": "Forecourt space, vehicle traffic, long opening hours",
+"e": "A café brand runs a counter on your forecourt and shares revenue.",
+"g": "retail",
+"r": "fuel",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "petrol station"
+},
+{
+"id": 11,
+"t": "b",
+"n": "Co-Working Spaces",
+"cat": "Workspace",
+"p": [
+"Coffee and snack micro-market",
+"Ergonomic chairs and accessories",
+"Stationery and printing",
+"Healthy meal boxes"
+],
+"s": [
+"Day passes and meeting rooms",
+"Virtual office",
+"Podcast and content studio",
+"Finance, legal and HR clinics"
+],
+"c": [
+"Accountants",
+"Lawyers",
+"HR Consultants",
+"IT Consultants",
+"Photographers"
+],
+"a": "Meeting rooms, event area, member companies",
+"e": "An accountant runs a weekly SME finance clinic in a meeting room and pays a room fee.",
+"g": "property",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "co-working space"
+},
+{
+"id": 12,
+"t": "b",
+"n": "Office Buildings",
+"cat": "Commercial Real Estate",
+"p": [
+"Vending and coffee kiosks",
+"Healthy meal boxes",
+"Convenience store",
+"Parcel lockers"
+],
+"s": [
+"Employee wellness classes",
+"Car wash in the parking",
+"Dry-cleaning pick-up",
+"EV charging"
+],
+"c": [
+"Yoga Instructors",
+"Personal Fitness Trainers",
+"Laundry & Dry-Cleaning Businesses",
+"Cafés & Coffee Shops",
+"Physiotherapists"
+],
+"a": "Lobby, terrace, parking, common rooms, tenant employees",
+"e": "A yoga instructor runs employee wellness classes on a B2B subscription.",
+"g": "property",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "office building"
+},
+{
+"id": 13,
+"t": "b",
+"n": "Residential Communities",
+"cat": "Residential",
+"p": [
+"Weekend brand markets",
+"Grocery and milk subscription point",
+"Vending and coffee kiosks",
+"Parcel lockers"
+],
+"s": [
+"Clubhouse classes",
+"Doorstep car wash",
+"Salon and spa at home",
+"Kids' camps"
+],
+"c": [
+"Personal Fitness Trainers",
+"Yoga Instructors",
+"Dance Instructors",
+"Teachers & Tutors",
+"Sports Coaches"
+],
+"a": "Clubhouse, courts, lawns, notice boards, resident app",
+"e": "A fitness trainer runs a resident membership in the clubhouse on subscription share.",
+"g": "property",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "residential community"
+},
+{
+"id": 14,
+"t": "b",
+"n": "Movie Theaters & Multiplexes",
+"cat": "Entertainment",
+"p": [
+"Co-branded snacks and merchandise",
+"Gift cards",
+"Local food brand counters",
+"Collectibles"
+],
+"s": [
+"Private screenings",
+"Corporate events in auditoriums by day",
+"Gaming and esports nights",
+"On-screen advertising"
+],
+"c": [
+"Event Planners",
+"Content Creators & Influencers",
+"Restaurants & QSRs",
+"Schools",
+"Musicians & DJs"
+],
+"a": "Auditoriums in morning hours, lobby, screens",
+"e": "An event planner sells private morning screenings to companies and schools.",
+"g": "venue",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "cinema"
+},
+{
+"id": 15,
+"t": "b",
+"n": "Banquet Halls",
+"cat": "Events",
+"p": [
+"Decor and gifting add-ons",
+"Cakes and dessert tables",
+"Return gifts",
+"Floral packages"
+],
+"s": [
+"Weekday corporate events",
+"Classes and exhibitions on idle days",
+"Photo and video packages",
+"Makeup and styling rooms"
+],
+"c": [
+"Wedding Planners",
+"Photographers",
+"Makeup Artists",
+"Bakers & Pastry Professionals",
+"Musicians & DJs"
+],
+"a": "Halls on weekdays, kitchen, lawns, parking",
+"e": "A wedding planner bundles your hall with a photographer and makeup artist, and everyone shares the package.",
+"g": "venue",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "banquet hall"
+},
+{
+"id": 16,
+"t": "b",
+"n": "Convention & Exhibition Centers",
+"cat": "Events",
+"p": [
+"Exhibitor kits and printing",
+"Food courts by local brands",
+"Merchandise",
+"Business lounge passes"
+],
+"s": [
+"Weekday training and exams",
+"Pop-up markets",
+"Content studios for exhibitors",
+"Exhibitor logistics"
+],
+"c": [
+"Event Planners",
+"Graphic Designers",
+"Videographers",
+"Logistics & Courier Services",
+"Translators & Language Trainers"
+],
+"a": "Halls between shows, meeting rooms, loading bays, parking",
+"e": "A videographer runs an on-site content studio for exhibitors on revenue share.",
+"g": "venue",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "convention centre"
+},
+{
+"id": 17,
+"t": "b",
+"n": "Schools",
+"cat": "Education",
+"p": [
+"Books, uniforms and stationery",
+"Learning kits",
+"Healthy tuck shop",
+"Sports gear"
+],
+"s": [
+"After-school academy",
+"Holiday camps",
+"Sports coaching",
+"Weekend hall and ground hire"
+],
+"c": [
+"Teachers & Tutors",
+"Sports Coaches",
+"Dance Instructors",
+"Musicians & DJs",
+"Nutritionists & Dietitians"
+],
+"a": "Classrooms after 3 pm, grounds, auditorium, buses",
+"e": "Tutors run an after-school academy in your classrooms on revenue share.",
+"g": "education",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "school"
+},
+{
+"id": 18,
+"t": "b",
+"n": "Colleges & Universities",
+"cat": "Education",
+"p": [
+"Campus store and merchandise",
+"Devices and software on student plans",
+"Food courts",
+"Print and stationery"
+],
+"s": [
+"Certificate courses",
+"Placement training",
+"Hostel and hall hire in vacations",
+"Sports and fitness memberships"
+],
+"c": [
+"IT Consultants",
+"Software Developers",
+"Recruiters",
+"Translators & Language Trainers",
+"Personal Fitness Trainers"
+],
+"a": "Classrooms in evenings, labs, auditoriums, hostels in vacations",
+"e": "A software developer runs a weekend coding certificate in your labs on revenue share.",
+"g": "education",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "college"
+},
+{
+"id": 19,
+"t": "b",
+"n": "Daycare & Early Learning Centers",
+"cat": "Education",
+"p": [
+"Educational toys and kits",
+"Children's books",
+"Healthy snack boxes",
+"Kids' clothing"
+],
+"s": [
+"After-school and holiday camps",
+"Parents' night out",
+"Birthday party hosting",
+"Hobby classes"
+],
+"c": [
+"Teachers & Tutors",
+"Dance Instructors",
+"Photographers",
+"Bakers & Pastry Professionals",
+"Nutritionists & Dietitians"
+],
+"a": "Rooms in evenings and weekends, play areas, parent community",
+"e": "A dance instructor runs weekend classes in your activity room on revenue share.",
+"g": "education",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "daycare centre"
+},
+{
+"id": 20,
+"t": "b",
+"n": "Hospitals",
+"cat": "Healthcare",
+"p": [
+"Non-prescription health devices",
+"Mobility aids",
+"Nutrition products",
+"Mother-and-baby kits"
+],
+"s": [
+"Health check packages",
+"Home care and physiotherapy at home",
+"Wellness programmes",
+"Cafeteria and retail spaces on rent"
+],
+"c": [
+"Physiotherapists",
+"Nutritionists & Dietitians",
+"Pharmacies",
+"Diagnostic Centers",
+"Insurance Advisers"
+],
+"a": "Lobby retail space, waiting areas, parking, cafeterias",
+"e": "A licensed pharmacy rents your lobby counter. Rent only, never a commission on prescriptions.",
+"g": "health",
+"r": "health",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "hospital"
+},
+{
+"id": 21,
+"t": "b",
+"n": "Independent Medical Clinics",
+"cat": "Healthcare",
+"p": [
+"Home health devices",
+"Mobility and support aids",
+"Nutrition and wellness foods",
+"First-aid kits"
+],
+"s": [
+"Health check packages",
+"Chronic-care subscriptions",
+"Teleconsult plans",
+"Vaccination and home sample collection"
+],
+"c": [
+"Nutritionists & Dietitians",
+"Physiotherapists",
+"Pharmacies",
+"Diagnostic Centers",
+"Yoga Instructors"
+],
+"a": "Spare consulting room, waiting area, patient base",
+"e": "A nutritionist rents your spare room for clinic days. Room rent, not a referral fee.",
+"g": "health",
+"r": "health",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "clinic"
+},
+{
+"id": 22,
+"t": "b",
+"n": "Dental Clinics",
+"cat": "Healthcare",
+"p": [
+"Electric toothbrushes and water flossers",
+"Whitening kits",
+"Aligner care kits",
+"Kids' oral care packs"
+],
+"s": [
+"Preventive care membership",
+"Whitening sessions",
+"Aligner plans",
+"Kids' dental club"
+],
+"c": [
+"Schools",
+"Gyms & Fitness Centers",
+"Sports Coaches",
+"Photographers",
+"Daycare & Early Learning Centers"
+],
+"a": "Second chair on quiet days, waiting area",
+"e": "A visiting orthodontist uses your second chair on set days and pays a facility fee.",
+"g": "health",
+"r": "health",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "dental clinic"
+},
+{
+"id": 23,
+"t": "b",
+"n": "Diagnostic Centers",
+"cat": "Healthcare",
+"p": [
+"Home test kits",
+"Health devices",
+"Wellness foods",
+"Health wearables"
+],
+"s": [
+"Corporate health check camps",
+"Home sample collection",
+"Subscription check-ups",
+"Collection desks inside clinics and pharmacies"
+],
+"c": [
+"Independent Medical Clinics",
+"Pharmacies",
+"Gyms & Fitness Centers",
+"Office Buildings",
+"Residential Communities"
+],
+"a": "Collection rooms, vans, lab capacity at night",
+"e": "You rent a collection desk inside a pharmacy for a flat monthly rent.",
+"g": "health",
+"r": "health",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "diagnostic centre"
+},
+{
+"id": 24,
+"t": "b",
+"n": "Pharmacies",
+"cat": "Healthcare Retail",
+"p": [
+"Wellness and nutrition",
+"Derma-cosmetic skincare",
+"Baby care",
+"Health devices"
+],
+"s": [
+"Medicine refill subscription",
+"Delivery membership",
+"Health check kiosk",
+"Senior care plan"
+],
+"c": [
+"Diagnostic Centers",
+"Nutritionists & Dietitians",
+"Residential Communities",
+"Gyms & Fitness Centers",
+"Pet Care & Veterinary Clinics"
+],
+"a": "Counter space, delivery riders, neighbourhood footfall",
+"e": "A diagnostics chain rents a sample pick-up desk in your store for a flat rent.",
+"g": "health",
+"r": "health",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "pharmacy"
+},
+{
+"id": 25,
+"t": "b",
+"n": "Physiotherapy & Rehabilitation Centers",
+"cat": "Healthcare",
+"p": [
+"Braces and supports",
+"Recovery tools",
+"Mobility aids",
+"Ergonomic products"
+],
+"s": [
+"Sports rehab programmes",
+"Corporate ergonomics",
+"Home visits",
+"Pilates and mobility classes"
+],
+"c": [
+"Gyms & Fitness Centers",
+"Sports Clubs & Academies",
+"Personal Fitness Trainers",
+"Yoga Instructors",
+"Office Buildings"
+],
+"a": "Treatment rooms in quiet hours, exercise studio",
+"e": "A gym hosts your satellite physio room and its members book you on revenue share.",
+"g": "wellness",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "physiotherapy centre"
+},
+{
+"id": 26,
+"t": "b",
+"n": "Pet Care & Veterinary Clinics",
+"cat": "Pet Care",
+"p": [
+"Food and treat subscriptions",
+"Toys, leashes and beds",
+"Grooming products",
+"Trackers and feeders"
+],
+"s": [
+"Grooming membership",
+"Boarding and daycare",
+"Training classes",
+"Annual wellness plan"
+],
+"c": [
+"Pet Trainers",
+"Photographers",
+"Residential Communities",
+"Cafés & Coffee Shops",
+"Hotels & Resorts"
+],
+"a": "Boarding space, grooming room, pet-owner base",
+"e": "A pet trainer runs weekend classes in your yard on revenue share.",
+"g": "health",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "pet clinic"
+},
+{
+"id": 27,
+"t": "b",
+"n": "Auto Repair & Service Garages",
+"cat": "Automotive",
+"p": [
+"Car care kits",
+"Mats, covers and accessories",
+"Tyres and batteries",
+"Dashcams and trackers"
+],
+"s": [
+"Wash and detailing membership",
+"Annual maintenance plan",
+"Pick-up and drop",
+"Ceramic coating and paint protection"
+],
+"c": [
+"Petrol Stations",
+"Car Dealerships",
+"Insurance Advisers",
+"Residential Communities",
+"Taxi & Ride-Hailing Fleets"
+],
+"a": "Spare bay, waiting lounge, tools and lifts",
+"e": "A licensed insurance adviser runs a renewal desk in your lounge, within insurance rules.",
+"g": "mobility",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "auto garage"
+},
+{
+"id": 28,
+"t": "b",
+"n": "Car Dealerships",
+"cat": "Automotive",
+"p": [
+"Accessories and merchandise",
+"Care kits",
+"Child seats",
+"Dashcams"
+],
+"s": [
+"Insurance desk",
+"Detailing and coating",
+"Subscription and leasing",
+"Driver training"
+],
+"c": [
+"Insurance Advisers",
+"Auto Repair & Service Garages",
+"Photographers",
+"Content Creators & Influencers",
+"Car Rental & Fleet Operators"
+],
+"a": "Showroom floor, test-drive fleet, buyer traffic",
+"e": "A licensed insurance adviser runs an insurance desk for your buyers, with commission subject to the rules.",
+"g": "mobility",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "car dealership"
+},
+{
+"id": 29,
+"t": "b",
+"n": "Car Rental & Fleet Operators",
+"cat": "Mobility",
+"p": [
+"Travel accessories",
+"Child seats",
+"Camping gear bundles",
+"In-car retail"
+],
+"s": [
+"Chauffeur and airport transfers",
+"Off-peak courier runs",
+"Vehicle advertising wraps",
+"Monthly subscriptions"
+],
+"c": [
+"Hotels & Resorts",
+"Travel Consultants",
+"Tour Guides",
+"Event Planners",
+"Logistics & Courier Services"
+],
+"a": "Idle vehicles, drivers, parking yard",
+"e": "A travel consultant bundles your cars into holiday packages and shares revenue.",
+"g": "mobility",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "car rental business"
+},
+{
+"id": 30,
+"t": "b",
+"n": "Taxi & Ride-Hailing Fleets",
+"cat": "Mobility",
+"p": [
+"In-car snacks and essentials",
+"Phone accessories",
+"Brand sampling kits",
+"Travel cards and passes"
+],
+"s": [
+"In-car advertising",
+"Corporate commute contracts",
+"Airport transfer packages",
+"Off-peak parcel runs"
+],
+"c": [
+"Hotels & Resorts",
+"Office Buildings",
+"Travel Consultants",
+"Logistics & Courier Services",
+"Content Creators & Influencers"
+],
+"a": "Vehicles in off-peak hours, in-car screens, drivers",
+"e": "An office building buys a monthly employee commute plan from your fleet.",
+"g": "mobility",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "taxi fleet"
+},
+{
+"id": 31,
+"t": "b",
+"n": "Logistics & Courier Services",
+"cat": "Logistics",
+"p": [
+"Packaging material",
+"Parcel lockers",
+"Shipping supplies",
+"Labels and printing"
+],
+"s": [
+"Same-day B2B runs",
+"Warehousing and fulfilment",
+"Returns management",
+"Cold chain delivery"
+],
+"c": [
+"Warehouses",
+"Cloud Kitchens",
+"Retail Boutiques & Clothing Stores",
+"Pharmacies",
+"Supermarkets & Grocery Stores"
+],
+"a": "Vans in off-peak hours, hubs, riders",
+"e": "A boutique's online orders ship through your same-day runs for a fee per parcel.",
+"g": "mobility",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "courier business"
+},
+{
+"id": 32,
+"t": "b",
+"n": "Warehouses",
+"cat": "Logistics Real Estate",
+"p": [
+"Packaging supplies",
+"Pallets and racking",
+"Material handling equipment hire",
+"Rooftop solar power"
+],
+"s": [
+"Shared fulfilment",
+"Short-term storage",
+"Co-packing",
+"Yard and dock hire"
+],
+"c": [
+"Logistics & Courier Services",
+"Manufacturing Plants",
+"Cold Storage Facilities",
+"Furniture Showrooms",
+"Electronics Stores"
+],
+"a": "Unused bays, docks, yards, rooftops",
+"e": "A furniture showroom rents unused bays by the pallet and a courier partner adds delivery.",
+"g": "property",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "warehouse"
+},
+{
+"id": 33,
+"t": "b",
+"n": "Cold Storage Facilities",
+"cat": "Cold Chain",
+"p": [
+"Ice and dry ice",
+"Insulated packaging",
+"Frozen food cash-and-carry",
+"Temperature loggers"
+],
+"s": [
+"Shared cold rooms by the pallet",
+"Last-mile cold delivery",
+"Ripening and sorting",
+"Pharma storage"
+],
+"c": [
+"Supermarkets & Grocery Stores",
+"Restaurants & QSRs",
+"Cloud Kitchens",
+"Pharmacies",
+"Logistics & Courier Services"
+],
+"a": "Spare chamber capacity, docks, reefer vans",
+"e": "Cloud kitchens share a chilled room by the pallet and a courier partner adds delivery.",
+"g": "property",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "cold storage facility"
+},
+{
+"id": 34,
+"t": "b",
+"n": "Manufacturing Plants",
+"cat": "Manufacturing",
+"p": [
+"Factory outlet sales",
+"Seconds and surplus",
+"Private-label production for brands",
+"Scrap and by-products"
+],
+"s": [
+"Contract manufacturing on idle lines",
+"Testing lab services",
+"Training and apprenticeships",
+"Rooftop solar"
+],
+"c": [
+"Warehouses",
+"Logistics & Courier Services",
+"Civil Engineers",
+"HVAC Technicians",
+"Business Consultants"
+],
+"a": "Idle line capacity, labs, land, rooftops",
+"e": "A D2C brand books your idle line for private-label production on a fee per unit.",
+"g": "property",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "manufacturing plant"
+},
+{
+"id": 35,
+"t": "b",
+"n": "Construction & Real Estate Development Firms",
+"cat": "Construction",
+"p": [
+"Interior fit-out packages",
+"Smart home packages",
+"Furniture packages",
+"Rooftop solar"
+],
+"s": [
+"Property management",
+"Show-flat hire for shoots",
+"Equipment rental",
+"Resale and rental desk"
+],
+"c": [
+"Interior Designers",
+"Architects",
+"Real Estate Agents",
+"Property Managers",
+"Furniture Showrooms"
+],
+"a": "Show flats, equipment, unsold inventory, site offices",
+"e": "An interior designer sells move-in packages to your buyers on a referral commission.",
+"g": "property",
+"r": "realestate",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "construction firm"
+},
+{
+"id": 36,
+"t": "b",
+"n": "Real Estate Brokerages",
+"cat": "Real Estate",
+"p": [
+"Move-in packages",
+"Furniture and appliance bundles",
+"Home essentials",
+"Home insurance through a licensed partner"
+],
+"s": [
+"Move-in interiors",
+"Packers and movers",
+"Rental management",
+"Home loan desk through a licensed partner"
+],
+"c": [
+"Interior Designers",
+"Property Managers",
+"Lawyers",
+"Furniture Showrooms",
+"Insurance Advisers"
+],
+"a": "Buyer and tenant leads, site visits, office space",
+"e": "An interior designer fulfils a move-in package for your buyers and pays a referral commission.",
+"g": "property",
+"r": "realestate",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "real estate brokerage"
+},
+{
+"id": 37,
+"t": "b",
+"n": "Property Management Companies",
+"cat": "Real Estate",
+"p": [
+"Home essentials and appliances",
+"Smart locks and security devices",
+"Consumables subscription",
+"Water purifiers"
+],
+"s": [
+"Maintenance subscriptions",
+"Cleaning and pest control",
+"Tenant onboarding",
+"Short-stay management"
+],
+"c": [
+"Electricians",
+"Plumbers",
+"Carpenters",
+"Painters",
+"HVAC Technicians"
+],
+"a": "Managed units, resident base, maintenance teams",
+"e": "Electricians and plumbers serve your residents through one maintenance subscription and you share each job.",
+"g": "property",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "property management company"
+},
+{
+"id": 38,
+"t": "b",
+"n": "Architecture & Interior Design Studios",
+"cat": "Design",
+"p": [
+"Custom furniture",
+"Decor and lighting",
+"Material sample kits",
+"Style guides"
+],
+"s": [
+"Online design consultations",
+"3D renders and walkthroughs",
+"Turnkey project management",
+"Landscape design"
+],
+"c": [
+"Carpenters",
+"Painters",
+"Furniture Showrooms",
+"Real Estate Brokerages",
+"Civil Engineers"
+],
+"a": "Studio space, material library, client projects",
+"e": "A furniture showroom hosts your design desk and you specify projects for its buyers.",
+"g": "studio",
+"r": "architect",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "design studio"
+},
+{
+"id": 39,
+"t": "b",
+"n": "Furniture Showrooms",
+"cat": "Retail",
+"p": [
+"Decor and lighting",
+"Mattresses and linen",
+"Modular add-ons",
+"Care products"
+],
+"s": [
+"Design desk",
+"Assembly and installation",
+"Rental and buy-back",
+"Corporate fit-outs"
+],
+"c": [
+"Interior Designers",
+"Architects",
+"Carpenters",
+"Real Estate Brokerages",
+"Property Management Companies"
+],
+"a": "Display floor, delivery fleet, walk-in buyers",
+"e": "An interior designer runs a design desk in your showroom, earning on projects while you earn on products.",
+"g": "retail",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "furniture showroom"
+},
+{
+"id": 40,
+"t": "b",
+"n": "Electronics Stores",
+"cat": "Retail",
+"p": [
+"Accessories",
+"Smart-home devices",
+"Extended care plans",
+"Refurbished corner"
+],
+"s": [
+"Installation and set-up",
+"Device repair desk",
+"Trade-in",
+"Smart home design"
+],
+"c": [
+"IT Consultants",
+"Electricians",
+"HVAC Technicians",
+"Interior Designers",
+"Content Creators & Influencers"
+],
+"a": "Demo zones, service counter, delivery vans",
+"e": "An electrician installs what you sell and you share the installation fee.",
+"g": "retail",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "electronics store"
+},
+{
+"id": 41,
+"t": "b",
+"n": "Retail Boutiques & Clothing Stores",
+"cat": "Retail",
+"p": [
+"Designer pop-up collections",
+"Jewellery and accessories",
+"Fragrance and beauty",
+"Private-label basics"
+],
+"s": [
+"Personal styling sessions",
+"Tailoring and alterations",
+"Style subscription box",
+"Occasion-wear rental"
+],
+"c": [
+"Makeup Artists",
+"Photographers",
+"Hair Stylists",
+"Content Creators & Influencers",
+"Wedding Planners"
+],
+"a": "Display space, trial rooms, customer base",
+"e": "A content creator hosts a styling evening in your store and earns an affiliate share of sales.",
+"g": "retail",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "clothing boutique"
+},
+{
+"id": 42,
+"t": "b",
+"n": "Jewelry Stores",
+"cat": "Retail",
+"p": [
+"Gift packaging and keepsakes",
+"Watches and accessories",
+"Silver and fashion lines",
+"Care kits"
+],
+"s": [
+"Custom design consultations",
+"Bridal styling appointments",
+"Cleaning and repair",
+"Savings schemes"
+],
+"c": [
+"Wedding Planners",
+"Makeup Artists",
+"Photographers",
+"Retail Boutiques & Clothing Stores",
+"Banquet Halls"
+],
+"a": "Private lounges, display windows, bridal clients",
+"e": "A wedding planner brings brides for private viewings and earns a referral fee on sales.",
+"g": "retail",
+"r": "jewel",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+180000,
+160000,
+90000,
+100000
+],
+"noun": "jewellery store"
+},
+{
+"id": 43,
+"t": "b",
+"n": "Bakeries & Patisseries",
+"cat": "Food",
+"p": [
+"Baking mixes and decorating kits",
+"Festive hampers",
+"Party supplies",
+"Gluten-free and vegan range"
+],
+"s": [
+"Celebration cake club",
+"Custom cakes",
+"Baking classes",
+"Kids' baking parties"
+],
+"c": [
+"Cafés & Coffee Shops",
+"Restaurants & QSRs",
+"Event Planners",
+"Photographers",
+"Daycare & Early Learning Centers"
+],
+"a": "Kitchen in idle hours, counter, delivery",
+"e": "A café sells your desserts from a counter and you run weekend classes there.",
+"g": "food",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "bakery"
+},
+{
+"id": 44,
+"t": "b",
+"n": "Cloud Kitchens",
+"cat": "Food",
+"p": [
+"Ready-to-cook kits",
+"Sauces and dips",
+"Meal subscription boxes",
+"Brand merchandise"
+],
+"s": [
+"Shared kitchen slots for chefs",
+"Catering",
+"Corporate meal plans",
+"Brand licensing to restaurants"
+],
+"c": [
+"Chefs",
+"Restaurants & QSRs",
+"Office Buildings",
+"Gyms & Fitness Centers",
+"Logistics & Courier Services"
+],
+"a": "Kitchen stations in idle slots, delivery riders, ordering data",
+"e": "A chef rents an idle station to launch a new delivery brand and shares revenue.",
+"g": "food",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "cloud kitchen"
+},
+{
+"id": 45,
+"t": "b",
+"n": "Event Planning & Wedding Firms",
+"cat": "Events",
+"p": [
+"Decor and inventory rental",
+"Gifting and favours",
+"Invitations",
+"Merchandise"
+],
+"s": [
+"Day-of coordination",
+"Vendor packages",
+"Corporate events",
+"Destination scouting"
+],
+"c": [
+"Makeup Artists",
+"Photographers",
+"Musicians & DJs",
+"Bakers & Pastry Professionals",
+"Banquet Halls"
+],
+"a": "Decor inventory, vendor network, client weddings",
+"e": "You cross-sell a makeup artist to your wedding clients and share the package.",
+"g": "studio",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+300000,
+250000,
+150000,
+180000
+],
+"noun": "event and wedding firm"
+},
+{
+"id": 46,
+"t": "b",
+"n": "Photography & Videography Studios",
+"cat": "Creative",
+"p": [
+"Prints, frames and albums",
+"Passport photo packs",
+"Props for hire",
+"Presets"
+],
+"s": [
+"Family milestone membership",
+"Headshot days",
+"Product shoots",
+"Studio hire by the hour"
+],
+"c": [
+"Makeup Artists",
+"Hair Stylists",
+"Retail Boutiques & Clothing Stores",
+"Hotels & Resorts",
+"Content Creators & Influencers"
+],
+"a": "Studio in idle hours, equipment, editing suite",
+"e": "A makeup artist and your studio sell a portfolio package together.",
+"g": "studio",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "photography studio"
+},
+{
+"id": 47,
+"t": "b",
+"n": "Sports Clubs & Academies",
+"cat": "Sports",
+"p": [
+"Sports gear and apparel",
+"Nutrition and hydration",
+"Merchandise",
+"Equipment rental"
+],
+"s": [
+"Specialist academies",
+"Holiday camps",
+"Corporate leagues",
+"Physio and recovery room"
+],
+"c": [
+"Sports Coaches",
+"Physiotherapists",
+"Nutritionists & Dietitians",
+"Schools",
+"Office Buildings"
+],
+"a": "Courts and fields in off-peak hours, clubhouse, members",
+"e": "A sports coach runs a specialist academy on your courts on revenue share.",
+"g": "wellness",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "sports academy"
+},
+{
+"id": 48,
+"t": "b",
+"n": "Golf Clubs",
+"cat": "Sports",
+"p": [
+"Pro-shop gear and apparel",
+"Merchandise",
+"Food and beverage brands",
+"Gifting"
+],
+"s": [
+"Coaching academy",
+"Corporate golf days",
+"Weddings and events",
+"Wellness and spa"
+],
+"c": [
+"Sports Coaches",
+"Event Planners",
+"Hotels & Resorts",
+"Physiotherapists",
+"Photographers"
+],
+"a": "Course in weekday slots, clubhouse, lawns, members",
+"e": "An event planner sells corporate golf days on weekdays and shares revenue.",
+"g": "venue",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "golf club"
+},
+{
+"id": 49,
+"t": "b",
+"n": "Laundry & Dry-Cleaning Businesses",
+"cat": "Services",
+"p": [
+"Garment care products",
+"Hangers and covers",
+"Fabric fresheners",
+"Shoe care"
+],
+"s": [
+"Subscription laundry",
+"Pick-up points in offices and apartments",
+"Shoe and bag cleaning",
+"Alterations"
+],
+"c": [
+"Residential Communities",
+"Office Buildings",
+"Hotels & Resorts",
+"Retail Boutiques & Clothing Stores",
+"Gyms & Fitness Centers"
+],
+"a": "Plant capacity in off-peak hours, delivery riders, counters",
+"e": "An office building hosts your pick-up point and employees subscribe monthly.",
+"g": "retail",
+"r": "",
+"m": [
+"Revenue share",
+"Consignment",
+"Referral",
+"Partner-funded setup",
+"Subscription",
+"Savings share"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "laundry business"
+},
+{
+"id": 50,
+"t": "b",
+"n": "Law Firms & Legal Consultancies",
+"cat": "Professional Services",
+"p": [
+"Document templates",
+"Compliance packs",
+"Publications",
+"Training material"
+],
+"s": [
+"Retainers",
+"Compliance audits",
+"Mediation",
+"Training seminars"
+],
+"c": [
+"Accountants",
+"Company Secretaries",
+"Co-Working Spaces",
+"Business Consultants",
+"Tax Consultants"
+],
+"a": "Meeting rooms, knowledge base, client base",
+"e": "You run a compliance workshop at a co-working space and pay a room fee, not a referral fee.",
+"g": "studio",
+"r": "legal",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+120000,
+130000,
+70000,
+80000
+],
+"noun": "law firm"
+},
+{
+"id": 51,
+"t": "p",
+"n": "Teachers & Tutors",
+"cat": "Education",
+"p": [
+"Books and worksheets",
+"Learning kits",
+"Stationery",
+"Online course packs"
+],
+"s": [
+"Tutoring",
+"Exam preparation",
+"Workshops",
+"Online classes"
+],
+"c": [
+"Schools",
+"Residential Communities",
+"Co-Working Spaces",
+"Daycare & Early Learning Centers",
+"Colleges & Universities"
+],
+"a": "School classrooms after hours, co-working training rooms, apartment clubhouses",
+"e": "School and teacher: after-school classes on revenue share.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "teacher"
+},
+{
+"id": 52,
+"t": "p",
+"n": "Chefs",
+"cat": "Food",
+"p": [
+"Sauces and spice mixes",
+"Meal kits",
+"Cookware",
+"Recipe books"
+],
+"s": [
+"Delivery brand from a partner kitchen",
+"Private chef",
+"Catering",
+"Cooking classes"
+],
+"c": [
+"Restaurants & QSRs",
+"Hotels & Resorts",
+"Cloud Kitchens",
+"Event Planners",
+"Supermarkets & Grocery Stores"
+],
+"a": "Restaurant kitchens in idle hours, hotel kitchens, cloud kitchens",
+"e": "Restaurant and chef: an idle kitchen becomes a new delivery brand.",
+"g": "pro_food",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "chef"
+},
+{
+"id": 53,
+"t": "p",
+"n": "Bakers & Pastry Professionals",
+"cat": "Food",
+"p": [
+"Cakes and desserts",
+"Baking kits and mixes",
+"Gift boxes",
+"Festive hampers"
+],
+"s": [
+"Baking classes",
+"Custom cakes",
+"Corporate gifting",
+"Dessert counters in cafés"
+],
+"c": [
+"Cafés & Coffee Shops",
+"Hotels & Resorts",
+"Event Planners",
+"Banquet Halls",
+"Supermarkets & Grocery Stores"
+],
+"a": "Café and bakery kitchens, shared kitchens",
+"e": "Café and baker: a weekend dessert counter plus classes.",
+"g": "pro_food",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "baker"
+},
+{
+"id": 54,
+"t": "p",
+"n": "Nutritionists & Dietitians",
+"cat": "Wellness",
+"p": [
+"Meal plans and recipe books",
+"Healthy snack boxes",
+"Kitchen scales and trackers",
+"Wellness foods"
+],
+"s": [
+"Consultations",
+"Corporate wellness talks",
+"Gym member programmes",
+"Healthy-basket desk in supermarkets"
+],
+"c": [
+"Gyms & Fitness Centers",
+"Independent Medical Clinics",
+"Cloud Kitchens",
+"Office Buildings",
+"Supermarkets & Grocery Stores"
+],
+"a": "Gym and clinic rooms, office wellness rooms, online",
+"e": "Gym and nutritionist: member nutrition plans on revenue share.",
+"g": "pro_food",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "nutritionist"
+},
+{
+"id": 55,
+"t": "p",
+"n": "Personal Fitness Trainers",
+"cat": "Fitness",
+"p": [
+"Fitness accessories",
+"Apparel",
+"Supplements",
+"Online programme packs"
+],
+"s": [
+"Personal training",
+"Group classes",
+"Corporate fitness",
+"Online coaching"
+],
+"c": [
+"Gyms & Fitness Centers",
+"Residential Communities",
+"Office Buildings",
+"Hotels & Resorts",
+"Nutritionists & Dietitians"
+],
+"a": "Gyms, apartment clubhouses, parks, hotel gyms",
+"e": "Apartment community and trainer: a resident fitness membership on subscription share.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "personal trainer"
+},
+{
+"id": 56,
+"t": "p",
+"n": "Yoga Instructors",
+"cat": "Fitness",
+"p": [
+"Mats and props",
+"Wellness teas",
+"Online course packs",
+"Apparel"
+],
+"s": [
+"Studio classes",
+"Corporate sessions",
+"Hotel sunrise sessions",
+"Retreats"
+],
+"c": [
+"Hotels & Resorts",
+"Office Buildings",
+"Spas & Wellness Centers",
+"Residential Communities",
+"Gyms & Fitness Centers"
+],
+"a": "Hotel lawns, office rooms, clubhouses, spa studios",
+"e": "Hotel and yoga instructor: sunrise wellness sessions on revenue share.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "yoga instructor"
+},
+{
+"id": 57,
+"t": "p",
+"n": "Physiotherapists",
+"cat": "Healthcare",
+"p": [
+"Braces and supports",
+"Recovery tools",
+"Mobility aids",
+"Exercise bands"
+],
+"s": [
+"Physio sessions",
+"Sports rehab",
+"Ergonomics for offices",
+"Home visits"
+],
+"c": [
+"Gyms & Fitness Centers",
+"Sports Clubs & Academies",
+"Independent Medical Clinics",
+"Office Buildings",
+"Residential Communities"
+],
+"a": "Gyms, clinics, sports clubs, offices",
+"e": "Gym and physiotherapist: a recovery room on revenue share.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "physiotherapist"
+},
+{
+"id": 58,
+"t": "p",
+"n": "Massage Therapists",
+"cat": "Wellness",
+"p": [
+"Oils and balms",
+"Heat packs",
+"Aromatherapy products",
+"Gift vouchers"
+],
+"s": [
+"Spa sessions",
+"Corporate chair massage",
+"Hotel in-room therapy",
+"Sports massage"
+],
+"c": [
+"Spas & Wellness Centers",
+"Hotels & Resorts",
+"Gyms & Fitness Centers",
+"Office Buildings",
+"Beauty Salons"
+],
+"a": "Spa rooms, hotel rooms, gym recovery rooms",
+"e": "Office building and massage therapist: weekly chair-massage days on a B2B plan.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "massage therapist"
+},
+{
+"id": 59,
+"t": "p",
+"n": "Beauticians & Estheticians",
+"cat": "Beauty",
+"p": [
+"Skincare",
+"Cosmetics",
+"Beauty tools",
+"Gift vouchers"
+],
+"s": [
+"Facials and skin services",
+"Bridal packages",
+"Home visits",
+"Specialist treatments"
+],
+"c": [
+"Beauty Salons",
+"Spas & Wellness Centers",
+"Wedding Planners",
+"Hotels & Resorts",
+"Residential Communities"
+],
+"a": "Salon rooms and chairs, spa rooms, hotels",
+"e": "Salon and beautician: a specialist treatment room on revenue share.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "beautician"
+},
+{
+"id": 60,
+"t": "p",
+"n": "Hair Stylists",
+"cat": "Beauty",
+"p": [
+"Hair care products",
+"Styling tools",
+"Extensions",
+"Accessories"
+],
+"s": [
+"Chair rental styling",
+"Bridal hair",
+"Shoots and fashion shows",
+"At-home service"
+],
+"c": [
+"Beauty Salons",
+"Barber Shops",
+"Makeup Artists",
+"Photographers",
+"Wedding Planners"
+],
+"a": "Salon chairs in quiet hours, studios, venues",
+"e": "Salon and stylist: a rented chair with shared product sales.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "hair stylist"
+},
+{
+"id": 61,
+"t": "p",
+"n": "Makeup Artists",
+"cat": "Beauty",
+"p": [
+"Cosmetics and kits",
+"Brushes and tools",
+"Skincare prep",
+"Gift vouchers"
+],
+"s": [
+"Bridal packages",
+"Shoots",
+"Masterclasses",
+"Party makeup"
+],
+"c": [
+"Wedding Planners",
+"Photographers",
+"Beauty Salons",
+"Retail Boutiques & Clothing Stores",
+"Banquet Halls"
+],
+"a": "Salon rooms, studios, venues, boutiques",
+"e": "Event planner and makeup artist: a wedding beauty package, shared.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "makeup artist"
+},
+{
+"id": 62,
+"t": "p",
+"n": "Photographers",
+"cat": "Creative",
+"p": [
+"Prints and albums",
+"Presets",
+"Photo merchandise",
+"Frames"
+],
+"s": [
+"Shoots",
+"Corporate headshots",
+"Product photography",
+"Workshops"
+],
+"c": [
+"Hotels & Resorts",
+"Event Planners",
+"Retail Boutiques & Clothing Stores",
+"Schools",
+"Co-Working Spaces"
+],
+"a": "Studios, hotels, malls, event venues",
+"e": "Hotel and photographer: guest photo experiences on revenue share.",
+"g": "pro_creative",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "photographer"
+},
+{
+"id": 63,
+"t": "p",
+"n": "Videographers",
+"cat": "Creative",
+"p": [
+"Stock footage",
+"Templates and colour presets",
+"Highlight reels",
+"Drone footage packs"
+],
+"s": [
+"Event films",
+"Brand reels",
+"Training videos",
+"Live streaming"
+],
+"c": [
+"Event Planners",
+"Convention & Exhibition Centers",
+"Content Creators & Influencers",
+"Real Estate Agents",
+"Hotels & Resorts"
+],
+"a": "Studios, venues, co-working podcast rooms",
+"e": "Convention centre and videographer: an on-site content studio for exhibitors.",
+"g": "pro_creative",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "videographer"
+},
+{
+"id": 64,
+"t": "p",
+"n": "Graphic Designers",
+"cat": "Creative",
+"p": [
+"Templates and brand kits",
+"Illustrations",
+"Merchandise designs",
+"Print packs"
+],
+"s": [
+"Brand identity",
+"Menus, signage and packaging",
+"Social media design retainers",
+"Workshops"
+],
+"c": [
+"Restaurants & QSRs",
+"Retail Boutiques & Clothing Stores",
+"Digital Marketers",
+"Co-Working Spaces",
+"Event Planners"
+],
+"a": "Co-working desks, client sites, online",
+"e": "Co-working space and designer: a member design desk with fixed-price brand kits.",
+"g": "pro_creative",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "graphic designer"
+},
+{
+"id": 65,
+"t": "p",
+"n": "Interior Designers",
+"cat": "Design",
+"p": [
+"Furniture and decor packages",
+"Lighting",
+"Material kits",
+"Style guides"
+],
+"s": [
+"Move-in packages",
+"Design desk in showrooms",
+"Online consultations",
+"Turnkey execution"
+],
+"c": [
+"Furniture Showrooms",
+"Real Estate Brokerages",
+"Construction & Real Estate Development Firms",
+"Carpenters",
+"Painters"
+],
+"a": "Showrooms, show flats, client homes",
+"e": "Furniture showroom and designer: a design desk inside the showroom.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "interior designer"
+},
+{
+"id": 66,
+"t": "p",
+"n": "Architects",
+"cat": "Design",
+"p": [
+"Plan sets and design guides",
+"Material specifications",
+"Renovation checklists",
+"Publications"
+],
+"s": [
+"Design and approvals",
+"Feasibility studies",
+"Green building advice",
+"Renovation clinics"
+],
+"c": [
+"Construction & Real Estate Development Firms",
+"Civil Engineers",
+"Interior Designers",
+"Real Estate Brokerages",
+"Property Management Companies"
+],
+"a": "Studio, client sites, online",
+"e": "Developer and architect: fixed-fee renovation clinics for home buyers.",
+"g": "pro_office",
+"r": "architect",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "architect"
+},
+{
+"id": 67,
+"t": "p",
+"n": "Civil Engineers",
+"cat": "Engineering",
+"p": [
+"Inspection report templates",
+"Testing kits",
+"Repair guides",
+"Waterproofing products through partners"
+],
+"s": [
+"Structural audits",
+"Site supervision",
+"Home inspection for buyers",
+"Repair and waterproofing advice"
+],
+"c": [
+"Construction & Real Estate Development Firms",
+"Architects",
+"Real Estate Brokerages",
+"Property Management Companies",
+"Residential Communities"
+],
+"a": "Client sites, partner labs",
+"e": "Brokerage and civil engineer: pre-purchase home inspections for buyers.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "civil engineer"
+},
+{
+"id": 68,
+"t": "p",
+"n": "Electricians",
+"cat": "Trades",
+"p": [
+"Switches, lighting and smart devices",
+"Surge protection",
+"Inverters and batteries",
+"Safety kits"
+],
+"s": [
+"Annual maintenance contracts",
+"Installation for electronics stores",
+"Safety audits",
+"EV charger installation"
+],
+"c": [
+"Property Management Companies",
+"Electronics Stores",
+"Residential Communities",
+"Interior Designers",
+"Office Buildings"
+],
+"a": "Customer locations, partner store counters",
+"e": "Electronics store and electrician: paid installation with every appliance sold.",
+"g": "pro_trades",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "electrician"
+},
+{
+"id": 69,
+"t": "p",
+"n": "Plumbers",
+"cat": "Trades",
+"p": [
+"Fittings and fixtures",
+"Water purifiers and filters",
+"Leak sensors",
+"Water-saving devices"
+],
+"s": [
+"Annual maintenance contracts",
+"Bathroom upgrades",
+"Tank cleaning",
+"Emergency call-outs"
+],
+"c": [
+"Property Management Companies",
+"Residential Communities",
+"Interior Designers",
+"Construction & Real Estate Development Firms",
+"Hotels & Resorts"
+],
+"a": "Customer locations, community notice boards",
+"e": "Apartment community and plumber: a resident maintenance subscription.",
+"g": "pro_trades",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "plumber"
+},
+{
+"id": 70,
+"t": "p",
+"n": "Carpenters",
+"cat": "Trades",
+"p": [
+"Custom furniture",
+"Modular units",
+"Repair kits",
+"Hardware"
+],
+"s": [
+"Assembly and installation",
+"Repairs and polishing",
+"Modular kitchens and wardrobes",
+"Shop fit-outs"
+],
+"c": [
+"Furniture Showrooms",
+"Interior Designers",
+"Architecture & Interior Design Studios",
+"Property Management Companies",
+"Retail Boutiques & Clothing Stores"
+],
+"a": "Workshop, showroom floor, client sites",
+"e": "Furniture showroom and carpenter: assembly and custom add-ons for buyers.",
+"g": "pro_trades",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "carpenter"
+},
+{
+"id": 71,
+"t": "p",
+"n": "Painters",
+"cat": "Trades",
+"p": [
+"Paints and finishes through partner brands",
+"Wallpapers",
+"Stencils and decor",
+"Waterproofing products"
+],
+"s": [
+"Home repainting",
+"Texture and decor walls",
+"Move-in touch-ups",
+"Commercial repaint contracts"
+],
+"c": [
+"Interior Designers",
+"Real Estate Brokerages",
+"Property Management Companies",
+"Residential Communities",
+"Construction & Real Estate Development Firms"
+],
+"a": "Client sites, community notice boards",
+"e": "Brokerage and painter: a move-in repaint package for new tenants.",
+"g": "pro_trades",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "painter"
+},
+{
+"id": 72,
+"t": "p",
+"n": "HVAC Technicians",
+"cat": "Trades",
+"p": [
+"Filters and consumables",
+"Air purifiers",
+"Smart thermostats",
+"Spare parts"
+],
+"s": [
+"Annual maintenance contracts",
+"Installation for electronics stores",
+"Energy audits",
+"Duct cleaning"
+],
+"c": [
+"Electronics Stores",
+"Office Buildings",
+"Property Management Companies",
+"Hotels & Resorts",
+"Restaurants & QSRs"
+],
+"a": "Client sites, store service counters",
+"e": "Office building and HVAC technician: annual maintenance with a share of the energy savings.",
+"g": "pro_trades",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "HVAC technician"
+},
+{
+"id": 73,
+"t": "p",
+"n": "IT Consultants",
+"cat": "Technology",
+"p": [
+"Software licences through partners",
+"Hardware bundles",
+"Security kits",
+"Templates"
+],
+"s": [
+"Managed IT retainers",
+"Cloud migration",
+"Cybersecurity audits",
+"Helpdesk"
+],
+"c": [
+"Co-Working Spaces",
+"Accountants",
+"Electronics Stores",
+"Schools",
+"Independent Medical Clinics"
+],
+"a": "Co-working rooms, client offices, online",
+"e": "Co-working space and IT consultant: a shared helpdesk for member companies.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "IT consultant"
+},
+{
+"id": 74,
+"t": "p",
+"n": "Software Developers",
+"cat": "Technology",
+"p": [
+"Apps and plugins",
+"Templates",
+"SaaS tools",
+"Coding courses"
+],
+"s": [
+"Custom development",
+"Maintenance retainers",
+"Automation for small businesses",
+"Coding bootcamps"
+],
+"c": [
+"Colleges & Universities",
+"Co-Working Spaces",
+"Digital Marketers",
+"Business Consultants",
+"Retail Boutiques & Clothing Stores"
+],
+"a": "Co-working desks, college labs, online",
+"e": "College and developer: a weekend coding certificate on revenue share.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "software developer"
+},
+{
+"id": 75,
+"t": "p",
+"n": "Digital Marketers",
+"cat": "Marketing",
+"p": [
+"Templates and playbooks",
+"Courses",
+"Ad creative packs",
+"Audit reports"
+],
+"s": [
+"Performance marketing retainers",
+"Local search optimisation",
+"Marketplace listing management",
+"Workshops"
+],
+"c": [
+"Retail Boutiques & Clothing Stores",
+"Restaurants & QSRs",
+"Content Creators & Influencers",
+"Graphic Designers",
+"Co-Working Spaces"
+],
+"a": "Online, co-working rooms",
+"e": "Boutique and digital marketer: pay-per-sale online campaigns.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "digital marketer"
+},
+{
+"id": 76,
+"t": "p",
+"n": "Social Media Managers",
+"cat": "Marketing",
+"p": [
+"Content calendars",
+"Template packs",
+"Courses",
+"Analytics reports"
+],
+"s": [
+"Page management retainers",
+"Reels packages with creators",
+"Review and reputation management",
+"Workshops"
+],
+"c": [
+"Restaurants & QSRs",
+"Beauty Salons",
+"Gyms & Fitness Centers",
+"Photographers",
+"Content Creators & Influencers"
+],
+"a": "Online, partner venues for shoots",
+"e": "Salon and social media manager: a monthly reels package paid from new bookings.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "social media manager"
+},
+{
+"id": 77,
+"t": "p",
+"n": "Accountants",
+"cat": "Finance",
+"p": [
+"Templates",
+"Finance toolkits",
+"Digital guides",
+"Software subscriptions through partners"
+],
+"s": [
+"Bookkeeping",
+"Part-time CFO",
+"Tax support",
+"Workshops"
+],
+"c": [
+"Co-Working Spaces",
+"Lawyers",
+"IT Consultants",
+"Business Consultants",
+"Company Secretaries"
+],
+"a": "Co-working meeting rooms, client offices, online",
+"e": "Co-working space and accountant: an SME finance clinic, paying a room fee.",
+"g": "pro_office",
+"r": "finance",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "accountant"
+},
+{
+"id": 78,
+"t": "p",
+"n": "Bookkeepers",
+"cat": "Finance",
+"p": [
+"Templates",
+"Software subscriptions through partners",
+"Training guides",
+"Checklists"
+],
+"s": [
+"Monthly bookkeeping",
+"Payroll",
+"Invoicing and collections support",
+"Software set-up"
+],
+"c": [
+"Accountants",
+"Co-Working Spaces",
+"Retail Boutiques & Clothing Stores",
+"Restaurants & QSRs",
+"Tax Consultants"
+],
+"a": "Online, client offices",
+"e": "Restaurant and bookkeeper: fixed monthly books and payroll.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "bookkeeper"
+},
+{
+"id": 79,
+"t": "p",
+"n": "Tax Consultants",
+"cat": "Finance",
+"p": [
+"Tax planners and guides",
+"Filing kits",
+"Templates",
+"Calculators"
+],
+"s": [
+"Return filing",
+"GST compliance",
+"Tax planning",
+"Notices and representation"
+],
+"c": [
+"Accountants",
+"Co-Working Spaces",
+"Real Estate Agents",
+"Business Consultants",
+"Company Secretaries"
+],
+"a": "Co-working rooms, clubhouses in tax season, online",
+"e": "Apartment community and tax consultant: a tax-season help desk in the clubhouse for a room fee.",
+"g": "pro_office",
+"r": "finance",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "tax consultant"
+},
+{
+"id": 80,
+"t": "p",
+"n": "Lawyers",
+"cat": "Legal",
+"p": [
+"Legal templates",
+"Compliance packs",
+"Publications",
+"Training material"
+],
+"s": [
+"Retainers",
+"Consultations",
+"Mediation",
+"Workshops"
+],
+"c": [
+"Accountants",
+"Co-Working Spaces",
+"Company Secretaries",
+"Real Estate Brokerages",
+"Business Consultants"
+],
+"a": "Co-working rooms, business centres, online",
+"e": "Co-working space and lawyer: compliance workshops, paying a room fee.",
+"g": "pro_office",
+"r": "legal",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "lawyer"
+},
+{
+"id": 81,
+"t": "p",
+"n": "Company Secretaries",
+"cat": "Legal/Compliance",
+"p": [
+"Compliance calendars",
+"Templates",
+"Board packs",
+"Checklists"
+],
+"s": [
+"Incorporation",
+"Annual filings",
+"Board and secretarial support",
+"Due diligence"
+],
+"c": [
+"Lawyers",
+"Accountants",
+"Co-Working Spaces",
+"Business Consultants",
+"Tax Consultants"
+],
+"a": "Co-working rooms, online",
+"e": "Co-working space and company secretary: start-up incorporation days.",
+"g": "pro_office",
+"r": "finance",
+"m": [
+"Room hire",
+"Facility fee",
+"Flat listing fee",
+"Workshop fee",
+"Subscription"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "company secretary"
+},
+{
+"id": 82,
+"t": "p",
+"n": "HR Consultants",
+"cat": "HR",
+"p": [
+"Policy templates",
+"Handbooks",
+"Assessment tools",
+"Training decks"
+],
+"s": [
+"HR retainers",
+"Payroll and compliance set-up",
+"Training",
+"Engagement programmes"
+],
+"c": [
+"Co-Working Spaces",
+"Recruiters",
+"Accountants",
+"Lawyers",
+"Office Buildings"
+],
+"a": "Co-working rooms, client offices",
+"e": "Co-working space and HR consultant: a shared HR desk for member companies.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "HR consultant"
+},
+{
+"id": 83,
+"t": "p",
+"n": "Recruiters",
+"cat": "HR",
+"p": [
+"Job description and interview kits",
+"Assessment tools",
+"Salary guides",
+"Training courses"
+],
+"s": [
+"Hiring mandates",
+"Campus hiring drives",
+"Temporary staffing",
+"Interview training"
+],
+"c": [
+"Colleges & Universities",
+"Co-Working Spaces",
+"HR Consultants",
+"Hotels & Resorts",
+"Restaurants & QSRs"
+],
+"a": "College campuses, co-working rooms, online",
+"e": "College and recruiter: placement drives with a success fee from employers.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "recruiter"
+},
+{
+"id": 84,
+"t": "p",
+"n": "Business Consultants",
+"cat": "Consulting",
+"p": [
+"Toolkits and templates",
+"Courses",
+"Benchmark reports",
+"Playbooks"
+],
+"s": [
+"Strategy projects",
+"Process improvement",
+"Franchise and expansion advice",
+"Mentoring retainers"
+],
+"c": [
+"Accountants",
+"Lawyers",
+"Digital Marketers",
+"Manufacturing Plants",
+"Co-Working Spaces"
+],
+"a": "Co-working rooms, client sites",
+"e": "Manufacturing plant and consultant: an idle-capacity plan paid from a share of the new revenue.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+50000,
+180000,
+60000,
+40000
+],
+"noun": "business consultant"
+},
+{
+"id": 85,
+"t": "p",
+"n": "Sales Consultants",
+"cat": "Sales",
+"p": [
+"Scripts and playbooks",
+"CRM templates",
+"Training courses",
+"Lead lists"
+],
+"s": [
+"Outsourced sales",
+"Channel partner development",
+"Sales training",
+"Lead generation"
+],
+"c": [
+"Manufacturing Plants",
+"Software Developers",
+"Furniture Showrooms",
+"Car Dealerships",
+"Co-Working Spaces"
+],
+"a": "Online, client offices",
+"e": "Furniture showroom and sales consultant: corporate fit-out sales on commission.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "sales consultant"
+},
+{
+"id": 86,
+"t": "p",
+"n": "Insurance Advisers",
+"cat": "Financial Services",
+"p": [
+"Policy comparison guides",
+"Cover checklists",
+"Claim kits",
+"Renewal reminders"
+],
+"s": [
+"Insurance desks in dealerships and garages",
+"Employee benefits advice",
+"Claims help",
+"Renewals"
+],
+"c": [
+"Car Dealerships",
+"Auto Repair & Service Garages",
+"Real Estate Brokerages",
+"Hospitals",
+"Office Buildings"
+],
+"a": "Partner showrooms and lounges, online",
+"e": "Car dealership and licensed adviser: an insurance desk, with commission subject to the rules.",
+"g": "pro_office",
+"r": "insurance",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "insurance adviser"
+},
+{
+"id": 87,
+"t": "p",
+"n": "Real Estate Agents",
+"cat": "Real Estate",
+"p": [
+"Move-in packages",
+"Home essentials bundles",
+"Locality guides",
+"Staging kits"
+],
+"s": [
+"Buying and renting",
+"Rental management",
+"Home staging",
+"Services for owners living abroad"
+],
+"c": [
+"Interior Designers",
+"Lawyers",
+"Painters",
+"Property Managers",
+"Construction & Real Estate Development Firms"
+],
+"a": "Client leads, site visits, builder site offices",
+"e": "Agent and interior designer: a move-in interior package on referral commission.",
+"g": "pro_office",
+"r": "realestate",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "real estate agent"
+},
+{
+"id": 88,
+"t": "p",
+"n": "Property Managers",
+"cat": "Real Estate",
+"p": [
+"Smart locks and devices",
+"Home essentials",
+"Consumables",
+"Welcome kits"
+],
+"s": [
+"Tenant management",
+"Maintenance coordination",
+"Short-stay hosting",
+"Inspections"
+],
+"c": [
+"Electricians",
+"Plumbers",
+"Painters",
+"Real Estate Agents",
+"Laundry & Dry-Cleaning Businesses"
+],
+"a": "Managed homes, owner base",
+"e": "Property manager and trades: one maintenance plan for every managed home.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "property manager"
+},
+{
+"id": 89,
+"t": "p",
+"n": "Event Planners",
+"cat": "Events",
+"p": [
+"Decor rental",
+"Gifting",
+"Invitations",
+"Party kits"
+],
+"s": [
+"Corporate events",
+"Private parties",
+"Venue sourcing",
+"Vendor packages"
+],
+"c": [
+"Banquet Halls",
+"Hotels & Resorts",
+"Musicians & DJs",
+"Photographers",
+"Bakers & Pastry Professionals"
+],
+"a": "Partner venues, decor inventory",
+"e": "Banquet hall and event planner: weekday corporate events on revenue share.",
+"g": "pro_creative",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "event planner"
+},
+{
+"id": 90,
+"t": "p",
+"n": "Wedding Planners",
+"cat": "Events",
+"p": [
+"Favours and hampers",
+"Invitations",
+"Decor packages",
+"Bridal kits"
+],
+"s": [
+"Full planning",
+"Destination weddings",
+"Vendor bundles",
+"Day-of coordination"
+],
+"c": [
+"Banquet Halls",
+"Makeup Artists",
+"Photographers",
+"Jewelry Stores",
+"Hotels & Resorts"
+],
+"a": "Partner venues, vendor network",
+"e": "Wedding planner, makeup artist and photographer: one bridal package, shared.",
+"g": "pro_creative",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "wedding planner"
+},
+{
+"id": 91,
+"t": "p",
+"n": "Musicians & DJs",
+"cat": "Entertainment",
+"p": [
+"Merchandise",
+"Recordings",
+"Playlists for venues",
+"Lesson kits"
+],
+"s": [
+"Live nights",
+"Private events",
+"Music lessons",
+"Venue sound curation"
+],
+"c": [
+"Restaurants & QSRs",
+"Hotels & Resorts",
+"Banquet Halls",
+"Shopping Malls",
+"Event Planners"
+],
+"a": "Restaurant and hotel venues, studios",
+"e": "Restaurant and musician: a weekly live night for a fee plus revenue share.",
+"g": "pro_creative",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "musician"
+},
+{
+"id": 92,
+"t": "p",
+"n": "Artists & Illustrators",
+"cat": "Creative",
+"p": [
+"Original art and prints",
+"Merchandise",
+"Commissioned pieces",
+"Art kits"
+],
+"s": [
+"Workshops",
+"Murals for venues",
+"Live event sketching",
+"Brand illustration"
+],
+"c": [
+"Cafés & Coffee Shops",
+"Hotels & Resorts",
+"Shopping Malls",
+"Schools",
+"Retail Boutiques & Clothing Stores"
+],
+"a": "Café walls, mall atriums, studios",
+"e": "Café and artist: a gallery wall with sales on commission.",
+"g": "pro_creative",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "artist"
+},
+{
+"id": 93,
+"t": "p",
+"n": "Dance Instructors",
+"cat": "Fitness/Arts",
+"p": [
+"Dancewear",
+"Online course packs",
+"Merchandise",
+"Music and routine packs"
+],
+"s": [
+"Studio classes",
+"Wedding choreography",
+"School programmes",
+"Corporate team events"
+],
+"c": [
+"Schools",
+"Residential Communities",
+"Gyms & Fitness Centers",
+"Wedding Planners",
+"Daycare & Early Learning Centers"
+],
+"a": "Clubhouses, school halls, gym studios",
+"e": "Apartment community and dance instructor: weekend classes on subscription share.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "dance instructor"
+},
+{
+"id": 94,
+"t": "p",
+"n": "Sports Coaches",
+"cat": "Sports",
+"p": [
+"Gear and apparel",
+"Training plans",
+"Nutrition products",
+"Video analysis packs"
+],
+"s": [
+"Academies",
+"School programmes",
+"Holiday camps",
+"Corporate leagues"
+],
+"c": [
+"Sports Clubs & Academies",
+"Schools",
+"Residential Communities",
+"Golf Clubs",
+"Physiotherapists"
+],
+"a": "Club courts, school grounds, community courts",
+"e": "Sports club and coach: a specialist academy on revenue share.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "sports coach"
+},
+{
+"id": 95,
+"t": "p",
+"n": "Pet Trainers",
+"cat": "Pet Care",
+"p": [
+"Training tools and treats",
+"Leashes and harnesses",
+"Online courses",
+"Puppy starter kits"
+],
+"s": [
+"Obedience classes",
+"Home visits",
+"Puppy socialisation",
+"Board-and-train"
+],
+"c": [
+"Pet Care & Veterinary Clinics",
+"Residential Communities",
+"Cafés & Coffee Shops",
+"Hotels & Resorts",
+"Photographers"
+],
+"a": "Clinic yards, community lawns, client homes",
+"e": "Vet clinic and pet trainer: weekend classes in the clinic yard.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "pet trainer"
+},
+{
+"id": 96,
+"t": "p",
+"n": "Travel Consultants",
+"cat": "Travel",
+"p": [
+"Travel accessories",
+"Forex and SIM cards through partners",
+"Travel insurance through a licensed partner",
+"Guidebooks"
+],
+"s": [
+"Holiday packages",
+"Corporate travel",
+"Visa assistance",
+"Group tours"
+],
+"c": [
+"Hotels & Resorts",
+"Car Rental & Fleet Operators",
+"Tour Guides",
+"Photographers",
+"Insurance Advisers"
+],
+"a": "Online, hotel desks, co-working rooms",
+"e": "Car rental and travel consultant: self-drive holiday packages.",
+"g": "pro_office",
+"r": "insurance",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "travel consultant"
+},
+{
+"id": 97,
+"t": "p",
+"n": "Tour Guides",
+"cat": "Travel",
+"p": [
+"Local crafts and souvenirs",
+"Maps and guidebooks",
+"Photo packages",
+"Food trail boxes"
+],
+"s": [
+"Walking tours",
+"Food trails",
+"Hotel guest experiences",
+"School trips"
+],
+"c": [
+"Hotels & Resorts",
+"Travel Consultants",
+"Restaurants & QSRs",
+"Car Rental & Fleet Operators",
+"Photographers"
+],
+"a": "Hotel lobbies, heritage sites, partner vehicles",
+"e": "Hotel and tour guide: guest city walks sold at the front desk.",
+"g": "pro_people",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "tour guide"
+},
+{
+"id": 98,
+"t": "p",
+"n": "Translators & Language Trainers",
+"cat": "Language",
+"p": [
+"Phrasebooks and course packs",
+"Glossaries",
+"Online courses",
+"Exam guides"
+],
+"s": [
+"Corporate language training",
+"Document translation",
+"Interpretation at events",
+"Exam preparation"
+],
+"c": [
+"Colleges & Universities",
+"Convention & Exhibition Centers",
+"Hotels & Resorts",
+"Law Firms & Legal Consultancies",
+"Travel Consultants"
+],
+"a": "College rooms, co-working rooms, online",
+"e": "Convention centre and interpreter: on-call interpretation for exhibitors.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "translator"
+},
+{
+"id": 99,
+"t": "p",
+"n": "Content Creators & Influencers",
+"cat": "Media",
+"p": [
+"Merchandise",
+"Digital products",
+"Curated brand products",
+"Presets and templates"
+],
+"s": [
+"Content production",
+"Appearances",
+"Workshops",
+"Brand campaigns"
+],
+"c": [
+"Restaurants & QSRs",
+"Shopping Malls",
+"Retail Boutiques & Clothing Stores",
+"Hotels & Resorts",
+"Digital Marketers"
+],
+"a": "Cafés, hotels, studios, malls, event venues",
+"e": "Mall and creator: a meet-and-shop pop-up.",
+"g": "pro_creative",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+70000,
+150000,
+50000,
+35000
+],
+"noun": "content creator"
+},
+{
+"id": 100,
+"t": "p",
+"n": "Virtual Assistants & Freelance Admin",
+"cat": "Admin",
+"p": [
+"Templates and process packs",
+"Automation set-ups",
+"Checklists",
+"Training guides"
+],
+"s": [
+"Inbox and calendar management",
+"Bookkeeping support",
+"Customer support",
+"Research and data entry"
+],
+"c": [
+"Business Consultants",
+"Real Estate Agents",
+"Accountants",
+"Co-Working Spaces",
+"Independent Medical Clinics"
+],
+"a": "Online",
+"e": "Co-working space and virtual assistant: a shared admin desk for member companies.",
+"g": "pro_office",
+"r": "",
+"m": [
+"Revenue share",
+"Space/time share",
+"Referral",
+"Project fee",
+"Subscription",
+"Savings share"
+],
+"f": [
+40000,
+120000,
+45000,
+30000
+],
+"noun": "virtual assistant"
+}
+],
+"groups": {
+"food": {
+"o": "Shared kitchen staff, delivery riders, food-safety audits, equipment maintenance and idle-hour kitchen use.",
+"x": "Group buying of ingredients and packaging, cooking gas and power, delivery commissions, payment fees and insurance."
+},
+"venue": {
+"o": "Housekeeping and event staffing, facility maintenance, booking technology and filling idle halls and rooms.",
+"x": "Group buying of linen, consumables and amenities, energy contracts, laundry, software and insurance."
+},
+"wellness": {
+"o": "Trainers and therapists on call, equipment servicing, booking and membership software, and quiet-hour room use.",
+"x": "Group buying of consumables and equipment, software, laundry, insurance and marketing."
+},
+"retail": {
+"o": "Merchandising and store staffing, delivery, billing technology, security and use of idle floor space.",
+"x": "Group buying of packaging and supplies, payment fees, utilities, insurance and store maintenance."
+},
+"property": {
+"o": "Facility management, security, housekeeping, maintenance crews and use of idle space.",
+"x": "Energy and solar contracts, maintenance contracts, insurance, security and software."
+},
+"education": {
+"o": "Visiting faculty, transport, canteen, IT support and after-hours use of classrooms and grounds.",
+"x": "Group buying of books, uniforms, software and transport, plus energy and maintenance contracts."
+},
+"health": {
+"o": "Front-desk and billing support, equipment servicing, sample logistics, tele-health technology and idle-room use.",
+"x": "Group buying of consumables and devices, equipment maintenance, software, insurance and waste disposal."
+},
+"mobility": {
+"o": "Drivers and technicians on call, fleet maintenance, routing technology, parking and use of idle vehicles and bays.",
+"x": "Fuel and charging contracts, tyres and spares, insurance, tolls, telematics and maintenance."
+},
+"studio": {
+"o": "Freelance crew, booking and billing, lead generation, shared equipment and studio time.",
+"x": "Shared equipment and software, co-working space, marketing, travel and insurance."
+},
+"pro_people": {
+"o": "Booking, billing, lead generation and admin, plus access to partner rooms, studios and equipment.",
+"x": "Shared space instead of rent, group buying of kits and consumables, software, marketing and insurance."
+},
+"pro_trades": {
+"o": "Job leads, scheduling, billing and collections, tools and materials on account, and helpers on call.",
+"x": "Group buying of materials and tools, fuel and travel, insurance and warranty support."
+},
+"pro_office": {
+"o": "Lead generation, proposals, billing and collections, shared meeting rooms and admin support.",
+"x": "Shared workspace, software and research tools, marketing, travel and professional insurance."
+},
+"pro_creative": {
+"o": "Bookings, contracts, billing, crew on call and access to studios, venues and equipment.",
+"x": "Equipment rental and editing, software, studio time, travel and marketing."
+},
+"pro_food": {
+"o": "Shared kitchens, delivery, packaging, food-safety compliance, booking and billing.",
+"x": "Ingredients and packaging, kitchen rental, delivery and software."
+}
+},
+"styles": {
+"food": {
+"accent": "#D9480F",
+"soft": "#FFE8DC",
+"ink": "#7A2600",
+"icons": [
+"🍳",
+"🥘",
+"🧾",
+"🛵",
+"💸",
+"🤝"
+]
+},
+"venue": {
+"accent": "#7C3AED",
+"soft": "#EEE6FF",
+"ink": "#41157F",
+"icons": [
+"🏨",
+"🗓",
+"🎉",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"wellness": {
+"accent": "#0F8A6A",
+"soft": "#DDF5EC",
+"ink": "#0B4D3C",
+"icons": [
+"💪",
+"🧘",
+"🗓",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"retail": {
+"accent": "#C2410C",
+"soft": "#FDEBDD",
+"ink": "#6E2508",
+"icons": [
+"🛍",
+"🏷",
+"📦",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"property": {
+"accent": "#0369A1",
+"soft": "#DDEFFA",
+"ink": "#073B5C",
+"icons": [
+"🏢",
+"🔑",
+"🛠",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"education": {
+"accent": "#B45309",
+"soft": "#FDF0D5",
+"ink": "#5E2C05",
+"icons": [
+"📚",
+"🧑‍🏫",
+"🗓",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"health": {
+"accent": "#BE123C",
+"soft": "#FCE4EA",
+"ink": "#6A0B23",
+"icons": [
+"🩺",
+"💊",
+"🗓",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"mobility": {
+"accent": "#4338CA",
+"soft": "#E5E5FC",
+"ink": "#25206E",
+"icons": [
+"🚗",
+"🛠",
+"🧭",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"studio": {
+"accent": "#A21CAF",
+"soft": "#F8E3FA",
+"ink": "#5A0F61",
+"icons": [
+"🎨",
+"📷",
+"🗂",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"pro_people": {
+"accent": "#0F8A6A",
+"soft": "#DDF5EC",
+"ink": "#0B4D3C",
+"icons": [
+"🙋",
+"🗓",
+"📍",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"pro_trades": {
+"accent": "#B45309",
+"soft": "#FDF0D5",
+"ink": "#5E2C05",
+"icons": [
+"🧰",
+"📍",
+"🗓",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"pro_office": {
+"accent": "#0369A1",
+"soft": "#DDEFFA",
+"ink": "#073B5C",
+"icons": [
+"💼",
+"📈",
+"🗂",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"pro_creative": {
+"accent": "#A21CAF",
+"soft": "#F8E3FA",
+"ink": "#5A0F61",
+"icons": [
+"🎬",
+"📷",
+"🗓",
+"🧾",
+"💸",
+"🤝"
+]
+},
+"pro_food": {
+"accent": "#D9480F",
+"soft": "#FFE8DC",
+"ink": "#7A2600",
+"icons": [
+"👨‍🍳",
+"🥘",
+"🗓",
+"🧾",
+"💸",
+"🤝"
+]
+}
+}
+}

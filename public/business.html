@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Owner dashboard | RentMySite.ai</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="theme-color" content="#0E6B4A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/growth.css">
+  <link rel="stylesheet" href="/css/market.css">
+  <link rel="stylesheet" href="/css/rms.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brandmark" href="/">RentMySite<span>.ai</span></a>
+    <div class="who">
+      <div class="who-name" id="whoName"></div>
+      <code class="handle" id="whoHandle"></code>
+      <span id="whoStatus"></span>
+    </div>
+    <nav class="nav" aria-label="Dashboard">
+      <a href="#overview" data-view="overview">My site report</a>
+      <a href="#space" data-view="space">My space details</a>
+      <a href="#spaces" data-view="spaces">Listings</a>
+      <a href="#bookings" data-view="bookings">Requests</a>
+      <a href="#cta" data-view="cta">My mandate</a>
+      <a href="#statements" data-view="statements">Statements</a>
+      <a href="#profile" data-view="profile">Profile &amp; KYC</a>
+    </nav>
+    <div class="side-foot"><a class="link-btn" href="/login?switch=1#login">Switch dashboard</a><button class="link-btn" onclick="logout()">Log out</button></div>
+  </aside>
+
+  <main class="main">
+    <section id="view-overview">
+      <p class="hello-line"><strong id="hello">Hello</strong> <span class="meta">Your free site report. We call you within one working day to plan the survey.</span></p>
+      <div id="journey"></div>
+      <div id="reportBox"><p class="meta">Loading your report…</p></div>
+      <div class="section-title"><h2>From plot to payout</h2></div>
+      <div id="deckBox"></div>
+    </section>
+
+    <section id="view-space" hidden>
+      <div class="view-head"><div><h1>My space details</h1><p>The more we know, the sharper your report and survey. You can change these any time.</p></div></div>
+      <form class="panel" id="spaceForm">
+        <div class="error-box" role="alert"></div>
+        <div class="row">
+          <div class="field"><label for="sType">Type of space</label><select id="sType" name="type"></select></div>
+          <div class="field"><label for="sSize">Size (sq ft)</label><input id="sSize" name="size" type="number" min="0" inputmode="numeric"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="sLoc">Location or Google Maps link</label><input id="sLoc" name="location" maxlength="300"></div>
+          <div class="field"><label for="sRoad">Road</label><select id="sRoad" name="road"><option value="main">On a main road</option><option value="inner">On an inner road</option><option value="outskirts">Outskirts or industrial area</option></select></div>
+        </div>
+        <div class="field"><label for="sHours">When is it free? <span class="hint">e.g. all the time, weekends, 9 pm to 9 am</span></label><input id="sHours" name="hours" maxlength="200"></div>
+        <div class="field"><label for="sNotes">Anything else <span class="hint">frontage, power, water, access, approvals</span></label><textarea id="sNotes" name="notes" maxlength="1000"></textarea></div>
+        <button class="btn" type="submit">Save and update my report</button>
+      </form>
+    </section>
+
+    <section id="view-spaces" hidden>
+      <div class="view-head"><div><h1>Listings</h1><p>Put your space, or parts of it, up for brands and businesses to request: by the month, by the day or by the hour. Our team checks every request for you.</p></div></div>
+      <div id="mySpaces"></div>
+    </section>
+
+    <section id="view-bookings" hidden>
+      <div class="view-head"><div><h1>Requests</h1><p>Brands and businesses who want your space. When you accept, the RentMySite team approves the match and handles the agreement.</p></div></div>
+      <div id="incomingBox"></div>
+    </section>
+
+    <section id="view-cta" hidden>
+      <div class="view-head"><div><h1>My mandate</h1><p>A mandate, not a lease: you keep the title, we plan, build and run the site, and share the profit with you every month.</p></div></div>
+      <div id="myCta"></div>
+    </section>
+
+    <section id="view-statements" hidden>
+      <div class="view-head"><div><h1>Statements</h1><p>Every month: revenue from each brand and operator, operating costs, and your share. A yearly audit of the site accounts.</p></div></div>
+      <div class="panel empty"><strong>No statements yet</strong>Your first statement appears in the month your site starts earning.</div>
+    </section>
+
+    <section id="view-profile" hidden>
+      <div class="view-head"><div><h1>Profile &amp; KYC</h1><p>Needed before your site goes live, so we can pay you safely.</p></div></div>
+      <form class="panel" id="profileForm">
+        <div class="error-box" role="alert"></div>
+        <div class="field"><label for="pPhone">Phone or WhatsApp</label><input id="pPhone" name="phone"></div>
+        <div class="field"><label for="pAddress">Address of the space</label><input id="pAddress" name="address"></div>
+        <button class="btn" type="submit">Save profile</button>
+      </form>
+      <div class="panel" id="kycBox" style="margin-top:1.25rem"><p class="meta">Loading KYC…</p></div>
+    </section>
+  </main>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/market.js"></script>
+<script src="/js/cta-dash.js"></script>
+<script src="/js/owner.js"></script>
+<script src="/js/kyc.js"></script>
+</body>
+</html>

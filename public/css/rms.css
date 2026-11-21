@@ -1,0 +1,22 @@
+/* RentMySite owner dashboard: journey, site report, estimate */
+.journey { list-style: none; margin: 1rem 0 1.25rem; padding: 0; display: grid; gap: .5rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); counter-reset: j; }
+.journey li { position: relative; padding: .75rem .8rem .75rem 2.6rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); font-size: .88rem; }
+.journey li::before { counter-increment: j; content: counter(j); position: absolute; left: .7rem; top: .75rem; width: 1.4rem; height: 1.4rem; border-radius: 50%; display: grid; place-items: center; font-size: .78rem; font-weight: 800; background: var(--line); color: var(--ink); }
+.journey li strong { display: block; }
+.journey li span { color: var(--muted); font-size: .82rem; }
+.journey .j-done::before { content: "✓"; background: var(--teal); color: #fff; }
+.journey .j-now { border-color: var(--marigold); box-shadow: 0 0 0 2px var(--marigold-soft); }
+.journey .j-now::before { background: var(--marigold); color: #1D1404; }
+.report { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
+@media (min-width: 900px) { .report { grid-template-columns: 1fr 1fr; } }
+.uses-list { list-style: none; margin: 0 0 1rem; padding: 0; }
+.uses-list li { display: flex; justify-content: space-between; gap: 1rem; padding: .55rem 0; border-bottom: 1px solid var(--line); font-size: .95rem; }
+.uses-list b { white-space: nowrap; }
+.est-row { display: flex; justify-content: space-between; gap: 1rem; padding: .55rem 0; border-bottom: 1px solid var(--line); }
+.est-row b { font-size: 1.1rem; }
+.tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.tier-grid div { border: 1px solid var(--line); border-radius: 12px; padding: .7rem; text-align: center; }
+.tier-grid div.std { border-color: var(--marigold); box-shadow: 0 0 0 2px var(--marigold-soft); }
+.tier-grid small { display: block; color: var(--muted); font-size: .76rem; }
+.tier-grid b { font-size: 1.05rem; }
+.fine { font-size: .8rem; color: var(--muted); margin-top: .8rem; }

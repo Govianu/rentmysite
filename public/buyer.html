@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buyer dashboard: RentMySite.ai</title>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0E6B4A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/growth.css">
+  <link rel="stylesheet" href="/css/market.css">
+  <link rel="stylesheet" href="/css/rms.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brandmark" href="/">RentMySite<span>.ai</span></a>
+    <div class="who">
+      <div class="who-name" id="whoName"></div>
+      <code class="handle" id="whoHandle"></code>
+      <span id="whoStatus"></span>
+    </div>
+    <nav class="nav" aria-label="Dashboard">
+      <a href="#find" data-view="find">Find a site</a>
+      <a href="#requests" data-view="requests">My requests</a>
+      <a href="#profile" data-view="profile">Profile &amp; KYC</a>
+    </nav>
+    <div class="side-foot"><button class="link-btn" onclick="logout()">Log out</button></div>
+  </aside>
+
+  <main class="main">
+    <div class="ctabar-wrap" id="ctaBar"></div>
+
+    <section id="view-find">
+      <p class="hello-line"><strong id="hello">Hello</strong> <span class="meta">Find kiosks, pads, market slots, hubs, storage and parking on operated sites. Pay a share of what you sell, not rent. Our team approves every match.</span></p>
+      <div id="findBox"></div>
+    </section>
+
+    <section id="view-requests" hidden>
+      <div class="view-head"><div><h1>My requests</h1><p>Each request goes to the site owner. When they accept, our team approves the match and coordinates everything for you. You’ll see each step here and by email.</p></div></div>
+      <div id="myRequestsBox"></div>
+    </section>
+
+    <section id="view-profile" hidden>
+      <div class="view-head"><div><h1>Profile</h1><p>Your details stay private. Owners only see your first name and the kind of business you are, until the RentMySite team confirms a match.</p></div></div>
+      <div class="panel" id="profileBox"></div>
+      <div class="panel" id="kycBox" style="margin-top:1.25rem"><p class="meta">Loading KYC…</p></div>
+    </section>
+  </main>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/market.js"></script>
+<script src="/js/buyer.js"></script>
+<script src="/js/kyc.js"></script>
+</body>
+</html>

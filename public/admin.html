@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operations: rentmysite.ai</title>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0E6B4A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/market.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brandmark" href="/">RentMySite<span>.ai</span></a>
+    <div class="who">
+      <div class="who-name" id="whoName"></div>
+      <code class="handle" id="whoHandle">RentMySite operations</code>
+      <span id="whoStatus"></span>
+    </div>
+    <nav class="nav" aria-label="Operations">
+      <a href="#overview" data-view="overview">Today</a>
+      <a href="#market" data-view="market">Marketplace</a>
+      <a href="#enquiries" data-view="enquiries">Website enquiries</a>
+      <a href="#import" data-view="import">Import from Maps</a>
+      <a href="#leads" data-view="leads">Leads</a>
+      <a href="#profiles" data-view="profiles">Profiles</a>
+      <a href="#kyc" data-view="kyc">KYC</a>
+      <a href="#gigs" data-view="gigs">Shifts & workshops</a>
+      <a href="#bookings" data-view="bookings">Bookings & splits</a>
+    </nav>
+    <div class="side-foot"><button class="link-btn" onclick="logout()">Log out</button></div>
+  </aside>
+
+  <main class="main">
+    <section id="view-overview">
+      <div class="view-head"><div><h1>Today</h1><p id="todayLine"></p></div></div>
+      <div class="stats" id="stats"></div>
+      <h2>Lead pipeline</h2>
+      <div class="stats" id="pipeline"></div>
+    </section>
+
+    <section id="view-market" hidden>
+      <div class="view-head"><div><h1>Marketplace</h1><p>We’re the third party. When a seller accepts a buyer’s request it’s a match: approve it, collect RentMySite’s share, and coordinate both sides yourselves: buyers and sellers never get each other’s details. Listings go live when sellers publish them; take one down if anything is wrong.</p></div><button class="btn ghost" type="button" id="marketRefresh">Refresh</button></div>
+      <div class="view-tabs" role="group" aria-label="Queues">
+        <button type="button" data-mtab="requests" aria-pressed="true">Requests</button>
+        <button type="button" data-mtab="listings" aria-pressed="false">Listings</button>
+      </div>
+      <div id="marketRequests"></div>
+      <div id="marketListings" hidden></div>
+    </section>
+
+    <section id="view-enquiries" hidden>
+      <div class="view-head"><div><h1>Website enquiries</h1><p>Every enquiry from the homepage, with proof that the terms were accepted and whether both emails went out.</p></div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>From</th><th>Enquiry</th><th>Terms accepted</th><th>Emails</th><th>Dashboard</th></tr></thead>
+        <tbody id="enquiryRows"></tbody>
+      </table></div>
+    </section>
+
+    <section id="view-import" hidden>
+      <div class="view-head"><div><h1>Import from Google Maps</h1><p>Paste Maps links. Each one becomes a profile with AI pitch ideas, standard procedures and a lead in the CRM.</p></div></div>
+      <div class="two-col">
+        <form class="panel" id="importForm">
+          <div class="error-box" role="alert"></div>
+          <div class="field"><label for="links">Google Maps links <span class="hint">one per line, up to 100</span></label>
+            <textarea id="links" name="links" style="min-height:180px" placeholder="https://www.google.com/maps/place/Magic+Masala/@13.0...&#10;https://maps.app.goo.gl/..." required></textarea></div>
+          <div class="row">
+            <div class="field"><label for="icat">Category</label>
+              <select id="icat" name="category">
+                <option value="banquet_hall">banquet hall</option><option>cafe</option><option>gym</option><option>hotel</option>
+                <option>office</option><option>restaurant</option><option>salon</option><option>other</option>
+              </select></div>
+            <div class="field"><label for="iloc">Area</label><input id="iloc" name="location" placeholder="sadashivnagar" required></div>
+          </div>
+          <button class="btn" type="submit">Import profiles</button>
+        </form>
+        <div><h3>Results</h3><div id="importResults" class="list"><div class="empty">Imported profiles will be listed here.</div></div></div>
+      </div>
+    </section>
+
+    <section id="view-leads" hidden>
+      <div class="view-head">
+        <div><h1>Leads</h1><p>Move each lead to its next stage. Add a note if it helps the team.</p></div>
+        <select id="stageFilter" style="width:auto"><option value="">All stages</option></select>
+      </div>
+      <details class="panel">
+        <summary><strong>Add a lead</strong></summary>
+        <form id="leadForm" style="margin-top:1rem">
+          <div class="error-box" role="alert"></div>
+          <div class="row">
+            <div class="field"><label for="ln">Name</label><input id="ln" name="name" required></div>
+            <div class="field"><label for="lc">Company</label><input id="lc" name="company"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="lp">Phone</label><input id="lp" name="phone"></div>
+            <div class="field"><label for="le">Email</label><input id="le" name="email" type="email"></div>
+          </div>
+          <div class="field"><label for="lnotes">Notes</label><input id="lnotes" name="notes"></div>
+          <button class="btn" type="submit">Add lead</button>
+        </form>
+      </details>
+      <div class="lead-tools">
+        <label class="lead-check"><input type="checkbox" id="leadAll"> Select all</label>
+        <label class="lead-check"><input type="checkbox" id="leadWithAccounts" checked> Also delete their accounts and dashboards</label>
+        <button class="btn small danger" type="button" id="leadDelete" disabled>Delete selected</button>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th style="width:2.2rem"><span class="sr-only">Select</span></th><th>Lead</th><th>Source</th><th>Stage</th><th>Last update</th><th>Move to</th></tr></thead>
+        <tbody id="leadRows"></tbody>
+      </table></div>
+    </section>
+
+    <section id="view-profiles" hidden>
+      <div class="view-head">
+        <div><h1>Profiles</h1><p>Every partner and their RentMySite manager.</p></div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <select id="roleFilter" style="width:auto"><option value="">Everyone</option><option value="business">Businesses</option><option value="associate">Associates</option></select>
+          <input id="userSearch" placeholder="Search handle or name" style="width:220px">
+        </div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Handle</th><th>Name</th><th>Contact</th><th>KYC</th><th>Manager</th></tr></thead>
+        <tbody id="userRows"></tbody>
+      </table></div>
+    </section>
+
+    <section id="view-kyc" hidden>
+      <div class="view-head"><div><h1>KYC</h1><p>Aadhaar (last 4 digits), PAN, bank details and documents from every partner. Check them, then mark them verified. A copy of each submission also goes to info@.</p></div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Partner</th><th>Aadhaar · PAN</th><th>Bank</th><th>Documents</th><th>Status</th></tr></thead>
+        <tbody id="kycRows"></tbody>
+      </table></div>
+    </section>
+
+    <section id="view-gigs" hidden>
+      <div class="view-head"><div><h1>Shifts & workshops</h1><p>Post part-time shifts and approve workshops proposed by associates.</p></div></div>
+      <details class="panel">
+        <summary><strong>Post a shift</strong></summary>
+        <form id="gigForm" style="margin-top:1rem">
+          <div class="error-box" role="alert"></div>
+          <div class="field"><label for="gt">Title</label><input id="gt" name="title" placeholder="Evening office cleaning, 2 hours" required></div>
+          <div class="row">
+            <div class="field"><label for="gcat">Skill</label>
+              <select id="gcat" name="category"><option value="cleaning_staff">cleaning staff</option><option>chef</option><option>steward</option><option>bartender</option><option>other</option></select></div>
+            <div class="field"><label for="gloc">Area</label><input id="gloc" name="location" placeholder="sadashivnagar"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="gpay">Pay per shift (₹)</label><input id="gpay" name="pay" type="number" min="0"></div>
+            <div class="field"><label for="gslots">People needed</label><input id="gslots" name="slots" type="number" min="1" value="1"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="gdate">Date</label><input id="gdate" name="date" type="date"></div>
+            <div class="field"><label for="gven">Venue handle <span class="hint">optional</span></label><input id="gven" name="venueHandle"></div>
+          </div>
+          <button class="btn" type="submit">Post shift</button>
+        </form>
+      </details>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Gig</th><th>Where & when</th><th>Money</th><th>People</th><th>Status</th></tr></thead>
+        <tbody id="gigRows"></tbody>
+      </table></div>
+    </section>
+
+    <section id="view-bookings" hidden>
+      <div class="view-head"><div><h1>Bookings & splits</h1><p>Set the split model per deal. Payment orders use Razorpay Route to pay each party automatically.</p></div></div>
+      <div id="bookingList"></div>
+    </section>
+  </main>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

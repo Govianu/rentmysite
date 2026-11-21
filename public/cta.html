@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your CTA | RentMySite.ai</title>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0E6B4A">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header class="top"><a href="/">RentMySite<span>.ai</span></a></header>
+<main class="wrap" style="max-width:820px">
+  <p class="muted" style="margin:0 0 1rem">These are the policies you agree to with RentMySite. When you’re ready, go back to the form and tick <strong>“I agree to the CTA”</strong>.</p>
+  <div class="card" id="cta"><p class="muted">Loading your CTA…</p></div>
+  <p style="margin-top:1.25rem"><button class="btn" type="button" id="back">Back to the form</button></p>
+</main>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var box = document.getElementById('cta');
+  var params = new URLSearchParams();
+  ['sector', 'category', 'name', 'area', 'person'].forEach(function (k) { if (q.get(k)) params.set(k, q.get(k)); });
+  fetch('/api/public/cta-preview?' + params).then(function (r) { return r.json().then(function (j) { j.ok = r.ok; return j; }); })
+    .then(function (r) {
+      if (!r.ok) { box.innerHTML = '<p class="err"></p>'; box.firstChild.textContent = r.error || 'Choose your type of business on the form first.'; return; }
+      box.innerHTML = r.html;       // built and escaped on the server (utils/cta.js)
+      document.title = 'CTA: ' + r.business + ' | RentMySite.ai';
+    })
+    .catch(function () { box.innerHTML = '<p class="err">Couldn’t load the CTA. Check your connection and try again.</p>'; });
+  // Opened from a form in a new tab: close it; otherwise go back
+  document.getElementById('back').addEventListener('click', function () {
+    if (window.opener) window.close(); else history.length > 1 ? history.back() : (location.href = '/');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RentMySite team sign-in | RentMySite.ai</title>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0E6B4A">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+<style>
+  .team-tag { display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--marigold); margin-bottom: .4rem; }
+  .code { font-size: 1.6rem; letter-spacing: .5rem; text-align: center; font-weight: 700; }
+  .row-links { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin-top: 1rem; }
+  .linkish { background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit; }
+</style>
+</head>
+<body>
+<header class="top"><a href="/">RentMySite<span>.ai</span></a></header>
+<main class="wrap" style="max-width:480px">
+  <p class="muted" id="loading">Checking…</p>
+
+  <!-- Step 1: Govianu email -->
+  <section class="card" id="emailPane" hidden>
+    <span class="team-tag">Govianu employees</span>
+    <h1 style="margin-top:0">RentMySite team sign-in</h1>
+    <p class="muted">Sign in with your @<span class="domain">govianu.com</span> email. We’ll send a one-time code to that inbox.</p>
+    <form id="emailForm" novalidate>
+      <p class="err" id="emailErr" role="alert"></p>
+      <div class="field"><label for="email">Work email</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="name@govianu.com" required></div>
+      <div class="field"><label for="name">Your name <span class="muted">(first sign-in only)</span></label>
+        <input id="name" name="name" autocomplete="name" maxlength="120"></div>
+      <button class="btn wide" type="submit" id="sendBtn">Email me a sign-in code</button>
+    </form>
+    <p class="muted" style="margin-top:1rem;font-size:.9rem">Partners and buyers sign in at <a href="/login#login">the partner login</a>.</p>
+  </section>
+
+  <!-- Step 2: code -->
+  <section class="card" id="codePane" hidden>
+    <span class="team-tag">Govianu employees</span>
+    <h1 style="margin-top:0">Enter your code</h1>
+    <p class="muted">We sent a 6-digit code to <strong id="sentTo"></strong>. You can also tap the button in that email.</p>
+    <form id="codeForm" novalidate>
+      <p class="err" id="codeErr" role="alert"></p>
+      <p class="ok" id="codeOk" role="status"></p>
+      <div class="field"><label for="code">6-digit code</label>
+        <input id="code" class="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></div>
+      <button class="btn wide" type="submit" id="verifyBtn">Open the RentMySite team dashboard</button>
+    </form>
+    <div class="row-links">
+      <button class="linkish" type="button" id="resend">Send a new code</button>
+      <button class="linkish" type="button" id="changeEmail">Use a different email</button>
+    </div>
+  </section>
+</main>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  // Which dashboard tab to open afterwards (from team email links: leads, market, enquiries…)
+  var tab = (new URLSearchParams(location.search).get('next') || '').replace(/^admin\.html#?/, '');
+  if (!/^[a-z-]{1,30}$/.test(tab)) tab = '';
+  var dashboard = '/admin' + (tab ? '#' + tab : '');
+  var staffDomains = ['govianu.com'];
+  var email = '';
+
+  function call(url, body) {
+    return fetch(url, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {})
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { j.httpOk = r.ok; return j; }); });
+  }
+  function show(pane) {
+    $('loading').hidden = true;
+    $('emailPane').hidden = pane !== 'email';
+    $('codePane').hidden = pane !== 'code';
+    (pane === 'email' ? $('email') : $('code')).focus();
+  }
+  function isStaff(e) { return staffDomains.indexOf(String(e).trim().toLowerCase().split('@')[1] || '') !== -1; }
+  function sendCode(button, errEl) {
+    errEl.textContent = '';
+    if (!isStaff(email)) { errEl.textContent = 'Use your @' + staffDomains[0] + ' email. This sign-in is only for Govianu employees.'; return Promise.resolve(false); }
+    button.disabled = true;
+    return call('/api/auth/team/request-otp', { email: email, name: $('name').value.trim() }).then(function (r) {
+      button.disabled = false;
+      if (!r.httpOk) { errEl.textContent = r.error || 'Couldn’t send a code right now. Try again.'; return false; }
+      $('sentTo').textContent = email;
+      $('codeOk').textContent = r.devOtp ? 'Local test code: ' + r.devOtp : '';
+      return true;
+    }).catch(function () { button.disabled = false; errEl.textContent = 'Couldn’t reach the server. Try again.'; return false; });
+  }
+
+  // Already signed in as RentMySite team: go straight to the dashboard
+  Promise.all([call('/api/auth/me'), call('/api/auth/options')]).then(function (res) {
+    var me = res[0], opts = res[1];
+    if (opts.staffDomains && opts.staffDomains.length) staffDomains = opts.staffDomains;
+    Array.prototype.forEach.call(document.querySelectorAll('.domain'), function (el) { el.textContent = staffDomains[0]; });
+    if (me.httpOk && me.user && me.user.role === 'admin') { location.replace(dashboard); return; }
+    show('email');
+  }).catch(function () { show('email'); });
+
+  $('emailForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    email = $('email').value.trim().toLowerCase();
+    sendCode($('sendBtn'), $('emailErr')).then(function (ok) { if (ok) { $('code').value = ''; $('codeErr').textContent = ''; show('code'); } });
+  });
+
+  $('codeForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var code = $('code').value.trim();
+    $('codeErr').textContent = '';
+    if (!/^\d{6}$/.test(code)) { $('codeErr').textContent = 'Enter the 6-digit code from your email.'; return; }
+    $('verifyBtn').disabled = true;
+    call('/api/auth/verify-otp', { email: email, code: code }).then(function (r) {
+      if (r.httpOk && r.user && r.user.role === 'admin') { location.replace(dashboard); return; }
+      $('verifyBtn').disabled = false;
+      $('codeErr').textContent = r.httpOk ? 'That code is for another dashboard. Send a new code from this page.' : (r.error || 'That code didn’t work. Try again.');
+    }).catch(function () { $('verifyBtn').disabled = false; $('codeErr').textContent = 'Couldn’t reach the server. Try again.'; });
+  });
+
+  $('resend').addEventListener('click', function () {
+    $('codeOk').textContent = '';
+    sendCode($('resend'), $('codeErr')).then(function (ok) { if (ok && !$('codeOk').textContent) $('codeOk').textContent = 'A new code is on its way.'; });
+  });
+  $('changeEmail').addEventListener('click', function () { show('email'); });
+})();
+</script>
+</body>
+</html>

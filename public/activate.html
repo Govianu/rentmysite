@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Open your dashboard | RentMySite.ai</title>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0E6B4A">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header class="top"><a href="/">RentMySite<span>.ai</span></a></header>
+<main class="wrap" style="max-width:520px">
+  <p class="muted" id="loading">Checking your link…</p>
+
+  <section class="card" id="setPane" hidden>
+    <h1 id="hello">Welcome</h1>
+    <p class="muted" id="intro">Verify your email and open your dashboard.</p>
+    <form id="setForm" novalidate>
+      <p class="err" id="setErr" role="alert"></p>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" readonly></div>
+      <button class="btn wide" type="submit" id="setBtn">Verify email and open dashboard</button>
+    </form>
+  </section>
+
+  <section class="card" id="badPane" hidden>
+    <h1>This link has expired or was already used</h1>
+    <p class="muted">Each sign-in link works once. Get a new email code to open your dashboard.</p>
+    <form id="newForm" novalidate>
+      <p class="err" id="newErr" role="alert"></p>
+      <p class="ok" id="newOk" role="status"></p>
+      <div class="field"><label for="newEmail">Email</label><input id="newEmail" type="email" autocomplete="email" required></div>
+      <button class="btn wide" type="submit">Email me a sign-in code</button>
+    </form>
+    <p style="margin-top:1rem"><a href="/login#login">Back to login</a></p>
+  </section>
+</main>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var params = new URLSearchParams(location.search);
+  var token = params.get('token') || '';
+  // Optional tab to open (e.g. business.html#learn from an opportunity email), only on the account's own dashboard
+  function landing(redirect) {
+    var next = (params.get('next') || '').replace(/^(business|associate|buyer|admin)\.html/, '$1');
+    return /^(business|associate|buyer|admin)(#[a-z-]+)?$/.test(next) && redirect === '/' + next.split('#')[0] ? '/' + next : redirect;
+  }
+  function call(url, opts) {
+    return fetch(url, opts).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { j.httpOk = r.ok; return j; }); });
+  }
+  function show(id) { $('loading').hidden = true; $('setPane').hidden = id !== 'set'; $('badPane').hidden = id !== 'bad'; }
+
+  // The button in a sign-up or sign-in email: sign in to that dashboard straight away
+  call('/api/auth/link/' + encodeURIComponent(token)).then(function (r) {
+    if (!r.httpOk) return show('bad');
+    var first = String(r.name || '').split(' ')[0];
+    $('hello').textContent = first ? 'Welcome, ' + first : 'Welcome';
+    $('intro').textContent = 'This secure one-time link will verify your email and open your dashboard. You will sign in with email codes from now on.';
+    $('email').value = r.email || '';
+    $('newEmail').value = r.email || '';
+    $('loading').textContent = 'Opening your dashboard…';
+    return call('/api/auth/activate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token }) })
+      .then(function (a) {
+        if (a.httpOk) { location.replace(landing(a.redirect)); return; }
+        if (a.error && /expired|used/.test(a.error)) return show('bad');
+        show('set');                     // something else went wrong: offer the button to try again
+        $('setErr').textContent = a.error || '';
+        $('setBtn').focus();
+      });
+  }).catch(function () { show('bad'); });
+
+  $('setForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = $('setErr');
+    err.textContent = '';
+    $('setBtn').disabled = true;
+    call('/api/auth/activate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token }) })
+      .then(function (r) {
+        if (r.httpOk) { location.href = landing(r.redirect); return; }
+        $('setBtn').disabled = false;
+        if (r.error && /expired|used/.test(r.error)) return show('bad');
+        err.textContent = r.error || 'Something went wrong. Try again.';
+      }).catch(function () { $('setBtn').disabled = false; err.textContent = 'Couldn’t reach the server. Try again.'; });
+  });
+
+  $('newForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = $('newEmail').value.trim();
+    $('newErr').textContent = ''; $('newOk').textContent = '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $('newErr').textContent = 'Enter the email you used for your enquiry.'; return; }
+    call('/api/auth/request-otp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+      .then(function (r) {
+        if (!r.httpOk) { $('newErr').textContent = r.error || 'Couldn’t send right now.'; return; }
+        $('newOk').textContent = 'If that email has a dashboard, a sign-in code is on its way. Opening the code box…';
+        if (r.devOtp) $('newOk').textContent += ' Local test code: ' + r.devOtp;
+        setTimeout(function () { location.href = '/login?email=' + encodeURIComponent(email) + '&step=code#login'; }, r.devOtp ? 4000 : 1200);
+      });
+  });
+})();
+</script>
+</body>
+</html>

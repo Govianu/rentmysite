@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in or sign up | RentMySite.ai</title>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0E6B4A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div class="auth">
+  <aside class="auth-story">
+    <a class="brandmark" href="/">RentMySite<span>.ai</span></a>
+
+    <div class="composer">
+      <h1 id="storyTitle">Don't sell your land. Monetise it.</h1>
+      <p id="storyText">List your idle plot, terrace, godown, shed or spare seats free. We plan it, build it and run it. You keep the title and earn every month.</p>
+
+      <div class="handle-live" aria-live="polite" aria-label="Your partner address">
+        <span class="seg empty" id="segCat"><b>plot</b><small id="segCatLabel">what you do</small></span>
+        <span class="dot">.</span>
+        <span class="seg empty" id="segLoc"><b>hosurroad</b><small>where</small></span>
+        <span class="dot">.</span>
+        <span class="seg empty" id="segName"><b>myplot</b><small>you</small></span>
+      </div>
+    </div>
+
+    <p class="story-foot">We call you within one working day. Earnings are indicative and not guaranteed.</p>
+  </aside>
+
+  <main class="auth-form">
+    <div class="auth-card">
+      <!-- SIGN UP -->
+      <div id="signupPane">
+        <h2>Create your free account</h2>
+        <div class="tabs" role="tablist" aria-label="Account type">
+          <button type="button" role="tab" aria-selected="true" data-role="business">I own a space</button>
+          <button type="button" role="tab" aria-selected="false" data-role="associate" hidden>Partner</button>
+          <button type="button" role="tab" aria-selected="false" data-role="buyer">I need a space</button>
+        </div>
+
+        <form id="signupForm" novalidate>
+          <div class="error-box" role="alert"></div>
+          <input type="hidden" name="role" value="business">
+
+          <div class="field">
+            <label for="name">Your full name</label>
+            <input id="name" name="name" autocomplete="name" required>
+          </div>
+
+          <div data-for="business">
+            <div class="field">
+              <label for="businessName">Name your space <span class="hint">so you can tell your spaces apart</span></label>
+              <input id="businessName" name="businessName" maxlength="160" placeholder="Hosur Road plot">
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="category">Type of space</label>
+                <select id="category" name="category"></select>
+              </div>
+              <div class="field">
+                <label for="locationB">Area</label>
+                <input id="locationB" name="location" placeholder="Electronic City">
+              </div>
+            </div>
+            <div class="field">
+              <label for="mapsUrl">Google Maps link <span class="hint">optional, helps us verify you</span></label>
+              <input id="mapsUrl" name="mapsUrl" type="url" placeholder="https://maps.app.goo.gl/...">
+            </div>
+            <div class="field">
+              <label for="idleSlots">Size and when it is free <span class="hint">optional</span></label>
+              <input id="idleSlots" name="idleSlots" placeholder="20,000 sq ft, free all the time">
+            </div>
+          </div>
+
+          <div data-for="associate" hidden>
+            <div class="row">
+              <div class="field">
+                <label for="skill">Your skill</label>
+                <select id="skill" name="skill"></select>
+              </div>
+              <div class="field">
+                <label for="locationA">Area</label>
+                <input id="locationA" name="location" placeholder="Sadashivnagar" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="experienceYears">Years of experience</label>
+                <input id="experienceYears" name="experienceYears" type="number" min="0" max="60" disabled>
+              </div>
+              <div class="field">
+                <label for="availability">When are you free?</label>
+                <input id="availability" name="availability" placeholder="Tuesdays, after 4pm" disabled>
+              </div>
+            </div>
+            <div class="field">
+              <label for="skills">Other skills <span class="hint">optional, separate with commas</span></label>
+              <input id="skills" name="skills" maxlength="800" placeholder="Tandoor, meal prep, food safety" disabled>
+            </div>
+          </div>
+
+          <div data-for="buyer" hidden>
+            <div class="row">
+              <div class="field">
+                <label for="buyerType">You are</label>
+                <select id="buyerType" name="buyerType" disabled>
+                  <option value="event_manager">An event manager</option>
+                  <option value="company">A company</option>
+                  <option value="individual">An individual</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="locationBuyer">City or area</label>
+                <input id="locationBuyer" name="location" placeholder="Bengaluru" disabled>
+              </div>
+            </div>
+            <div class="field">
+              <label for="company">Company name <span class="hint">optional</span></label>
+              <input id="company" name="company" maxlength="160" disabled>
+            </div>
+          </div>
+
+          <div data-for="admin" hidden>
+            <div class="field">
+              <label for="inviteCode">Team invite code</label>
+              <input id="inviteCode" name="inviteCode" disabled>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91" required>
+            </div>
+          </div>
+          <label class="check field"><input type="checkbox" name="termsAccepted" value="true" required>
+            <span>I have read and agree to the <a href="/cta" target="_blank" rel="noopener" id="ctaLink">CTA</a>, the <a href="/terms" target="_blank" rel="noopener">Terms and Conditions</a> and the <a href="/terms#privacy" target="_blank" rel="noopener">Privacy Policy</a>, and to emails about business opportunities.</span></label>
+          <button class="btn wide" type="submit">Create profile and verify email</button>
+        </form>
+        <p class="switch">Already a partner? <button class="link-btn" type="button" data-go="login">Log in</button></p>
+        <p class="switch" id="adminSwitch" hidden>Govianu employee? <a class="link-btn" id="adminToggle" href="/team">Use the RentMySite team sign-in</a></p>
+      </div>
+
+      <!-- LOG IN -->
+      <div id="loginPane" hidden>
+        <h2>Welcome back</h2>
+        <form id="loginForm" novalidate>
+          <div class="error-box" role="alert"></div>
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" name="email" type="email" autocomplete="email" required>
+          </div>
+          <button class="btn wide" type="submit">Email me a sign-in code</button>
+        </form>
+        <form id="otpForm" class="panel" style="margin-top:1rem" hidden novalidate>
+          <div class="error-box" role="alert"></div>
+          <p class="meta">Enter the 6-digit code sent to <strong id="otpEmail"></strong>.</p>
+          <div class="field">
+            <label for="otpCode">Email verification code</label>
+            <input id="otpCode" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+          </div>
+          <input type="hidden" name="email">
+          <button class="btn wide" type="submit">Verify and open dashboard</button>
+          <p class="meta" id="otpMsg" role="status" style="margin:.8rem 0 0"></p>
+          <p class="switch"><button class="link-btn" type="button" id="resendOtp">Send a new code</button> · <button class="link-btn" type="button" id="changeEmail">Use a different email</button></p>
+        </form>
+        <p class="switch">No password needed. Every sign-in uses a fresh code sent to your email.</p>
+        <p class="switch">New here? <button class="link-btn" type="button" data-go="signup">Create a profile</button></p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

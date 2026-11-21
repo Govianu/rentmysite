@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Associate dashboard: rentmysite.ai</title>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0E6B4A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/growth.css">
+  <link rel="stylesheet" href="/css/market.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brandmark" href="/">RentMySite<span>.ai</span></a>
+    <div class="who">
+      <div class="who-name" id="whoName"></div>
+      <code class="handle" id="whoHandle"></code>
+      <span id="whoStatus"></span>
+    </div>
+    <nav class="nav" aria-label="Dashboard">
+      <a href="#overview" data-view="overview">Overview</a>
+      <a href="#learn" data-view="learn">Learn &amp; earn</a>
+      <a href="#savings" data-view="savings">Save costs</a>
+      <a href="#finance" data-view="finance">Financial planning</a>
+      <a href="#cta" data-view="cta">My CTA</a>
+      <a href="#offers" data-view="offers">My offers</a>
+      <a href="#gigs" data-view="gigs">Shifts near you</a>
+      <a href="#workshops" data-view="workshops">Run a workshop</a>
+      <!-- Find &amp; book is hidden for now: put this link back to show it again
+      <a href="#find" data-view="find">Find &amp; book</a> -->
+      <a href="#profile" data-view="profile">Skills & profile</a>
+    </nav>
+    <div class="side-foot"><a class="link-btn" href="/login?switch=1#login">Switch dashboard</a><button class="link-btn" onclick="logout()">Log out</button></div>
+  </aside>
+
+  <main class="main">
+    <div class="ctabar-wrap" id="ctaBar"></div>
+    <section id="view-overview">
+      <p class="hello-line"><strong id="hello">Hello</strong> <span class="meta">Here’s how to earn more from your skills. Your CTA is under <a href="#cta">My CTA</a>.</span></p>
+      <div id="slides"></div>
+      <div id="community"></div>
+      <div id="skillsBox"></div>
+      <div class="section-title"><h2 id="lessonsTitle">Your video lessons</h2><a href="#learn">See all lessons</a></div>
+      <div id="lessonStrip"></div>
+      <div class="overview-grid">
+        <div id="planner"></div>
+        <div class="nextsteps" id="steps"></div>
+      </div>
+      <div class="two-col">
+        <div class="panel"><h3>Your RentMySite manager</h3><div id="managerBox" class="meta"></div></div>
+        <div class="panel"><h3>Your work</h3><div id="myGigs"></div></div>
+      </div>
+    </section>
+
+    <section id="view-offers" hidden>
+      <div class="view-head"><div><h1>My offers</h1><p>List what you offer and your price. Businesses and buyers find you. When you accept a request, our team approves the match and coordinates everything for you.</p></div></div>
+      <div id="myOffers"></div>
+      <div class="section-title" style="margin-top:2rem"><h2>Requests for you</h2><button class="btn ghost small" type="button" id="incomingRefresh">Refresh</button></div>
+      <div id="incomingBox"></div>
+    </section>
+
+    <section id="view-find" hidden>
+      <div class="view-head"><div><h1>Find &amp; book</h1><p>Book a space for your workshop or class, or team up with other professionals.</p></div></div>
+      <div class="view-tabs" role="group" aria-label="Find or track">
+        <button type="button" data-find-tab="browse" aria-pressed="true">Find</button>
+        <button type="button" data-find-tab="mine" aria-pressed="false">My requests</button>
+      </div>
+      <div id="findBox"></div>
+      <div id="myRequestsBox" hidden></div>
+    </section>
+
+    <section id="view-learn" hidden>
+      <div class="view-head">
+        <div><h1 id="learnTitle">Learn &amp; earn</h1><p id="learnIntro">Short lessons on how to earn from your skills.</p></div>
+        <button class="btn ghost" type="button" id="changeSkills">Change skills</button>
+      </div>
+      <div id="waysBox"></div>
+      <div id="mediaBox" class="media-box" hidden></div>
+      <div class="learn">
+        <div id="player"></div>
+        <div><h3 style="margin-top:0">Your playlist</h3><div id="playlist"></div></div>
+      </div>
+    </section>
+
+    <section id="view-gigs" hidden>
+      <div class="view-head"><div><h1>Shifts near you</h1><p>Part-time work at partner venues in your area. Apply and your manager confirms.</p></div></div>
+      <div id="openGigs"></div>
+    </section>
+
+    <section id="view-workshops" hidden>
+      <div class="view-head"><div><h1>Run a paid workshop</h1><p>Teach a dish or skill in a partner’s kitchen. Keep your secret recipes secret; teach what you are happy to share.</p></div></div>
+      <div class="two-col">
+        <form class="panel" id="workshopForm">
+          <div class="error-box" role="alert"></div>
+          <div class="field"><label for="wt">Workshop title</label><input id="wt" name="title" placeholder="Bisi bele bath, the Mahesh way" required></div>
+          <div class="field"><label for="wd">What students will learn</label><textarea id="wd" name="description"></textarea></div>
+          <div class="row">
+            <div class="field"><label for="wp">Price per seat (₹)</label><input id="wp" name="pricePerSeat" type="number" min="0" value="2000"></div>
+            <div class="field"><label for="ws">Seats</label><input id="ws" name="seats" type="number" min="1" value="100"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="wdate">Preferred date</label><input id="wdate" name="date" type="date"></div>
+            <div class="field"><label for="wh">Hours</label><input id="wh" name="durationHours" type="number" min="1" value="3"></div>
+          </div>
+          <div class="field"><label for="wv">Partner venue handle <span class="hint">optional, your manager can pick one</span></label><input id="wv" name="venueHandle" placeholder="restaurant.sadashivnagar.magicmasala"></div>
+          <button class="btn" type="submit">Send workshop for approval</button>
+        </form>
+        <div class="panel">
+          <h3>How the money is shared</h3>
+          <div class="calc-out" id="wTotal">₹0<small>ticket revenue</small></div>
+          <div id="wSplit"></div>
+          <p class="meta">Standard split: infrastructure, venue, lead generator and platform each take 25%. Your fee as the instructor is agreed with your manager in the workshop agreement.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-cta" hidden>
+      <div class="view-head"><div><h1>My CTA</h1><p>The policies you agreed to with RentMySite.</p></div></div>
+      <div id="myCta"></div>
+    </section>
+
+    <section id="view-savings" hidden>
+      <div class="view-head"><div><h1>Save costs</h1><p>Your 5 biggest costs, and how we cut each one.</p></div></div>
+      <div id="savingsBox"></div>
+    </section>
+
+    <section id="view-finance" hidden>
+      <div class="view-head"><div><h1>Financial planning</h1><p>Steady work from us, and help getting a line of credit from a bank.</p></div></div>
+      <div id="financeBox"></div>
+    </section>
+
+    <section id="view-profile" hidden>
+      <div class="view-head"><div><h1>Skills & profile</h1><p>Help RentMySite match you with the right shifts, workshops and partner businesses.</p></div></div>
+      <form class="panel" id="associateProfileForm">
+        <div class="error-box" role="alert"></div>
+        <div class="row">
+          <div class="field"><label for="apPhone">Phone</label><input id="apPhone" name="phone" type="tel"></div>
+          <div class="field"><label for="apSkill">Primary skill</label><input id="apSkill" name="skill" maxlength="80" placeholder="Chef, trainer, beautician"></div>
+        </div>
+        <div class="field"><span class="label-like">Skillset</span>
+          <div class="skills-inline"><ul class="skill-chips" id="profileSkills"></ul><button class="btn ghost small" type="button" id="profileSkillsBtn">Change skills</button></div></div>
+        <div class="row">
+          <div class="field"><label for="apExperience">Years of experience</label><input id="apExperience" name="experienceYears" type="number" min="0" max="60"></div>
+          <div class="field"><label for="apAvailability">Availability</label><input id="apAvailability" name="availability" maxlength="200" placeholder="Tuesdays and Thursdays after 4pm"></div>
+        </div>
+        <div class="field"><label for="apBio">Short professional bio</label><textarea id="apBio" name="bio" maxlength="1000" placeholder="Your experience, specialties and the work you are looking for."></textarea></div>
+        <button class="btn" type="submit">Save professional profile</button>
+      </form>
+      <div class="panel" id="kycBox" style="margin-top:1.25rem"><p class="meta">Loading KYC…</p></div>
+    </section>
+  </main>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/lesson-videos.js"></script>
+<script src="/js/growth.js"></script>
+<script src="/js/cta-dash.js"></script>
+<script src="/js/market.js"></script>
+<script src="/js/associate.js"></script>
+<script src="/js/kyc.js"></script>
+</body>
+</html>

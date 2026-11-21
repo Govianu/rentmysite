@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Request a booking: rentmysite.ai</title>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0E6B4A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<main class="main" style="max-width:640px;margin:0 auto">
+  <a class="brandmark" href="/" style="color:var(--ink)">RentMySite<span>.ai</span></a>
+  <div style="margin:2rem 0 1.5rem">
+    <code class="handle" id="h"></code>
+    <h1 id="venue">Loading…</h1>
+    <p class="meta" id="venueMeta"></p>
+  </div>
+  <form class="panel" id="bookForm" hidden>
+    <div class="error-box" role="alert"></div>
+    <div class="row">
+      <div class="field"><label for="rn">Your name</label><input id="rn" name="requesterName" required></div>
+      <div class="field"><label for="lg">Company <span class="hint">if booking for an event company</span></label><input id="lg" name="leadGenName"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label for="re">Email</label><input id="re" name="requesterEmail" type="email"></div>
+      <div class="field"><label for="rp">Phone</label><input id="rp" name="requesterPhone" type="tel"></div>
+    </div>
+    <div class="field"><label for="et">What is the booking for?</label><input id="et" name="eventType" placeholder="Birthday party for 15 kids" required></div>
+    <div class="row">
+      <div class="field"><label for="ed">Date</label><input id="ed" name="eventDate" type="date"></div>
+      <div class="field"><label for="g">Guests</label><input id="g" name="guests" type="number" min="1"></div>
+    </div>
+    <div class="field"><label for="am">Budget (₹)</label><input id="am" name="amount" type="number" min="0"></div>
+    <div class="field"><label for="msg">Anything the venue should know</label><textarea id="msg" name="message"></textarea></div>
+    <button class="btn wide" type="submit">Send booking request</button>
+  </form>
+  <div class="panel" id="done" hidden><h2>Request sent</h2><p>The venue will review it and a RentMySite manager will get in touch with you.</p></div>
+</main>
+<script src="/js/api.js"></script>
+<script>
+(async () => {
+  const handle = new URLSearchParams(location.search).get('h') || '';
+  const form = document.getElementById('bookForm');
+  try {
+    const { profile } = await api('/public/profile/' + encodeURIComponent(handle));
+    document.getElementById('h').innerHTML = handleHtml(profile.handle);
+    document.getElementById('venue').textContent = profile.name;
+    document.getElementById('venueMeta').textContent =
+      `${pretty(profile.category)} in ${profile.location}` + (profile.idleSlots ? `. Usually available: ${profile.idleSlots}` : '');
+    form.hidden = false;
+  } catch (err) {
+    document.getElementById('venue').textContent = 'Venue not found';
+    document.getElementById('venueMeta').textContent = 'Check the link you were sent.';
+  }
+  onSubmit(form, async data => {
+    await api('/public/bookings/' + encodeURIComponent(handle), { method: 'POST', body: data });
+    form.hidden = true;
+    document.getElementById('done').hidden = false;
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Find a space or professional | RentMySite.ai</title>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0E6B4A">
+  <meta name="description" content="Book halls, kitchens, studios and quiet hours from partner businesses, and hire chefs, trainers and other professionals. RentMySite approves every match and coordinates it for you.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/growth.css">
+  <link rel="stylesheet" href="/css/market.css">
+  <style>
+    .fh { background: #0E6B4A; color: #fff; padding: 1rem clamp(1rem, 4vw, 2.5rem); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .fh .brandmark { color: #fff; }
+    .fh nav { display: flex; gap: .4rem 1.1rem; align-items: center; flex-wrap: wrap; }
+    .fh nav a { color: #fff; text-decoration: none; font-weight: 600; }
+    .fh nav a:hover { text-decoration: underline; }
+    .fh .btn { background: #F7B32B; color: #2A1A00; }
+    .fhero { background: #0E6B4A; color: #fff; padding: .5rem clamp(1rem, 4vw, 2.5rem) 2.6rem; }
+    .fhero h1 { color: #fff; max-width: 22ch; margin: .6rem 0 .5rem; }
+    .fhero p { color: rgba(255,255,255,.85); max-width: 60ch; margin: 0; }
+    .fwrap { max-width: 1180px; margin: -1.6rem auto 0; padding: 0 clamp(1rem, 4vw, 2.5rem) 3rem; }
+    .fhow { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2.5rem 0 0; padding: 0; list-style: none; counter-reset: h; }
+    .fhow li { counter-increment: h; background: var(--surface); border: 1.5px solid var(--line); border-radius: 16px; padding: 1rem; }
+    .fhow li::before { content: counter(h); display: inline-grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 999px; background: #F7B32B; color: #2A1A00; font-weight: 800; margin-bottom: .5rem; }
+    .fhow strong { display: block; }
+  </style>
+</head>
+<body>
+<header class="fh">
+  <a class="brandmark" href="/">RentMySite<span>.ai</span></a>
+  <nav aria-label="Main">
+    <a href="/">Home</a>
+    <a href="/login#login" id="loginLink">Log in</a>
+    <a class="btn small" href="/login">List your space or service</a>
+  </nav>
+</header>
+<section class="fhero">
+  <h1>Find a space or a professional</h1>
+  <p>Halls, kitchens, studios and quiet hours from partner businesses, plus chefs, trainers, photographers and more. We check every request and connect you, so your details stay private.</p>
+</section>
+<main class="fwrap">
+  <div id="findBox"></div>
+  <h2 style="margin-top:2.5rem">How it works</h2>
+  <ol class="fhow">
+    <li><strong>Find it</strong><span class="meta">Search spaces and professionals, or ask us to find it for you.</span></li>
+    <li><strong>Send a request</strong><span class="meta">Tell us the date, the number of people and what it’s for.</span></li>
+    <li><strong>We check it</strong><span class="meta">Our team reviews it and passes it to the seller.</span></li>
+    <li><strong>Get connected</strong><span class="meta">When the seller accepts, your RentMySite manager confirms details and payment.</span></li>
+  </ol>
+</main>
+<script src="/js/api.js"></script>
+<script src="/js/market.js"></script>
+<script>
+(async function () {
+  let user = null;
+  try { user = (await api('/auth/me')).user; } catch { /* browsing without an account is fine */ }
+  if (user) {
+    const link = document.getElementById('loginLink');
+    link.textContent = 'My dashboard';
+    link.href = `/${user.role}`;
+  }
+  Market.renderBrowse(document.getElementById('findBox'), { user });
+})();
+</script>
+</body>
+</html>

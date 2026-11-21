@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RentMySite.ai | Don't sell your land. Monetise it.</title>
+<meta name="description" content="List your idle plot, terrace, godown, shed or spare seats free. We plan, build and run it as a multi-use site. You keep the title and earn every month.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ink:#10231B; --muted:#4D5F57; --line:#D6E2DC; --paper:#F5F8F6; --card:#FFFFFF;
+  --green:#0E6B4A; --green-dark:#0A4F37; --green-soft:#E1F1EA; --sun:#F2A91D; --sun-soft:#FFF4DC; --night:#0B2A1F;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,Segoe UI,Arial,sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
+a{color:var(--green)}
+img{max-width:100%}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:46px;padding:.7rem 1.3rem;border-radius:12px;border:1.5px solid var(--green);background:var(--green);color:#fff;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--green-dark);border-color:var(--green-dark)}
+.btn.line{background:transparent;color:var(--green)}
+.btn.line:hover{background:var(--green-soft)}
+.btn.sun{background:var(--sun);border-color:var(--sun);color:#1D1404}
+.btn.sm{min-height:38px;padding:.45rem .9rem;font-size:.92rem}
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(245,248,246,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:1rem;min-height:68px}
+.brand{font-weight:800;font-size:1.25rem;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--green)}
+.nav{display:none;gap:1.3rem;margin-left:1.5rem}
+.nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem}
+.nav a:hover{color:var(--ink)}
+.top .actions{margin-left:auto;display:flex;gap:.5rem}
+@media (min-width:1060px){.nav{display:flex}}
+@media (max-width:520px){.top .actions .line{display:none}}
+/* hero */
+.hero{padding:clamp(2.5rem,7vw,5rem) 0 3rem}
+.hero .wrap{display:grid;gap:2.5rem;align-items:center}
+@media (min-width:960px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
+.kicker{display:inline-block;font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--green);background:var(--green-soft);padding:.35rem .7rem;border-radius:999px}
+h1{font-size:clamp(2.2rem,5.4vw,3.8rem);line-height:1.05;letter-spacing:-.03em;margin:.9rem 0 1rem}
+.lead{font-size:1.15rem;color:var(--muted);max-width:40ch;margin:0 0 1.6rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.7rem}
+.trust{display:flex;flex-wrap:wrap;gap:1.6rem;margin-top:2rem}
+.trust b{display:block;font-size:1.6rem;color:var(--green);line-height:1.1}
+.trust span{font-size:.88rem;color:var(--muted)}
+.hero-card{background:var(--night);color:#fff;border-radius:22px;padding:1.6rem;box-shadow:0 20px 50px rgba(11,42,31,.25)}
+.hero-card h3{margin:0 0 .3rem;font-size:1.05rem;color:#BFE6D4;font-weight:600}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1rem 0}
+.compare div{background:rgba(255,255,255,.07);border-radius:14px;padding:1rem}
+.compare b{display:block;font-size:2rem;line-height:1.1}
+.compare small{color:#BFE6D4}
+.compare .on b{color:var(--sun)}
+.hero-card p{margin:.2rem 0 0;font-size:.9rem;color:#BFE6D4}
+/* sections */
+section{padding:3.5rem 0}
+.sec-head{max-width:720px;margin-bottom:2rem}
+.sec-head h2{font-size:clamp(1.7rem,3.4vw,2.5rem);letter-spacing:-.02em;line-height:1.15;margin:.6rem 0 .6rem}
+.sec-head p{color:var(--muted);margin:0;font-size:1.05rem}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.3rem}
+.card h3{margin:.3rem 0 .4rem;font-size:1.08rem}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.tag{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+.band{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+/* decks */
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.tab{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:.55rem 1rem;font:inherit;font-weight:700;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.deck{background:var(--night);color:#fff;border-radius:22px;padding:clamp(1.1rem,3vw,2rem);outline:none}
+.deck:focus-visible{box-shadow:0 0 0 3px var(--sun)}
+.deck-stage{min-height:300px;display:grid}
+.deck-slide{display:grid;gap:.7rem;align-content:center;justify-items:start;animation:in .25s ease}
+@keyframes in{from{opacity:.4;transform:translateX(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.deck-slide{animation:none}html{scroll-behavior:auto}}
+.deck-kicker{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sun);font-weight:800}
+.deck-title{margin:0;font-size:clamp(1.5rem,3.2vw,2.3rem);line-height:1.12}
+.deck-body{margin:0;font-size:1.06rem;color:#D8EEE4;max-width:56ch}
+.deck-facts{margin:0;padding:0;list-style:none;display:grid;gap:.35rem;color:#BFE6D4;font-size:.95rem}
+.deck-facts li::before{content:"• ";color:var(--sun)}
+.deck-nav{display:flex;align-items:center;gap:.75rem;margin-top:1.2rem}
+.deck-arrow{flex:none;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:1.6rem;line-height:1;cursor:pointer}
+.deck-arrow:hover,.deck-arrow:focus-visible{background:rgba(255,255,255,.12)}
+.deck-dots{display:flex;flex-wrap:wrap;gap:.4rem;flex:1;justify-content:center}
+.deck-dot{width:10px;height:10px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.35);cursor:pointer}
+.deck-dot[aria-current="true"]{background:var(--sun);width:22px;border-radius:6px}
+.deck-count{font-size:.85rem;color:#BFE6D4;min-width:3.2em;text-align:right;font-variant-numeric:tabular-nums}
+/* uses table */
+.uses{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.uses th,.uses td{text-align:left;padding:.8rem 1rem;border-bottom:1px solid var(--line)}
+.uses th{background:var(--green-soft);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--green-dark)}
+.uses td:last-child{font-weight:700;white-space:nowrap}
+.fine{font-size:.82rem;color:var(--muted);margin-top:.6rem}
+/* estimate */
+.est{display:grid;gap:1.5rem}
+@media (min-width:900px){.est{grid-template-columns:1fr 1fr}}
+.field{display:grid;gap:.35rem;margin-bottom:1rem}
+.field label,.label{font-weight:700;font-size:.92rem}
+input,select,textarea{font:inherit;padding:.7rem .8rem;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--green);outline-offset:1px}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.4rem}
+.checks label{display:flex;gap:.5rem;align-items:center;font-weight:500;font-size:.93rem;padding:.45rem .6rem;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer}
+.checks input{width:auto}
+.out{background:var(--night);color:#fff;border-radius:18px;padding:1.4rem}
+.out .row{display:flex;justify-content:space-between;gap:1rem;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.out .row b{font-size:1.15rem}
+.out .big{font-size:2rem;color:var(--sun);font-weight:800}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:1rem}
+.tiers div{background:rgba(255,255,255,.08);border-radius:12px;padding:.7rem;text-align:center}
+.tiers div.std{outline:2px solid var(--sun)}
+.tiers small{display:block;color:#BFE6D4;font-size:.78rem}
+.tiers b{font-size:1.05rem}
+/* steps */
+.steps{counter-reset:s;display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.step{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.2rem 1.1rem 1.1rem}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);font-weight:800;color:var(--sun);font-size:1.3rem}
+.step h3{margin:.2rem 0 .3rem;font-size:1rem}
+.step p{margin:0;font-size:.9rem;color:var(--muted)}
+/* faq */
+details.faq{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.2rem 1.1rem;margin-bottom:.6rem}
+details.faq summary{cursor:pointer;font-weight:700;padding:.85rem 0}
+details.faq p{margin:0 0 1rem;color:var(--muted)}
+/* enquiry */
+.enq{display:grid;gap:2rem}
+@media (min-width:900px){.enq{grid-template-columns:.9fr 1.1fr}}
+.form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.4rem}
+.two{display:grid;gap:0 1rem}
+@media (min-width:600px){.two{grid-template-columns:1fr 1fr}}
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.5rem;margin-bottom:1rem}
+.who label{display:flex;gap:.45rem;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:.65rem .7rem;cursor:pointer;font-weight:600;font-size:.93rem;background:#fff}
+.who input{width:auto}
+.who label:has(input:checked){border-color:var(--green);background:var(--green-soft)}
+.error-box{color:#B42318;font-size:.92rem;min-height:1.2em;margin:.2rem 0 .6rem}
+.ok-box{background:var(--green-soft);border-radius:14px;padding:1.2rem;display:none}
+.ok-box.show{display:block}
+footer{background:var(--night);color:#BFE6D4;padding:2.5rem 0;font-size:.92rem}
+footer .wrap{display:grid;gap:1.5rem}
+@media (min-width:800px){footer .wrap{grid-template-columns:1.2fr 1fr 1fr}}
+footer a{color:#fff}
+footer .brand{color:#fff}
+.team-btn{display:inline-flex;align-items:center;min-height:36px;padding:.35rem .9rem;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;color:#fff;text-decoration:none;font-weight:600}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/">RentMySite<span>.ai</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#simple">How it works</a>
+      <a href="#uses">What it can become</a>
+      <a href="#estimate">Estimate</a>
+      <a href="#decks">Owners, brands, partners</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="actions">
+      <a class="btn line sm" href="/login#login">Log in</a>
+      <a class="btn sm" href="#list">List your space</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="kicker">List · Connect · Monetise</span>
+      <h1>Don't sell your land. Monetise it.</h1>
+      <p class="lead">List your idle plot, terrace, godown, shed or spare seats for free. We plan it, build it and run it as a multi-use site. You keep the title and earn every month.</p>
+      <div class="hero-cta">
+        <a class="btn sun" href="#estimate">Get my 60-second estimate</a>
+        <a class="btn line" href="#list">List your space free</a>
+      </div>
+      <div class="trust">
+        <div><b>1,000+</b><span>sites assessed</span></div>
+        <div><b>500+</b><span>owner enquiries in two months</span></div>
+        <div><b>100+</b><span>owners ready to sign</span></div>
+      </div>
+    </div>
+    <aside class="hero-card" aria-label="Revenue share versus nothing">
+      <h3>The real comparison, 20,000 sq ft main-road plot, Bengaluru</h3>
+      <div class="compare">
+        <div><small>Bare land, waiting</small><b>₹0</b><small>No taker, no rent</small></div>
+        <div class="on"><small>Operated multi-use site</small><b>~₹1.8L</b><small>to you every month</small></div>
+      </div>
+      <p>About ₹6.5 lakh a month of site revenue, ₹3.6 lakh profit after costs, split 50:50 at the standard tier. Illustrative only, not an offer. Every site gets a written estimate after a survey.</p>
+    </aside>
+  </div>
+</section>
+
+<section id="simple" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Explained simply</span>
+      <h2>If it sits idle, it can probably earn.</h2>
+      <p>Like Airbnb, but for any unused space: spare office seats, terraces, godowns, empty plots, shops, and even the hours your place is closed.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><span class="tag">Spare seats</span><h3>10 empty seats in your office</h3><p>50 seats, 40 people. A small company nearby uses the other 10 and pays you every month.</p></div>
+      <div class="card"><span class="tag">Quiet hours</span><h3>An office that sleeps at night</h3><p>You work 9 am to 9 pm. A night-shift team uses the same desks, where your building and lease allow it.</p></div>
+      <div class="card"><span class="tag">Terrace</span><h3>A terrace nobody visits</h3><p>Weekend events, a pop-up café, photo shoots or yoga classes.</p></div>
+      <div class="card"><span class="tag">Godown</span><h3>A half-empty godown</h3><p>An online seller stores festival stock in the free half for three months.</p></div>
+      <div class="card"><span class="tag">Empty plot</span><h3>A vacant site by the road</h3><p>Paid parking, EV charging, a food-truck spot, courts or a weekend market.</p></div>
+      <div class="card"><span class="tag">Closed shed</span><h3>A factory or trust land standing still</h3><p>A market hall, delivery hub, storage bays or parking, with your board's approval.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="decks">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Who it's for</span>
+      <h2>One platform. Every side of the deal.</h2>
+      <p>Pick who you are. Each one is a short slide deck.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Who are you">
+      <button class="tab" role="tab" data-deck="owners" aria-selected="true">Landowners</button>
+      <button class="tab" role="tab" data-deck="nri" aria-selected="false">NRI owners</button>
+      <button class="tab" role="tab" data-deck="sheds" aria-selected="false">Sheds &amp; institutions</button>
+      <button class="tab" role="tab" data-deck="brands" aria-selected="false">Brands &amp; retailers</button>
+      <button class="tab" role="tab" data-deck="partners" aria-selected="false">Agents &amp; RWAs</button>
+    </div>
+    <div id="deckBox"></div>
+  </div>
+</section>
+
+<section id="uses" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">What can be built on your plot</span>
+      <h2>One plot. Several revenue lines.</h2>
+      <p>Several uses at once, so there is no single-tenant risk. Indicative site revenue on a Bengaluru main-road plot, before operating costs.</p>
+    </div>
+    <table class="uses">
+      <thead><tr><th scope="col">Use</th><th scope="col">₹ / sq ft / month</th></tr></thead>
+      <tbody id="useRows"></tbody>
+    </table>
+    <p class="fine">Indicative, from 1,000+ site assessments. Not a guarantee. A survey sets the real number for your site.</p>
+  </div>
+</section>
+
+<section id="estimate">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">60-second estimate</span>
+      <h2>What could your space earn?</h2>
+      <p>Enter the size and pick the uses you'd like. We show the site revenue, costs and your monthly share at each tier.</p>
+    </div>
+    <div class="est">
+      <form class="form" id="estForm" onsubmit="return false">
+        <div class="field"><label for="eSize">Plot or space size (sq ft)</label><input id="eSize" type="number" min="500" step="500" value="20000" inputmode="numeric"></div>
+        <div class="field"><label for="eRoad">Where is it?</label>
+          <select id="eRoad"><option value="1">On a main road</option><option value="0.75">On an inner road</option><option value="0.55">Outskirts or industrial area</option></select></div>
+        <div class="field"><span class="label">Uses you'd like</span><div class="checks" id="eUses"></div></div>
+      </form>
+      <div class="out" aria-live="polite">
+        <div class="row"><span>Site revenue a month</span><b id="oRev">–</b></div>
+        <div class="row"><span>Operating costs (staff, power, security, permits)</span><b id="oCost">–</b></div>
+        <div class="row"><span>Site profit a month</span><b id="oProfit">–</b></div>
+        <p style="margin:1rem 0 .2rem;color:#BFE6D4">Your monthly share, by who funds the build</p>
+        <div class="tiers">
+          <div><small>We fund the build</small><b id="t35">–</b><small>35%</small></div>
+          <div class="std"><small>Brand funds (standard)</small><b id="t50">–</b><small>50%</small></div>
+          <div><small>You fund the build</small><b id="t65">–</b><small>65%</small></div>
+        </div>
+        <p style="margin:1rem 0 0;font-size:.82rem;color:#BFE6D4">Illustrative only, not an offer. Earnings depend on location and demand and are not guaranteed. Tier shares are set in the signed mandate.</p>
+        <a class="btn sun" href="#list" style="margin-top:1rem" data-from-estimate>Get my written estimate</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">From first call to first payout</span>
+      <h2>Six steps. You approve each one.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Talk to us</h3><p>Call, WhatsApp or list online. We call back within one working day.</p></div>
+      <div class="step"><h3>Survey and estimate</h3><p>Frontage, access, power and drainage checked. A written estimate follows.</p></div>
+      <div class="step"><h3>Sign the mandate</h3><p>Terms, revenue model and funding tier agreed. A mandate, not a lease. No upfront cost.</p></div>
+      <div class="step"><h3>Approve the plan</h3><p>You approve the site plan and operator mix before anything is built.</p></div>
+      <div class="step"><h3>Build and activate</h3><p>Weeks for parking or a market; a few months for courts or pads.</p></div>
+      <div class="step"><h3>Earn monthly</h3><p>Profit share and a statement every month, with a yearly audit.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="kicker">Why trust us</span><h2>Your land stays yours.</h2></div>
+    <div class="grid">
+      <div class="card"><h3>You keep the title</h3><p>A mandate, not a lease. No tenancy is created.</p></div>
+      <div class="card"><h3>No upfront fee</h3><p>Free to list. We earn only when you earn.</p></div>
+      <div class="card"><h3>Open books</h3><p>Monthly statements, plus a yearly audit of the site's accounts.</p></div>
+      <div class="card"><h3>We carry operations</h3><p>Permits, insurance, staff and security. Land tax stays with you.</p></div>
+      <div class="card"><h3>No rent to chase</h3><p>We bring the brands and collect from every one of them.</p></div>
+      <div class="card"><h3>Free to sell</h3><p>Sell any time; exit on sale is written into the mandate.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="band">
+  <div class="wrap" style="max-width:860px">
+    <div class="sec-head"><span class="kicker">Questions owners ask</span><h2>Straight answers.</h2></div>
+    <details class="faq"><summary>Is this a lease?</summary><p>No. The mandate gives us the right to place operators and license space. No tenancy is created and you keep the title.</p></details>
+    <details class="faq"><summary>Do I lose control of my property?</summary><p>No. You decide who takes it, what it is used for, for how long and during which hours. You approve the plan before anything is built.</p></details>
+    <details class="faq"><summary>How much will I earn?</summary><p>It depends on location, size and local demand. Your free report gives an indicative range, and a survey confirms it. Income is not promised or guaranteed.</p></details>
+    <details class="faq"><summary>What is the shortest period?</summary><p>For spaces rented to a business, two months. Most bookings run from 2 to 11 months and can be renewed. Operated multi-use sites run on a longer mandate.</p></details>
+    <details class="faq"><summary>What if I want to sell?</summary><p>Sell any time. The buyer steps into the mandate, or the site winds down on notice as the schedule sets out.</p></details>
+    <details class="faq"><summary>I'm an NRI. Can I take part?</summary><p>Yes, on the same terms, signed through a registered power of attorney, with income paid to your NRO account.</p></details>
+    <details class="faq"><summary>I am a tenant. Can I list?</summary><p>Yes, if your landlord agrees in writing.</p></details>
+    <details class="faq"><summary>Who pays for permits, insurance and staff?</summary><p>We do. Taxes on the land stay with the owner, as with any tenant.</p></details>
+    <details class="faq"><summary>How is this different from a broker?</summary><p>A broker finds one long-term tenant for the whole property. We find users for the parts and hours that sit idle, run the site, and handle the paperwork and collections.</p></details>
+  </div>
+</section>
+
+<section id="list">
+  <div class="wrap enq">
+    <div class="sec-head" style="margin:0">
+      <span class="kicker">Free to list</span>
+      <h2>List your space, or find one.</h2>
+      <p>Tell us about the space or what you need. We call back within one working day with a free report: the best uses, an indicative earning range and the permissions you may need.</p>
+      <p style="margin-top:1.2rem">Prefer to talk? <a href="https://wa.me/918103990990" target="_blank" rel="noopener">WhatsApp +91 81039 90990</a> or <a href="mailto:info@rentmysite.ai">info@rentmysite.ai</a></p>
+    </div>
+    <form class="form" id="enqForm" novalidate>
+      <div class="who" role="radiogroup" aria-label="I am">
+        <label><input type="radio" name="role" value="owner" checked> I own a space</label>
+        <label><input type="radio" name="role" value="brand"> I need a space</label>
+        <label><input type="radio" name="role" value="partner"> I'm an agent or RWA</label>
+      </div>
+      <div class="two">
+        <div class="field"><label for="fName">Your name</label><input id="fName" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="fPhone">Phone or WhatsApp</label><input id="fPhone" name="phone" type="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="field"><label for="fEmail">Email</label><input id="fEmail" name="email" type="email" autocomplete="email" required></div>
+      <div class="two">
+        <div class="field" data-owner><label for="fType">Type of space</label>
+          <select id="fType" name="spaceType"></select></div>
+        <div class="field" data-brand hidden><label for="fFormat">What do you need?</label>
+          <select id="fFormat" name="format"><option>Kiosk or food court slot</option><option>Drive-through pad</option><option>Weekend market slot</option><option>Dark store or delivery hub</option><option>Parking or EV charging</option><option>Storage or godown</option><option>Event or sports venue</option><option>Office seats</option><option>Other</option></select></div>
+        <div class="field"><label for="fSize" data-size-label>Size (sq ft)</label><input id="fSize" name="size" type="number" min="0" inputmode="numeric" placeholder="e.g. 20000"></div>
+      </div>
+      <div class="field"><label for="fLoc">Location</label><input id="fLoc" name="location" placeholder="Area, city, or a Google Maps link" required></div>
+      <div class="field"><label for="fMsg">Anything else? <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="fMsg" name="message" rows="3" placeholder="Road frontage, hours it is free, what you'd like it used for"></textarea></div>
+      <label style="display:flex;gap:.5rem;align-items:flex-start;font-size:.9rem;margin-bottom:.6rem"><input type="checkbox" name="termsAccepted" style="width:auto;margin-top:.25rem"> <span>I agree to the <a href="/terms" target="_blank">Terms and Privacy Policy</a>. RentMySite.ai may contact me about this enquiry.</span></label>
+      <p class="error-box" role="alert"></p>
+      <button class="btn" type="submit" style="width:100%">Send and get my free report</button>
+      <div class="ok-box" role="status"><strong>Thank you. We have your details.</strong><p style="margin:.4rem 0 0">We'll call you within one working day. A sign-in code and your dashboard link are in your email.</p></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><a class="brand" href="/">RentMySite<span style="color:var(--sun)">.ai</span></a>
+      <p>Don't sell your land. Monetise it. A Govianu venture, Bengaluru.</p>
+      <p style="font-size:.8rem">Earnings depend on location and demand and are not guaranteed. Every use is subject to local rules, building bye-laws and, for tenants, the landlord's consent. Figures are indicative and not an offer.</p></div>
+    <div><strong style="color:#fff">Contact</strong>
+      <p>WhatsApp <a href="https://wa.me/918103990990">+91 81039 90990</a><br><a href="mailto:info@rentmysite.ai">info@rentmysite.ai</a></p></div>
+    <div><strong style="color:#fff">More</strong>
+      <p><a href="/terms">Terms and Privacy</a><br><a href="/login#login">Owner and brand login</a></p>
+      <p><a class="team-btn" href="/team">Team login</a></p></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var inr = function(n){ n = Math.round(n); if (n >= 100000) return "₹" + (n / 100000).toFixed(n >= 1000000 ? 1 : 2).replace(/\.?0+$/, "") + "L"; return "₹" + n.toLocaleString("en-IN"); };
+
+  /* Uses and indicative ₹/sq ft/month on a Bengaluru main-road plot (RentMySite landowner deck) */
+  var USES = [
+    ["Pickleball and padel courts", 30, 50], ["Weekend markets and events", 20, 45], ["Drive-through QSR pad", 25, 40],
+    ["Food kiosk court", 20, 35], ["Dark store and delivery hub", 15, 25], ["Banquet lawn and weddings", 12, 25],
+    ["Car care and detailing", 14, 22], ["EV and fleet parking", 12, 20], ["Container storage and yard", 8, 15]
+  ];
+  $("useRows").innerHTML = USES.map(function(u){ return "<tr><td>" + u[0] + "</td><td>₹" + u[1] + "–" + u[2] + "</td></tr>"; }).join("");
+
+  /* 60-second estimate (same as utils/spaces.js): site revenue = size x average indicative rate of the chosen uses
+     x location factor; operating costs about 45% of revenue (₹2.9L of ₹6.5L in the deck's example). */
+  var picks = [3, 4, 7, 8];
+  $("eUses").innerHTML = USES.map(function(u, i){ return '<label><input type="checkbox" value="' + i + '"' + (picks.indexOf(i) > -1 ? " checked" : "") + "> " + u[0] + "</label>"; }).join("");
+  function estimate(){
+    var size = Math.max(0, Number($("eSize").value) || 0), road = Number($("eRoad").value);
+    var chosen = Array.prototype.filter.call($("eUses").querySelectorAll("input"), function(c){ return c.checked; }).map(function(c){ return USES[c.value]; });
+    if (!size || !chosen.length){ ["oRev","oCost","oProfit","t35","t50","t65"].forEach(function(id){ $(id).textContent = "–"; }); return; }
+    var avg = chosen.reduce(function(s, u){ return s + (u[1] + u[2]) / 2; }, 0) / chosen.length;
+    var rev = size * avg * road;
+    var cost = rev * 0.45, profit = rev - cost;
+    $("oRev").textContent = inr(rev); $("oCost").textContent = inr(cost); $("oProfit").textContent = inr(profit);
+    $("t35").textContent = inr(profit * .35); $("t50").textContent = inr(profit * .5); $("t65").textContent = inr(profit * .65);
+  }
+  $("estForm").addEventListener("input", estimate); estimate();
+
+  /* Slide decks, one per audience (from the RentMySite pitch decks) */
+  var DECKS = {
+    owners: [
+      {k: "For landowners", t: "Keep the land. Activate the value.", b: "We plan it, build it and run it. You earn every month, and you keep the title.", f: ["No upfront cost", "A mandate, not a lease", "Profit shared monthly with a statement"]},
+      {k: "The problem", t: "Your plot has been waiting for years.", b: "Property tax every year, no tenant, no rent, and an idle plot still needs fencing, clearing and watching.", f: []},
+      {k: "The real comparison", t: "Revenue share versus nothing.", b: "Bare land may ask about ₹10 per sq ft a month and often finds no taker. The same land run as a multi-brand site produces about three times that, from several uses at once.", f: ["Illustrative, based on indicative Bengaluru figures"]},
+      {k: "How it works", t: "From dormant plot to operating site.", b: "1. Mandate: we assess the plot and agree terms. 2. Build and activate: survey, plan you approve, approvals, brands. 3. Operate and share: we run the site and pay your share monthly.", f: []},
+      {k: "Pick your tier", t: "Your share, by who funds the build.", b: "We fund the build: 35%. The brand funds (standard): 50%. You fund the build: 65%.", f: ["On ₹3.6 lakh monthly site profit: ₹1.26L, ₹1.80L or ₹2.34L a month", "Tier percentages are illustrative until the mandate is signed"]},
+      {k: "Over five years", t: "About ₹1.2 crore to you.", b: "At the standard tier on a 20,000 sq ft main-road plot, versus nothing while the plot waits.", f: ["Illustrative example only, not an offer"]}
+    ],
+    nri: [
+      {k: "For NRI landowners", t: "Your plot back home, earning every month.", b: "We plan, build and run a multi-use site on your idle land. You keep the title, wherever you live.", f: []},
+      {k: "The problem", t: "A plot thousands of kilometres away earns nothing.", b: "Encroachment risk, years idle, upkeep and tax with no income, and relatives having to keep checking on it.", f: []},
+      {k: "From abroad", t: "You never need to fly home.", b: "Send the location and documents on email or WhatsApp. We survey and share a plan with a video walkthrough. Sign through a registered power of attorney.", f: ["Your share is paid monthly to your NRO account", "A statement on your phone every month"]},
+      {k: "Safety and title", t: "Your land stays yours. Always.", b: "Title never transfers. A working, staffed site is far harder to encroach. Sell any time on the terms in your mandate.", f: []}
+    ],
+    sheds: [
+      {k: "Sheds and institutions", t: "One shed. Many uses.", b: "We turn closed factories, idle yards and institutional land into professionally run multi-use sites, under your approval.", f: []},
+      {k: "The problem", t: "Paying to stand still.", b: "Security, upkeep and property tax every month, and often too big or too specialised for one tenant.", f: []},
+      {k: "What it can become", t: "Put back to work.", b: "Market hall, weekend markets, dark store or delivery hub, parking, storage, and community uses that fit the institution's purpose.", f: []},
+      {k: "Governance", t: "Your land. Your approval. Full transparency.", b: "Every plan and contract goes through your board or committee. Monthly reporting line by line, a yearly audit, and title is never transferred.", f: []}
+    ],
+    brands: [
+      {k: "For brands and retailers", t: "Prime location. Without rent.", b: "Kiosks, drive-through pads, courts and market slots on operated sites across the city. Pay a share of what you sell.", f: ["Up to ten sites, one agreement"]},
+      {k: "The usual way", t: "Most brands pay before they sell anything.", b: "Fixed rent from day one, a deposit locked up, and fit-out paid upfront for every location.", f: []},
+      {k: "Our way", t: "Pay only when you sell.", b: "No conventional rent: an agreed share of sales (illustrative 30%; you keep 70%). We build and run the site: staffing, power, security, permits, cleaning, insurance.", f: ["Illustrative break-even: ₹5L monthly sales against a ₹1.5L kiosk lease"]},
+      {k: "Formats", t: "Formats that fit your brand.", b: "Kiosks and food courts, drive-through pads, weekend market slots, staffed counters, dark stores and hubs, pickleball and padel courts.", f: ["Bengaluru now; Pune, Hyderabad, Chennai and Delhi NCR next, subject to confirmation"]}
+    ],
+    partners: [
+      {k: "Partner programme", t: "One intro. One new site.", b: "For real-estate agents, land brokers, RWAs and layout associations who know the empty plots and the brands looking for space.", f: []},
+      {k: "What qualifies", t: "Plots and brands we are looking for.", b: "Idle plots with road frontage, closed sheds and yards, institutional or society land; and food, retail, fleet, EV, quick-commerce, event and sports brands needing space.", f: []},
+      {k: "How to introduce", t: "Three steps. That's all.", b: "Share the plot or the brand's need on WhatsApp, connect us to the owner or brand, and we take it from there: survey, plan and conversations.", f: ["Partner terms shared on request"]}
+    ]
+  };
+  function makeDeck(slides, label){
+    var at = 0, root = document.createElement("div");
+    root.className = "deck"; root.tabIndex = 0; root.setAttribute("role", "region"); root.setAttribute("aria-roledescription", "slides"); root.setAttribute("aria-label", label);
+    root.innerHTML = '<div class="deck-stage"></div><div class="deck-nav"><button class="deck-arrow" type="button" aria-label="Previous slide">‹</button><div class="deck-dots"></div><span class="deck-count"></span><button class="deck-arrow" type="button" aria-label="Next slide">›</button></div>';
+    var stage = root.querySelector(".deck-stage"), dots = root.querySelector(".deck-dots"), arrows = root.querySelectorAll(".deck-arrow");
+    slides.forEach(function(s, i){ var d = document.createElement("button"); d.type = "button"; d.className = "deck-dot"; d.setAttribute("aria-label", "Slide " + (i + 1)); d.onclick = function(){ show(i); }; dots.appendChild(d); });
+    function show(i){
+      at = (i + slides.length) % slides.length; var s = slides[at];
+      stage.innerHTML = '<div class="deck-slide"><span class="deck-kicker"></span><h3 class="deck-title"></h3><p class="deck-body"></p><ul class="deck-facts"></ul><a class="btn sun" href="#list">Talk to us</a></div>';
+      stage.querySelector(".deck-kicker").textContent = s.k; stage.querySelector(".deck-title").textContent = s.t; stage.querySelector(".deck-body").textContent = s.b;
+      var ul = stage.querySelector(".deck-facts"); s.f.forEach(function(x){ var li = document.createElement("li"); li.textContent = x; ul.appendChild(li); });
+      Array.prototype.forEach.call(dots.children, function(d, k){ d.setAttribute("aria-current", String(k === at)); });
+      root.querySelector(".deck-count").textContent = (at + 1) + " / " + slides.length;
+    }
+    arrows[0].onclick = function(){ show(at - 1); }; arrows[1].onclick = function(){ show(at + 1); };
+    root.onkeydown = function(e){ if (e.key === "ArrowLeft") show(at - 1); if (e.key === "ArrowRight") show(at + 1); };
+    show(0);
+    return root;
+  }
+  function openDeck(key){
+    $("deckBox").innerHTML = ""; $("deckBox").appendChild(makeDeck(DECKS[key], key));
+    document.querySelectorAll("[data-deck]").forEach(function(t){ t.setAttribute("aria-selected", String(t.dataset.deck === key)); });
+  }
+  document.querySelectorAll("[data-deck]").forEach(function(t){ t.addEventListener("click", function(){ openDeck(t.dataset.deck); }); });
+  openDeck("owners");
+
+  /* Enquiry: owners and brands get a dashboard and a sign-in code by email; partners reach the team */
+  var TYPES = ["Empty plot or open land", "Terrace or rooftop", "Godown or warehouse", "Closed shed or factory", "Institutional or society land", "Shop or showroom", "Spare office seats", "Hall or event space", "Parking area", "Vacant house", "Other"];
+  $("fType").innerHTML = TYPES.map(function(t){ return "<option>" + t + "</option>"; }).join("");
+  var form = $("enqForm");
+  function syncRole(){
+    var r = form.role.value;
+    form.querySelectorAll("[data-owner]").forEach(function(e){ e.hidden = r !== "owner"; });
+    form.querySelectorAll("[data-brand]").forEach(function(e){ e.hidden = r !== "brand"; });
+    form.querySelector("[data-size-label]").textContent = r === "brand" ? "Space needed (sq ft)" : r === "partner" ? "Plot size, if you know it (sq ft)" : "Size (sq ft)";
+  }
+  form.addEventListener("change", syncRole); syncRole();
+  document.querySelector("[data-from-estimate]").addEventListener("click", function(){ form.size.value = $("eSize").value; });
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var err = form.querySelector(".error-box"), btn = form.querySelector("button[type=submit]");
+    err.textContent = "";
+    var d = Object.fromEntries(new FormData(form).entries());
+    if (!d.name || !d.phone || !d.email || !d.location) { err.textContent = "Please fill in your name, phone, email and location."; return; }
+    if (!form.termsAccepted.checked) { err.textContent = "Please agree to the Terms to continue."; return; }
+    d.termsAccepted = true;
+    btn.disabled = true;
+    fetch("/api/enquiry", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(d) })
+      .then(function(r){ return r.json().then(function(j){ if (!r.ok) throw new Error(j.error || "Something went wrong"); return j; }); })
+      .then(function(){ form.querySelector(".ok-box").classList.add("show"); btn.hidden = true; })
+      .catch(function(ex){ err.textContent = ex.message; btn.disabled = false; });
+  });
+})();
+</script>
+</body>
+</html>

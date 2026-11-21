@@ -1,0 +1,13 @@
+# Optional, when you can edit the nginx config for the site (nginx in front of Apache):
+# send /api straight to the Node API instead of through Apache's .htaccess. Put this inside the site's server { } block,
+# above the location that passes requests to Apache, then: nginx -t && systemctl reload nginx
+location /api/ {
+    proxy_pass http://127.0.0.1:3000;   # PORT in .env
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_read_timeout 120s;
+    client_max_body_size 110m;          # uploads go up to 100 MB
+}
