@@ -1,24 +1,24 @@
 // What a space can become, and the indicative estimate. The same figures and formula as the homepage's
 // 60-second estimate (public/index.html), from the RentMySite landowner deck: indicative ₹ per sq ft per month on
-// a Bengaluru main-road plot, before operating costs. Illustrative only; a survey sets the real figure.
+// a Bengaluru main-road dormant space, before operating costs. Illustrative only; a survey sets the real figure.
 const USES = [
-  // plot: what the use needs; funder: who pays for the build-out; build: weeks from approval to opening
+  // needs: what the use needs; funder: who pays for the build-out; build: weeks from approval to opening
   // (RentMySite "For landowners" PDF, November 2026)
-  { key: 'courts', name: 'Pickleball and padel courts', low: 30, high: 50, plot: '8,000 sq ft and up', funder: 'We do', build: '6–8 weeks' },
-  { key: 'markets', name: 'Weekend markets and events', low: 20, high: 45, plot: '10,000 sq ft and up', funder: 'We do', build: '1–2 weeks' },
-  { key: 'qsr', name: 'Drive-through QSR pad', low: 25, high: 40, plot: '8,000 sq ft, highway or main road', funder: 'Brand does', build: '8–12 weeks' },
-  { key: 'kiosks', name: 'Food kiosk court', low: 20, high: 35, plot: '4,000 sq ft, frontage', funder: 'Brands do', build: '4–6 weeks' },
-  { key: 'darkstore', name: 'Dark store and delivery hub', low: 15, high: 25, plot: '4,000 sq ft, paved or built', funder: 'Brand does', build: '3–6 weeks' },
-  { key: 'banquet', name: 'Banquet lawn and weddings', low: 12, high: 25, plot: '20,000 sq ft, quiet surroundings', funder: 'We do, or you do', build: '4–8 weeks' },
-  { key: 'carcare', name: 'Car care and detailing', low: 14, high: 22, plot: '5,000 sq ft, frontage', funder: 'Operator does', build: '3–5 weeks' },
-  { key: 'ev', name: 'EV and fleet parking', low: 12, high: 20, plot: '3,000 sq ft and up', funder: 'We do', build: '2–4 weeks' },
-  { key: 'storage', name: 'Container storage and yard', low: 8, high: 15, plot: '5,000 sq ft and up', funder: 'You do, or we do', build: '1–3 weeks' },
-  { key: 'cottages', name: 'Cottages and glamping, with NomadLivings', low: 4, high: 8, plot: '1 acre and up, outskirts', funder: 'We do', build: '3–6 months' }
+  { key: 'courts', name: 'Pickleball and padel courts', low: 30, high: 50, needs: '8,000 sq ft and up', funder: 'We do', build: '6–8 weeks' },
+  { key: 'markets', name: 'Weekend markets and events', low: 20, high: 45, needs: '10,000 sq ft and up', funder: 'We do', build: '1–2 weeks' },
+  { key: 'qsr', name: 'Drive-through QSR pad', low: 25, high: 40, needs: '8,000 sq ft, highway or main road', funder: 'Brand does', build: '8–12 weeks' },
+  { key: 'kiosks', name: 'Food kiosk court', low: 20, high: 35, needs: '4,000 sq ft, frontage', funder: 'Brands do', build: '4–6 weeks' },
+  { key: 'darkstore', name: 'Dark store and delivery hub', low: 15, high: 25, needs: '4,000 sq ft, paved or built', funder: 'Brand does', build: '3–6 weeks' },
+  { key: 'banquet', name: 'Banquet lawn and weddings', low: 12, high: 25, needs: '20,000 sq ft, quiet surroundings', funder: 'We do, or you do', build: '4–8 weeks' },
+  { key: 'carcare', name: 'Car care and detailing', low: 14, high: 22, needs: '5,000 sq ft, frontage', funder: 'Operator does', build: '3–5 weeks' },
+  { key: 'ev', name: 'EV and fleet parking', low: 12, high: 20, needs: '3,000 sq ft and up', funder: 'We do', build: '2–4 weeks' },
+  { key: 'storage', name: 'Container storage and yard', low: 8, high: 15, needs: '5,000 sq ft and up', funder: 'You do, or we do', build: '1–3 weeks' },
+  { key: 'cottages', name: 'Cottages and glamping, with NomadLivings', low: 4, high: 8, needs: '1 acre and up, outskirts', funder: 'We do', build: '3–6 months' }
 ];
 
 // Best uses for each kind of space (shown in the owner's free report)
 const FIT = {
-  'empty-plot-or-open-land': ['kiosks', 'ev', 'markets', 'courts', 'qsr', 'storage', 'cottages'],
+  'open-land-or-vacant-site': ['kiosks', 'ev', 'markets', 'courts', 'qsr', 'storage', 'cottages'],
   'terrace-or-rooftop': ['markets', 'courts', 'banquet'],
   'godown-or-warehouse': ['darkstore', 'storage'],
   'closed-shed-or-factory': ['darkstore', 'storage', 'markets', 'ev'],
@@ -36,7 +36,9 @@ const TIERS = [
 ];
 
 // "Terrace or rooftop", "terrace_or_rooftop" and "terrace-or-rooftop" all find the same entry
-const keyOf = t => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+// Accounts saved before November 2026 say "Empty plot or open land"; they get the same uses as open land
+const keyOf = t => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  .replace(/^(empty-plot-or-open-land|empty-plot)$/, 'open-land-or-vacant-site');
 function usesFor(category) {
   return (FIT[keyOf(category)] || FIT.default).map(k => USES.find(u => u.key === k));
 }

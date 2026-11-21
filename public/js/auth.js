@@ -80,8 +80,8 @@
   const copy = {
     business: {
       title: "Don't sell your land. Monetise it.",
-      text: 'List your idle plot, terrace, godown, shed or spare seats free. We plan it, build it and run it. You keep the title and earn every month.',
-      sample: ['plot', 'hosurroad', 'myplot'], catLabel: 'your space'
+      text: 'List your dormant space free: open land, a terrace, godown, shed or spare seats. We plan it, build it and run it. You keep the title and earn every month.',
+      sample: ['land', 'hosurroad', 'myspace'], catLabel: 'your space'
     },
     associate: {
       title: 'Earn from your days off.',

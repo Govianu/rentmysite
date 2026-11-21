@@ -40,7 +40,7 @@ test.before(async () => {
 });
 test.after(() => server?.close());
 
-const owner = { role: 'owner', name: 'Ravi Kumar', email: 'ravi@example.com', phone: '9876543210', spaceType: 'Empty plot or open land',
+const owner = { role: 'owner', name: 'Ravi Kumar', email: 'ravi@example.com', phone: '9876543210', spaceType: 'Open land or vacant site',
   size: 20000, location: 'Hosur Road, Bengaluru', termsAccepted: true };
 
 test('the estimate uses the deck figures: size x average rate of the uses, costs about 45%', () => {
@@ -62,7 +62,7 @@ test('an owner enquiry gets a dashboard, an RMS lead ID, a first estimate by ema
   assert.ok(await Lead.findOne({ leadId: u.leadId }));
   const mail = sent.find(m => m.to === 'ravi@example.com');
   assert.match(mail.html, /indicative estimate for 20,000 sq ft/);
-  assert.match(mail.html, /₹1,59,500 a month to you at the standard 50% tier/, 'the same figure as the dashboard: best uses for an empty plot');
+  assert.match(mail.html, /₹1,59,500 a month to you at the standard 50% tier/, 'the same figure as the dashboard: best uses for open land');
   assert.ok(!mail.html.includes(u.leadId), 'the lead ID stays with the team');
   const team = sent.find(m => m.to === 'info@rentmysite.ai');
   assert.match(team.subject, new RegExp(`\\[${u.leadId}\\] New enquiry: A space owner`));
@@ -85,7 +85,7 @@ test('the owner sees their site report and journey, updates the space, and signs
   assert.equal(v.status, 200, JSON.stringify(v.body));
   const r = await call('GET', '/owner/report', null, v.cookie);
   assert.equal(r.status, 200);
-  assert.equal(r.body.estimate.revenue, 580000, 'kiosks, EV parking, markets and courts on an empty plot');
+  assert.equal(r.body.estimate.revenue, 580000, 'kiosks, EV parking, markets and courts on open land');
 
   // The feasibility report: a verdict, key indicators, and core streams that add up to the estimate, plus add-ons
   const f = await call('GET', '/owner/feasibility', null, v.cookie);
@@ -93,7 +93,7 @@ test('the owner sees their site report and journey, updates the space, and signs
   assert.equal(f.body.verdict.level, 'high');
   assert.equal(f.body.totals.core, r.body.estimate.revenue, 'core streams add up to the site revenue estimate');
   assert.equal(f.body.core.length, 4);
-  assert.ok(f.body.addOns.some(a => a.key === 'hoarding'), 'a main-road plot can take a hoarding');
+  assert.ok(f.body.addOns.some(a => a.key === 'hoarding'), 'a main-road space can take a hoarding');
   assert.ok(f.body.totals.high > f.body.totals.low && f.body.totals.low > f.body.totals.core);
   assert.ok(f.body.indicators.some(([k]) => k === 'Time to first revenue'));
   assert.equal(f.body.startWith.length, 2);
@@ -133,7 +133,7 @@ test('feasibility ratings follow size, road and hours', () => {
   assert.equal(rateUse('courts', { size: 3000, road: 'inner', fullTime: true }).feasibility, 'Low', 'too small and off the main road');
   assert.equal(rateUse('cottages', { size: 60000, road: 'outskirts', fullTime: true }).feasibility, 'High');
   // On the outskirts, uses that need a main road drop out of the core streams instead of inflating the total
-  const outskirts = feasibilityFor({ space: { type: 'Empty plot or open land', size: 60000, road: 'outskirts' } });
+  const outskirts = feasibilityFor({ space: { type: 'Open land or vacant site', size: 60000, road: 'outskirts' } });
   assert.ok(outskirts.core.every(c => c.feasibility !== 'Low'));
   assert.ok(outskirts.core.some(c => c.key === 'cottages'));
   assert.equal(rateUse('qsr', { size: 1000, road: 'outskirts', fullTime: false }).feasibility, 'Low');

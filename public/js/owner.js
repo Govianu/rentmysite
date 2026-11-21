@@ -2,7 +2,7 @@
    requests, the mandate, statements and Profile & KYC. Data: /api/owner, /api/business, /api/market, /api/growth */
 (function () {
   const STEPS = [
-    ['Mandate, not a lease', 'You sign a mandate. We assess the plot and agree the terms and revenue model with you. No upfront cost.'],
+    ['Mandate, not a lease', 'You sign a mandate. We assess the space and agree the terms and revenue model with you. No upfront cost.'],
     ['Survey and plan', 'We survey frontage, access, power and drainage and draw a plan you approve. Nothing is built before that.'],
     ['Build and activate', 'We arrange approvals and basic infrastructure, and bring in brands and operators you approved.'],
     ['Operate and share', 'Brands run their business; we run the site. Revenue is collected, costs accounted for, and your share paid monthly.'],
@@ -12,7 +12,7 @@
 
   function deck(el, slides) {
     let at = 0;
-    el.innerHTML = `<div class="ddeck" tabindex="0" role="region" aria-roledescription="slides" aria-label="From plot to payout">
+    el.innerHTML = `<div class="ddeck" tabindex="0" role="region" aria-roledescription="slides" aria-label="From dormant space to payout">
       <div class="ddeck-stage"></div>
       <div class="ddeck-nav"><button class="ddeck-arrow" type="button" aria-label="Previous slide">‹</button><div class="ddeck-dots">${slides.map((s, i) => `<button class="ddeck-dot" type="button" data-i="${i}" aria-label="Slide ${i + 1}"></button>`).join('')}</div><span class="ddeck-count"></span><button class="ddeck-arrow" type="button" aria-label="Next slide">›</button></div></div>`;
     const stage = el.querySelector('.ddeck-stage');

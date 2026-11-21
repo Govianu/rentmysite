@@ -10,7 +10,7 @@
 // Every figure is illustrative: a survey sets the real numbers.
 const { usesFor } = require('./spaces');
 
-// What each core use needs. Plot sizes, roads, who funds the build and build-out times are from the RentMySite
+// What each core use needs. Minimum sizes, roads, who funds the build and build-out times are from the RentMySite
 // "For landowners" PDF (utils/spaces.js); `investment` is how much capital the build takes, for ordering only.
 const NEEDS = {
   courts:    { minSize: 8000,  road: 'main',      fullTime: true,  investment: 'High',   runBy: 'Sports operators (pickleball, padel, cricket nets)' },
@@ -30,15 +30,15 @@ const ADD_ONS = [
   { key: 'hoarding', name: 'Hoarding or LED screen for brand ads', low: 15000, high: 60000, investment: 'Low', funding: 'The advertiser pays for the structure', time: '1–3 months', runBy: 'Outdoor advertising agencies',
     fits: s => s.road === 'main', note: 'Subject to local advertising rules and permission.' },
   { key: 'telecom', name: 'Telecom tower or small cell', low: 10000, high: 40000, investment: 'Low', funding: 'The tower company builds it', time: '2–4 months', runBy: 'Telecom infrastructure companies',
-    fits: s => /plot|land|terrace|rooftop|society|institutional/.test(s.typeKey), note: 'Needs structural and municipal clearance.' },
+    fits: s => /land|vacant|terrace|rooftop|society|institutional/.test(s.typeKey), note: 'Needs structural and municipal clearance.' },
   { key: 'solar', name: 'Solar panels leased to a power company', perSqft: [2, 5], minSize: 1000, investment: 'Low', funding: 'The solar company owns the panels', time: '2–3 months', runBy: 'Solar developers',
-    fits: s => /terrace|rooftop|shed|factory|godown|warehouse|plot|land/.test(s.typeKey), note: 'Rent for roof or ground area used, usually on a long lease.' },
+    fits: s => /terrace|rooftop|shed|factory|godown|warehouse|land|vacant/.test(s.typeKey), note: 'Rent for roof or ground area used, usually on a long lease.' },
   { key: 'evaddon', name: 'Two to four EV charging points', low: 8000, high: 25000, investment: 'Low', funding: 'The charging company installs them', time: '4–8 weeks', runBy: 'EV charging companies',
     fits: s => !/terrace|rooftop/.test(s.typeKey) && !s.uses.includes('ev'), note: 'Needs a power connection we arrange with the charging company.' },
   { key: 'atm', name: 'ATM or vending kiosk', low: 8000, high: 25000, investment: 'Low', funding: 'The bank or vending company installs it', time: '1–2 months', runBy: 'Banks and vending operators',
-    fits: s => s.road === 'main' && /shop|showroom|plot|land|parking|office/.test(s.typeKey) },
+    fits: s => s.road === 'main' && /shop|showroom|land|vacant|parking|office/.test(s.typeKey) },
   { key: 'shoots', name: 'Film, photo and ad shoots', low: 5000, high: 30000, investment: 'Low', funding: 'Production houses pay per day', time: '2–4 weeks', runBy: 'Production houses and photographers',
-    fits: s => /hall|event|terrace|rooftop|house|shed|factory|plot|land/.test(s.typeKey), note: 'Occasional, so it varies month to month.' }
+    fits: s => /hall|event|terrace|rooftop|house|shed|factory|land|vacant/.test(s.typeKey), note: 'Occasional, so it varies month to month.' }
 ];
 
 const keyOf = t => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -64,7 +64,7 @@ function rateUse(key, { size, road, fullTime }) {
 }
 
 // The best uses for this type of space, ordered by how well they fit, top four (stable: equal fits keep the
-// order in utils/spaces.js, so a main-road plot gets the same four as the homepage estimate)
+// order in utils/spaces.js, so a main-road space gets the same four as the homepage estimate)
 // A use rated Low is left out when better ones exist, so it never inflates the estimate.
 function rankedUses(type, ctx) {
   const top = usesFor(type).map((u, i) => ({ u, i, r: RANK[rateUse(u.key, ctx).feasibility] }))
@@ -96,7 +96,7 @@ function feasibilityFor(user) {
     const n = NEEDS[u.key];
     const rating = rateUse(u.key, ctx);
     return {
-      key: u.key, kind: 'core', name: u.name, area, plot: u.plot,
+      key: u.key, kind: 'core', name: u.name, area, needs: u.needs,
       rate: { low: u.low, high: u.high },
       monthly: area ? round100(area * ((u.low + u.high) / 2) * ROAD_FACTOR[road]) : 0,
       investment: n.investment, funding: fundedBy(u.funder), time: u.build, runBy: n.runBy, ...rating

@@ -5,7 +5,7 @@
 // finalised, and the legal text should be reviewed by RentMySite's lawyer before it is used with owners.
 const crypto = require('crypto');
 
-const CTA_VERSION = 'Owner mandate v1.1, 21 November 2026';
+const CTA_VERSION = 'Owner mandate v1.2, 21 November 2026';
 const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
 const words = t => String(t).replace(/\b\w+/g, w => (w.length <= 3 && !/[aeiou]/i.test(w) ? w.toUpperCase() : cap(w)));
 
@@ -53,7 +53,7 @@ const SECTIONS = [
     'Give true details about the land and its ownership, and tell us about any dispute, loan or charge on it.',
     'Taxes on the land stay with you, as with any tenant.',
     'Give us access to the site for the survey and the build-out.',
-    'Make no parallel arrangement on the plot while this mandate runs, unless we agree in writing.'] },
+    'Make no parallel arrangement on the space while this mandate runs, unless we agree in writing.'] },
   { title: '7. KYC and documents', points: [
     'We need your PAN, Aadhaar (we keep only the last 4 digits), bank details and the land documents (ownership documents and an encumbrance certificate) before the site goes live.',
     'NRIs sign through a registered power of attorney in India.',

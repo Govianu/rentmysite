@@ -65,8 +65,8 @@ router.post('/', rateLimit(5, 10 * 60 * 1000), async (req, res) => {
     else {
       const isOwner = accountRole === 'business';
       const title = isOwner ? `${fields.spaceType || 'Space'} in ${area.replace(/\b\w/g, c => c.toUpperCase())}` : name;
-      // Short web address: plot.hosurroad.ravi
-      const SHORT = { 'Empty plot or open land': 'plot', 'Terrace or rooftop': 'terrace', 'Godown or warehouse': 'godown', 'Closed shed or factory': 'shed',
+      // Short web address: land.hosurroad.ravi
+      const SHORT = { 'Open land or vacant site': 'land', 'Terrace or rooftop': 'terrace', 'Godown or warehouse': 'godown', 'Closed shed or factory': 'shed',
         'Institutional or society land': 'campus', 'Shop or showroom': 'shop', 'Spare office seats': 'seats', 'Hall or event space': 'hall',
         'Parking area': 'parking', 'Vacant house': 'house' };
       const category = isOwner ? (SHORT[fields.spaceType] || 'space') : 'brand';
@@ -104,7 +104,7 @@ router.post('/', rateLimit(5, 10 * 60 * 1000), async (req, res) => {
   const personBody = p(`Hi ${esc(name.split(' ')[0])}, thank you for contacting RentMySite.ai. ${role === 'owner'
       ? 'Your owner dashboard is ready. We will call you within one working day to plan a free survey.'
       : role === 'brand' ? 'Your dashboard is ready. We will call you within one working day with sites that fit.'
-      : 'Thank you for wanting to introduce a plot or a brand. Our team will call you within one working day.'}`)
+      : 'Thank you for wanting to introduce a dormant space or a brand. Our team will call you within one working day.'}`)
     + (code ? p('Use this code to open your dashboard:') + codeBox(code) + button(link, 'Open my dashboard') : '')
     + (est ? p(`<strong>A first, indicative estimate for ${fields.size.toLocaleString('en-IN')} sq ft:</strong> about ${inr(est.revenue)} of site revenue a month, ${inr(est.profit)} of profit after running costs, and about ${inr(est.share50)} a month to you at the standard 50% tier.`)
       + feasibilityEmail(user, code ? link : null)

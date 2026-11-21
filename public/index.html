@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RentMySite.ai | Don't sell your land. Monetise it.</title>
-<meta name="description" content="List your idle plot, terrace, godown, shed or spare seats free. We plan, build and run it as a multi-use site. You keep the title and earn every month.">
+<title>RentMySite.ai | One dormant space. Multiple revenue streams.</title>
+<meta name="description" content="List your dormant space free: open land, a terrace, godown, shed or spare seats. We plan, build and run it as a multi-use site. You keep the title and earn every month.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -30,21 +30,22 @@ img{max-width:100%}
 .top .wrap{display:flex;align-items:center;gap:1rem;min-height:68px}
 .brand{font-weight:800;font-size:1.25rem;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
 .brand span{color:var(--green)}
-.nav{display:none;gap:1.3rem;margin-left:1.5rem}
+.nav{display:none;gap:1.4rem;margin-left:2rem;white-space:nowrap}
 .nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem}
 .nav a:hover{color:var(--ink)}
-.top .actions{margin-left:auto;display:flex;gap:.5rem}
-@media (min-width:1060px){.nav{display:flex}}
+.top .actions{margin-left:auto;display:flex;gap:.5rem;white-space:nowrap;flex-shrink:0}
+.brand{white-space:nowrap;flex-shrink:0}
+@media (min-width:1120px){.nav{display:flex}}
 @media (max-width:520px){.top .actions .line{display:none}}
 /* hero */
-.hero{padding:clamp(2.5rem,7vw,5rem) 0 3rem}
-.hero .wrap{display:grid;gap:2.5rem;align-items:center}
+.hero{padding:clamp(2.5rem,7vw,5rem) 0 1rem}
+.hero .wrap{display:grid;gap:2rem 2.5rem;align-items:center}
 @media (min-width:960px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
 .kicker{display:inline-block;font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--green);background:var(--green-soft);padding:.35rem .7rem;border-radius:999px}
 h1{font-size:clamp(2.2rem,5.4vw,3.8rem);line-height:1.05;letter-spacing:-.03em;margin:.9rem 0 1rem}
 .lead{font-size:1.15rem;color:var(--muted);max-width:40ch;margin:0 0 1.6rem}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.7rem}
-.trust{display:flex;flex-wrap:wrap;gap:1.6rem;margin-top:2rem}
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem 2rem;grid-column:1/-1;padding-top:1.25rem;border-top:1px solid var(--line)}
 .trust b{display:block;font-size:1.6rem;color:var(--green);line-height:1.1}
 .trust span{font-size:.88rem;color:var(--muted)}
 .hero-card{background:var(--night);color:#fff;border-radius:22px;padding:1.6rem;box-shadow:0 20px 50px rgba(11,42,31,.25)}
@@ -65,6 +66,37 @@ section{padding:3.5rem 0}
 .card h3{margin:.3rem 0 .4rem;font-size:1.08rem}
 .card p{margin:0;color:var(--muted);font-size:.95rem}
 .tag{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+#examples{padding-top:.5rem}
+#examples .sec-head{max-width:none;margin-bottom:1rem}
+#examples .sec-head p{max-width:640px}
+.ex-head-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:.9rem 2rem}
+.ex-head-row .tabs{margin:0;flex-shrink:0}
+.pick-fields{display:grid;gap:.75rem;margin-bottom:1rem}
+@media (min-width:760px){.pick-fields{grid-template-columns:1fr 1.2fr 1.4fr}}
+.pick-fields .field{margin:0}
+.pick-loc{position:relative}
+.loc-list{position:absolute;z-index:15;top:100%;left:0;right:0;margin:.25rem 0 0;padding:.3rem;list-style:none;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(16,35,27,.12);max-height:280px;overflow:auto}
+.loc-list li{padding:.55rem .7rem;border-radius:8px;cursor:pointer;font-size:.93rem}
+.loc-list li[aria-selected="true"],.loc-list li:hover{background:var(--green-soft)}
+.loc-list .src{cursor:default;font-size:.75rem;color:var(--muted);background:none}
+.pick-side .pick-for{color:var(--ink);font-weight:600}
+.pick-card{display:grid;gap:1.5rem;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.5rem;box-shadow:0 10px 30px rgba(16,35,27,.06)}
+@media (min-width:880px){.pick-card{grid-template-columns:.85fr 1.15fr;padding:2rem}}
+.pick-side{display:flex;flex-direction:column;gap:.5rem}
+.pick-side h3{margin:0;font-size:clamp(1.35rem,2.4vw,1.75rem);letter-spacing:-.01em;line-height:1.2}
+.pick-side p{margin:0;color:var(--muted)}
+.pick-side .pick-count{font-weight:800;color:var(--green-dark)}
+.pick-nav{display:flex;align-items:center;gap:.6rem;padding-top:.75rem;flex-wrap:wrap}
+.pick-nav button{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-size:1.3rem;line-height:1;cursor:pointer}
+.pick-nav button:hover{border-color:var(--green);color:var(--green)}
+.pick-nav small{color:var(--muted);font-weight:600;min-width:3.2rem;text-align:center}
+.pick-nav .btn{margin-left:auto}
+.pick-streams{list-style:none;margin:0;padding:0;display:grid;gap:.6rem;counter-reset:s;align-content:start}
+.pick-streams li{display:grid;grid-template-columns:auto 1fr;gap:.15rem .8rem;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:.85rem 1rem;counter-increment:s}
+.pick-streams li::before{content:counter(s);grid-row:span 2;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:800;font-size:.9rem;display:grid;place-items:center}
+.pick-streams b{font-size:1rem}
+.pick-streams span{color:var(--muted);font-size:.92rem}
+@media (max-width:520px){.pick-nav .btn{margin-left:0;width:100%}}
 .band{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 /* decks */
 .tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
@@ -186,12 +218,13 @@ footer .brand{color:#fff}
   <div class="wrap">
     <a class="brand" href="/">RentMySite<span>.ai</span></a>
     <nav class="nav" aria-label="Main">
+      <a href="#examples">Examples</a>
       <a href="#simple">How it works</a>
-      <a href="#uses">What it can become</a>
+      <a href="#uses">Uses</a>
       <a href="#estimate">Estimate</a>
-      <a href="#mandate">The mandate</a>
+      <a href="#mandate">Mandate</a>
       <a href="#brands">For brands</a>
-      <a href="#decks">Investors &amp; partners</a>
+      <a href="#decks">Investors</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="actions">
@@ -205,28 +238,55 @@ footer .brand{color:#fff}
 <section class="hero">
   <div class="wrap">
     <div>
-      <span class="kicker">List · Connect · Monetise</span>
+      <span class="kicker">One dormant space. Multiple revenue streams.</span>
       <h1>Don't sell your land. Monetise it.</h1>
-      <p class="lead">List your idle plot, terrace, godown, shed or spare seats for free. We plan it, build it and run it as a multi-use site. You keep the title and earn every month.</p>
+      <p class="lead">List your dormant space for free: open land, a terrace, godown, shed, spare seats, or the hours your place stands empty. We plan it, build it and run it as a multi-use site. You keep the title and earn every month.</p>
       <div class="hero-cta">
         <a class="btn sun" href="#estimate">Get my 60-second estimate</a>
         <a class="btn line" href="#list">List your space free</a>
       </div>
-      <div class="trust">
-        <div><b>1,000+</b><span>sites assessed</span></div>
-        <div><b>500+</b><span>owner enquiries in two months</span></div>
-        <div><b>100+</b><span>owners ready to sign</span></div>
-        <div><b>7</b><span>cities: five in India, plus Orlando and Dubai</span></div>
-      </div>
     </div>
     <aside class="hero-card" aria-label="Revenue share versus nothing">
-      <h3>The real comparison, 20,000 sq ft main-road plot, Bengaluru</h3>
+      <h3>The real comparison, 20,000 sq ft main-road dormant space, Bengaluru</h3>
       <div class="compare">
         <div><small>Bare land, waiting</small><b>₹0</b><small>No taker, no rent</small></div>
         <div class="on"><small>Operated multi-use site</small><b>~₹1.8L</b><small>to you every month</small></div>
       </div>
       <p>About ₹6.5 lakh a month of site revenue, ₹3.6 lakh profit after costs, split 50:50 at the standard tier. Illustrative only, not an offer. Every site gets a written estimate after a survey.</p>
     </aside>
+    <div class="trust">
+      <div><b>1,000+</b><span>sites assessed</span></div>
+      <div><b>500+</b><span>owner enquiries in two months</span></div>
+      <div><b>100+</b><span>owners ready to sign</span></div>
+      <div><b>7</b><span>cities: India, Orlando, Dubai</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="examples">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">See your revenue streams</span>
+      <h2>Empty space or empty time?</h2>
+      <div class="ex-head-row">
+        <p>A dormant space is land, a roof or a room nobody uses, or the hours a busy place stands empty. Tell us yours and see the revenue streams it can carry at the same time.</p>
+        <div class="tabs" role="tablist" aria-label="Kind of dormant space">
+          <button class="tab" type="button" role="tab" data-kind="space" aria-selected="true">Empty space</button>
+          <button class="tab" type="button" role="tab" data-kind="time" aria-selected="false">Empty time</button>
+        </div>
+      </div>
+    </div>
+    <div class="pick">
+      <div class="pick-fields">
+        <div class="field"><label for="exName">Your name</label><input id="exName" autocomplete="name" maxlength="80" placeholder="Your name"></div>
+        <div class="field"><label for="exSel">Your space</label><select id="exSel"></select></div>
+        <div class="field pick-loc"><label for="exLoc">Location</label>
+          <input id="exLoc" autocomplete="off" maxlength="200" placeholder="Start typing an area or city" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="exLocList">
+          <ul class="loc-list" id="exLocList" role="listbox" hidden></ul></div>
+      </div>
+      <div class="pick-card" id="exCard" aria-live="polite"></div>
+    </div>
+    <p class="fine">Examples only. Which streams fit, and what they earn, depends on the size, the road, the hours it is free and local rules. Your free report lists the streams for your space.</p>
   </div>
 </section>
 
@@ -235,14 +295,14 @@ footer .brand{color:#fff}
     <div class="sec-head">
       <span class="kicker">Explained simply</span>
       <h2>If it sits idle, it can probably earn.</h2>
-      <p>Like Airbnb, but for any unused space: spare office seats, terraces, godowns, empty plots, shops, and even the hours your place is closed.</p>
+      <p>Like Airbnb, but for any unused space: spare office seats, terraces, godowns, open land, shops, and even the hours your place is closed.</p>
     </div>
     <div class="grid">
       <div class="card"><span class="tag">Spare seats</span><h3>10 empty seats in your office</h3><p>50 seats, 40 people. A small company nearby uses the other 10 and pays you every month.</p></div>
       <div class="card"><span class="tag">Quiet hours</span><h3>An office that sleeps at night</h3><p>You work 9 am to 9 pm. A night-shift team uses the same desks, where your building and lease allow it.</p></div>
       <div class="card"><span class="tag">Terrace</span><h3>A terrace nobody visits</h3><p>Weekend events, a pop-up café, photo shoots or yoga classes.</p></div>
       <div class="card"><span class="tag">Godown</span><h3>A half-empty godown</h3><p>An online seller stores festival stock in the free half for three months.</p></div>
-      <div class="card"><span class="tag">Empty plot</span><h3>A vacant site by the road</h3><p>Paid parking, EV charging, a food-truck spot, courts or a weekend market.</p></div>
+      <div class="card"><span class="tag">Open land</span><h3>A vacant site by the road</h3><p>Paid parking, EV charging, a food-truck spot, courts or a weekend market.</p></div>
       <div class="card"><span class="tag">Closed shed</span><h3>A factory or trust land standing still</h3><p>A market hall, delivery hub, storage bays or parking, with your board's approval.</p></div>
     </div>
   </div>
@@ -270,13 +330,13 @@ footer .brand{color:#fff}
 <section id="uses" class="band">
   <div class="wrap">
     <div class="sec-head">
-      <span class="kicker">What can be built on your plot</span>
-      <h2>One plot. Several revenue lines.</h2>
-      <p>Every use has a plot size it needs, a road it needs, and a build-out someone pays for. Most plots combine two or three uses, so one brand leaving does not empty the site. Indicative site revenue on a Bengaluru main-road plot, before operating costs.</p>
+      <span class="kicker">What your dormant space can become</span>
+      <h2>One dormant space. Several revenue streams.</h2>
+      <p>Every use has a minimum size it needs, a road it needs, and a build-out someone pays for. Most dormant spaces combine two or three uses, so one brand leaving does not empty the site. Indicative site revenue on a Bengaluru main-road dormant space, before operating costs.</p>
     </div>
     <div class="table-wrap">
     <table class="uses stack">
-      <thead><tr><th scope="col">Use</th><th scope="col">Plot needed</th><th scope="col">Who funds the build</th><th scope="col">₹ / sq ft / month</th><th scope="col">Build-out</th></tr></thead>
+      <thead><tr><th scope="col">Use</th><th scope="col">Space needed</th><th scope="col">Who funds the build</th><th scope="col">₹ / sq ft / month</th><th scope="col">Build-out</th></tr></thead>
       <tbody id="useRows"></tbody>
     </table>
     </div>
@@ -293,7 +353,7 @@ footer .brand{color:#fff}
     </div>
     <div class="est">
       <form class="form" id="estForm" onsubmit="return false">
-        <div class="field"><label for="eSize">Plot or space size (sq ft)</label><input id="eSize" type="number" min="500" step="500" value="20000" inputmode="numeric"></div>
+        <div class="field"><label for="eSize">Size of the space (sq ft)</label><input id="eSize" type="number" min="500" step="500" value="20000" inputmode="numeric"></div>
         <div class="field"><label for="eRoad">Where is it?</label>
           <select id="eRoad"><option value="1">On a main road</option><option value="0.75">On an inner road</option><option value="0.55">Outskirts or industrial area</option></select></div>
         <div class="field"><span class="label">Uses you'd like</span><div class="checks" id="eUses"></div></div>
@@ -319,8 +379,8 @@ footer .brand{color:#fff}
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">Where the money goes</span>
-      <h2>One plot, worked through.</h2>
-      <p>A 20,000 sq ft main-road plot in Bengaluru, bare land: EV and fleet parking on half the plot, a weekend market and events area, and a small food kiosk court on the frontage. Site revenue of ₹5–8 lakh a month once running; the midpoint is below.</p>
+      <h2>One dormant space, worked through.</h2>
+      <p>A 20,000 sq ft main-road dormant space in Bengaluru, bare land: EV and fleet parking on half the space, a weekend market and events area, and a small food kiosk court on the frontage. Site revenue of ₹5–8 lakh a month once running; the midpoint is below.</p>
     </div>
     <div class="money">
       <div class="flow">
@@ -330,11 +390,11 @@ footer .brand{color:#fff}
         <div class="owner"><span><strong>To you, every month</strong><small>With a statement, and a yearly audit of the site accounts</small></span><b>₹1.8L</b></div>
       </div>
       <div class="chart">
-        <h3>Five years on the same plot: what you receive in total</h3>
+        <h3>Five years on the same space: what you receive in total</h3>
         <p class="fine" style="margin:0 0 .6rem">Six months to build and ramp up, then about 6% growth a year as brands rotate and lines are added.</p>
         <div id="fiveYears"></div>
         <ul class="legend" id="fiveLegend"></ul>
-        <p class="fine">The honest comparison is revenue share versus nothing: for a dormant plot no tenant has come, so the realised rent is zero. The dashed line is the rent being asked (about ₹10 per sq ft a month) as if a tenant had signed on day one. Growth comes from adding lines, not raising prices. Illustrative only, not an offer.</p>
+        <p class="fine">The honest comparison is revenue share versus nothing: for a dormant space no tenant has come, so the realised rent is zero. The dashed line is the rent being asked (about ₹10 per sq ft a month) as if a tenant had signed on day one. Growth comes from adding lines, not raising prices. Illustrative only, not an offer.</p>
       </div>
     </div>
   </div>
@@ -379,13 +439,13 @@ footer .brand{color:#fff}
       <p>A summary of what the owner agreement says. The signed mandate governs; this is not a substitute for it.</p>
     </div>
     <div class="mandate">
-      <div class="card"><h3>What you grant</h3><p>The exclusive right, for the term, to find, contract and place brands and operators on your plot, and to sub-license space to them. No lease is created and no ownership passes.</p></div>
+      <div class="card"><h3>What you grant</h3><p>The exclusive right, for the term, to find, contract and place brands and operators on your dormant space, and to sub-license space to them. No lease is created and no ownership passes.</p></div>
       <div class="card"><h3>What you receive</h3><p>No rent. A share of site profit, 50% in the standard tier, paid monthly within ten days of month end. One audit of the site accounts each year, at your request.</p></div>
       <div class="card"><h3>Your share, by who funds the build</h3><p>You fund it: 65%, and the assets are yours. The brand funds it: 50% (standard). We fund it: 35%, recovered from revenue over the term, nothing out of your pocket.</p></div>
       <div class="card"><h3>Build-out and assets</h3><p>Assets belong to whoever paid for them, and are removed or handed over at the end of the term.</p></div>
       <div class="card"><h3>Approvals</h3><p>You approve the site plan and operator mix before anything is built. We obtain and pay for operating permits and licences.</p></div>
       <div class="card"><h3>Insurance</h3><p>We hold public liability cover for the site, and every operator insures its own activity.</p></div>
-      <div class="card"><h3>Your undertakings</h3><p>Clear title, site access, and no parallel arrangements on the plot during the term. Taxes on the land stay with you.</p></div>
+      <div class="card"><h3>Your undertakings</h3><p>Clear title, site access, and no parallel arrangements on the space during the term. Taxes on the land stay with you.</p></div>
       <div class="card"><h3>Selling the land</h3><p>Sell at any time. The buyer steps into the mandate, or the site winds down on notice with the unrecovered build cost settled as the schedule sets out.</p></div>
       <div class="card"><h3>Ending it, and disputes</h3><p>Either side may end the mandate for a material breach not cured within thirty days. Force majeure suspends obligations while it lasts. Disputes go to arbitration in Bengaluru under Indian law.</p></div>
     </div>
@@ -414,7 +474,7 @@ footer .brand{color:#fff}
     </div>
     <div class="grid">
       <div class="card"><h3>No rent, no long lease</h3><p>Your only cost is 30% of what you sell on the site. Below about ₹5 lakh of monthly sales that is cheaper than a typical kiosk lease; above it, you pay more only because you sell more.</p></div>
-      <div class="card"><h3>Locations you could not lease alone</h3><p>Highway plots, layout plots and closed sheds we hold under exclusive mandates.</p></div>
+      <div class="card"><h3>Locations you could not lease alone</h3><p>Highway land, layout sites and closed sheds we hold under exclusive mandates.</p></div>
       <div class="card"><h3>We run the site</h3><p>Staffing, power, water, cleaning, security, insurance and permits are ours. Your fixed cost on a site is close to zero.</p></div>
       <div class="card"><h3>Open a cluster, not a store</h3><p>One revenue-share agreement covers a bundle of up to 10 sites in a city. Test a city without a lease commitment.</p></div>
     </div>
@@ -457,7 +517,7 @@ footer .brand{color:#fff}
     <details class="faq"><summary>Who pays for permits, insurance and staff?</summary><p>We do. Taxes on the land stay with the owner, as with any tenant.</p></details>
     <details class="faq"><summary>What if a brand stops paying, or leaves?</summary><p>Brands pay us, not you. We manage collections, hold deposits and replace operators who fall behind from our bundle pipeline. A multi-brand site keeps earning while a slot is refilled.</p></details>
     <details class="faq"><summary>Who insures the site?</summary><p>We do, for public liability and operator activity. The mandate lists the cover and the insurer.</p></details>
-    <details class="faq"><summary>Can I use part of the plot myself?</summary><p>Yes, if we agree it in the plan before build-out.</p></details>
+    <details class="faq"><summary>Can I use part of the space myself?</summary><p>Yes, if we agree it in the plan before build-out.</p></details>
     <details class="faq"><summary>Is there a listing fee?</summary><p>No fee and no obligation until you sign the mandate. The estimate and the survey are free.</p></details>
     <details class="faq"><summary>What about property tax?</summary><p>Taxes on the land remain yours. Operating permits and licences for the uses are ours to obtain and pay for.</p></details>
     <details class="faq"><summary>How are the estimates made?</summary><p>From more than 1,000 site assessments, by use, city, frontage, surroundings and surface. A survey confirms the number before a mandate proposal.</p></details>
@@ -521,7 +581,7 @@ footer .brand{color:#fff}
   var $ = function(id){ return document.getElementById(id); };
   var inr = function(n){ n = Math.round(n); if (n >= 100000) return "₹" + (n / 100000).toFixed(n >= 1000000 ? 1 : 2).replace(/\.?0+$/, "") + "L"; return "₹" + n.toLocaleString("en-IN"); };
 
-  /* Uses: indicative ₹/sq ft/month on a Bengaluru main-road plot, the plot each needs, who funds the build and the
+  /* Uses: indicative ₹/sq ft/month on a Bengaluru main-road dormant space, the space each needs, who funds the build and the
      build-out time ("For landowners" PDF; the same data as utils/spaces.js) */
   var USES = [
     ["Pickleball and padel courts", 30, 50, "8,000 sq ft and up", "We do", "6–8 weeks"],
@@ -540,13 +600,13 @@ footer .brand{color:#fff}
   function rows(id, heads, data){
     $(id).innerHTML = data.map(function(r){ return "<tr>" + r.map(function(c, i){ return "<td" + (i ? ' data-label="' + heads[i] + '"' : "") + (c && c.cls ? ' class="' + c.cls + '"' : "") + ">" + (c && c.html ? c.html : esc(c)) + "</td>"; }).join("") + "</tr>"; }).join("");
   }
-  rows("useRows", ["Use", "Plot needed", "Who funds the build", "₹ / sq ft / month", "Build-out"],
+  rows("useRows", ["Use", "Space needed", "Who funds the build", "₹ / sq ft / month", "Build-out"],
     USES.map(function(u){ return [u[0], u[3], u[4], {cls: "rate", html: "₹" + u[1] + "–" + u[2]}, u[5]]; }));
 
   /* For brands: formats and cities ("For brands and operators" PDF) */
   rows("formatRows", ["Format", "Space", "Who builds", "Typical term", "Best for"], [
     ["Kiosks and food courts", "100–400 sq ft per brand, shared seating", "The brand", "12 months", "Food, beverages, quick retail"],
-    ["Drive-through and pad sites", "8,000 sq ft plots, highway or main road", "The brand", "5 years", "QSR, coffee, auto services"],
+    ["Drive-through and pad sites", "8,000 sq ft sites, highway or main road", "The brand", "5 years", "QSR, coffee, auto services"],
     ["Courts and play", "Court space on 8,000 sq ft and up", "We do, or you do", "3 years", "Pickleball, padel, cricket nets"],
     ["Event and market slots", "One-week rotations on a 20,000 sq ft site", "We do", "Per slot", "D2C launches, seasonal sales"],
     ["Dark store and delivery hub", "4,000 sq ft paved or built", "The brand", "3 years", "Quick commerce, logistics"],
@@ -554,13 +614,13 @@ footer .brand{color:#fff}
   ]);
   var pill = function(t, live){ return {html: '<span class="pill' + (live ? " live" : "") + '">' + t + "</span>"}; };
   rows("cityRows", ["City", "Status", "Lead formats"], [
-    ["Bengaluru", pill("Operating", true), "Highway pads and parking; layout-plot kiosks, courts and car care; sheds for dark stores"],
+    ["Bengaluru", pill("Operating", true), "Highway pads and parking; layout-site kiosks, courts and car care; sheds for dark stores"],
     ["Hyderabad, Chennai, Pune, Delhi NCR", pill("Opening"), "Same playbook; first bundles of 10 sites per city (cities subject to confirmation)"],
     ["Orlando", pill("Launching"), "Tourist-corridor courts and food-truck courts, rotating brand markets, Indian brands with no US presence"],
     ["Dubai", pill("Launching"), "Vacant shops and showrooms as kiosk clusters and pop-up markets, with CashMyProperty.ai"]
   ]);
 
-  /* Five years on the same 20,000 sq ft plot: cumulative payments to the owner. Six-month linear ramp to the full
+  /* Five years on the same 20,000 sq ft dormant space: cumulative payments to the owner. Six-month linear ramp to the full
      monthly share, then about 6% growth a year (overview PDF: ~₹1.2 crore standard, ~₹1.5 crore owner-funded).
      Dashed: the asking rent (₹10 / sq ft / month) as if a tenant had signed on day one. */
   (function(){
@@ -610,15 +670,15 @@ footer .brand{color:#fff}
   var DECKS = {
     owners: [
       {k: "For landowners", t: "Keep the land. Activate the value.", b: "We plan it, build it and run it. You earn every month, and you keep the title.", f: ["No upfront cost", "A mandate, not a lease", "Profit shared monthly with a statement"]},
-      {k: "The problem", t: "Your plot has been waiting for years.", b: "Property tax every year, no tenant, no rent, and an idle plot still needs fencing, clearing and watching.", f: []},
+      {k: "The problem", t: "Your dormant space has been waiting for years.", b: "Property tax every year, no tenant, no rent, and an idle site still needs fencing, clearing and watching.", f: []},
       {k: "The real comparison", t: "Revenue share versus nothing.", b: "Bare land may ask about ₹10 per sq ft a month and often finds no taker. The same land run as a multi-brand site produces about three times that, from several uses at once.", f: ["Illustrative, based on indicative Bengaluru figures"]},
-      {k: "How it works", t: "From dormant plot to operating site.", b: "1. Mandate: we assess the plot and agree terms. 2. Build and activate: survey, plan you approve, approvals, brands. 3. Operate and share: we run the site and pay your share monthly.", f: []},
+      {k: "How it works", t: "From dormant space to operating site.", b: "1. Mandate: we assess the space and agree terms. 2. Build and activate: survey, plan you approve, approvals, brands. 3. Operate and share: we run the site and pay your share monthly.", f: []},
       {k: "Pick your tier", t: "Your share, by who funds the build.", b: "We fund the build: 35%. The brand funds (standard): 50%. You fund the build: 65%.", f: ["On ₹3.6 lakh monthly site profit: ₹1.26L, ₹1.80L or ₹2.34L a month", "Tier percentages are illustrative until the mandate is signed"]},
-      {k: "Over five years", t: "About ₹1.2 crore to you.", b: "At the standard tier on a 20,000 sq ft main-road plot, versus nothing while the plot waits.", f: ["Illustrative example only, not an offer"]}
+      {k: "Over five years", t: "About ₹1.2 crore to you.", b: "At the standard tier on a 20,000 sq ft main-road dormant space, versus nothing while the space waits.", f: ["Illustrative example only, not an offer"]}
     ],
     nri: [
-      {k: "For NRI landowners", t: "Your plot back home, earning every month.", b: "We plan, build and run a multi-use site on your idle land. You keep the title, wherever you live.", f: []},
-      {k: "The problem", t: "A plot thousands of kilometres away earns nothing.", b: "Encroachment risk, years idle, upkeep and tax with no income, and relatives having to keep checking on it.", f: []},
+      {k: "For NRI landowners", t: "Your dormant space back home, earning every month.", b: "We plan, build and run a multi-use site on your idle land. You keep the title, wherever you live.", f: []},
+      {k: "The problem", t: "A dormant space thousands of kilometres away earns nothing.", b: "Encroachment risk, years idle, upkeep and tax with no income, and relatives having to keep checking on it.", f: []},
       {k: "From abroad", t: "You never need to fly home.", b: "Send the location and documents on email or WhatsApp. We survey and share a plan with a video walkthrough. Sign through a registered power of attorney.", f: ["Your share is paid monthly to your NRO account", "A statement on your phone every month"]},
       {k: "Safety and title", t: "Your land stays yours. Always.", b: "Title never transfers. A working, staffed site is far harder to encroach. Sell any time on the terms in your mandate.", f: []}
     ],
@@ -635,14 +695,14 @@ footer .brand{color:#fff}
       {k: "Formats", t: "Formats that fit your brand.", b: "Kiosks and food courts, drive-through pads, weekend market slots, staffed counters, dark stores and hubs, pickleball and padel courts.", f: ["Bengaluru now; Pune, Hyderabad, Chennai and Delhi NCR next, subject to confirmation"]}
     ],
     partners: [
-      {k: "Partner programme", t: "One intro. One new site.", b: "For real-estate agents, land brokers, RWAs and layout associations who know the empty plots and the brands looking for space.", f: []},
-      {k: "What qualifies", t: "Plots and brands we are looking for.", b: "Idle plots with road frontage, closed sheds and yards, institutional or society land; and food, retail, fleet, EV, quick-commerce, event and sports brands needing space.", f: []},
-      {k: "How to introduce", t: "Three steps. That's all.", b: "Share the plot or the brand's need on WhatsApp, connect us to the owner or brand, and we take it from there: survey, plan and conversations.", f: ["Partner terms shared on request"]}
+      {k: "Partner programme", t: "One intro. One new site.", b: "For real-estate agents, land brokers, RWAs and layout associations who know the dormant spaces and the brands looking for space.", f: []},
+      {k: "What qualifies", t: "Dormant spaces and brands we are looking for.", b: "Dormant land with road frontage, closed sheds and yards, institutional or society land; and food, retail, fleet, EV, quick-commerce, event and sports brands needing space.", f: []},
+      {k: "How to introduce", t: "Three steps. That's all.", b: "Share the dormant space or the brand's need on WhatsApp, connect us to the owner or brand, and we take it from there: survey, plan and conversations.", f: ["Partner terms shared on request"]}
     ],
     investors: [
       {k: "Investor summary", t: "Rent expectations are low. Operated yields are not.", b: "Landowners will accept modest rent for idle land. An operated, multi-brand site produces about three times that. RentMySite.ai keeps the gap, shares it with the owner, and never owns the land.", f: ["3× operated yield versus the rent owners expect", "Platform revenue target: about 2% of onboarded property value a year (US$100M onboarded → US$2M a year)", "No leases or land on the balance sheet"], cta: DATA_ROOM},
-      {k: "The opportunity", t: "Owners will not build. Brands will not lease raw land.", b: "Millions of idle urban and highway-facing plots, yards and sheds in India, while QSR, quick commerce, EV fleets, sports operators and D2C brands want locations without leases. A platform that mandates the land and operates the site closes the gap.", f: ["The same gap exists in the US (out-parcels, church and school lots) and the Gulf (vacant shops and showrooms)"], cta: DATA_ROOM},
-      {k: "The model", t: "Mandates, bundles, revenue lines.", b: "Supply: exclusive mandates on dormant plots, no rent and no land purchase. Demand: brands on 70:30 revenue share, sold in bundles of 10 sites per city. Operation: several lines per mandate; the owner takes 50% of profit, we keep the rest plus the brand share.", f: ["Each operated site contributes about ₹21.6 lakh a year to the platform at the standard tier"], cta: DATA_ROOM},
+      {k: "The opportunity", t: "Owners will not build. Brands will not lease raw land.", b: "Millions of idle urban and highway-facing dormant spaces, yards and sheds in India, while QSR, quick commerce, EV fleets, sports operators and D2C brands want locations without leases. A platform that mandates the land and operates the site closes the gap.", f: ["The same gap exists in the US (out-parcels, church and school lots) and the Gulf (vacant shops and showrooms)"], cta: DATA_ROOM},
+      {k: "The model", t: "Mandates, bundles, revenue lines.", b: "Supply: exclusive mandates on dormant spaces, no rent and no land purchase. Demand: brands on 70:30 revenue share, sold in bundles of 10 sites per city. Operation: several lines per mandate; the owner takes 50% of profit, we keep the rest plus the brand share.", f: ["Each operated site contributes about ₹21.6 lakh a year to the platform at the standard tier"], cta: DATA_ROOM},
       {k: "Unit economics", t: "₹5 lakh a month per site is the floor.", b: "India: ₹5 lakh a month or more of site revenue per listed site; 25 sites across five cities in six months. United States: a US$1M site at a 5% yield produces about US$50k a year, about US$10k of it base share to the platform; 100 sites is about US$1M a year before operated-use profit.", f: ["Figures are targets and estimates, not audited results"], cta: DATA_ROOM},
       {k: "Traction", t: "Demand on both sides, already.", b: "1,000+ sites assessed, 500+ owner enquiries in two months, 100+ owners ready to sign across five cities, and 50 brands targeted in the first three months.", f: [], cta: DATA_ROOM},
       {k: "Roll-out", t: "Seven cities, then master franchises.", b: "Bengaluru is operating. Four more Indian cities next, each with a local team and bundles of 10 sites. Orlando with 100 properties, then Indian brands on the sites. Dubai with CashMyProperty.ai. Then licensed master-franchise operators: the fastest route to ten countries.", f: ["Later: a mandate-backed income product for fractional investors, subject to regulatory review"], cta: DATA_ROOM},
@@ -678,14 +738,14 @@ footer .brand{color:#fff}
   openDeck("owners");
 
   /* Enquiry: owners and brands get a dashboard and a sign-in code by email; partners reach the team */
-  var TYPES = ["Empty plot or open land", "Terrace or rooftop", "Godown or warehouse", "Closed shed or factory", "Institutional or society land", "Shop or showroom", "Spare office seats", "Hall or event space", "Parking area", "Vacant house", "Other"];
+  var TYPES = ["Open land or vacant site", "Terrace or rooftop", "Godown or warehouse", "Closed shed or factory", "Institutional or society land", "Shop or showroom", "Spare office seats", "Hall or event space", "Parking area", "Vacant house", "Other"];
   $("fType").innerHTML = TYPES.map(function(t){ return "<option>" + t + "</option>"; }).join("");
   var form = $("enqForm");
   function syncRole(){
     var r = form.role.value;
     form.querySelectorAll("[data-owner]").forEach(function(e){ e.hidden = r !== "owner"; });
     form.querySelectorAll("[data-brand]").forEach(function(e){ e.hidden = r !== "brand"; });
-    form.querySelector("[data-size-label]").textContent = r === "brand" ? "Space needed (sq ft)" : r === "partner" ? "Plot size, if you know it (sq ft)" : "Size (sq ft)";
+    form.querySelector("[data-size-label]").textContent = r === "brand" ? "Space needed (sq ft)" : r === "partner" ? "Size of the space, if you know it (sq ft)" : "Size (sq ft)";
   }
   form.addEventListener("change", syncRole); syncRole();
   document.querySelector("[data-from-estimate]").addEventListener("click", function(){ form.size.value = $("eSize").value; });
@@ -707,6 +767,88 @@ footer .brand{color:#fff}
       .then(function(){ form.querySelector(".ok-box").classList.add("show"); btn.hidden = true; })
       .catch(function(ex){ err.textContent = ex.message; btn.disabled = false; });
   });
+})();
+</script>
+<script>
+/* Examples: choose empty space or empty time, then a space; its revenue streams show in one card, addressed to
+   the visitor by name and place. Arrows step through the group like slides. "List this space free" carries the
+   name, type of space and location into the enquiry form. Location suggestions come from /api/public/places. */
+(function(){
+  var EX = {"space":[["Open land","Vacant land","20,000 sq ft with road frontage, no tenant for years.","Open land or vacant site",[["EV and fleet parking","Delivery and cab fleets pay a monthly fee per vehicle."],["Weekend market","Vendors pay stall fees every Saturday and Sunday."],["Food kiosk court","Food brands share 30% of their sales."],["Hoarding or LED screen","Advertisers rent the road frontage by the month."]]],["Terrace","The roof of a commercial building","Nobody goes up there.","Terrace or rooftop",[["Rooftop events","Parties, launches and screenings, hired by the evening."],["Solar panels","A solar company rents the roof on a long lease."],["Telecom tower","A mobile operator pays monthly rent for a small corner."],["Photo and film shoots","Production houses hire it by the day."]]],["Godown","A godown running half empty","5,000 sq ft unused since the last tenant shrank.","Godown or warehouse",[["Dark store","A quick-commerce brand runs fast deliveries from it."],["Festival stock storage","Online sellers rent bays for the two or three busy months."],["Delivery hub","Courier and last-mile companies sort parcels overnight."]]],["Closed shed","A factory shed that has stopped","Roof, power and a gate, but no work.","Closed shed or factory",[["Market hall","Covered stalls for weekend and festival markets."],["Storage bays","Businesses rent lockable bays by the month."],["Car care","A detailing operator pays rent and a share of sales."],["Film shoots","Industrial sets are in demand for ads and web series."]]],["Spare seats","Ten empty desks in an office","50 seats, 40 people.","Spare office seats",[["Seats for a small team","A startup pays per seat every month."],["Training room hire","Companies book it for workshops by the day."],["Meeting room by the hour","Freelancers and small firms pay per booking."]]],["Trust land","Institutional or society land","Held for a future building that is years away.","Institutional or society land",[["Sports courts","Pickleball and padel courts, booked by the hour."],["Weekend market","Stall fees, with your board's approval."],["EV parking","Fleets park by the month."],["Container storage","Yard space rented to traders and builders."]]]],"time":[["Hall","A wedding hall on weekdays","Full on weekends, locked Monday to Thursday.","Hall or event space",[["Exhibitions","Trade and consumer expos hire it for two or three days."],["Corporate offsites","Companies book town halls and annual days."],["Training days","Colleges and firms run weekday batches."],["Shoots","Ad and wedding-film studios hire it by the day."]]],["Ground","A school ground after 4 pm","Empty every evening, weekend and holiday.","Institutional or society land",[["Sports coaching","Academies pay per batch in the evenings."],["Pickleball courts","Local players book by the hour."],["Weekend markets","Vendors pay stall fees."],["Event parking","Paid parking for events nearby."]]],["Parking","Office parking at night and on Sundays","Full from 9 to 6, then empty.","Parking area",[["EV fleet night parking","Delivery and cab fleets park and charge overnight."],["Sunday flea market","Stall fees while the offices are shut."],["Car wash and detailing","An operator serves the cars parked all day."]]],["Kitchen","A restaurant kitchen before noon","Opens for lunch; the kitchen sits idle all morning.","Other",[["Breakfast cloud kitchen","A delivery brand cooks from 6 to 11 am."],["Cooking classes","Chefs run paid morning and weekend classes."],["Food shoots","Food brands hire it for photos and videos."]]],["Office","Office desks after 9 pm","Lights off all night. Where your building and lease allow it.","Spare office seats",[["Night-shift team","A support team uses the same desks at night."],["Exam and training batches","Online exams and training batches book the floor."],["Hackathons and workshops","Weekend events, paid by the day."]]],["Clubhouse","A society clubhouse on weekday mornings","Busy in the evenings only.","Hall or event space",[["Yoga and fitness classes","Instructors pay per batch."],["Tuition batches","Teachers rent it for morning classes."],["Small events","Residents book birthdays and get-togethers."]]]]};
+  var $e = function(id){ return document.getElementById(id); };
+  var sel = $e("exSel"), card = $e("exCard"), nameIn = $e("exName"), loc = $e("exLoc"), list = $e("exLocList");
+  var kind = "space", i = 0, chosen = false;
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function fill(){
+    sel.innerHTML = '<option value="" disabled selected>Choose your space</option>' +
+      EX[kind].map(function(e, n){ return '<option value="' + n + '">' + esc(e[1]) + '</option>'; }).join("");
+  }
+  function render(){
+    var g = EX[kind], e = g[i], who = nameIn.value.trim().split(/\s+/)[0], where = loc.value.trim().split(",")[0];
+    var line = who && where ? who + ", here is what a space like yours in " + where + " can earn from."
+      : who ? who + ", here is what a space like yours can earn from."
+      : where ? "What a space like this in " + where + " can earn from." : "";
+    card.innerHTML = '<div class="pick-side"><span class="tag">' + (chosen ? "" : "For example · ") + (kind === "space" ? "Empty space" : "Empty time") + ' · ' + esc(e[0]) + '</span>' +
+      '<h3>' + esc(e[1]) + '</h3><p>' + esc(e[2]) + '</p>' + (line ? '<p class="pick-for">' + esc(line) + '</p>' : '') +
+      '<p class="pick-count">' + e[4].length + ' revenue streams from the same space</p>' +
+      '<div class="pick-nav"><button type="button" data-step="-1" aria-label="Previous example">&#8249;</button><small>' + (i + 1) + ' of ' + g.length + '</small>' +
+      '<button type="button" data-step="1" aria-label="Next example">&#8250;</button><a class="btn sm" href="#list" data-list-type="' + esc(e[3]) + '">List this space free</a></div></div>' +
+      '<ol class="pick-streams">' + e[4].map(function(x){ return '<li><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>'; }).join("") + '</ol>';
+  }
+  function show(n, pick){ var g = EX[kind]; i = (n + g.length) % g.length; if (pick) chosen = true; if (chosen) sel.value = i; render(); }
+  document.querySelectorAll("[data-kind]").forEach(function(t){ t.addEventListener("click", function(){
+    kind = t.dataset.kind; chosen = false;
+    document.querySelectorAll("[data-kind]").forEach(function(o){ o.setAttribute("aria-selected", o === t ? "true" : "false"); });
+    fill(); show(0);
+  }); });
+  sel.addEventListener("change", function(){ show(Number(sel.value), true); });
+  nameIn.addEventListener("input", render);
+  card.addEventListener("click", function(ev){
+    var b = ev.target.closest("[data-step]"); if (b) { show(i + Number(b.dataset.step), true); return; }
+    var l = ev.target.closest("[data-list-type]");
+    if (l) {
+      var form = $e("enqForm"), r = form.querySelector('input[name="role"][value="owner"]');
+      if (r) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); }
+      $e("fType").value = l.dataset.listType;
+      if (nameIn.value.trim()) $e("fName").value = nameIn.value.trim();
+      if (loc.value.trim()) $e("fLoc").value = loc.value.trim();
+    }
+  });
+  card.addEventListener("keydown", function(ev){ if (ev.key === "ArrowLeft") show(i - 1, true); if (ev.key === "ArrowRight") show(i + 1, true); });
+
+  /* Location: suggestions as you type (Google Places when the server has a key, OpenStreetMap otherwise) */
+  var timer, active = -1, items = [], seq = 0, lastSrc = "osm";
+  function close(){ list.hidden = true; loc.setAttribute("aria-expanded", "false"); active = -1; }
+  function paint(src){
+    if (!items.length) { close(); return; }
+    src = lastSrc = src || lastSrc;
+    list.innerHTML = items.map(function(t, n){ return '<li role="option" id="exLoc' + n + '" aria-selected="' + (n === active) + '">' + esc(t) + '</li>'; }).join("") +
+      '<li class="src" aria-hidden="true">' + (src === "google" ? "Suggestions by Google" : "Suggestions by OpenStreetMap") + '</li>';
+    list.hidden = false; loc.setAttribute("aria-expanded", "true");
+    loc.setAttribute("aria-activedescendant", active >= 0 ? "exLoc" + active : "");
+  }
+  function pick(n){ loc.value = items[n]; close(); render(); }
+  loc.addEventListener("input", function(){
+    clearTimeout(timer); render();
+    var q = loc.value.trim(); if (q.length < 3) { items = []; close(); return; }
+    timer = setTimeout(function(){
+      var mine = ++seq;
+      fetch("/api/public/places?q=" + encodeURIComponent(q)).then(function(r){ return r.json(); }).then(function(d){
+        if (mine !== seq) return; items = d.suggestions || []; active = -1; paint(d.source);
+      }).catch(function(){ items = []; close(); });
+    }, 300);
+  });
+  loc.addEventListener("keydown", function(ev){
+    if (list.hidden) return;
+    if (ev.key === "ArrowDown") { active = Math.min(active + 1, items.length - 1); paint(); ev.preventDefault(); }
+    else if (ev.key === "ArrowUp") { active = Math.max(active - 1, 0); paint(); ev.preventDefault(); }
+    else if (ev.key === "Enter" && active >= 0) { pick(active); ev.preventDefault(); }
+    else if (ev.key === "Escape") close();
+  });
+  list.addEventListener("mousedown", function(ev){ var li = ev.target.closest("li[role=option]"); if (li) { ev.preventDefault(); pick(Number(li.id.slice(5))); } });
+  loc.addEventListener("blur", function(){ setTimeout(close, 150); });
+
+  fill(); show(0);
 })();
 </script>
 </body>

@@ -147,4 +147,18 @@ router.get('/media/:id', async (req, res) => {
   res.type('png').sendFile(file);
 });
 
+// Location suggestions for the homepage (Google Places with a key, OpenStreetMap without). At most 60 lookups a
+// minute from one address, so the box cannot be used to run up the Google bill.
+const places = require("../utils/places");
+const hits = new Map();
+router.get("/places", async (req, res) => {
+  const ip = req.ip || "x", now = Date.now();
+  const h = (hits.get(ip) || []).filter(t => now - t < 60000);
+  if (h.length >= 60) return res.status(429).json({ suggestions: [] });
+  h.push(now); hits.set(ip, h);
+  if (hits.size > 5000) hits.clear();
+  try { res.json({ suggestions: await places.suggest(req.query.q), source: places.source() }); }
+  catch (e) { console.warn("[places]", e.message); res.json({ suggestions: [], source: places.source() }); }
+});
+
 module.exports = router;
