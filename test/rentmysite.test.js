@@ -86,6 +86,19 @@ test('the owner sees their site report and journey, updates the space, and signs
   const r = await call('GET', '/owner/report', null, v.cookie);
   assert.equal(r.status, 200);
   assert.equal(r.body.estimate.revenue, 580000, 'kiosks, EV parking, markets and courts on an empty plot');
+
+  // The feasibility report: a verdict, key indicators, and core streams that add up to the estimate, plus add-ons
+  const f = await call('GET', '/owner/feasibility', null, v.cookie);
+  assert.equal(f.status, 200, JSON.stringify(f.body));
+  assert.equal(f.body.verdict.level, 'high');
+  assert.equal(f.body.totals.core, r.body.estimate.revenue, 'core streams add up to the site revenue estimate');
+  assert.equal(f.body.core.length, 4);
+  assert.ok(f.body.addOns.some(a => a.key === 'hoarding'), 'a main-road plot can take a hoarding');
+  assert.ok(f.body.totals.high > f.body.totals.low && f.body.totals.low > f.body.totals.core);
+  assert.ok(f.body.indicators.some(([k]) => k === 'Time to first revenue'));
+  assert.equal(f.body.startWith.length, 2);
+  assert.equal(f.body.aiConfigured, false);
+  assert.equal(f.body.ai, null);
   assert.equal(r.body.estimate.tiers.map(t => t.amount).join(','), '111650,159500,207350');
   assert.equal(r.body.journey[0].state, 'now');
   assert.ok(r.body.bestUses.some(u => u.name === 'Food kiosk court'));
@@ -103,6 +116,35 @@ test('the owner sees their site report and journey, updates the space, and signs
   assert.ok(sent.some(m2 => m2.to === 'ravi@example.com' && /owner mandate/.test(m2.subject)));
   const after = await call('GET', '/owner/report', null, v.cookie);
   assert.equal(after.body.journey[3].state, 'now', 'after signing, the next step is approving the plan');
+});
+
+test('the owner welcome email carries the feasibility summary and every revenue stream', () => {
+  const mail = sent.find(m => m.to === 'ravi@example.com');
+  assert.match(mail.html, /Your feasibility report: Feasible: recommended to start/);
+  assert.match(mail.html, /Food kiosk court/);
+  assert.match(mail.html, /Hoarding or LED screen/);
+  assert.match(mail.html, /next=business%23feasibility/);
+});
+
+test('feasibility ratings follow size, road and hours', () => {
+  const { feasibilityFor, rateUse, isFullTime } = require('../utils/feasibility');
+  assert.equal(rateUse('courts', { size: 20000, road: 'main', fullTime: true }).feasibility, 'High');
+  assert.equal(rateUse('courts', { size: 6000, road: 'main', fullTime: true }).feasibility, 'Medium', 'courts need 8,000 sq ft');
+  assert.equal(rateUse('courts', { size: 3000, road: 'inner', fullTime: true }).feasibility, 'Low', 'too small and off the main road');
+  assert.equal(rateUse('cottages', { size: 60000, road: 'outskirts', fullTime: true }).feasibility, 'High');
+  // On the outskirts, uses that need a main road drop out of the core streams instead of inflating the total
+  const outskirts = feasibilityFor({ space: { type: 'Empty plot or open land', size: 60000, road: 'outskirts' } });
+  assert.ok(outskirts.core.every(c => c.feasibility !== 'Low'));
+  assert.ok(outskirts.core.some(c => c.key === 'cottages'));
+  assert.equal(rateUse('qsr', { size: 1000, road: 'outskirts', fullTime: false }).feasibility, 'Low');
+  assert.equal(isFullTime('all the time'), true);
+  assert.equal(isFullTime('weekends only'), false);
+  const small = feasibilityFor({ space: { type: 'Godown or warehouse', size: 1200, road: 'outskirts' } });
+  assert.equal(small.verdict.level, 'low');
+  assert.ok(!small.addOns.some(a => a.key === 'hoarding'), 'no hoarding off the main road');
+  const none = feasibilityFor({ space: {} });
+  assert.equal(none.verdict.level, 'pending');
+  assert.deepEqual(none.startWith, []);
 });
 
 test('signing up on the sign-up page as an owner records the type of space', async () => {

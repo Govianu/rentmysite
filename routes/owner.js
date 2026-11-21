@@ -27,7 +27,10 @@ function report(user) {
   const category = s.type || user.category;
   const size = Number(s.size) || 0;
   const road = ROADS[s.road] || 1;
-  const est = size ? estimateFor(size, { road, category }) : null;
+  // The same uses as the feasibility report: the best fits for this space, size, road and hours
+  const { rankedUses, isFullTime } = require('../utils/feasibility');
+  const fit = rankedUses(category, { size, road: s.road || 'main', fullTime: isFullTime(s.hours) });
+  const est = size ? estimateFor(size, { road, uses: fit }) : null;
   return {
     space: { type: s.type || '', size, location: s.location || user.business?.address || '', road: s.road || 'main', hours: s.hours || '', notes: s.notes || '' },
     types: SPACE_TYPES,
@@ -44,6 +47,25 @@ router.get('/report', async (req, res) => {
   const stage = lead?.stage || 'new';
   const step = req.user.ctaAcceptance ? Math.max(STAGE_STEP[stage] ?? 0, 3) : (STAGE_STEP[stage] ?? 0);
   res.json({ ...report(req.user), journey: JOURNEY.map(([title, text], i) => ({ title, text, state: i < step ? 'done' : i === step ? 'now' : 'next' })) });
+});
+
+// The feasibility report: verdict, key indicators and every commercial revenue stream for this space.
+// With an Anthropic key, AI streams for this exact site are fetched in the background; the page asks again
+// (refresh=1) to pick them up.
+router.get('/feasibility', async (req, res) => {
+  const f = require('../utils/feasibility');
+  const u = req.user;
+  let aiPending = false;
+  if (f.aiDue(u)) {
+    u.feasibilityAiTriedAt = new Date().toISOString();
+    await u.save();
+    f.refreshAi(u);
+    aiPending = true;
+  } else if (f.aiConfigured() && u.feasibilityAiTriedAt && u.feasibilityAi?.inputs !== f.inputsKey(u)
+      && Date.now() - new Date(u.feasibilityAiTriedAt).getTime() < 2 * 60 * 1000) {
+    aiPending = true;   // still working on it
+  }
+  res.json({ ...f.feasibilityFor(u), aiConfigured: f.aiConfigured(), aiPending });
 });
 
 router.post('/space', async (req, res) => {

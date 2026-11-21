@@ -92,7 +92,43 @@ section{padding:3.5rem 0}
 .uses{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .uses th,.uses td{text-align:left;padding:.8rem 1rem;border-bottom:1px solid var(--line)}
 .uses th{background:var(--green-soft);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--green-dark)}
-.uses td:last-child{font-weight:700;white-space:nowrap}
+.uses td.rate{font-weight:700;white-space:nowrap}
+.uses td small{display:block;color:var(--muted);font-size:.8rem}
+.table-wrap{overflow-x:auto;border-radius:16px}
+@media (max-width:700px){
+  .uses.stack thead{display:none}
+  .uses.stack tr{display:block;border-bottom:1px solid var(--line);padding:.5rem 0}
+  .uses.stack td{display:flex;justify-content:space-between;gap:1rem;border:0;padding:.3rem 1rem;text-align:right}
+  .uses.stack td:first-child{display:block;text-align:left;font-weight:700}
+  .uses.stack td[data-label]::before{content:attr(data-label);color:var(--muted);font-weight:500;text-align:left}
+}
+/* money, five years */
+.money{display:grid;gap:1.5rem}
+@media (min-width:900px){.money{grid-template-columns:.9fr 1.1fr}}
+.flow{display:grid;gap:.6rem;align-content:start}
+.flow div{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.9rem 1.1rem}
+.flow b{font-size:1.3rem;white-space:nowrap}
+.flow span small{display:block;color:var(--muted);font-size:.85rem}
+.flow .owner{background:var(--green-soft);border-color:var(--green)}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem}
+.chart h3{margin:0 0 .2rem;font-size:1.05rem}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;margin:.6rem 0 0;padding:0;list-style:none;font-size:.88rem;color:var(--muted)}
+.legend i{display:inline-block;width:18px;height:0;border-top:3px solid;vertical-align:middle;margin-right:.4rem}
+/* brands */
+.stats3{display:grid;gap:.75rem;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:1.5rem}
+.stats3 div{background:var(--night);color:#fff;border-radius:16px;padding:1.1rem 1.2rem}
+.stats3 b{display:block;font-size:2rem;color:var(--sun);line-height:1.1}
+.stats3 span{color:#BFE6D4;font-size:.92rem}
+h3.sub{margin:2rem 0 .8rem;font-size:1.2rem}
+.pill{display:inline-block;padding:.15rem .6rem;border-radius:999px;font-size:.8rem;font-weight:700;background:var(--sun-soft);color:#6B4A00}
+.pill.live{background:var(--green-soft);color:var(--green-dark)}
+.oneline{background:var(--sun-soft);border-radius:14px;padding:1rem 1.2rem;margin-top:1rem}
+/* mandate */
+.mandate{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.mandate .card h3{font-size:1rem}
+.needs{margin:.4rem 0 0;padding-left:1.2rem;color:var(--muted)}
+.group{display:grid;gap:.4rem;margin:.6rem 0 0;padding:0;list-style:none}
 .fine{font-size:.82rem;color:var(--muted);margin-top:.6rem}
 /* estimate */
 .est{display:grid;gap:1.5rem}
@@ -153,7 +189,9 @@ footer .brand{color:#fff}
       <a href="#simple">How it works</a>
       <a href="#uses">What it can become</a>
       <a href="#estimate">Estimate</a>
-      <a href="#decks">Owners, brands, partners</a>
+      <a href="#mandate">The mandate</a>
+      <a href="#brands">For brands</a>
+      <a href="#decks">Investors &amp; partners</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="actions">
@@ -178,6 +216,7 @@ footer .brand{color:#fff}
         <div><b>1,000+</b><span>sites assessed</span></div>
         <div><b>500+</b><span>owner enquiries in two months</span></div>
         <div><b>100+</b><span>owners ready to sign</span></div>
+        <div><b>7</b><span>cities: five in India, plus Orlando and Dubai</span></div>
       </div>
     </div>
     <aside class="hero-card" aria-label="Revenue share versus nothing">
@@ -222,6 +261,7 @@ footer .brand{color:#fff}
       <button class="tab" role="tab" data-deck="sheds" aria-selected="false">Sheds &amp; institutions</button>
       <button class="tab" role="tab" data-deck="brands" aria-selected="false">Brands &amp; retailers</button>
       <button class="tab" role="tab" data-deck="partners" aria-selected="false">Agents &amp; RWAs</button>
+      <button class="tab" role="tab" data-deck="investors" aria-selected="false">Investors</button>
     </div>
     <div id="deckBox"></div>
   </div>
@@ -232,13 +272,15 @@ footer .brand{color:#fff}
     <div class="sec-head">
       <span class="kicker">What can be built on your plot</span>
       <h2>One plot. Several revenue lines.</h2>
-      <p>Several uses at once, so there is no single-tenant risk. Indicative site revenue on a Bengaluru main-road plot, before operating costs.</p>
+      <p>Every use has a plot size it needs, a road it needs, and a build-out someone pays for. Most plots combine two or three uses, so one brand leaving does not empty the site. Indicative site revenue on a Bengaluru main-road plot, before operating costs.</p>
     </div>
-    <table class="uses">
-      <thead><tr><th scope="col">Use</th><th scope="col">₹ / sq ft / month</th></tr></thead>
+    <div class="table-wrap">
+    <table class="uses stack">
+      <thead><tr><th scope="col">Use</th><th scope="col">Plot needed</th><th scope="col">Who funds the build</th><th scope="col">₹ / sq ft / month</th><th scope="col">Build-out</th></tr></thead>
       <tbody id="useRows"></tbody>
     </table>
-    <p class="fine">Indicative, from 1,000+ site assessments. Not a guarantee. A survey sets the real number for your site.</p>
+    </div>
+    <p class="fine">Indicative, from 1,000+ site assessments. Courts, markets and drive-through pads earn the most per sq ft; storage and cottages earn the least but need the least capital and open fastest. Not a guarantee. A written estimate follows the site visit.</p>
   </div>
 </section>
 
@@ -268,6 +310,31 @@ footer .brand{color:#fff}
         </div>
         <p style="margin:1rem 0 0;font-size:.82rem;color:#BFE6D4">Illustrative only, not an offer. Earnings depend on location and demand and are not guaranteed. Tier shares are set in the signed mandate.</p>
         <a class="btn sun" href="#list" style="margin-top:1rem" data-from-estimate>Get my written estimate</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="money" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Where the money goes</span>
+      <h2>One plot, worked through.</h2>
+      <p>A 20,000 sq ft main-road plot in Bengaluru, bare land: EV and fleet parking on half the plot, a weekend market and events area, and a small food kiosk court on the frontage. Site revenue of ₹5–8 lakh a month once running; the midpoint is below.</p>
+    </div>
+    <div class="money">
+      <div class="flow">
+        <div><span>Site revenue<small>Parking fees, event and slot fees, and the 30% share of kiosk sales</small></span><b>₹6.5L</b></div>
+        <div><span>Operating costs, about 45%<small>Staff, power, water, cleaning, security, insurance, permits, recovery of build-out capital</small></span><b>– ₹2.9L</b></div>
+        <div><span>Site profit<small>Split 50:50 at the standard tier</small></span><b>₹3.6L</b></div>
+        <div class="owner"><span><strong>To you, every month</strong><small>With a statement, and a yearly audit of the site accounts</small></span><b>₹1.8L</b></div>
+      </div>
+      <div class="chart">
+        <h3>Five years on the same plot: what you receive in total</h3>
+        <p class="fine" style="margin:0 0 .6rem">Six months to build and ramp up, then about 6% growth a year as brands rotate and lines are added.</p>
+        <div id="fiveYears"></div>
+        <ul class="legend" id="fiveLegend"></ul>
+        <p class="fine">The honest comparison is revenue share versus nothing: for a dormant plot no tenant has come, so the realised rent is zero. The dashed line is the rent being asked (about ₹10 per sq ft a month) as if a tenant had signed on day one. Growth comes from adding lines, not raising prices. Illustrative only, not an offer.</p>
       </div>
     </div>
   </div>
@@ -304,6 +371,79 @@ footer .brand{color:#fff}
   </div>
 </section>
 
+<section id="mandate" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">The mandate, in plain English</span>
+      <h2>One agreement. We do the rest.</h2>
+      <p>A summary of what the owner agreement says. The signed mandate governs; this is not a substitute for it.</p>
+    </div>
+    <div class="mandate">
+      <div class="card"><h3>What you grant</h3><p>The exclusive right, for the term, to find, contract and place brands and operators on your plot, and to sub-license space to them. No lease is created and no ownership passes.</p></div>
+      <div class="card"><h3>What you receive</h3><p>No rent. A share of site profit, 50% in the standard tier, paid monthly within ten days of month end. One audit of the site accounts each year, at your request.</p></div>
+      <div class="card"><h3>Your share, by who funds the build</h3><p>You fund it: 65%, and the assets are yours. The brand funds it: 50% (standard). We fund it: 35%, recovered from revenue over the term, nothing out of your pocket.</p></div>
+      <div class="card"><h3>Build-out and assets</h3><p>Assets belong to whoever paid for them, and are removed or handed over at the end of the term.</p></div>
+      <div class="card"><h3>Approvals</h3><p>You approve the site plan and operator mix before anything is built. We obtain and pay for operating permits and licences.</p></div>
+      <div class="card"><h3>Insurance</h3><p>We hold public liability cover for the site, and every operator insures its own activity.</p></div>
+      <div class="card"><h3>Your undertakings</h3><p>Clear title, site access, and no parallel arrangements on the plot during the term. Taxes on the land stay with you.</p></div>
+      <div class="card"><h3>Selling the land</h3><p>Sell at any time. The buyer steps into the mandate, or the site winds down on notice with the unrecovered build cost settled as the schedule sets out.</p></div>
+      <div class="card"><h3>Ending it, and disputes</h3><p>Either side may end the mandate for a material breach not cured within thirty days. Force majeure suspends obligations while it lasts. Disputes go to arbitration in Bengaluru under Indian law.</p></div>
+    </div>
+    <div class="grid" style="margin-top:1.5rem">
+      <div class="card"><span class="tag">What we need from you</span>
+        <ul class="needs"><li>Ownership documents and an encumbrance certificate</li><li>A signed mandate</li><li>Site access for a survey</li></ul></div>
+      <div class="card"><span class="tag">Living abroad?</span><h3>NRI-ready</h3><p>Sign through a registered power of attorney. Your share is paid to your NRO account, with a statement every month.</p></div>
+      <div class="card"><span class="tag">Cost to you</span><h3>No fee, no obligation</h3><p>The estimate and the survey are free. Nothing is owed until you sign the mandate.</p></div>
+    </div>
+    <p class="fine">Tier percentages are illustrative until the mandate template is finalised; the signed mandate governs. Counsel in each jurisdiction reviews the mandate before it is offered to owners there.</p>
+  </div>
+</section>
+
+<section id="brands">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">For brands and operators</span>
+      <h2>Prime locations. Zero rent. Live in weeks.</h2>
+      <p>Take space on operated sites in the cities you want, and pay only when you sell. You keep 70% of revenue; the 30% covers the site, the owner and us.</p>
+    </div>
+    <div class="stats3">
+      <div><b>70%</b><span>of revenue stays with you</span></div>
+      <div><b>₹0</b><span>rent, and no lease to sign</span></div>
+      <div><b>10</b><span>sites per city in one bundle</span></div>
+      <div><b>100+</b><span>brands a year on one market site</span></div>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>No rent, no long lease</h3><p>Your only cost is 30% of what you sell on the site. Below about ₹5 lakh of monthly sales that is cheaper than a typical kiosk lease; above it, you pay more only because you sell more.</p></div>
+      <div class="card"><h3>Locations you could not lease alone</h3><p>Highway plots, layout plots and closed sheds we hold under exclusive mandates.</p></div>
+      <div class="card"><h3>We run the site</h3><p>Staffing, power, water, cleaning, security, insurance and permits are ours. Your fixed cost on a site is close to zero.</p></div>
+      <div class="card"><h3>Open a cluster, not a store</h3><p>One revenue-share agreement covers a bundle of up to 10 sites in a city. Test a city without a lease commitment.</p></div>
+    </div>
+
+    <h3 class="sub">Formats</h3>
+    <div class="table-wrap"><table class="uses stack">
+      <thead><tr><th scope="col">Format</th><th scope="col">Space</th><th scope="col">Who builds</th><th scope="col">Typical term</th><th scope="col">Best for</th></tr></thead>
+      <tbody id="formatRows"></tbody>
+    </table></div>
+    <div class="oneline"><strong>Terms in one line:</strong> 70:30 revenue share, no rent, a deposit of a few weeks' expected sales, minimum term set per format. Sales are reported per site on your dashboard and invoiced monthly.</div>
+
+    <h3 class="sub">Where the sites are</h3>
+    <div class="table-wrap"><table class="uses stack">
+      <thead><tr><th scope="col">City</th><th scope="col">Status</th><th scope="col">Lead formats</th></tr></thead>
+      <tbody id="cityRows"></tbody>
+    </table></div>
+
+    <h3 class="sub">How it works for brands</h3>
+    <div class="steps">
+      <div class="step"><h3>Tell us the format</h3><p>Kiosk, drive-through pad, court, dark store or a one-week market slot, with cities and target opening month.</p></div>
+      <div class="step"><h3>Get a bundle in a week</h3><p>Up to 10 sites in your city, with the plan, footfall and frontage for each.</p></div>
+      <div class="step"><h3>Sign once</h3><p>One revenue-share agreement covers the whole bundle.</p></div>
+      <div class="step"><h3>Open</h3><p>Build-out in weeks for kiosks and slots, longer for pads. We run the site; you run your brand.</p></div>
+    </div>
+    <p class="fine">What we need from a brand: format, footprint and power or water needs; cities and target opening month; trade licence and GST registration (or local equivalents) and insurance for your own activity; a named contact for site operations, and a deposit once the bundle is signed.</p>
+    <a class="btn" href="#list" data-role="brand" style="margin-top:.6rem">Request sites in your city</a>
+  </div>
+</section>
+
 <section id="faq" class="band">
   <div class="wrap" style="max-width:860px">
     <div class="sec-head"><span class="kicker">Questions owners ask</span><h2>Straight answers.</h2></div>
@@ -315,6 +455,12 @@ footer .brand{color:#fff}
     <details class="faq"><summary>I'm an NRI. Can I take part?</summary><p>Yes, on the same terms, signed through a registered power of attorney, with income paid to your NRO account.</p></details>
     <details class="faq"><summary>I am a tenant. Can I list?</summary><p>Yes, if your landlord agrees in writing.</p></details>
     <details class="faq"><summary>Who pays for permits, insurance and staff?</summary><p>We do. Taxes on the land stay with the owner, as with any tenant.</p></details>
+    <details class="faq"><summary>What if a brand stops paying, or leaves?</summary><p>Brands pay us, not you. We manage collections, hold deposits and replace operators who fall behind from our bundle pipeline. A multi-brand site keeps earning while a slot is refilled.</p></details>
+    <details class="faq"><summary>Who insures the site?</summary><p>We do, for public liability and operator activity. The mandate lists the cover and the insurer.</p></details>
+    <details class="faq"><summary>Can I use part of the plot myself?</summary><p>Yes, if we agree it in the plan before build-out.</p></details>
+    <details class="faq"><summary>Is there a listing fee?</summary><p>No fee and no obligation until you sign the mandate. The estimate and the survey are free.</p></details>
+    <details class="faq"><summary>What about property tax?</summary><p>Taxes on the land remain yours. Operating permits and licences for the uses are ours to obtain and pay for.</p></details>
+    <details class="faq"><summary>How are the estimates made?</summary><p>From more than 1,000 site assessments, by use, city, frontage, surroundings and surface. A survey confirms the number before a mandate proposal.</p></details>
     <details class="faq"><summary>How is this different from a broker?</summary><p>A broker finds one long-term tenant for the whole property. We find users for the parts and hours that sit idle, run the site, and handle the paperwork and collections.</p></details>
   </div>
 </section>
@@ -359,7 +505,8 @@ footer .brand{color:#fff}
 <footer>
   <div class="wrap">
     <div><a class="brand" href="/">RentMySite<span style="color:var(--sun)">.ai</span></a>
-      <p>Don't sell your land. Monetise it. A Govianu venture, Bengaluru.</p>
+      <p>Don't sell your land. Monetise it. RentMySite.ai is a Govianu Wealth Management company, Bengaluru.</p>
+      <p style="font-size:.85rem">The group also runs govianu.com (one-project-one-LLP investment structures for landowners and investing partners), CashMyProperty.ai (AI-driven property monetisation, Dubai), NomadLivings (fractional forest-cottage co-ownership, and the cottage operator on our outskirts sites) and JVProp.com (joint-venture property development).</p>
       <p style="font-size:.8rem">Earnings depend on location and demand and are not guaranteed. Every use is subject to local rules, building bye-laws and, for tenants, the landlord's consent. Figures are indicative and not an offer.</p></div>
     <div><strong style="color:#fff">Contact</strong>
       <p>WhatsApp <a href="https://wa.me/918103990990">+91 81039 90990</a><br><a href="mailto:info@rentmysite.ai">info@rentmysite.ai</a></p></div>
@@ -374,13 +521,73 @@ footer .brand{color:#fff}
   var $ = function(id){ return document.getElementById(id); };
   var inr = function(n){ n = Math.round(n); if (n >= 100000) return "₹" + (n / 100000).toFixed(n >= 1000000 ? 1 : 2).replace(/\.?0+$/, "") + "L"; return "₹" + n.toLocaleString("en-IN"); };
 
-  /* Uses and indicative ₹/sq ft/month on a Bengaluru main-road plot (RentMySite landowner deck) */
+  /* Uses: indicative ₹/sq ft/month on a Bengaluru main-road plot, the plot each needs, who funds the build and the
+     build-out time ("For landowners" PDF; the same data as utils/spaces.js) */
   var USES = [
-    ["Pickleball and padel courts", 30, 50], ["Weekend markets and events", 20, 45], ["Drive-through QSR pad", 25, 40],
-    ["Food kiosk court", 20, 35], ["Dark store and delivery hub", 15, 25], ["Banquet lawn and weddings", 12, 25],
-    ["Car care and detailing", 14, 22], ["EV and fleet parking", 12, 20], ["Container storage and yard", 8, 15]
+    ["Pickleball and padel courts", 30, 50, "8,000 sq ft and up", "We do", "6–8 weeks"],
+    ["Weekend markets and events", 20, 45, "10,000 sq ft and up", "We do", "1–2 weeks"],
+    ["Drive-through QSR pad", 25, 40, "8,000 sq ft, highway or main road", "Brand does", "8–12 weeks"],
+    ["Food kiosk court", 20, 35, "4,000 sq ft, frontage", "Brands do", "4–6 weeks"],
+    ["Dark store and delivery hub", 15, 25, "4,000 sq ft, paved or built", "Brand does", "3–6 weeks"],
+    ["Banquet lawn and weddings", 12, 25, "20,000 sq ft, quiet surroundings", "We do, or you do", "4–8 weeks"],
+    ["Car care and detailing", 14, 22, "5,000 sq ft, frontage", "Operator does", "3–5 weeks"],
+    ["EV and fleet parking", 12, 20, "3,000 sq ft and up", "We do", "2–4 weeks"],
+    ["Container storage and yard", 8, 15, "5,000 sq ft and up", "You do, or we do", "1–3 weeks"],
+    ["Cottages and glamping, with NomadLivings", 4, 8, "1 acre and up, outskirts", "We do", "3–6 months"]
   ];
-  $("useRows").innerHTML = USES.map(function(u){ return "<tr><td>" + u[0] + "</td><td>₹" + u[1] + "–" + u[2] + "</td></tr>"; }).join("");
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); };
+  /* One table row; the header labels repeat on phones, where each row stacks */
+  function rows(id, heads, data){
+    $(id).innerHTML = data.map(function(r){ return "<tr>" + r.map(function(c, i){ return "<td" + (i ? ' data-label="' + heads[i] + '"' : "") + (c && c.cls ? ' class="' + c.cls + '"' : "") + ">" + (c && c.html ? c.html : esc(c)) + "</td>"; }).join("") + "</tr>"; }).join("");
+  }
+  rows("useRows", ["Use", "Plot needed", "Who funds the build", "₹ / sq ft / month", "Build-out"],
+    USES.map(function(u){ return [u[0], u[3], u[4], {cls: "rate", html: "₹" + u[1] + "–" + u[2]}, u[5]]; }));
+
+  /* For brands: formats and cities ("For brands and operators" PDF) */
+  rows("formatRows", ["Format", "Space", "Who builds", "Typical term", "Best for"], [
+    ["Kiosks and food courts", "100–400 sq ft per brand, shared seating", "The brand", "12 months", "Food, beverages, quick retail"],
+    ["Drive-through and pad sites", "8,000 sq ft plots, highway or main road", "The brand", "5 years", "QSR, coffee, auto services"],
+    ["Courts and play", "Court space on 8,000 sq ft and up", "We do, or you do", "3 years", "Pickleball, padel, cricket nets"],
+    ["Event and market slots", "One-week rotations on a 20,000 sq ft site", "We do", "Per slot", "D2C launches, seasonal sales"],
+    ["Dark store and delivery hub", "4,000 sq ft paved or built", "The brand", "3 years", "Quick commerce, logistics"],
+    ["Ship-only presence", "A staffed counter on our sites", "We do", "Per season", "Brands with no local team"]
+  ]);
+  var pill = function(t, live){ return {html: '<span class="pill' + (live ? " live" : "") + '">' + t + "</span>"}; };
+  rows("cityRows", ["City", "Status", "Lead formats"], [
+    ["Bengaluru", pill("Operating", true), "Highway pads and parking; layout-plot kiosks, courts and car care; sheds for dark stores"],
+    ["Hyderabad, Chennai, Pune, Delhi NCR", pill("Opening"), "Same playbook; first bundles of 10 sites per city (cities subject to confirmation)"],
+    ["Orlando", pill("Launching"), "Tourist-corridor courts and food-truck courts, rotating brand markets, Indian brands with no US presence"],
+    ["Dubai", pill("Launching"), "Vacant shops and showrooms as kiosk clusters and pop-up markets, with CashMyProperty.ai"]
+  ]);
+
+  /* Five years on the same 20,000 sq ft plot: cumulative payments to the owner. Six-month linear ramp to the full
+     monthly share, then about 6% growth a year (overview PDF: ~₹1.2 crore standard, ~₹1.5 crore owner-funded).
+     Dashed: the asking rent (₹10 / sq ft / month) as if a tenant had signed on day one. */
+  (function(){
+    var lines = [
+      {name: "You fund the build (65%)", monthly: 234000, color: "#0E6B4A"},
+      {name: "Standard, brand funds (50%)", monthly: 180000, color: "#F2A91D"},
+      {name: "We fund the build (35%)", monthly: 126000, color: "#7A8C84"},
+      {name: "Asking rent, if a tenant had signed", monthly: 200000, color: "#4D5F57", rent: true}
+    ];
+    lines.forEach(function(l){
+      var tot = 0; l.pts = [0];
+      for (var m = 1; m <= 60; m++){
+        var f = l.rent ? 1 : (m <= 6 ? m / 6 : 1) * Math.pow(1.06, Math.floor((m - 1) / 12));
+        tot += l.monthly * f; l.pts.push(tot);
+      }
+    });
+    var W = 560, H = 280, L = 52, R = 28, T = 14, B = 34, max = 16e6;
+    var x = function(m){ return L + (W - L - R) * m / 60; }, y = function(v){ return H - B - (H - T - B) * v / max; };
+    var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-labelledby="fyT"><title id="fyT">Cumulative owner income over five years by funding tier, versus asking rent</title>';
+    [0, 4e6, 8e6, 12e6, 16e6].forEach(function(v){ svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="#D6E2DC"/><text x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="11" fill="#4D5F57">₹' + (v / 1e7).toFixed(1).replace(".0", "") + (v ? " Cr" : "") + "</text>"; });
+    for (var yr = 1; yr <= 5; yr++) svg += '<text x="' + x(yr * 12) + '" y="' + (H - 12) + '" text-anchor="middle" font-size="11" fill="#4D5F57">Year ' + yr + "</text>";
+    lines.forEach(function(l){
+      svg += '<polyline fill="none" stroke="' + l.color + '" stroke-width="' + (l.rent ? 2 : 3) + '"' + (l.rent ? ' stroke-dasharray="6 5"' : "") + ' points="' + l.pts.map(function(v, m){ return x(m).toFixed(1) + "," + y(v).toFixed(1); }).join(" ") + '"/>';
+    });
+    $("fiveYears").innerHTML = svg + "</svg>";
+    $("fiveLegend").innerHTML = lines.map(function(l){ return '<li><i style="border-color:' + l.color + (l.rent ? ";border-top-style:dashed" : "") + '"></i>' + l.name + ": about ₹" + (l.pts[60] / 1e7).toFixed(1) + " crore</li>"; }).join("");
+  })();
 
   /* 60-second estimate (same as utils/spaces.js): site revenue = size x average indicative rate of the chosen uses
      x location factor; operating costs about 45% of revenue (₹2.9L of ₹6.5L in the deck's example). */
@@ -398,7 +605,8 @@ footer .brand{color:#fff}
   }
   $("estForm").addEventListener("input", estimate); estimate();
 
-  /* Slide decks, one per audience (from the RentMySite pitch decks) */
+  /* Slide decks, one per audience (from the RentMySite pitch decks and investor summary) */
+  var DATA_ROOM = {href: "mailto:info@rentmysite.ai?subject=Data%20room%20request&body=Name%3A%0AFund%3A", label: "Request the data room"};
   var DECKS = {
     owners: [
       {k: "For landowners", t: "Keep the land. Activate the value.", b: "We plan it, build it and run it. You earn every month, and you keep the title.", f: ["No upfront cost", "A mandate, not a lease", "Profit shared monthly with a statement"]},
@@ -430,6 +638,16 @@ footer .brand{color:#fff}
       {k: "Partner programme", t: "One intro. One new site.", b: "For real-estate agents, land brokers, RWAs and layout associations who know the empty plots and the brands looking for space.", f: []},
       {k: "What qualifies", t: "Plots and brands we are looking for.", b: "Idle plots with road frontage, closed sheds and yards, institutional or society land; and food, retail, fleet, EV, quick-commerce, event and sports brands needing space.", f: []},
       {k: "How to introduce", t: "Three steps. That's all.", b: "Share the plot or the brand's need on WhatsApp, connect us to the owner or brand, and we take it from there: survey, plan and conversations.", f: ["Partner terms shared on request"]}
+    ],
+    investors: [
+      {k: "Investor summary", t: "Rent expectations are low. Operated yields are not.", b: "Landowners will accept modest rent for idle land. An operated, multi-brand site produces about three times that. RentMySite.ai keeps the gap, shares it with the owner, and never owns the land.", f: ["3× operated yield versus the rent owners expect", "Platform revenue target: about 2% of onboarded property value a year (US$100M onboarded → US$2M a year)", "No leases or land on the balance sheet"], cta: DATA_ROOM},
+      {k: "The opportunity", t: "Owners will not build. Brands will not lease raw land.", b: "Millions of idle urban and highway-facing plots, yards and sheds in India, while QSR, quick commerce, EV fleets, sports operators and D2C brands want locations without leases. A platform that mandates the land and operates the site closes the gap.", f: ["The same gap exists in the US (out-parcels, church and school lots) and the Gulf (vacant shops and showrooms)"], cta: DATA_ROOM},
+      {k: "The model", t: "Mandates, bundles, revenue lines.", b: "Supply: exclusive mandates on dormant plots, no rent and no land purchase. Demand: brands on 70:30 revenue share, sold in bundles of 10 sites per city. Operation: several lines per mandate; the owner takes 50% of profit, we keep the rest plus the brand share.", f: ["Each operated site contributes about ₹21.6 lakh a year to the platform at the standard tier"], cta: DATA_ROOM},
+      {k: "Unit economics", t: "₹5 lakh a month per site is the floor.", b: "India: ₹5 lakh a month or more of site revenue per listed site; 25 sites across five cities in six months. United States: a US$1M site at a 5% yield produces about US$50k a year, about US$10k of it base share to the platform; 100 sites is about US$1M a year before operated-use profit.", f: ["Figures are targets and estimates, not audited results"], cta: DATA_ROOM},
+      {k: "Traction", t: "Demand on both sides, already.", b: "1,000+ sites assessed, 500+ owner enquiries in two months, 100+ owners ready to sign across five cities, and 50 brands targeted in the first three months.", f: [], cta: DATA_ROOM},
+      {k: "Roll-out", t: "Seven cities, then master franchises.", b: "Bengaluru is operating. Four more Indian cities next, each with a local team and bundles of 10 sites. Orlando with 100 properties, then Indian brands on the sites. Dubai with CashMyProperty.ai. Then licensed master-franchise operators: the fastest route to ten countries.", f: ["Later: a mandate-backed income product for fractional investors, subject to regulatory review"], cta: DATA_ROOM},
+      {k: "Why this holds", t: "Asset-light, diversified, aligned.", b: "Capex on a site is recovered from that site's revenue. Multi-brand sites diversify each mandate. Owners share profit, not rent, so they want the site to trade well. 1,000+ site assessments feed the yield estimator.", f: ["Risks managed: zoning checked before build-out; operator deposits and replacement; exit terms on owner sale; local-law mandates abroad"], cta: DATA_ROOM},
+      {k: "Talk to us", t: "Request the data room.", b: "Email info@rentmysite.ai with your name and fund; a link follows within two working days. Mahesh, founder, Govianu Wealth Management Pvt Ltd, Bengaluru.", f: ["For discussion only; not an offer or solicitation"], cta: DATA_ROOM}
     ]
   };
   function makeDeck(slides, label){
@@ -441,6 +659,7 @@ footer .brand{color:#fff}
     function show(i){
       at = (i + slides.length) % slides.length; var s = slides[at];
       stage.innerHTML = '<div class="deck-slide"><span class="deck-kicker"></span><h3 class="deck-title"></h3><p class="deck-body"></p><ul class="deck-facts"></ul><a class="btn sun" href="#list">Talk to us</a></div>';
+      if (s.cta){ var a = stage.querySelector(".btn"); a.href = s.cta.href; a.textContent = s.cta.label; }
       stage.querySelector(".deck-kicker").textContent = s.k; stage.querySelector(".deck-title").textContent = s.t; stage.querySelector(".deck-body").textContent = s.b;
       var ul = stage.querySelector(".deck-facts"); s.f.forEach(function(x){ var li = document.createElement("li"); li.textContent = x; ul.appendChild(li); });
       Array.prototype.forEach.call(dots.children, function(d, k){ d.setAttribute("aria-current", String(k === at)); });
@@ -470,6 +689,10 @@ footer .brand{color:#fff}
   }
   form.addEventListener("change", syncRole); syncRole();
   document.querySelector("[data-from-estimate]").addEventListener("click", function(){ form.size.value = $("eSize").value; });
+  /* "Request sites" in the brands section opens the form as a brand */
+  document.querySelectorAll("a[data-role]").forEach(function(a){ a.addEventListener("click", function(){
+    var r = form.querySelector('input[name="role"][value="' + a.dataset.role + '"]'); if (r){ r.checked = true; syncRole(); }
+  }); });
   form.addEventListener("submit", function(e){
     e.preventDefault();
     var err = form.querySelector(".error-box"), btn = form.querySelector("button[type=submit]");

@@ -13,6 +13,21 @@ const { issueLink } = require('../utils/links');
 const { assignLeadId, nextLeadId } = require('../utils/leadId');
 const { TERMS_VERSION } = require('../utils/terms');
 const { estimateFor } = require('../utils/spaces');
+const { feasibilityFor } = require('../utils/feasibility');
+
+// The feasibility summary in the owner's welcome email: verdict and every revenue stream, with a link to the full report
+function feasibilityEmail(user, link) {
+  if (!user?.space?.size) return '';
+  const f = feasibilityFor(user);
+  const inr = n => `₹${Math.round(n).toLocaleString('en-IN')}`;
+  const money = x => (x.kind === 'core' ? inr(x.monthly) : `${inr(x.low)}–${inr(x.high)}`);
+  const cell = 'padding:6px 8px;border-bottom:1px solid #D6E2DC;font-size:14px';
+  const rows = f.core.concat(f.addOns).map((x, i) => `<tr><td style="${cell}">${i + 1}. ${esc(x.name)}</td><td style="${cell};white-space:nowrap">${money(x)}</td><td style="${cell}">${esc(x.feasibility)}</td></tr>`).join('');
+  return p(`<strong>Your feasibility report: ${esc(f.verdict.title)}.</strong> ${esc(f.verdict.text)}`)
+    + `<table style="border-collapse:collapse;width:100%;margin:0 0 12px"><tr><th style="${cell};text-align:left;color:#4D5F57">Revenue stream</th><th style="${cell};text-align:left;color:#4D5F57">A month</th><th style="${cell};text-align:left;color:#4D5F57">Feasibility</th></tr>${rows}</table>`
+    + p(`All streams together: about ${inr(f.totals.low)}–${inr(f.totals.high)} of site revenue a month.${f.startWith.length ? ` We suggest starting with ${esc(f.startWith.join(' and ').toLowerCase())}.` : ''}`)
+    + (link ? p(`<a href="${link.replace('activate?', 'activate?next=business%23feasibility&')}">Open your full feasibility report</a>`) : '');
+}
 const rateLimit = require('../utils/rateLimit');
 const { fail, str } = require('../utils/http');
 
@@ -92,6 +107,7 @@ router.post('/', rateLimit(5, 10 * 60 * 1000), async (req, res) => {
       : 'Thank you for wanting to introduce a plot or a brand. Our team will call you within one working day.'}`)
     + (code ? p('Use this code to open your dashboard:') + codeBox(code) + button(link, 'Open my dashboard') : '')
     + (est ? p(`<strong>A first, indicative estimate for ${fields.size.toLocaleString('en-IN')} sq ft:</strong> about ${inr(est.revenue)} of site revenue a month, ${inr(est.profit)} of profit after running costs, and about ${inr(est.share50)} a month to you at the standard 50% tier.`)
+      + feasibilityEmail(user, code ? link : null)
       + p('<span style="font-size:13px;color:#4D5F57">Illustrative only, not an offer. A survey sets the real figure. Earnings are not guaranteed.</span>') : '')
     + p('Questions? Reply to this email or WhatsApp +91 81039 90990.');
   const teamRows = [['Lead ID', leadId], ['Who', ROLE_NAMES[role]], ['Name', name], ['Email', email], ['Phone', phone],

@@ -2,20 +2,23 @@
 // 60-second estimate (public/index.html), from the RentMySite landowner deck: indicative ₹ per sq ft per month on
 // a Bengaluru main-road plot, before operating costs. Illustrative only; a survey sets the real figure.
 const USES = [
-  { key: 'courts', name: 'Pickleball and padel courts', low: 30, high: 50 },
-  { key: 'markets', name: 'Weekend markets and events', low: 20, high: 45 },
-  { key: 'qsr', name: 'Drive-through QSR pad', low: 25, high: 40 },
-  { key: 'kiosks', name: 'Food kiosk court', low: 20, high: 35 },
-  { key: 'darkstore', name: 'Dark store and delivery hub', low: 15, high: 25 },
-  { key: 'banquet', name: 'Banquet lawn and weddings', low: 12, high: 25 },
-  { key: 'carcare', name: 'Car care and detailing', low: 14, high: 22 },
-  { key: 'ev', name: 'EV and fleet parking', low: 12, high: 20 },
-  { key: 'storage', name: 'Container storage and yard', low: 8, high: 15 }
+  // plot: what the use needs; funder: who pays for the build-out; build: weeks from approval to opening
+  // (RentMySite "For landowners" PDF, November 2026)
+  { key: 'courts', name: 'Pickleball and padel courts', low: 30, high: 50, plot: '8,000 sq ft and up', funder: 'We do', build: '6–8 weeks' },
+  { key: 'markets', name: 'Weekend markets and events', low: 20, high: 45, plot: '10,000 sq ft and up', funder: 'We do', build: '1–2 weeks' },
+  { key: 'qsr', name: 'Drive-through QSR pad', low: 25, high: 40, plot: '8,000 sq ft, highway or main road', funder: 'Brand does', build: '8–12 weeks' },
+  { key: 'kiosks', name: 'Food kiosk court', low: 20, high: 35, plot: '4,000 sq ft, frontage', funder: 'Brands do', build: '4–6 weeks' },
+  { key: 'darkstore', name: 'Dark store and delivery hub', low: 15, high: 25, plot: '4,000 sq ft, paved or built', funder: 'Brand does', build: '3–6 weeks' },
+  { key: 'banquet', name: 'Banquet lawn and weddings', low: 12, high: 25, plot: '20,000 sq ft, quiet surroundings', funder: 'We do, or you do', build: '4–8 weeks' },
+  { key: 'carcare', name: 'Car care and detailing', low: 14, high: 22, plot: '5,000 sq ft, frontage', funder: 'Operator does', build: '3–5 weeks' },
+  { key: 'ev', name: 'EV and fleet parking', low: 12, high: 20, plot: '3,000 sq ft and up', funder: 'We do', build: '2–4 weeks' },
+  { key: 'storage', name: 'Container storage and yard', low: 8, high: 15, plot: '5,000 sq ft and up', funder: 'You do, or we do', build: '1–3 weeks' },
+  { key: 'cottages', name: 'Cottages and glamping, with NomadLivings', low: 4, high: 8, plot: '1 acre and up, outskirts', funder: 'We do', build: '3–6 months' }
 ];
 
 // Best uses for each kind of space (shown in the owner's free report)
 const FIT = {
-  'empty-plot-or-open-land': ['kiosks', 'ev', 'markets', 'courts', 'qsr', 'storage'],
+  'empty-plot-or-open-land': ['kiosks', 'ev', 'markets', 'courts', 'qsr', 'storage', 'cottages'],
   'terrace-or-rooftop': ['markets', 'courts', 'banquet'],
   'godown-or-warehouse': ['darkstore', 'storage'],
   'closed-shed-or-factory': ['darkstore', 'storage', 'markets', 'ev'],

@@ -24,6 +24,7 @@
     </div>
     <nav class="nav" aria-label="Dashboard">
       <a href="#overview" data-view="overview">My site report</a>
+      <a href="#feasibility" data-view="feasibility">Feasibility report</a>
       <a href="#space" data-view="space">My space details</a>
       <a href="#spaces" data-view="spaces">Listings</a>
       <a href="#bookings" data-view="bookings">Requests</a>
@@ -41,6 +42,12 @@
       <div id="reportBox"><p class="meta">Loading your report…</p></div>
       <div class="section-title"><h2>From plot to payout</h2></div>
       <div id="deckBox"></div>
+    </section>
+
+    <section id="view-feasibility" hidden>
+      <div class="view-head"><div><h1>Feasibility report</h1><p>Can your space earn, and from how many revenue streams at once. Updated whenever you change your space details.</p></div>
+        <button class="btn ghost small" type="button" id="printFeas">Print or save as PDF</button></div>
+      <div id="feasBox"><p class="meta">Loading your feasibility report…</p></div>
     </section>
 
     <section id="view-space" hidden>

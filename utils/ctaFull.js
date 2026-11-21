@@ -5,7 +5,7 @@
 // finalised, and the legal text should be reviewed by RentMySite's lawyer before it is used with owners.
 const crypto = require('crypto');
 
-const CTA_VERSION = 'Owner mandate v1.0, 21 November 2026';
+const CTA_VERSION = 'Owner mandate v1.1, 21 November 2026';
 const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
 const words = t => String(t).replace(/\b\w+/g, w => (w.length <= 3 && !/[aeiou]/i.test(w) ? w.toUpperCase() : cap(w)));
 
@@ -18,8 +18,8 @@ function dealSheet(user) {
     ['Location', s.location || words(user.location || 'Bengaluru')],
     ['What this is', 'A mandate, not a lease. RentMySite.ai may place operators and license space on the site. No tenancy is created.'],
     ['Your share of site profit', 'We fund the build: 35%. The brand funds (standard): 50%. You fund the build: 65%. The tier is confirmed in writing after the survey.'],
-    ['When you are paid', 'Every month, with a statement of revenue, costs and your share.'],
-    ['Checks', 'Monthly statement and a yearly audit of the site accounts.'],
+    ['When you are paid', 'Every month, within ten days of month end, with a statement of revenue, costs and your share.'],
+    ['Checks', 'Monthly statement, and one audit of the site accounts each year at your request.'],
     ['Upfront fee', 'None.'],
     ['Who pays what', 'RentMySite.ai: permits, insurance, staff, security and running costs. You: taxes on the land.'],
     ['Selling', 'Sell any time. The buyer steps into the mandate, or the site winds down on notice.']
@@ -29,7 +29,7 @@ function dealSheet(user) {
 const SECTIONS = [
   { title: '1. What this mandate is', points: [
     'You appoint RentMySite.ai to plan, build and run your space as a site that earns, and to share the profit with you.',
-    'It is a mandate, not a lease. It gives us the right to place operators and license space on the site. No tenancy is created.',
+    'It is a mandate, not a lease. It gives us the exclusive right, for the term, to find, contract and place brands and operators on the site, and to sub-license space to them. No tenancy is created.',
     'The title stays with you. Ownership never transfers to RentMySite.ai.'] },
   { title: '2. Survey and plan', points: [
     'We survey the space: frontage, access, power, drainage and local demand, and give you a written estimate.',
@@ -38,29 +38,34 @@ const SECTIONS = [
   { title: '3. Build and activate', points: [
     'We arrange approvals, basic infrastructure and the operators and brands you approved.',
     'Who funds the build sets your share: we fund it (35%), a brand funds it (50%, standard) or you fund it (65%).',
-    'Build costs and any recovery are shown openly in your statements.'] },
+    'Build costs and any recovery are shown openly in your statements.',
+    'Assets belong to whoever paid for them, and are removed or handed over at the end of the term.'] },
   { title: '4. Running the site', points: [
     'We run the site day to day: staff, security, power, cleaning, permits and insurance.',
     'Brands and operators pay deposits; if one leaves, we replace them from our pipeline.',
-    'Every use follows local rules, building bye-laws and, for societies and institutions, your own approvals.'] },
+    'Every use follows local rules, building bye-laws and, for societies and institutions, your own approvals.',
+    'We obtain and pay for the operating permits and licences for the uses.'] },
   { title: '5. Money and statements', points: [
     'We collect from every brand and operator on the site. You do not need to chase anyone for rent.',
-    'Site profit is site revenue minus operating costs. Your share of the profit is paid every month to your verified bank account (NRO account for NRIs).',
-    'You get a monthly statement, line by line, and a yearly audit of the site accounts.'] },
+    'Site profit is site revenue minus operating costs. Your share of the profit is paid every month, within ten days of month end, to your verified bank account (NRO account for NRIs).',
+    'You get a monthly statement, line by line, and one audit of the site accounts each year at your request.'] },
   { title: '6. Your responsibilities', points: [
     'Give true details about the land and its ownership, and tell us about any dispute, loan or charge on it.',
     'Taxes on the land stay with you, as with any tenant.',
-    'Do not let anyone else use the same space for the same hours while this mandate runs, unless we agree in writing.'] },
+    'Give us access to the site for the survey and the build-out.',
+    'Make no parallel arrangement on the plot while this mandate runs, unless we agree in writing.'] },
   { title: '7. KYC and documents', points: [
-    'We need your PAN, Aadhaar (we keep only the last 4 digits), bank details and the land documents before the site goes live.',
+    'We need your PAN, Aadhaar (we keep only the last 4 digits), bank details and the land documents (ownership documents and an encumbrance certificate) before the site goes live.',
     'NRIs sign through a registered power of attorney in India.',
     'Your documents are private and seen only by you and the RentMySite.ai team.'] },
   { title: '8. Selling or ending', points: [
     'You can sell any time. The buyer steps into the mandate, or the site winds down on the notice set out in your mandate sheet.',
-    'Either side can end the mandate on written notice after current operator contracts and dues are settled.',
+    'Either side may end the mandate for a material breach that is not put right within thirty days of written notice.',
+    'Force majeure suspends the obligations of both sides while it lasts.',
     'On ending, we hand the space back in the condition agreed in the plan.'] },
   { title: '9. Insurance and responsibility', points: [
-    'We insure site operations and are responsible for injury, loss or damage caused by how we run the site.',
+    'We hold public liability cover for the site, and require every operator to insure its own activity. The cover and the insurer are listed in your mandate sheet once confirmed.',
+    'We are responsible for injury, loss or damage caused by how we run the site.',
     'You are responsible for problems that come from the title or the land itself (for example a dispute over ownership).',
     'Neither side is liable to the other for indirect losses.'] },
   { title: '10. Privacy, changes and disputes', points: [
