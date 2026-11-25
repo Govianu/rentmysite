@@ -18,11 +18,11 @@ const USES = [
 
 // Best uses for each kind of space (shown in the owner's free report)
 const FIT = {
-  'open-land-or-vacant-site': ['kiosks', 'ev', 'markets', 'courts', 'qsr', 'storage', 'cottages'],
+  'vacant-site-or-open-space': ['kiosks', 'ev', 'markets', 'courts', 'qsr', 'storage', 'cottages'],
   'terrace-or-rooftop': ['markets', 'courts', 'banquet'],
   'godown-or-warehouse': ['darkstore', 'storage'],
   'closed-shed-or-factory': ['darkstore', 'storage', 'markets', 'ev'],
-  'institutional-or-society-land': ['markets', 'ev', 'storage', 'courts'],
+  'institutional-or-society-campus': ['markets', 'ev', 'storage', 'courts'],
   'shop-or-showroom': ['kiosks', 'darkstore'],
   'hall-or-event-space': ['banquet', 'markets'],
   'parking-area': ['ev', 'carcare', 'markets'],
@@ -36,9 +36,11 @@ const TIERS = [
 ];
 
 // "Terrace or rooftop", "terrace_or_rooftop" and "terrace-or-rooftop" all find the same entry
-// Accounts saved before November 2026 say "Empty plot or open land"; they get the same uses as open land
+// Accounts saved under older names ("Empty plot or open land", "Open land or vacant site",
+// "Institutional or society land") get the same uses as the current names
 const keyOf = t => String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-  .replace(/^(empty-plot-or-open-land|empty-plot)$/, 'open-land-or-vacant-site');
+  .replace(/^(empty-plot-or-open-land|empty-plot|open-land-or-vacant-site)$/, 'vacant-site-or-open-space')
+  .replace(/^institutional-or-society-land$/, 'institutional-or-society-campus');
 function usesFor(category) {
   return (FIT[keyOf(category)] || FIT.default).map(k => USES.find(u => u.key === k));
 }

@@ -5,7 +5,7 @@
 // finalised, and the legal text should be reviewed by RentMySite's lawyer before it is used with owners.
 const crypto = require('crypto');
 
-const CTA_VERSION = 'Owner mandate v1.2, 21 November 2026';
+const CTA_VERSION = 'Owner mandate v1.3, 25 November 2026';
 const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
 const words = t => String(t).replace(/\b\w+/g, w => (w.length <= 3 && !/[aeiou]/i.test(w) ? w.toUpperCase() : cap(w)));
 
@@ -21,7 +21,7 @@ function dealSheet(user) {
     ['When you are paid', 'Every month, within ten days of month end, with a statement of revenue, costs and your share.'],
     ['Checks', 'Monthly statement, and one audit of the site accounts each year at your request.'],
     ['Upfront fee', 'None.'],
-    ['Who pays what', 'RentMySite.ai: permits, insurance, staff, security and running costs. You: taxes on the land.'],
+    ['Who pays what', 'RentMySite.ai: permits, insurance, staff, security and running costs. You: taxes on the property.'],
     ['Selling', 'Sell any time. The buyer steps into the mandate, or the site winds down on notice.']
   ];
 }
@@ -50,12 +50,12 @@ const SECTIONS = [
     'Site profit is site revenue minus operating costs. Your share of the profit is paid every month, within ten days of month end, to your verified bank account (NRO account for NRIs).',
     'You get a monthly statement, line by line, and one audit of the site accounts each year at your request.'] },
   { title: '6. Your responsibilities', points: [
-    'Give true details about the land and its ownership, and tell us about any dispute, loan or charge on it.',
-    'Taxes on the land stay with you, as with any tenant.',
+    'Give true details about the property and its ownership, and tell us about any dispute, loan or charge on it.',
+    'Taxes on the property stay with you, as with any tenant.',
     'Give us access to the site for the survey and the build-out.',
     'Make no parallel arrangement on the space while this mandate runs, unless we agree in writing.'] },
   { title: '7. KYC and documents', points: [
-    'We need your PAN, Aadhaar (we keep only the last 4 digits), bank details and the land documents (ownership documents and an encumbrance certificate) before the site goes live.',
+    'We need your PAN, Aadhaar (we keep only the last 4 digits), bank details and the property documents (ownership documents and an encumbrance certificate) before the site goes live.',
     'NRIs sign through a registered power of attorney in India.',
     'Your documents are private and seen only by you and the RentMySite.ai team.'] },
   { title: '8. Selling or ending', points: [
@@ -66,7 +66,7 @@ const SECTIONS = [
   { title: '9. Insurance and responsibility', points: [
     'We hold public liability cover for the site, and require every operator to insure its own activity. The cover and the insurer are listed in your mandate sheet once confirmed.',
     'We are responsible for injury, loss or damage caused by how we run the site.',
-    'You are responsible for problems that come from the title or the land itself (for example a dispute over ownership).',
+    'You are responsible for problems that come from the title or the property itself (for example a dispute over ownership).',
     'Neither side is liable to the other for indirect losses.'] },
   { title: '10. Privacy, changes and disputes', points: [
     'We use your details only to run the mandate, pay you and meet tax and legal duties, and never sell them.',
@@ -77,7 +77,7 @@ const SECTIONS = [
 const CONSENTS = [
   { id: 'terms', required: true, label: 'I have read and agree to this mandate and my mandate sheet.' },
   { id: 'owner', required: true, label: 'I own this space, or I am authorised to sign for its owner (with written consent, if I am a tenant).' },
-  { id: 'details', required: true, label: 'The details and documents I give about the land and myself are true, and I will keep them updated.' },
+  { id: 'details', required: true, label: 'The details and documents I give about the property and myself are true, and I will keep them updated.' },
   { id: 'payments', required: true, label: 'RentMySite.ai collects from operators and pays me my share of the site profit every month.' },
   { id: 'approval', required: true, label: 'Nothing is built until I approve the plan, and estimates are not guaranteed.' },
   { id: 'privacy', required: true, label: 'I agree RentMySite.ai may use my details to run this mandate, pay me and meet tax and legal duties.' },

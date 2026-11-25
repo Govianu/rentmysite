@@ -20,8 +20,8 @@ const { assignLeadId } = require('../utils/leadId');
 const { planFor } = require('../utils/cta');
 
 // RentMySite: owners choose a type of space (labels match routes/owner.js)
-const SPACE_LABELS = { open_land: 'Open land or vacant site', terrace: 'Terrace or rooftop', godown: 'Godown or warehouse',
-  shed: 'Closed shed or factory', institutional_land: 'Institutional or society land', shop: 'Shop or showroom',
+const SPACE_LABELS = { open_land: 'Vacant site or open space', terrace: 'Terrace or rooftop', godown: 'Godown or warehouse',
+  shed: 'Closed shed or factory', institutional_land: 'Institutional or society campus', shop: 'Shop or showroom',
   office_seats: 'Spare office seats', hall: 'Hall or event space', parking: 'Parking area', house: 'Vacant house', other: 'Other' };
 const BUSINESS_CATEGORIES = Object.keys(SPACE_LABELS);
 const ASSOCIATE_SKILLS = ['chef', 'steward', 'cleaning_staff', 'bartender', 'baker', 'beautician', 'trainer', 'other'];
@@ -114,7 +114,7 @@ router.post('/signup', rateLimit(5, 15 * 60 * 1000), async (req, res) => {
     const known = sectorFor({ category: str(b.category) });
     const category = BUSINESS_CATEGORIES.includes(b.category) ? b.category : known ? slugify(known.noun, true) : 'other';
     if (known) doc.sectorId = known.id;
-    if (!businessName) throw fail('Give your space a name, for example Hosur Road land');
+    if (!businessName) throw fail('Give your space a name, for example Hosur Road site');
     doc.space = { type: SPACE_LABELS[category] || 'Other', location: str(b.mapsUrl) || location };
     Object.assign(doc, {
       category,

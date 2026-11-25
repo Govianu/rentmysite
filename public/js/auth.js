@@ -79,9 +79,9 @@
 
   const copy = {
     business: {
-      title: "Don't sell your land. Monetise it.",
-      text: 'List your dormant space free: open land, a terrace, godown, shed or spare seats. We plan it, build it and run it. You keep the title and earn every month.',
-      sample: ['land', 'hosurroad', 'myspace'], catLabel: 'your space'
+      title: "Don't sell your space. Monetise it.",
+      text: 'List your dormant space free: a vacant site, a terrace, godown, shed or spare seats. We plan it, build it and run it. You keep the title and earn every month.',
+      sample: ['site', 'hosurroad', 'myspace'], catLabel: 'your space'
     },
     associate: {
       title: 'Earn from your days off.',

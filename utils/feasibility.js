@@ -56,7 +56,7 @@ function rateUse(key, { size, road, fullTime }) {
   if (size && size < n.minSize) { score -= size < n.minSize / 2 ? 2 : 1; reasons.push(`Works best from about ${n.minSize.toLocaleString('en-IN')} sq ft`); }
   if (n.road === 'main' && road !== 'main') { score -= road === 'outskirts' ? 2 : 1; reasons.push('Needs main-road visibility'); }
   if (n.road === 'inner' && road === 'outskirts') { score -= 1; reasons.push('Needs to be close to customers'); }
-  if (n.road === 'outskirts' && road !== 'outskirts') { score -= 1; reasons.push('Suits quiet land on the outskirts'); }
+  if (n.road === 'outskirts' && road !== 'outskirts') { score -= 1; reasons.push('Suits quiet sites on the outskirts'); }
   if (n.fullTime && !fullTime) { score -= 1; reasons.push('Needs the space all the time, not only some hours'); }
   const feasibility = score >= 3 ? 'High' : score === 2 ? 'Medium' : 'Low';
   if (!reasons.length) reasons.push('Fits the size, road and hours you gave');
@@ -184,7 +184,7 @@ const AI_SCHEMA = {
 function aiPrompt(user, report) {
   const s = user.space || {};
   const have = report.core.concat(report.addOns).map(x => `- ${x.name}`).join('\n');
-  return `RentMySite.ai is a Bengaluru company. Landowners give it a mandate (not a lease) for an idle space; RentMySite plans, builds and runs commercial uses on it with brands and operators, and shares the profit with the owner every month.
+  return `RentMySite.ai is a Bengaluru company. Owners give it a mandate (not a lease) for an idle space; RentMySite plans, builds and runs commercial uses on it with brands and operators, and shares the profit with the owner every month.
 
 Write further commercial revenue streams for this owner's space, beyond the ones the report already has.
 
@@ -199,7 +199,7 @@ The space:
 Streams already in the report (do not repeat these):
 ${have}
 
-Give 3 to 5 streams that suit this exact space and location, ordered from most to least feasible. For each: a short name; one or two plain sentences on why it suits this space; an indicative monthly revenue range in Indian rupees for the site (whole rupees, realistic for Bengaluru); investment needed (Low, Medium or High); time to first revenue (for example "4–8 weeks"); feasibility (High, Medium or Low); and the kind of partner who would run it. Also give a one-sentence summary of the space's earning potential. Use plain words a landowner understands. Do not promise income.`;
+Give 3 to 5 streams that suit this exact space and location, ordered from most to least feasible. For each: a short name; one or two plain sentences on why it suits this space; an indicative monthly revenue range in Indian rupees for the site (whole rupees, realistic for Bengaluru); investment needed (Low, Medium or High); time to first revenue (for example "4–8 weeks"); feasibility (High, Medium or Low); and the kind of partner who would run it. Also give a one-sentence summary of the space's earning potential. Use plain words a property owner understands. Do not promise income.`;
 }
 
 async function aiStreamsFor(user) {

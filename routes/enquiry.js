@@ -65,9 +65,9 @@ router.post('/', rateLimit(5, 10 * 60 * 1000), async (req, res) => {
     else {
       const isOwner = accountRole === 'business';
       const title = isOwner ? `${fields.spaceType || 'Space'} in ${area.replace(/\b\w/g, c => c.toUpperCase())}` : name;
-      // Short web address: land.hosurroad.ravi
-      const SHORT = { 'Open land or vacant site': 'land', 'Terrace or rooftop': 'terrace', 'Godown or warehouse': 'godown', 'Closed shed or factory': 'shed',
-        'Institutional or society land': 'campus', 'Shop or showroom': 'shop', 'Spare office seats': 'seats', 'Hall or event space': 'hall',
+      // Short web address: site.hosurroad.ravi
+      const SHORT = { 'Vacant site or open space': 'site', 'Open land or vacant site': 'site', 'Terrace or rooftop': 'terrace', 'Godown or warehouse': 'godown', 'Closed shed or factory': 'shed',
+        'Institutional or society campus': 'campus', 'Institutional or society land': 'campus', 'Shop or showroom': 'shop', 'Spare office seats': 'seats', 'Hall or event space': 'hall',
         'Parking area': 'parking', 'Vacant house': 'house' };
       const category = isOwner ? (SHORT[fields.spaceType] || 'space') : 'brand';
       user = await User.create({

@@ -8,7 +8,7 @@ const { USES, TIERS, usesFor, estimateFor } = require('../utils/spaces');
 
 router.use(requireAuth('business'));
 
-const SPACE_TYPES = ['Open land or vacant site', 'Terrace or rooftop', 'Godown or warehouse', 'Closed shed or factory', 'Institutional or society land',
+const SPACE_TYPES = ['Vacant site or open space', 'Terrace or rooftop', 'Godown or warehouse', 'Closed shed or factory', 'Institutional or society campus',
   'Shop or showroom', 'Spare office seats', 'Hall or event space', 'Parking area', 'Vacant house', 'Other'];
 const ROADS = { main: 1, inner: 0.75, outskirts: 0.55 };
 // Where the owner is, from first call to first payout (the lead's stage in the team dashboard)

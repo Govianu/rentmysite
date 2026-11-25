@@ -40,7 +40,7 @@ test.before(async () => {
 });
 test.after(() => server?.close());
 
-const owner = { role: 'owner', name: 'Ravi Kumar', email: 'ravi@example.com', phone: '9876543210', spaceType: 'Open land or vacant site',
+const owner = { role: 'owner', name: 'Ravi Kumar', email: 'ravi@example.com', phone: '9876543210', spaceType: 'Vacant site or open space',
   size: 20000, location: 'Hosur Road, Bengaluru', termsAccepted: true };
 
 test('the estimate uses the deck figures: size x average rate of the uses, costs about 45%', () => {
@@ -133,7 +133,7 @@ test('feasibility ratings follow size, road and hours', () => {
   assert.equal(rateUse('courts', { size: 3000, road: 'inner', fullTime: true }).feasibility, 'Low', 'too small and off the main road');
   assert.equal(rateUse('cottages', { size: 60000, road: 'outskirts', fullTime: true }).feasibility, 'High');
   // On the outskirts, uses that need a main road drop out of the core streams instead of inflating the total
-  const outskirts = feasibilityFor({ space: { type: 'Open land or vacant site', size: 60000, road: 'outskirts' } });
+  const outskirts = feasibilityFor({ space: { type: 'Vacant site or open space', size: 60000, road: 'outskirts' } });
   assert.ok(outskirts.core.every(c => c.feasibility !== 'Low'));
   assert.ok(outskirts.core.some(c => c.key === 'cottages'));
   assert.equal(rateUse('qsr', { size: 1000, road: 'outskirts', fullTime: false }).feasibility, 'Low');
