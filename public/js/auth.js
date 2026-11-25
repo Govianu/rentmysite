@@ -67,9 +67,11 @@
     loginForm.elements.email.focus();
   }
 
-  const { businessCategories, associateSkills, staffDomains = ['govianu.com'] } = await api('/auth/options').catch(() => ({
+  const { businessCategories, associateSkills, staffDomains = ['govianu.com'], teamInviteCode = true } = await api('/auth/options').catch(() => ({
     businessCategories: ['restaurant'], associateSkills: ['chef'], staffDomains: ['govianu.com']
   }));
+  // No ADMIN_INVITE_CODE on the server: the team sign-up needs only the Govianu email, so drop the code box
+  if (!teamInviteCode) document.getElementById('inviteCode')?.closest('.field')?.remove();
   // The RentMySite team sign-up is shown only to Govianu employees: it appears once a staff email is typed
   const isStaffEmail = email => staffDomains.includes(String(email || '').trim().toLowerCase().split('@')[1] || '');
   // A to Z, with "other" last

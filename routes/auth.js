@@ -54,7 +54,9 @@ const otpMail = async (user, code, { welcome = false, plan = null } = {}) => ema
 });
 
 // staffDomains: the login page shows the RentMySite team sign-up only for these email domains
-router.get('/options', (req, res) => res.json({ businessCategories: BUSINESS_CATEGORIES, associateSkills: ASSOCIATE_SKILLS, staffDomains: staffDomains() }));
+// teamInviteCode: whether the team sign-up asks for ADMIN_INVITE_CODE (the box is hidden when it is not set)
+router.get('/options', (req, res) => res.json({ businessCategories: BUSINESS_CATEGORIES, associateSkills: ASSOCIATE_SKILLS, staffDomains: staffDomains(),
+  teamInviteCode: Boolean(process.env.ADMIN_INVITE_CODE) }));
 
 router.post('/signup', rateLimit(5, 15 * 60 * 1000), async (req, res) => {
   const b = req.body || {};
@@ -70,7 +72,9 @@ router.post('/signup', rateLimit(5, 15 * 60 * 1000), async (req, res) => {
   if (role === 'admin' && !isStaffEmail(email)) {
     throw fail(`The RentMySite team dashboard is only for Govianu employees. Sign up with your @${staffDomains()[0]} email.`, 403);
   }
-  if (role === 'admin' && (!process.env.ADMIN_INVITE_CODE || b.inviteCode !== process.env.ADMIN_INVITE_CODE)) {
+  // Optional extra gate: with ADMIN_INVITE_CODE set, team sign-ups must also give it. Without it, the Govianu email
+  // (confirmed by the one-time code sent to that inbox) is enough.
+  if (role === 'admin' && process.env.ADMIN_INVITE_CODE && b.inviteCode !== process.env.ADMIN_INVITE_CODE) {
     throw fail('That team invite code is not valid', 403);
   }
   if (role !== 'admin' && !location) throw fail('Enter your area, for example Sadashivnagar');

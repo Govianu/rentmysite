@@ -6,7 +6,7 @@ Data is stored in `data/app-data.json` (created on first start).
 ## Run it
 
 ```bash
-cp .env.example .env     # fill in JWT_SECRET, ADMIN_INVITE_CODE, APP_URL and email settings
+cp .env.example .env     # fill in JWT_SECRET, APP_URL and email settings
 npm install
 npm run dev              # http://localhost:3000
 ```
@@ -85,7 +85,7 @@ Both are needed: the pages alone load, but sign-in and every dashboard button ca
    cd /home/<user>/rentmysite && npm ci --omit=dev
    ```
 3. Create `.env` in that folder from `.env.example`. Set at least `NODE_ENV=production`, a long random `JWT_SECRET`,
-   `ADMIN_INVITE_CODE`, `APP_URL=https://rentmysite.ai`, `PORT` (a free local port, e.g. 3000),
+   `APP_URL=https://rentmysite.ai`, `PORT` (a free local port, e.g. 3000),
    `DATA_DIR`/`UPLOAD_DIR` (a folder outside `public_html`, e.g. `/home/<user>/pmb-data`), the email settings
    (`SMTP_*` or `BREVO_API_KEY`, `MAIL_FROM`, `TEAM_INBOX`) and `HIGGSFIELD_API_KEY_ID`/`HIGGSFIELD_API_KEY_SECRET`.
 4. Start the API and keep it running after reboots:
