@@ -3,14 +3,62 @@
 // This forwards the signed-in team member's requests to it, server to server, always for this site's brand,
 // so the browser never sees the Hub key.
 //   .env: HUB_URL=http://127.0.0.1:4100   HUB_API_KEY=<same value as in the Hub's .env>
+//         ADMIN_VIEW_CODE=<secret code that unlocks everyone's records>
+//
+// Who sees what: every team member sees only the leads assigned to them (and those leads' chats, calls and
+// recordings). Entering ADMIN_VIEW_CODE gives that person the admin view (all employees) for 12 hours.
+const crypto = require('crypto');
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const { requireAuth } = require('../middleware/auth');
+const rateLimit = require('../utils/rateLimit');
 
 const BRAND = process.env.HUB_BRAND || 'rentmysite';
+const ADMIN_COOKIE = 'hub_admin';
+const ADMIN_HOURS = 12;
 const router = express.Router();
 
 router.use(requireAuth('admin'));
 router.use(express.text({ type: 'text/*', limit: '25mb' })); // CSV lead uploads
+
+function sameSecret(a, b) {
+  const x = crypto.createHash('sha256').update(String(a)).digest();
+  const y = crypto.createHash('sha256').update(String(b)).digest();
+  return crypto.timingSafeEqual(x, y);
+}
+
+function hasAdminView(req) {
+  try {
+    const p = jwt.verify(req.cookies?.[ADMIN_COOKIE] || '', process.env.JWT_SECRET);
+    return p.k === 'hub-admin' && String(p.id) === String(req.user._id) && Boolean(process.env.ADMIN_VIEW_CODE);
+  } catch {
+    return false;
+  }
+}
+
+// Admin view: unlock with the code, or leave it
+router.post('/admin-view', rateLimit(5, 15 * 60 * 1000), (req, res) => {
+  const code = String(req.body?.code || '').trim();
+  if (!process.env.ADMIN_VIEW_CODE) return res.status(503).json({ error: 'No admin code is set on the server (ADMIN_VIEW_CODE in .env)' });
+  if (!code || !sameSecret(code, process.env.ADMIN_VIEW_CODE)) {
+    console.warn(`[hub] wrong admin code from ${req.user.email}`);
+    return res.status(403).json({ error: 'That admin code is not right' });
+  }
+  const token = jwt.sign({ id: String(req.user._id), k: 'hub-admin' }, process.env.JWT_SECRET, { expiresIn: `${ADMIN_HOURS}h` });
+  res.cookie(ADMIN_COOKIE, token, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: ADMIN_HOURS * 3600 * 1000,
+    path: '/api/hub',
+  });
+  console.log(`[hub] admin view opened by ${req.user.email}`);
+  res.json({ ok: true, adminView: true, hours: ADMIN_HOURS });
+});
+router.delete('/admin-view', (req, res) => {
+  res.clearCookie(ADMIN_COOKIE, { path: '/api/hub' });
+  res.json({ ok: true, adminView: false });
+});
 
 router.use(async (req, res) => {
   const base = (process.env.HUB_URL || '').replace(/\/$/, '');
@@ -27,6 +75,7 @@ router.use(async (req, res) => {
     'X-Hub-Actor-Name': req.user.name || '',
     Accept: 'application/json',
   };
+  if (hasAdminView(req)) headers['X-Hub-Admin'] = '1';
   let body;
   if (!['GET', 'HEAD'].includes(req.method)) {
     if (typeof req.body === 'string') {

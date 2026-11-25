@@ -1,4 +1,8 @@
 /* WhatsApp & Calls tab (admin.html#comms) – data comes from the Govianu Hub via /api/hub */
+.comms-view { display: flex; gap: .8rem; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: .7rem 1rem; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); margin-bottom: 1rem; }
+.comms-view.admin { background: var(--teal-soft); border-color: var(--teal); }
+.comms-admin-form { display: flex; gap: .5rem; }
+.comms-admin-form input { width: 160px; }
 .comms-tabs { display: flex; gap: .25rem; flex-wrap: wrap; border-bottom: 1.5px solid var(--line); margin: 0 0 1.2rem; }
 .comms-tabs button { background: none; border: 0; border-bottom: 2.5px solid transparent; padding: .6rem .9rem; font: inherit; color: var(--muted); cursor: pointer; }
 .comms-tabs button[aria-current="page"] { color: var(--ink); border-color: var(--teal); font-weight: 700; }

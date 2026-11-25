@@ -113,6 +113,9 @@ function requireUser(req, res, next) {
   if (viaSite === null) return res.status(401).json({ error: 'Hub key or team member not accepted' });
   if (viaSite) {
     req.user = viaSite;
+    // From the websites, everyone sees only their own records unless the site confirmed the admin code
+    // for this person (X-Hub-Admin is only accepted together with the server-to-server key).
+    req.isAdmin = req.get('x-hub-admin') === '1';
     return next();
   }
   try {
@@ -120,6 +123,7 @@ function requireUser(req, res, next) {
     const emp = db.employees.find((e) => e.id === id && e.active !== false);
     if (!emp) throw new Error('no user');
     req.user = emp;
+    req.isAdmin = emp.role === 'admin';
     next();
   } catch {
     res.status(401).json({ error: 'Please sign in' });
@@ -127,7 +131,7 @@ function requireUser(req, res, next) {
 }
 
 function requireAdmin(req, res, next) {
-  if (req.user?.role !== 'admin') return res.status(403).json({ error: 'Admins only' });
+  if (!req.isAdmin) return res.status(403).json({ error: 'Admin view only – enter the admin code' });
   next();
 }
 

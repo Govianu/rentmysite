@@ -13,11 +13,13 @@ function rangeStart(range) {
 
 const inBrand = (brand) => (x) => !brand || x.brand === brand;
 
-function overview(brand, range = 'today') {
+// employeeId set = that person's own view: their leads, their calls, their customers waiting
+function overview(brand, range = 'today', employeeId = null) {
   const from = rangeStart(range);
-  const leads = Object.values(db.leads).filter(inBrand(brand));
-  const msgs = db.messages.filter((m) => !m.internal && m.at >= from && inBrand(brand)(m));
-  const calls = Object.values(db.calls).filter((c) => (c.startedAt || c.createdAt) >= from && inBrand(brand)(c));
+  const mine = (phone) => !employeeId || db.leads[phone]?.assignedTo === employeeId;
+  const leads = Object.values(db.leads).filter(inBrand(brand)).filter((l) => !employeeId || l.assignedTo === employeeId);
+  const msgs = db.messages.filter((m) => !m.internal && m.at >= from && inBrand(brand)(m) && mine(m.phone));
+  const calls = Object.values(db.calls).filter((c) => (c.startedAt || c.createdAt) >= from && inBrand(brand)(c) && (!employeeId || c.employeeId === employeeId || mine(c.phone)));
   const stages = {};
   for (const l of leads) stages[l.stage] = (stages[l.stage] || 0) + 1;
   return {
@@ -32,7 +34,7 @@ function overview(brand, range = 'today') {
     calls: calls.length,
     callsConnected: calls.filter((c) => c.status === 'bridged').length,
     callsMissed: calls.filter((c) => c.status && c.status !== 'bridged').length,
-    openNow: Object.values(db.pending).filter((p) => p.status === 'open' && inBrand(brand)(p)).length,
+    openNow: Object.values(db.pending).filter((p) => p.status === 'open' && inBrand(brand)(p) && mine(p.phone)).length,
     campaign: {
       queued: leads.filter((l) => l.campaign?.state === 'queued').length,
       sent: leads.filter((l) => ['sent', 'replied'].includes(l.campaign?.state)).length,

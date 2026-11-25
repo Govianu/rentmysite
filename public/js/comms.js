@@ -37,10 +37,22 @@
       !c.calling && 'Call recordings need the MyOperator Calling API token (MYOP_CALL_TOKEN) in the Hub.',
       S.me.campaignPausedReason,
     ].filter(Boolean);
-    el.innerHTML = `${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
+    const viewBar = isHubAdmin()
+      ? `<div class="comms-view admin"><span><strong>Admin view</strong>: every team member's leads, chats, calls and recordings.</span><button class="btn ghost small" type="button" id="cLeaveAdmin">Leave admin view</button></div>`
+      : `<div class="comms-view"><span><strong>My view</strong>: only leads assigned to you, ${esc(S.me.me.name)}.</span>
+          <form id="cAdminForm" class="comms-admin-form"><input type="password" id="cAdminCode" placeholder="Admin code" autocomplete="off" aria-label="Admin code"><button class="btn small" type="submit">Admin view</button></form></div>`;
+    el.innerHTML = `${viewBar}${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
       <div class="comms-tabs" role="tablist">${subs.map(([k, l]) => `<button type="button" data-sub="${k}" ${k === S.sub ? 'aria-current="page"' : ''}>${l}</button>`).join('')}</div>
       <div id="commsBody"><p class="meta">Loading…</p></div>`;
     el.querySelectorAll('[data-sub]').forEach((b) => b.addEventListener('click', () => { S.sub = b.dataset.sub; window.loadComms(); }));
+    document.getElementById('cAdminForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = document.getElementById('cAdminCode').value.trim();
+      if (!code) return toast('Enter the admin code', true);
+      const ok = await run(() => hub('/admin-view', { method: 'POST', body: { code } }), 'Admin view on for 12 hours');
+      if (ok) { S.leadAssigned = ''; S.callEmp = ''; window.loadComms(); }
+    });
+    document.getElementById('cLeaveAdmin')?.addEventListener('click', () => run(() => hub('/admin-view', { method: 'DELETE' }), 'Back to your own view').then(() => { S.leadAssigned = ''; S.callEmp = ''; if (S.sub === 'campaign') S.sub = 'overview'; window.loadComms(); }));
     try {
       await ({ overview, inbox, leads, calls, team, campaign }[S.sub])();
     } catch (e) {
@@ -93,7 +105,7 @@
     body().innerHTML = `<div class="comms-bar">
         <input id="cQ" placeholder="Search name, phone, email, area…" value="${esc(S.leadQ)}">
         <select id="cStage"><option value="">All stages</option>${S.me.stages.map((s) => `<option value="${s}" ${s === S.leadStage ? 'selected' : ''}>${esc(pretty(s))}</option>`).join('')}</select>
-        <select id="cAssigned"><option value="">Everyone</option><option value="me" ${S.leadAssigned === 'me' ? 'selected' : ''}>My leads</option><option value="none" ${S.leadAssigned === 'none' ? 'selected' : ''}>Not assigned</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadAssigned === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select>
+        ${isHubAdmin() ? `<select id="cAssigned"><option value="">Everyone</option><option value="me" ${S.leadAssigned === 'me' ? 'selected' : ''}>My leads</option><option value="none" ${S.leadAssigned === 'none' ? 'selected' : ''}>Not assigned</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadAssigned === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select>` : ''}
         <select id="cCamp"><option value="">Any campaign state</option>${['none', 'queued', 'sent', 'replied', 'failed', 'skipped'].map((s) => `<option ${s === S.leadCampaign ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
       <p class="meta">${res.total} leads${res.total > res.rows.length ? ` (showing ${res.rows.length})` : ''}</p>
       <div class="table-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Stage</th><th>Assigned to</th><th>WhatsApp campaign</th><th>Last contact</th><th>Notes</th></tr></thead><tbody>
@@ -112,7 +124,7 @@
       }, 400);
     });
     document.getElementById('cStage').addEventListener('change', (e) => { S.leadStage = e.target.value; window.loadComms(); });
-    document.getElementById('cAssigned').addEventListener('change', (e) => { S.leadAssigned = e.target.value; window.loadComms(); });
+    document.getElementById('cAssigned')?.addEventListener('change', (e) => { S.leadAssigned = e.target.value; window.loadComms(); });
     document.getElementById('cCamp').addEventListener('change', (e) => { S.leadCampaign = e.target.value; window.loadComms(); });
     wireRows();
   }
@@ -120,7 +132,7 @@
   // ───────── Calls ─────────
   async function calls() {
     const rows = await hub(`/calls?range=${S.range}${S.callEmp ? '&employee=' + encodeURIComponent(S.callEmp) : ''}`);
-    body().innerHTML = `<div class="comms-bar">${rangeSel()}<select id="cEmp"><option value="">All team members</option>${empOptions(S.callEmp)}</select></div>
+    body().innerHTML = `<div class="comms-bar">${rangeSel()}${isHubAdmin() ? `<select id="cEmp"><option value="">All team members</option>${empOptions(S.callEmp)}</select>` : ''}</div>
       <div class="table-wrap"><table><thead><tr><th>When</th><th>Customer</th><th>Direction</th><th>Result</th><th>Talk time</th><th>Handled by</th><th>Recording</th></tr></thead><tbody>
       ${rows.map((c) => `<tr><td class="meta">${when(c.startedAt)}</td><td class="comms-row" data-ph="${esc(c.phone)}"><strong>${esc(c.name || ph(c.phone))}</strong></td>
         <td>${c.direction === 'outgoing' ? '↗ outgoing' : '↙ incoming'}</td>
@@ -129,7 +141,7 @@
         <td>${c.hasRecording ? `<a class="btn ghost small" href="/api/hub/calls/${encodeURIComponent(c.id)}/recording" target="_blank" rel="noopener">▶ Play</a>` : ''}</td></tr>`).join('') || '<tr><td colspan="7" class="empty"><strong>No calls in this period</strong>Calls appear once MyOperator sends them to the Hub.</td></tr>'}
       </tbody></table></div>`;
     wireRange();
-    document.getElementById('cEmp').addEventListener('change', (e) => { S.callEmp = e.target.value; window.loadComms(); });
+    document.getElementById('cEmp')?.addEventListener('change', (e) => { S.callEmp = e.target.value; window.loadComms(); });
     body().querySelectorAll('td[data-ph]').forEach((td) => td.addEventListener('click', () => openLead(td.dataset.ph)));
   }
 
@@ -250,7 +262,7 @@
       <p class="meta">${esc(ph(l.phone))}${l.email ? ' · ' + esc(l.email) : ''}${l.area ? ' · ' + esc(l.area) : ''} · source: ${esc(l.source || '—')}${l.sheetStatus ? ' · sheet: ' + esc(l.sheetStatus) : ''}</p>
       <div class="comms-fields">
         <div><label>Stage</label><select data-f="stage">${S.me.stages.map((s) => `<option value="${s}" ${s === l.stage ? 'selected' : ''}>${esc(pretty(s))}</option>`).join('')}</select></div>
-        <div><label>Assigned to</label><select data-f="assignedTo">${empOptions(l.assignedTo, '<option value="">Nobody</option>')}</select></div></div>
+        <div><label>Assigned to</label>${isHubAdmin() ? `<select data-f="assignedTo">${empOptions(l.assignedTo, '<option value="">Nobody</option>')}</select>` : `<p style="margin:.4rem 0">${esc(l.assignedName || 'Nobody')}</p>`}</div></div>
       ${l.aiSummary ? `<p><span class="pill">AI summary</span> ${esc(l.aiSummary)}</p>` : ''}
       ${d.pending?.status === 'open' ? `<p><span class="pill rejected">Waiting ${ago(d.pending.firstAt)}</span> <button class="btn ghost small" type="button" data-done-lead>Mark done</button></p>` : ''}
       <h3>Messages, emails &amp; calls</h3>

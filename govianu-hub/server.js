@@ -63,20 +63,32 @@ r.post('/api/auth/logout', h((req, res) => {
 r.use('/api', auth.requireUser);
 const admin = auth.requireAdmin;
 
+// Team members see only leads assigned to them (and those leads' chats, calls and recordings);
+// the admin view (admin code on the websites, or a Hub admin) sees everyone's.
+const mineOnly = (req) => (req.isAdmin ? null : req.user.id);
+const canSee = (req, lead) => req.isAdmin || (lead && lead.assignedTo === req.user.id);
+function leadFor(req, phone) {
+  const lead = db.leads[phone];
+  if (!lead) throw Object.assign(new Error('Not found'), { status: 404 });
+  if (!canSee(req, lead)) throw Object.assign(new Error('This lead is assigned to someone else'), { status: 403 });
+  return lead;
+}
+
 r.get('/api/me', h((req) => ({
-  me: publicEmp(req.user),
+  me: { ...publicEmp(req.user), role: req.isAdmin ? 'admin' : 'employee' },
+  adminView: Boolean(req.isAdmin),
   brands: BRANDS,
   stages: STAGES,
   employees: db.employees.filter((e) => e.active !== false).map((e) => ({ id: e.id, name: e.name, brands: e.brands })),
   configured: { myop: myop.configured(), dryRun: myop.DRY_RUN, waNumberId: Boolean(db.settings.waPhoneNumberId), calling: myop.callingConfigured(), ai: aiConfigured(), email: mailConfigured(), sheets: leadsLib.sheetsConfigured(), webhookToken: Boolean(process.env.MYOP_WEBHOOK_TOKEN) },
-  settings: req.user.role === 'admin' ? db.settings : undefined,
+  settings: req.isAdmin ? db.settings : undefined,
   campaignRunning: db.campaignRunning,
   campaignPausedReason: db.campaignPausedReason || '',
   sentToday: db.sentToday,
   unread: db.notifications.filter((n) => n.employeeId === req.user.id && !n.read).length,
 })));
 
-r.get('/api/overview', h((req) => metrics.overview(brandOf(req), req.query.range)));
+r.get('/api/overview', h((req) => metrics.overview(brandOf(req), req.query.range, mineOnly(req))));
 
 // ───── leads ─────
 r.get('/api/leads', h((req) => {
@@ -85,7 +97,8 @@ r.get('/api/leads', h((req) => {
   let list = Object.values(db.leads).filter((l) => !brand || l.brand === brand);
   if (stage) list = list.filter((l) => l.stage === stage);
   if (campaign) list = list.filter((l) => (l.campaign?.state || 'none') === campaign);
-  if (assigned === 'me') list = list.filter((l) => l.assignedTo === req.user.id);
+  if (!req.isAdmin) list = list.filter((l) => l.assignedTo === req.user.id);
+  else if (assigned === 'me') list = list.filter((l) => l.assignedTo === req.user.id);
   else if (assigned === 'none') list = list.filter((l) => !l.assignedTo);
   else if (assigned) list = list.filter((l) => l.assignedTo === assigned);
   if (q) {
@@ -105,8 +118,7 @@ r.get('/api/leads', h((req) => {
 }));
 
 r.get('/api/leads/:phone', h((req) => {
-  const lead = db.leads[req.params.phone];
-  if (!lead) throw Object.assign(new Error('Not found'), { status: 404 });
+  const lead = leadFor(req, req.params.phone);
   return {
     lead: { ...lead, assignedName: employee(lead.assignedTo)?.name || '' },
     windowOpen: engine.windowOpen(lead),
@@ -118,11 +130,10 @@ r.get('/api/leads/:phone', h((req) => {
 }));
 
 r.patch('/api/leads/:phone', h((req) => {
-  const lead = db.leads[req.params.phone];
-  if (!lead) throw Object.assign(new Error('Not found'), { status: 404 });
+  const lead = leadFor(req, req.params.phone);
   const b = req.body;
   if (b.assignedTo !== undefined && b.assignedTo !== lead.assignedTo) {
-    if (req.user.role !== 'admin' && lead.assignedTo && lead.assignedTo !== req.user.id) throw Object.assign(new Error('Only admins can reassign other people’s leads'), { status: 403 });
+    if (!req.isAdmin) throw Object.assign(new Error('Only the admin view can reassign leads'), { status: 403 });
     leadsLib.assign(lead, b.assignedTo, req.user.id);
   }
   if (b.stage && STAGES.includes(b.stage) && b.stage !== lead.stage) {
@@ -146,6 +157,7 @@ r.patch('/api/leads/:phone', h((req) => {
 r.post('/api/leads/:phone/send', h(async (req) => {
   const { text, template, templateBody, headerMediaUrl } = req.body;
   if (!text && !template) throw new Error('Type a message or choose a template');
+  leadFor(req, req.params.phone);
   await engine.hubSend(req.user, req.params.phone, { text, template, templateBody, headerMediaUrl });
   return { ok: true };
 }));
@@ -159,17 +171,21 @@ r.get('/api/inbox', h((req) => {
       const l = db.leads[p.phone] || {};
       return { ...p, name: l.name, assignedTo: l.assignedTo, assignedName: employee(l.assignedTo)?.name || '', aiSummary: l.aiSummary || '', stage: l.stage };
     })
-    .filter((p) => req.query.mine !== '1' || p.assignedTo === req.user.id)
+    .filter((p) => (req.isAdmin && req.query.mine !== '1') || p.assignedTo === req.user.id)
     .sort((a, b) => a.firstAt - b.firstAt);
 }));
-r.post('/api/inbox/:phone/done', h((req) => engine.resolvePending(req.params.phone, req.user.id, 'marked done')));
+r.post('/api/inbox/:phone/done', h((req) => {
+  leadFor(req, req.params.phone);
+  return engine.resolvePending(req.params.phone, req.user.id, 'marked done');
+}));
 
 // ───── calls ─────
 r.get('/api/calls', h((req) => {
   const brand = brandOf(req);
   const from = metrics.rangeStart(req.query.range || '7d');
   let list = Object.values(db.calls).filter((c) => (c.startedAt || c.createdAt) >= from && (!brand || c.brand === brand));
-  if (req.query.employee) list = list.filter((c) => c.employeeId === req.query.employee);
+  if (!req.isAdmin) list = list.filter((c) => c.employeeId === req.user.id || db.leads[c.phone]?.assignedTo === req.user.id);
+  else if (req.query.employee) list = list.filter((c) => c.employeeId === req.query.employee);
   return list
     .sort((a, b) => (b.startedAt || b.createdAt) - (a.startedAt || a.createdAt))
     .slice(0, 500)
@@ -178,17 +194,18 @@ r.get('/api/calls', h((req) => {
 r.get('/api/calls/:id/recording', h(async (req, res) => {
   const c = db.calls[req.params.id];
   if (!c?.recording_filename) throw Object.assign(new Error('No recording for this call'), { status: 404 });
+  if (!req.isAdmin && c.employeeId !== req.user.id && db.leads[c.phone]?.assignedTo !== req.user.id) throw Object.assign(new Error('This call belongs to someone else'), { status: 403 });
   res.redirect(await myop.recordingLink(c.recording_filename));
 }));
 
 // ───── team ─────
 r.get('/api/team', h((req) => {
   const t = metrics.team(brandOf(req), req.query.range);
-  if (req.user.role !== 'admin') return { rows: t.rows.filter((x) => x.id === req.user.id), unattributed: {}, unmappedAgents: {} };
+  if (!req.isAdmin) return { rows: t.rows.filter((x) => x.id === req.user.id), unattributed: {}, unmappedAgents: {} };
   return t;
 }));
 r.get('/api/team/:id/timeline', h((req) => {
-  if (req.user.role !== 'admin' && req.params.id !== req.user.id) throw Object.assign(new Error('Admins only'), { status: 403 });
+  if (!req.isAdmin && req.params.id !== req.user.id) throw Object.assign(new Error('Admin view only'), { status: 403 });
   return metrics.employeeTimeline(req.params.id).map((a) => ({ ...a, leadName: db.leads[a.phone]?.name || '' }));
 }));
 
@@ -198,11 +215,11 @@ r.patch('/api/employees/:id', h((req) => {
   const e = employee(req.params.id);
   if (!e) throw Object.assign(new Error('Not found'), { status: 404 });
   const self = e.id === req.user.id;
-  if (!self && req.user.role !== 'admin') throw Object.assign(new Error('Admins only'), { status: 403 });
+  if (!self && !req.isAdmin) throw Object.assign(new Error('Admins only'), { status: 403 });
   const b = req.body;
   if (typeof b.name === 'string' && b.name.trim()) e.name = b.name.trim();
   if (typeof b.phone === 'string') e.phone = b.phone.trim();
-  if (req.user.role === 'admin') {
+  if (req.isAdmin) {
     if (typeof b.myopUserId === 'string' && b.myopUserId.trim() !== e.myopUserId) {
       if (b.myopUserId.trim()) engine.linkMyopUser(e, b.myopUserId.trim());
       else e.myopUserId = '';
