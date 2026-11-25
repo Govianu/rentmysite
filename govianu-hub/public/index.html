@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Govianu Hub</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111827'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3EG%3C/text%3E%3C/svg%3E">
+<style>
+  :root { --bg:#f4f5f7; --card:#fff; --ink:#18202a; --mute:#667085; --line:#e4e7ec; --rms:#0f766e; --pmb:#4338ca; --brand:#1f2937; --ok:#067647; --okbg:#dcfae6; --bad:#b42318; --badbg:#fee4e2; --warn:#b54708; --warnbg:#fef0c7; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  a { color:inherit; }
+  button { font:inherit; cursor:pointer; }
+  .btn { background:var(--brand); color:#fff; border:0; border-radius:7px; padding:7px 13px; white-space:nowrap; }
+  .btn.ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
+  .btn.sm { padding:4px 9px; font-size:13px; }
+  .btn.danger { background:var(--bad); }
+  .btn:disabled { opacity:.5; cursor:default; }
+  input, select, textarea { font:inherit; padding:7px 9px; border:1px solid var(--line); border-radius:7px; background:#fff; color:var(--ink); width:100%; }
+  textarea { min-height:70px; resize:vertical; }
+  label { display:block; font-size:12px; color:var(--mute); margin:10px 0 4px; }
+  .check { display:flex; gap:8px; align-items:center; color:var(--ink); font-size:14px; margin:8px 0; } .check input { width:auto; }
+  header { display:flex; align-items:center; gap:14px; padding:10px 20px; background:#111827; color:#fff; position:sticky; top:0; z-index:5; flex-wrap:wrap; }
+  header .logo { font-weight:700; letter-spacing:.2px; text-decoration:none; }
+  header .crumb { color:#cbd5e1; text-decoration:none; }
+  header .sp { flex:1; }
+  header .icon { background:none; border:0; color:#fff; position:relative; padding:4px 6px; font-size:18px; }
+  .dot { position:absolute; top:-2px; right:-4px; background:#ef4444; color:#fff; border-radius:99px; font-size:11px; padding:0 5px; }
+  main { max-width:1240px; margin:0 auto; padding:20px 16px 80px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:16px; }
+  .card h2 { font-size:15px; margin:0 0 10px; }
+  .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); }
+  .grid2 { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); }
+  .stat { font-size:24px; font-weight:650; } .stat small { display:block; font-size:12px; font-weight:400; color:var(--mute); }
+  .tiles { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
+  .tile { display:block; text-decoration:none; color:#fff; border-radius:16px; padding:22px; min-height:190px; }
+  .tile h2 { margin:0 0 4px; font-size:22px; } .tile p { margin:0 0 16px; opacity:.85; }
+  .tile .nums { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; } .tile .nums b { display:block; font-size:22px; } .tile .nums span { font-size:12px; opacity:.85; }
+  .tabs { display:flex; gap:4px; flex-wrap:wrap; margin:0 0 16px; border-bottom:1px solid var(--line); }
+  .tabs a { padding:9px 13px; text-decoration:none; color:var(--mute); border-bottom:2px solid transparent; }
+  .tabs a.on { color:var(--ink); border-color:var(--ink); font-weight:600; }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; } .row > input, .row > select { flex:1; min-width:130px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:8px 7px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--mute); font-weight:500; font-size:12px; white-space:nowrap; }
+  tr.click { cursor:pointer; } tr.click:hover td { background:#f9fafb; }
+  .tw { overflow-x:auto; }
+  .pill { display:inline-block; font-size:12px; padding:1px 8px; border-radius:99px; background:#f2f4f7; color:#344054; white-space:nowrap; }
+  .pill.ok { background:var(--okbg); color:var(--ok); } .pill.bad { background:var(--badbg); color:var(--bad); } .pill.warn { background:var(--warnbg); color:var(--warn); }
+  .muted { color:var(--mute); } .small { font-size:12px; }
+  .drawer-bg { position:fixed; inset:0; background:rgba(15,23,42,.35); z-index:9; display:none; }
+  .drawer { position:fixed; top:0; right:0; bottom:0; width:min(720px,100%); background:#fff; z-index:10; overflow-y:auto; padding:18px; box-shadow:-8px 0 30px rgba(0,0,0,.15); display:none; }
+  .thread { display:flex; flex-direction:column; gap:8px; max-height:420px; overflow-y:auto; padding:10px; background:#f8fafc; border-radius:10px; border:1px solid var(--line); }
+  .msg { max-width:80%; padding:7px 10px; border-radius:10px; white-space:pre-wrap; word-wrap:break-word; }
+  .msg.in { background:#fff; border:1px solid var(--line); align-self:flex-start; }
+  .msg.out { background:#dcfce7; align-self:flex-end; }
+  .msg.call { background:#eef2ff; align-self:center; max-width:95%; font-size:13px; }
+  .msg .meta { font-size:11px; color:var(--mute); margin-top:3px; }
+  .notif { position:absolute; right:12px; top:52px; width:min(380px,92vw); background:#fff; color:var(--ink); border:1px solid var(--line); border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.15); max-height:70vh; overflow-y:auto; display:none; z-index:20; }
+  .notif div { padding:10px 12px; border-bottom:1px solid var(--line); font-size:13px; white-space:pre-wrap; }
+  .notif div.unread { background:#f0f9ff; }
+  .login { max-width:380px; margin:12vh auto; }
+  .toast { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); background:#111827; color:#fff; padding:10px 16px; border-radius:9px; display:none; z-index:30; max-width:90vw; pointer-events:none; }
+  .bar { height:8px; background:#e4e7ec; border-radius:99px; overflow:hidden; } .bar i { display:block; height:100%; background:var(--brand); }
+  code { background:#f2f4f7; padding:1px 5px; border-radius:4px; font-size:12px; word-break:break-all; }
+  @media (max-width:640px) { header { padding:10px 16px; } .tile .nums { grid-template-columns:repeat(2,1fr); } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="drawer-bg" id="drawerBg"></div>
+<div class="drawer" id="drawer"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtT = (t) => t ? new Date(t).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+const ago = (t) => { if (!t) return ''; const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `${m} min` : m < 1440 ? `${Math.floor(m / 60)} h ${m % 60} m` : `${Math.floor(m / 1440)} d`; };
+const secs = (s) => { s = Number(s) || 0; return s < 60 ? `${s}s` : `${Math.floor(s / 60)}m ${s % 60}s`; };
+const ph = (p) => p ? '+' + p : '';
+let ME = null, timer = null, lastUnread = 0;
+
+async function api(path, body, method) {
+  const opt = { method: method || (body === undefined ? 'GET' : 'POST'), headers: {} };
+  if (body !== undefined) {
+    if (typeof body === 'string') { opt.headers['Content-Type'] = 'text/csv'; opt.body = body; }
+    else { opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
+  }
+  const r = await fetch('api/' + path, opt);
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401 && !path.startsWith('auth/')) { ME = null; renderLogin(); throw new Error('Please sign in'); }
+  if (!r.ok) throw new Error(j.error || r.statusText);
+  return j;
+}
+function toast(m) { const t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(t._h); t._h = setTimeout(() => (t.style.display = 'none'), 4500); }
+async function run(fn, ok) { try { const r = await fn(); if (ok) toast(typeof ok === 'function' ? ok(r) : ok); return r; } catch (e) { toast('⚠ ' + e.message); } }
+const brandColor = (b) => (b === 'pmb' ? 'var(--pmb)' : 'var(--rms)');
+const isAdmin = () => ME?.me?.role === 'admin';
+const empName = (id) => ME.employees.find((e) => e.id === id)?.name || '';
+const empOptions = (sel, extra = '') => extra + ME.employees.map((e) => `<option value="${e.id}" ${e.id === sel ? 'selected' : ''}>${esc(e.name)}</option>`).join('');
+
+// ───────── login ─────────
+function renderLogin() {
+  clearInterval(timer);
+  $('#app').innerHTML = `<div class="login card"><h2 style="font-size:20px">Govianu Hub</h2><p class="muted">Sign in with your @govianu.com email. We'll email you a 6-digit code.</p>
+    <div id="step1"><label>Work email</label><input id="em" type="email" placeholder="name@govianu.com" autocomplete="email"><div style="margin-top:12px"><button class="btn" id="go">Email me a code</button></div></div>
+    <div id="step2" hidden><label>Code</label><input id="code" inputmode="numeric" maxlength="6" placeholder="123456"><div class="row" style="margin-top:12px"><button class="btn" id="vf">Sign in</button><button class="btn ghost" id="back">Use another email</button></div><p class="small muted" id="dev"></p></div></div>`;
+  $('#go').onclick = async () => { const r = await run(() => api('auth/request', { email: $('#em').value })); if (!r) return; $('#step1').hidden = true; $('#step2').hidden = false; $('#code').focus(); if (r.devCode) $('#dev').textContent = `Local test mode (no email server): your code is ${r.devCode}`; };
+  $('#em').onkeydown = (e) => { if (e.key === 'Enter') $('#go').click(); };
+  $('#code').onkeydown = (e) => { if (e.key === 'Enter') $('#vf').click(); };
+  $('#back').onclick = () => { $('#step1').hidden = false; $('#step2').hidden = true; };
+  $('#vf').onclick = async () => { const r = await run(() => api('auth/verify', { email: $('#em').value, code: $('#code').value })); if (r) boot(); };
+}
+
+// ───────── shell ─────────
+function shell(crumb, inner) {
+  return `<header><a class="logo" href="#/">Govianu Hub</a>${crumb}<span class="sp"></span>
+    ${ME.configured.dryRun ? '<span class="pill warn">TEST MODE – nothing sent</span>' : ''}
+    <button class="icon" id="bell" title="Notifications">🔔${ME.unread ? `<span class="dot">${ME.unread}</span>` : ''}</button>
+    ${isAdmin() ? '<a class="crumb" href="#/settings">Settings</a>' : ''}
+    <a class="crumb" href="#/me">${esc(ME.me.name)}</a><button class="icon" id="logout" title="Sign out" style="font-size:14px">Sign out</button>
+    <div class="notif" id="notif"></div></header><main>${inner}</main>`;
+}
+function wireShell() {
+  $('#logout').onclick = async () => { await api('auth/logout', {}); ME = null; renderLogin(); };
+  $('#bell').onclick = async () => {
+    const box = $('#notif'); if (box.style.display === 'block') return (box.style.display = 'none');
+    const list = await api('notifications'); box.style.display = 'block';
+    box.innerHTML = list.map((n) => `<div class="${n.read ? '' : 'unread'}" ${n.phone ? `data-ph="${esc(n.phone)}" style="cursor:pointer"` : ''}>${esc(n.text)}<br><span class="small muted">${fmtT(n.at)}</span></div>`).join('') || '<div class="muted">No notifications yet</div>';
+    box.querySelectorAll('[data-ph]').forEach((d) => (d.onclick = () => { box.style.display = 'none'; openLead(d.dataset.ph); }));
+    await api('notifications/read', {}); ME.unread = 0; $('#bell').innerHTML = '🔔';
+  };
+}
+
+// ───────── router ─────────
+async function route() {
+  if (!ME) return;
+  clearInterval(timer);
+  const parts = location.hash.replace(/^#\/?/, '').split('/');
+  try {
+    if (parts[0] === 'b' && ME.brands[parts[1]]) await brandView(parts[1], parts[2] || 'overview');
+    else if (parts[0] === 'settings' && isAdmin()) await settingsView();
+    else if (parts[0] === 'me') await meView();
+    else await homeView();
+  } catch (e) { if (ME) toast('⚠ ' + e.message); }
+}
+window.addEventListener('hashchange', route);
+
+async function refreshMe() {
+  ME = await api('me');
+  if (ME.unread > lastUnread && 'Notification' in window && Notification.permission === 'granted') new Notification('Govianu Hub', { body: `${ME.unread} new notification(s)` });
+  lastUnread = ME.unread;
+}
+function every(ms, fn) { clearInterval(timer); timer = setInterval(async () => { if (document.hidden || $('#drawer').style.display === 'block') return; try { await refreshMe(); await fn(); } catch {} }, ms); }
+
+// ───────── home ─────────
+async function homeView() {
+  const [rms, pmb, mine] = await Promise.all([api('overview?brand=rentmysite&range=today'), api('overview?brand=pmb&range=today'), api('inbox?mine=1')]);
+  const tile = (key, o) => `<a class="tile" href="${esc(ME.brands[key].site)}#comms" style="background:${brandColor(key)}">
+      <h2>${esc(ME.brands[key].name)}</h2><p>Open team dashboard ↗ · today</p>
+      <div class="nums"><div><b>${o.leads}</b><span>leads</span></div><div><b>${o.openNow}</b><span>waiting</span></div><div><b>${o.inbound}</b><span>WhatsApp in</span></div><div><b>${o.calls}</b><span>calls</span></div></div></a>`;
+  const c = ME.configured;
+  const setup = isAdmin() ? `<div class="card"><h2>Setup status</h2><div class="row">
+      ${chk(c.myop, 'MyOperator WhatsApp API connected')}${chk(c.webhookToken, 'Webhook secret set')}${chk(c.waNumberId, 'WhatsApp number id known (learned from first webhook)')}
+      ${chk(c.calling, 'Calling API token (recordings)')}${chk(c.ai, 'AI replies (Claude key)')}${chk(c.email, 'Email (SMTP)')}</div></div>` : '';
+  $('#app').innerHTML = shell('', `${setup}<div class="tiles">${tile('rentmysite', rms)}${tile('pmb', pmb)}</div>
+    <div class="card" style="margin-top:18px"><h2>Customers waiting for you (${mine.length})</h2>${inboxTable(mine)}</div>
+    ${'Notification' in window && Notification.permission === 'default' ? '<button class="btn ghost" id="perm">Turn on desktop notifications</button>' : ''}`);
+  wireShell(); wireInbox();
+  if ($('#perm')) $('#perm').onclick = () => Notification.requestPermission().then(route);
+  every(15000, homeView);
+}
+const chk = (ok, t) => `<span class="pill ${ok ? 'ok' : 'bad'}">${ok ? '✓' : '✗'} ${esc(t)}</span>`;
+
+// ───────── brand ─────────
+const TABS = [['overview', 'Overview'], ['inbox', 'Inbox'], ['leads', 'Leads'], ['calls', 'Calls'], ['team', 'Team'], ['campaign', 'Campaign']];
+let leadFilter = { q: '', stage: '', assigned: '', campaign: '' }, range = 'today';
+async function brandView(brand, tab) {
+  const B = ME.brands[brand];
+  const tabs = TABS.filter(([k]) => k !== 'campaign' || isAdmin()).map(([k, l]) => `<a href="#/b/${brand}/${k}" class="${k === tab ? 'on' : ''}">${l}</a>`).join('');
+  const head = `<div class="row" style="margin-bottom:12px"><h1 style="margin:0;font-size:22px;color:${brandColor(brand)}">${esc(B.name)}</h1><span class="sp" style="flex:1"></span>
+     <a class="btn ghost sm" href="${esc(B.site)}" target="_blank" rel="noopener">Open ${esc(B.name)} site dashboard ↗</a></div><div class="tabs">${tabs}</div>`;
+  const crumb = `<span class="muted">›</span><a class="crumb" href="#/b/${brand}/overview">${esc(B.name)}</a>`;
+  const body = await ({ overview: ovTab, inbox: inboxTab, leads: leadsTab, calls: callsTab, team: teamTab, campaign: campaignTab }[tab] || ovTab)(brand);
+  $('#app').innerHTML = shell(crumb, head + body.html);
+  wireShell(); body.wire?.();
+  if (['overview', 'inbox', 'team'].includes(tab)) every(15000, () => brandView(brand, tab));
+}
+const rangeSel = () => `<select id="range" style="max-width:160px">${[['today', 'Today'], ['7d', 'Last 7 days'], ['30d', 'Last 30 days'], ['all', 'All time']].map(([v, l]) => `<option value="${v}" ${v === range ? 'selected' : ''}>${l}</option>`).join('')}</select>`;
+const wireRange = (brand, tab) => { $('#range').onchange = (e) => { range = e.target.value; brandView(brand, tab); }; };
+
+async function ovTab(brand) {
+  const o = await api(`overview?brand=${brand}&range=${range}`);
+  const st = (n, l, cls = '') => `<div class="card ${cls}"><div class="stat">${n ?? 0}<small>${l}</small></div></div>`;
+  const total = o.leads || 1;
+  const funnel = ME.stages.map((s) => `<div style="margin:6px 0"><div class="row small"><span style="flex:1">${s}</span><b>${o.stages[s] || 0}</b></div><div class="bar"><i style="width:${Math.round(((o.stages[s] || 0) / total) * 100)}%;background:${brandColor(brand)}"></i></div></div>`).join('');
+  return { html: `<div class="row" style="margin-bottom:12px">${rangeSel()}</div>
+    <div class="grid">${st(o.leads, 'total leads')}${st(o.newLeads, 'new in period')}${st(o.openNow, 'waiting for a reply now')}${st(o.unassigned, 'unassigned')}
+    ${st(o.inbound, 'WhatsApp received')}${st(o.outbound, 'WhatsApp sent')}${st(o.aiReplies, 'AI replies')}${st(o.calls, 'calls')}${st(o.callsConnected, 'calls connected')}${st(o.callsMissed, 'calls missed')}</div>
+    <div class="grid2"><div class="card"><h2>Pipeline</h2>${funnel}</div>
+    <div class="card"><h2>Campaign</h2><div class="grid">${st(o.campaign.queued, 'queued')}${st(o.campaign.sent, 'sent')}${st(o.campaign.replied, 'replied')}${st(o.campaign.failed, 'failed')}</div></div></div>`, wire: () => wireRange(brand, 'overview') };
+}
+
+function inboxTable(rows) {
+  if (!rows.length) return '<p class="muted">Nobody is waiting 🎉</p>';
+  return `<div class="tw"><table><thead><tr><th>Customer</th><th>Waiting</th><th>Last message</th><th>Assigned</th><th>AI</th><th>Reminders</th><th></th></tr></thead><tbody>${rows.map((p) => `
+    <tr class="click" data-ph="${esc(p.phone)}"><td><b>${esc(p.name || ph(p.phone))}</b><br><span class="small muted">${esc(ph(p.phone))} · ${esc(ME.brands[p.brand]?.name || '')}</span></td>
+    <td><span class="pill ${Date.now() - p.firstAt > 30 * 60000 ? 'bad' : 'warn'}">${ago(p.firstAt)}</span></td>
+    <td class="small">${p.kind === 'missed_call' ? '📞 ' : ''}${esc((p.lastText || '').slice(0, 120))}${p.count > 1 ? ` <span class="muted">(+${p.count - 1})</span>` : ''}</td>
+    <td>${esc(p.assignedName || '—')}</td><td class="small">${p.aiReplied ? '✓ replied' : ''}<br><span class="muted">${esc(p.aiSummary || '')}</span></td><td>${p.remindersSent}</td>
+    <td><button class="btn ghost sm" data-done="${esc(p.phone)}">Done</button></td></tr>`).join('')}</tbody></table></div>`;
+}
+function wireInbox() {
+  document.querySelectorAll('tr.click[data-ph]').forEach((tr) => (tr.onclick = (e) => { if (e.target.dataset.done) return; openLead(tr.dataset.ph); }));
+  document.querySelectorAll('[data-done]').forEach((b) => (b.onclick = () => run(() => api(`inbox/${b.dataset.done}/done`, {}), 'Marked done').then(route)));
+}
+let inboxMine = false;
+async function inboxTab(brand) {
+  const rows = await api(`inbox?brand=${brand}${inboxMine ? '&mine=1' : ''}`);
+  return { html: `<div class="card"><div class="row"><h2 style="flex:1;margin:0">Customers waiting for a human (${rows.length})</h2><label class="check" style="margin:0"><input type="checkbox" id="mine" ${inboxMine ? 'checked' : ''}> only mine</label></div>
+    <p class="small muted">A customer leaves this list when someone replies on WhatsApp (Hub or MyOperator panel) or talks to them on a call.</p>${inboxTable(rows)}</div>`,
+    wire: () => { wireInbox(); $('#mine').onchange = (e) => { inboxMine = e.target.checked; brandView(brand, 'inbox'); }; } };
+}
+
+async function leadsTab(brand) {
+  const f = leadFilter;
+  const q = new URLSearchParams({ brand, q: f.q, stage: f.stage, assigned: f.assigned, campaign: f.campaign, limit: 300 });
+  const res = await api('leads?' + q);
+  return { html: `<div class="card"><div class="row">
+      <input id="fq" placeholder="Search name, phone, email, area…" value="${esc(f.q)}">
+      <select id="fs"><option value="">All stages</option>${ME.stages.map((s) => `<option ${s === f.stage ? 'selected' : ''}>${s}</option>`).join('')}</select>
+      <select id="fa"><option value="">Everyone's</option><option value="me" ${f.assigned === 'me' ? 'selected' : ''}>My leads</option><option value="none" ${f.assigned === 'none' ? 'selected' : ''}>Unassigned</option>${ME.employees.map((e) => `<option value="${e.id}" ${f.assigned === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select>
+      <select id="fc"><option value="">Any campaign state</option>${['none', 'queued', 'sent', 'replied', 'failed', 'skipped'].map((s) => `<option ${s === f.campaign ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
+      <p class="small muted">${res.total} leads${res.total > res.rows.length ? ` (showing ${res.rows.length})` : ''}</p>
+      <div class="tw"><table><thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Stage</th><th>Assigned</th><th>Campaign</th><th>Last contact</th><th>Notes</th></tr></thead><tbody>
+      ${res.rows.map((l) => `<tr class="click" data-ph="${esc(l.phone)}"><td><b>${esc(l.name || '—')}</b>${l.waiting ? ' <span class="pill bad">waiting</span>' : ''}</td><td>${esc(ph(l.phone))}</td><td>${esc(l.area)}</td>
+        <td><span class="pill ${l.stage === 'qualified' || l.stage === 'signed' ? 'ok' : ''}">${esc(l.stage)}</span></td><td>${esc(l.assignedName || '—')}</td>
+        <td><span class="pill ${l.campaign === 'failed' ? 'bad' : l.campaign === 'replied' ? 'ok' : ''}">${esc(l.campaign)}</span></td>
+        <td class="small">${fmtT(Math.max(l.lastInboundAt || 0, l.lastOutboundAt || 0) || null)}</td><td class="small muted">${esc(l.aiSummary || l.skip || l.sheetStatus || '')}</td></tr>`).join('') || '<tr><td colspan="8" class="muted">No leads – import them in the Campaign tab.</td></tr>'}
+      </tbody></table></div></div>`,
+    wire: () => {
+      let t; $('#fq').oninput = (e) => { clearTimeout(t); t = setTimeout(() => { leadFilter.q = e.target.value; brandView(brand, 'leads').then(() => { const i = $('#fq'); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 350); };
+      $('#fs').onchange = (e) => { leadFilter.stage = e.target.value; brandView(brand, 'leads'); };
+      $('#fa').onchange = (e) => { leadFilter.assigned = e.target.value; brandView(brand, 'leads'); };
+      $('#fc').onchange = (e) => { leadFilter.campaign = e.target.value; brandView(brand, 'leads'); };
+      wireInbox();
+    } };
+}
+
+let callEmp = '';
+async function callsTab(brand) {
+  const r = range === 'today' ? 'today' : range;
+  const rows = await api(`calls?brand=${brand}&range=${r}${callEmp ? '&employee=' + callEmp : ''}`);
+  return { html: `<div class="card"><div class="row">${rangeSel()}<select id="ce"><option value="">All employees</option>${ME.employees.map((e) => `<option value="${e.id}" ${e.id === callEmp ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></div>
+    <div class="tw" style="margin-top:10px"><table><thead><tr><th>When</th><th>Customer</th><th>Direction</th><th>Result</th><th>Talk</th><th>Handled by</th><th>Recording</th></tr></thead><tbody>
+    ${rows.map((c) => `<tr><td class="small">${fmtT(c.startedAt)}</td><td class="click" data-ph="${esc(c.phone)}" style="cursor:pointer"><b>${esc(c.name || ph(c.phone))}</b></td>
+      <td>${c.direction === 'outgoing' ? '↗ out' : '↙ in'}</td><td><span class="pill ${c.status === 'bridged' ? 'ok' : 'bad'}">${esc(c.status === 'bridged' ? 'connected' : c.status || '…')}</span>${c.missedBy.length ? `<br><span class="small muted">rang: ${esc(c.missedBy.join(', '))}</span>` : ''}</td>
+      <td>${secs(c.talk || 0)}</td><td>${esc(c.employeeName || '—')}</td>
+      <td>${c.hasRecording ? `<a class="btn ghost sm" href="api/calls/${encodeURIComponent(c.id)}/recording" target="_blank" rel="noopener">▶ Play</a>` : ''}</td></tr>`).join('') || '<tr><td colspan="7" class="muted">No calls in this period. Calls appear here once the MyOperator webhook is pointed at the Hub.</td></tr>'}
+    </tbody></table></div></div>`,
+    wire: () => { wireRange(brand, 'calls'); $('#ce').onchange = (e) => { callEmp = e.target.value; brandView(brand, 'calls'); }; document.querySelectorAll('td[data-ph]').forEach((td) => (td.onclick = () => openLead(td.dataset.ph))); } };
+}
+
+async function teamTab(brand) {
+  const t = await api(`team?brand=${brand}&range=${range}`);
+  const unm = Object.entries(t.unmappedAgents || {});
+  return { html: `<div class="card"><div class="row" style="margin-bottom:8px"><h2 style="flex:1;margin:0">Employee performance</h2>${rangeSel()}</div>
+    <div class="tw"><table><thead><tr><th>Employee</th><th>Assigned</th><th>Not yet contacted</th><th>People contacted</th><th>Calls out</th><th>Calls in</th><th>Connected</th><th>Talk time</th><th>Missed (their leads)</th><th>WhatsApp sent</th><th>Replied</th><th>Avg reply</th><th>Waiting now</th><th>Qualified</th><th>Signed</th></tr></thead><tbody>
+    ${t.rows.map((r) => `<tr class="click" data-emp="${r.id}"><td><b>${esc(r.name)}</b>${r.mapped ? '' : ' <span class="pill warn" title="Not linked to a MyOperator user – calls/panel messages can’t be credited">not linked</span>'}<br><span class="small muted">${esc(r.email)}</span></td>
+      <td>${r.assigned}</td><td>${r.untouched ? `<span class="pill warn">${r.untouched}</span>` : 0}</td><td>${r.contactedInRange}</td><td>${r.callsOut}</td><td>${r.callsIn}</td><td>${r.connected}</td><td>${secs(r.talkSec)}</td>
+      <td>${r.missedAssigned ? `<span class="pill bad">${r.missedAssigned}</span>` : 0}</td><td>${r.waSent}</td><td>${r.replied}</td><td>${r.avgResponseMin == null ? '—' : r.avgResponseMin + ' min'}</td>
+      <td>${r.waitingNow ? `<span class="pill bad">${r.waitingNow}</span>` : 0}</td><td>${r.qualified}</td><td>${r.signed}</td></tr>`).join('') || '<tr><td colspan="15" class="muted">No employees yet – they appear after their first sign-in.</td></tr>'}
+    </tbody></table></div><p class="small muted">Click a row to see that person's full activity timeline.</p>
+    ${isAdmin() && (t.unattributed.callsNoAgent || t.unattributed.waFromUnmappedPanelUsers) ? `<p class="small"><span class="pill warn">Not credited to anyone</span> ${t.unattributed.callsNoAgent} connected calls, ${t.unattributed.waFromUnmappedPanelUsers} WhatsApp replies from MyOperator users not linked below.</p>` : ''}</div>
+    ${isAdmin() && unm.length ? `<div class="card"><h2>MyOperator users not linked to an employee</h2><p class="small muted">Link each one so their calls and WhatsApp replies are credited to them.</p>
+      <table><thead><tr><th>MyOperator user</th><th>Seen</th><th>Link to</th></tr></thead><tbody>${unm.map(([id, u]) => `<tr><td><b>${esc(u.name || id)}</b><br><span class="small muted">${esc(u.email || '')} · ${esc(id)}</span></td><td>${u.count}× · ${fmtT(u.lastAt)}</td>
+      <td><select data-link="${esc(id)}"><option value="">Choose employee…</option>${empOptions('')}</select></td></tr>`).join('')}</tbody></table></div>` : ''}
+    <div class="card" id="tl" hidden></div>`,
+    wire: () => {
+      wireRange(brand, 'team');
+      document.querySelectorAll('[data-emp]').forEach((tr) => (tr.onclick = () => showTimeline(tr.dataset.emp)));
+      document.querySelectorAll('[data-link]').forEach((s) => (s.onchange = () => s.value && run(() => api(`employees/${s.value}`, { myopUserId: s.dataset.link }, 'PATCH'), 'Linked').then(route)));
+    } };
+}
+async function showTimeline(id) {
+  clearInterval(timer);
+  const rows = await api(`team/${id}/timeline`);
+  const icon = { call_out: '📞↗', call_in: '📞↙', wa_sent: '💬', replied: '✅', stage: '🏷️', note: '📝', assigned: '👤', email_sent: '✉️' };
+  const box = $('#tl'); box.hidden = false;
+  box.innerHTML = `<h2>${esc(empName(id))} – activity</h2><div class="tw"><table><tbody>${rows.map((a) => `<tr class="${a.phone ? 'click' : ''}" ${a.phone ? `data-ph="${esc(a.phone)}"` : ''}><td class="small" style="white-space:nowrap">${fmtT(a.at)}</td><td>${icon[a.type] || '•'}</td><td>${esc(a.text)}</td><td class="small muted">${esc(a.leadName || ph(a.phone))}</td></tr>`).join('') || '<tr><td class="muted">No activity yet</td></tr>'}</tbody></table></div>`;
+  box.querySelectorAll('[data-ph]').forEach((tr) => (tr.onclick = () => openLead(tr.dataset.ph)));
+  box.scrollIntoView({ behavior: 'smooth' });
+}
+
+async function campaignTab(brand) {
+  const o = await api(`overview?brand=${brand}&range=all`);
+  const s = ME.settings.campaign;
+  return { html: `<div class="grid2">
+    <div class="card"><h2>1 · Import leads into ${esc(ME.brands[brand].name)}</h2>
+      <label>Upload CSV (Google Sheets → File → Download → CSV of “Enq - Owner”)</label><div class="row"><input type="file" id="csv" accept=".csv"><button class="btn ghost" id="upCsv">Upload</button></div>
+      <label>Or import straight from the Google Sheet tab ${ME.configured.sheets ? '' : '<span class="pill warn">service account not set</span>'}</label><div class="row"><input id="tab" value="Enq - Owner"><button class="btn ghost" id="impSheet">Import</button><button class="btn ghost" id="impDnd">Import DND tab</button></div>
+      <label>Pull sign-ups &amp; leads (with emails) from the ${esc(ME.brands[brand].name)} website</label><button class="btn ghost" id="impSite">Sync from website</button></div>
+    <div class="card"><h2>2 · WhatsApp template &amp; email</h2>
+      <p class="small muted">First messages to people who haven't written in the last 24 h must be a Meta-approved template.</p>
+      <div class="row"><select id="tpl"><option>${esc(s.templateName)}</option></select><button class="btn ghost sm" id="loadTpl">Load approved templates</button></div>
+      <pre id="tplBody" class="small muted" style="white-space:pre-wrap;max-height:160px;overflow:auto"></pre>
+      <label>Header media URL (only for templates with an image/video/PDF header)</label><input id="hdr" value="${esc(s.headerMediaUrl)}" placeholder="https://rentmysite.ai/…/brochure.pdf">
+      <label>Email subject (sent too when the lead has an email)</label><input id="esub" value="${esc(s.emailSubject)}">
+      <label>Email body ({name}, {area}, {area_in})</label><textarea id="ebody" style="min-height:130px">${esc(s.emailBody)}</textarea>
+      <div class="row" style="margin-top:6px"><div><label>Daily cap</label><input id="cap" type="number" value="${s.dailyCap}"></div><div><label>Gap (sec)</label><input id="gap" type="number" value="${s.gapSec}"></div><div><label>From hour</label><input id="sh" type="number" value="${s.startHour}"></div><div><label>To hour</label><input id="eh" type="number" value="${s.endHour}"></div></div>
+      <label>Never message leads whose status/remarks contain</label><input id="skip" value="${esc(s.skipStatuses)}">
+      <div style="margin-top:10px"><button class="btn" id="saveC">Save</button></div></div></div>
+    <div class="card"><h2>3 · Send</h2><p>${ME.campaignRunning ? '<span class="pill ok">RUNNING</span>' : '<span class="pill">paused</span>'} · queued <b>${o.campaign.queued}</b> · sent <b>${o.campaign.sent}</b> · replied <b>${o.campaign.replied}</b> · failed <b>${o.campaign.failed}</b> · sent today ${ME.sentToday.count || 0}/${s.dailyCap}</p>
+      <div class="row"><input id="n" type="number" value="25" style="max-width:120px"><button class="btn ghost" id="qN">Queue next N</button><button class="btn ghost" id="qAll">Queue all eligible</button><button class="btn" id="start">▶ Start</button><button class="btn danger" id="stop">❚❚ Pause</button><button class="btn ghost" id="clr">Clear queue</button></div>
+      <p class="small muted">Replies land in the Inbox, the assigned employee is alerted, and the AI answers in the meantime.</p></div>`,
+    wire: () => {
+      const re = () => brandView(brand, 'campaign');
+      $('#upCsv').onclick = async () => { const f = $('#csv').files[0]; if (!f) return toast('Choose a CSV file'); const t = await f.text(); run(() => api(`import/csv?brand=${brand}&tab=${encodeURIComponent(f.name)}`, t), (r) => `+${r.added} new, ${r.updated} updated, ${r.invalid} bad numbers`).then(re); };
+      $('#impSheet').onclick = () => run(() => api('import/sheet', { brand, tab: $('#tab').value }), (r) => `+${r.added} new, ${r.updated} updated, ${r.invalid} bad numbers`).then(re);
+      $('#impDnd').onclick = () => run(() => api('import/dnd', {}), (r) => `DND list ${r.dnd} numbers`).then(re);
+      $('#impSite').onclick = () => run(() => api('import/site', { brand }), (r) => `+${r.added} new, ${r.updated} updated`).then(re);
+      let tpls = [];
+      $('#loadTpl').onclick = async () => { tpls = (await run(() => api('templates'))) || []; const ok = tpls.filter((t) => t.status === 'approved'); $('#tpl').innerHTML = ok.map((t) => `<option ${t.name === s.templateName ? 'selected' : ''}>${esc(t.name)}</option>`).join(''); $('#tpl').onchange(); };
+      $('#tpl').onchange = () => { const t = tpls.find((x) => x.name === $('#tpl').value); $('#tplBody').textContent = t ? `${t.headerFormat ? `[header: ${t.headerFormat}] ` : ''}${t.variables.length ? `[variables: ${t.variables.join(', ')} – not supported for bulk yet] ` : ''}\n${t.body}` : ''; };
+      $('#saveC').onclick = () => run(() => api('settings', { campaign: { templateName: $('#tpl').value, headerMediaUrl: $('#hdr').value.trim(), emailSubject: $('#esub').value, emailBody: $('#ebody').value, dailyCap: +$('#cap').value, gapSec: +$('#gap').value, startHour: +$('#sh').value, endHour: +$('#eh').value, skipStatuses: $('#skip').value } }), 'Saved').then(async () => { await refreshMe(); re(); });
+      $('#qN').onclick = () => run(() => api('campaign/queue', { brand, count: +$('#n').value }), (r) => `${r.queued} queued`).then(re);
+      $('#qAll').onclick = () => confirm('Queue every eligible lead? They go out within the daily cap.') && run(() => api('campaign/queue', { brand, all: true }), (r) => `${r.queued} queued`).then(re);
+      $('#start').onclick = () => run(() => api('campaign/start', {}), 'Started').then(async () => { await refreshMe(); re(); });
+      $('#stop').onclick = () => run(() => api('campaign/stop', {}), 'Paused').then(async () => { await refreshMe(); re(); });
+      $('#clr').onclick = () => run(() => api('campaign/clear', {}), (r) => `${r.cleared} removed`).then(re);
+    } };
+}
+
+// ───────── lead drawer ─────────
+async function openLead(phone) {
+  const d = await run(() => api('leads/' + phone)); if (!d) return;
+  const l = d.lead;
+  const items = [
+    ...d.messages.map((m) => ({ at: m.at, html: `<div class="msg ${m.dir}">${esc(m.text)}<div class="meta">${m.dir === 'out' ? esc(m.byName || '') + ' · ' : ''}${fmtT(m.at)}${m.dir === 'out' && m.status ? ' · ' + esc(m.status) : ''}</div></div>` })),
+    ...d.calls.map((c) => ({ at: c.startedAt || c.createdAt, html: `<div class="msg call">📞 ${c.direction === 'outgoing' ? 'Outgoing' : 'Incoming'} call · <b>${esc(c.status === 'bridged' ? 'connected' : c.status || '')}</b> · ${secs(c.talk || 0)} · ${esc(c.employeeName || 'no agent')}${c.recording_filename ? ` · <a href="api/calls/${encodeURIComponent(c.id)}/recording" target="_blank" rel="noopener">▶ recording</a>` : ''}<div class="meta">${fmtT(c.startedAt || c.createdAt)}</div></div>` })),
+  ].sort((a, b) => a.at - b.at);
+  const dr = $('#drawer');
+  dr.innerHTML = `<div class="row"><h2 style="margin:0;flex:1">${esc(l.name || ph(l.phone))}</h2><button class="btn ghost sm" id="close">✕ Close</button></div>
+    <p class="muted" style="margin:4px 0 12px">${esc(ph(l.phone))}${l.email ? ' · ' + esc(l.email) : ''}${l.area ? ' · ' + esc(l.area) : ''} · source: ${esc(l.source || '—')}${l.sheetStatus ? ' · sheet: ' + esc(l.sheetStatus) : ''}</p>
+    <div class="row"><div style="flex:1"><label>Business</label><select id="lb">${Object.values(ME.brands).map((b) => `<option value="${b.key}" ${b.key === l.brand ? 'selected' : ''}>${esc(b.name)}</option>`).join('')}</select></div>
+      <div style="flex:1"><label>Stage</label><select id="ls">${ME.stages.map((s) => `<option ${s === l.stage ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
+      <div style="flex:1"><label>Assigned to</label><select id="la">${empOptions(l.assignedTo, '<option value="">— nobody —</option>')}</select></div></div>
+    ${l.aiSummary ? `<p class="small" style="margin-top:12px"><span class="pill">AI summary</span> ${esc(l.aiSummary)}</p>` : ''}
+    ${d.pending?.status === 'open' ? `<p><span class="pill bad">Waiting ${ago(d.pending.firstAt)}</span> <button class="btn ghost sm" id="done">Mark done</button></p>` : ''}
+    <h3 style="font-size:14px;margin:16px 0 8px">Conversation &amp; calls</h3>
+    <div class="thread" id="thread">${items.map((i) => i.html).join('') || '<span class="muted">No messages or calls yet</span>'}</div>
+    <div style="margin-top:10px">${d.windowOpen
+      ? `<div class="row"><textarea id="txt" placeholder="Reply on WhatsApp as ${esc(ME.me.name)}…" style="min-height:60px;flex:1"></textarea><button class="btn" id="send">Send</button></div>`
+      : `<p class="small muted">The 24-hour WhatsApp window is closed (the customer hasn't written in the last 24 h). Send an approved template to restart the chat:</p>
+         <div class="row"><select id="tplS"><option value="">Choose template…</option></select><button class="btn" id="sendT">Send template</button></div>`}
+      <p class="small muted">Calls: dial from the MyOperator app so the call is recorded and credited to you.</p></div>
+    <h3 style="font-size:14px;margin:16px 0 8px">Notes</h3>
+    ${(l.notes || []).map((n) => `<p class="small"><b>${esc(empName(n.by))}</b> · ${fmtT(n.at)}<br>${esc(n.text)}</p>`).join('')}
+    <div class="row"><input id="note" placeholder="Add a note (what was discussed, next step)…"><button class="btn ghost" id="addNote">Add</button></div>
+    <h3 style="font-size:14px;margin:16px 0 8px">History</h3>
+    <table><tbody>${d.activity.map((a) => `<tr><td class="small" style="white-space:nowrap">${fmtT(a.at)}</td><td class="small">${esc(a.byName)}</td><td class="small">${esc(a.text)}</td></tr>`).join('') || '<tr><td class="muted small">Nothing yet</td></tr>'}</tbody></table>`;
+  dr.style.display = 'block'; $('#drawerBg').style.display = 'block';
+  const th = $('#thread'); th.scrollTop = th.scrollHeight;
+  const patch = (b) => run(() => api('leads/' + phone, b, 'PATCH'), 'Saved').then(() => openLead(phone));
+  $('#close').onclick = closeLead;
+  $('#lb').onchange = (e) => patch({ brand: e.target.value });
+  $('#ls').onchange = (e) => patch({ stage: e.target.value });
+  $('#la').onchange = (e) => patch({ assignedTo: e.target.value || null });
+  $('#addNote').onclick = () => $('#note').value.trim() && patch({ note: $('#note').value.trim() });
+  if ($('#done')) $('#done').onclick = () => run(() => api(`inbox/${phone}/done`, {}), 'Marked done').then(() => openLead(phone));
+  if ($('#send')) $('#send').onclick = () => $('#txt').value.trim() && run(() => api(`leads/${phone}/send`, { text: $('#txt').value.trim() }), 'Sent').then(() => openLead(phone));
+  if ($('#sendT')) {
+    api('templates').then((t) => { $('#tplS').innerHTML = '<option value="">Choose template…</option>' + t.filter((x) => x.status === 'approved' && !x.variables.length && !x.headerFormat).map((x) => `<option>${esc(x.name)}</option>`).join(''); }).catch(() => {});
+    $('#sendT').onclick = () => $('#tplS').value && run(() => api(`leads/${phone}/send`, { template: $('#tplS').value }), 'Template sent').then(() => openLead(phone));
+  }
+}
+function closeLead() { $('#drawer').style.display = 'none'; $('#drawerBg').style.display = 'none'; route(); }
+$('#drawerBg').onclick = closeLead;
+
+// ───────── me ─────────
+async function meView() {
+  const t = await api('team?range=today');
+  const r = t.rows.find((x) => x.id === ME.me.id) || {};
+  $('#app').innerHTML = shell('<span class="muted">›</span><span>My profile</span>', `<div class="card" style="max-width:520px"><h2>${esc(ME.me.name)}</h2><p class="muted">${esc(ME.me.email)} · ${esc(ME.me.role)}</p>
+    <label>Display name</label><input id="nm" value="${esc(ME.me.name)}">
+    <label>My WhatsApp number (alerts and reminders come here)</label><input id="phn" value="${esc(ME.me.phone || '')}" placeholder="98xxxxxxxx">
+    <div style="margin-top:12px"><button class="btn" id="sv">Save</button></div>
+    <p class="small muted">Today: ${r.callsOut || 0} calls out, ${r.connected || 0} connected, ${r.waSent || 0} WhatsApp sent, ${r.waitingNow || 0} waiting for you.</p></div>`);
+  wireShell();
+  $('#sv').onclick = () => run(() => api('employees/' + ME.me.id, { name: $('#nm').value, phone: $('#phn').value }, 'PATCH'), 'Saved').then(boot);
+}
+
+// ───────── settings ─────────
+async function settingsView() {
+  const emps = await api('employees');
+  const s = ME.settings;
+  const webhookUrl = location.origin + location.pathname.replace(/\/$/, '') + '/api/webhooks/myoperator';
+  $('#app').innerHTML = shell('<span class="muted">›</span><span>Settings</span>', `
+    <div class="card"><h2>Employees</h2><p class="small muted">People appear here after their first sign-in. “MyOperator user id” links calls and MyOperator-panel replies to them (auto-filled when their MyOperator email matches; or link from the Team tab).</p>
+    <div class="tw"><table><thead><tr><th>Name</th><th>Email</th><th>WhatsApp no.</th><th>MyOperator user id</th><th>Role</th><th>RMS</th><th>PMB</th><th>Active</th><th></th></tr></thead><tbody>
+    ${emps.map((e) => `<tr data-id="${e.id}"><td><input class="n" value="${esc(e.name)}"></td><td class="small">${esc(e.email)}</td><td><input class="p" value="${esc(e.phone || '')}"></td><td><input class="m" value="${esc(e.myopUserId || '')}"></td>
+      <td><select class="r"><option ${e.role === 'employee' ? 'selected' : ''}>employee</option><option ${e.role === 'admin' ? 'selected' : ''}>admin</option></select></td>
+      <td><input type="checkbox" class="b1" ${e.brands.includes('rentmysite') ? 'checked' : ''} style="width:auto"></td><td><input type="checkbox" class="b2" ${e.brands.includes('pmb') ? 'checked' : ''} style="width:auto"></td>
+      <td><input type="checkbox" class="a" ${e.active ? 'checked' : ''} style="width:auto"></td><td><button class="btn ghost sm">Save</button></td></tr>`).join('')}</tbody></table></div></div>
+    <div class="grid2">
+    <div class="card"><h2>Reminders</h2><label class="check"><input type="checkbox" id="ren" ${s.reminders.enabled ? 'checked' : ''}> Remind the assigned employee until a customer is answered</label>
+      <div class="row"><div><label>First after (min)</label><input id="rf" type="number" value="${s.reminders.firstAfterMin}"></div><div><label>Repeat every (min)</label><input id="rr" type="number" value="${s.reminders.repeatEveryMin}"></div><div><label>Escalate to admins after (min)</label><input id="re" type="number" value="${s.reminders.escalateAfterMin}"></div></div>
+      <label>WhatsApp alert template for staff (approved utility template with one body variable)</label><div class="row"><input id="sat" value="${esc(s.staffAlert.templateName)}" placeholder="e.g. govianu_staff_alert"><input id="sav" value="${esc(s.staffAlert.variable)}" placeholder="variable name" style="max-width:140px"></div>
+      <p class="small muted">Without a template, alerts are sent as normal text, which WhatsApp only delivers if that employee messaged ${esc(s.waNumberLabel)} in the last 24 h. Alerts always show in the Hub 🔔 too.</p></div>
+    <div class="card"><h2>AI replies</h2><label class="check"><input type="checkbox" id="aen" ${s.ai.enabled ? 'checked' : ''}> AI answers customers while staff are busy</label>
+      <label>Wait before AI replies (sec)</label><input id="ad" type="number" value="${s.ai.delaySec}">
+      <label>Extra instructions</label><textarea id="ax">${esc(s.ai.extraInstructions)}</textarea></div>
+    <div class="card"><h2>MyOperator</h2>
+      <label>Webhook URL – paste in MyOperator → APIs &amp; Webhooks → Webhooks v2 → Add (tick Call events + WhatsApp events)</label><code>${esc(webhookUrl)}</code>
+      <p class="small muted">Under “Additional Headers” add <code>X-Webhook-Token</code> = the MYOP_WEBHOOK_TOKEN value from the server's .env.</p>
+      <label>WhatsApp phone_number_id (learned automatically from the first WhatsApp webhook)</label><input id="pnid" value="${esc(s.waPhoneNumberId)}">
+      <label>Number shown to staff</label><input id="pnl" value="${esc(s.waNumberLabel)}">
+      <label>Default business for brand-new contacts</label><select id="db">${Object.values(ME.brands).map((b) => `<option value="${b.key}" ${b.key === s.defaultBrand ? 'selected' : ''}>${esc(b.name)}</option>`).join('')}</select></div></div>
+    <button class="btn" id="saveS">Save settings</button>`);
+  wireShell();
+  document.querySelectorAll('tr[data-id] button').forEach((b) => (b.onclick = () => {
+    const tr = b.closest('tr');
+    const brands = [tr.querySelector('.b1').checked && 'rentmysite', tr.querySelector('.b2').checked && 'pmb'].filter(Boolean);
+    run(() => api('employees/' + tr.dataset.id, { name: tr.querySelector('.n').value, phone: tr.querySelector('.p').value, myopUserId: tr.querySelector('.m').value, role: tr.querySelector('.r').value, brands, active: tr.querySelector('.a').checked }, 'PATCH'), 'Employee saved').then(boot);
+  }));
+  $('#saveS').onclick = () => run(() => api('settings', {
+    reminders: { enabled: $('#ren').checked, firstAfterMin: +$('#rf').value, repeatEveryMin: +$('#rr').value, escalateAfterMin: +$('#re').value },
+    staffAlert: { templateName: $('#sat').value.trim(), variable: $('#sav').value.trim() || 'details' },
+    ai: { enabled: $('#aen').checked, delaySec: +$('#ad').value, extraInstructions: $('#ax').value },
+    waPhoneNumberId: $('#pnid').value, waNumberLabel: $('#pnl').value, defaultBrand: $('#db').value,
+  }), 'Settings saved').then(boot);
+}
+
+async function boot() {
+  try { await refreshMe(); lastUnread = ME.unread; route(); } catch { renderLogin(); }
+}
+boot();
+</script>
+</body>
+</html>

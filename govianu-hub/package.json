@@ -1,0 +1,26 @@
+{
+  "name": "govianu-hub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Govianu central team hub: RentMySite + PartnerMyBusiness leads, MyOperator WhatsApp & calls, per-employee tracking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "simulate": "node scripts/simulate.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.14.0",
+    "cookie-parser": "^1.4.7",
+    "csv-parse": "^7.0.3",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "google-auth-library": "^11.3.4",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^10.6.1",
+    "zod": "^4.6.7"
+  }
+}

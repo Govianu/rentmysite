@@ -1,0 +1,35 @@
+/* WhatsApp & Calls tab (admin.html#comms) – data comes from the Govianu Hub via /api/hub */
+.comms-tabs { display: flex; gap: .25rem; flex-wrap: wrap; border-bottom: 1.5px solid var(--line); margin: 0 0 1.2rem; }
+.comms-tabs button { background: none; border: 0; border-bottom: 2.5px solid transparent; padding: .6rem .9rem; font: inherit; color: var(--muted); cursor: pointer; }
+.comms-tabs button[aria-current="page"] { color: var(--ink); border-color: var(--teal); font-weight: 700; }
+.comms-tabs .count { margin-left: .35rem; }
+.comms-bar { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
+.comms-bar input, .comms-bar select { flex: 1; min-width: 140px; max-width: 320px; }
+.comms-row { cursor: pointer; }
+.comms-row:hover td { background: var(--teal-soft); }
+.comms-banner { padding: .8rem 1rem; border-radius: 10px; background: var(--marigold-soft); color: #7A4B05; margin-bottom: 1rem; }
+.comms-banner.err { background: var(--danger-soft); color: var(--danger); }
+.comms-cols { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.comms-card { background: var(--surface); border: 1.5px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.comms-card h3 { margin: 0 0 .6rem; font-size: 1rem; }
+.comms-card label { display: block; font-size: .82rem; color: var(--muted); margin: .7rem 0 .25rem; }
+.comms-card input, .comms-card select, .comms-card textarea { width: 100%; }
+.comms-bar-chart { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin: .25rem 0 .6rem; }
+.comms-bar-chart i { display: block; height: 100%; background: var(--teal); }
+
+.comms-drawer-bg { position: fixed; inset: 0; background: rgba(15, 23, 42, .35); z-index: 40; }
+.comms-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(720px, 100%); background: var(--surface, #fff); z-index: 41; overflow-y: auto; padding: 1.3rem; box-shadow: -10px 0 30px rgba(0, 0, 0, .15); }
+.comms-drawer h2 { margin: 0; }
+.comms-fields { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: .8rem; }
+.comms-fields label { display: block; font-size: .8rem; color: var(--muted); margin-bottom: .2rem; }
+.comms-fields select { width: 100%; }
+.comms-thread { display: flex; flex-direction: column; gap: .5rem; max-height: 440px; overflow-y: auto; padding: .8rem; background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; }
+.comms-msg { max-width: 82%; padding: .5rem .7rem; border-radius: 12px; white-space: pre-wrap; word-wrap: break-word; font-size: .92rem; }
+.comms-msg.in { background: #fff; border: 1px solid var(--line); align-self: flex-start; }
+.comms-msg.out { background: #DCFCE7; align-self: flex-end; }
+.comms-msg.email { background: #E0F2FE; align-self: flex-end; }
+.comms-msg.call { background: #EEF2FF; align-self: center; max-width: 96%; font-size: .86rem; }
+.comms-msg .meta { font-size: .74rem; margin-top: .2rem; }
+.comms-reply { display: flex; gap: .6rem; margin-top: .7rem; align-items: flex-start; }
+.comms-reply textarea, .comms-reply select { flex: 1; min-height: 64px; }
+.comms-reply select { min-height: 0; }

@@ -1,0 +1,17 @@
+# hub.govianu.com → Govianu Hub (Node on 127.0.0.1:4100)
+# certbot --nginx -d hub.govianu.com   (HTTPS is required: MyOperator only calls https:// webhooks)
+server {
+    listen 80;
+    server_name hub.govianu.com;
+    client_max_body_size 30m;
+    location / {
+        proxy_pass http://127.0.0.1:4100;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+# Alternative – inside the existing govianu.com server block (keeps the company site untouched),
+# with BASE_PATH=/hub in .env:
+#   location /hub/ { proxy_pass http://127.0.0.1:4100; proxy_set_header Host $host; proxy_set_header X-Forwarded-Proto $scheme; }

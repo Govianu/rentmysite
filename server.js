@@ -33,6 +33,7 @@ app.use('/api/kyc', require('./routes/kyc'));
 app.use('/api/owner', require('./routes/owner'));
 app.use('/api/market', require('./routes/market').router);
 app.use('/api/lesson-videos', require('./routes/lessonVideos'));
+app.use('/api/hub', require('./routes/hub'));   // WhatsApp & Calls tab: the Govianu Hub (MyOperator)
 // The 100 business types and professions, served to the dashboards from the same file the server uses
 app.get('/js/catalog.js', (req, res) => {
   res.type('application/javascript').set('Cache-Control', 'public, max-age=3600');

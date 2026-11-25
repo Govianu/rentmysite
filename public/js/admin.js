@@ -395,7 +395,7 @@
   // Keep the queues fresh while the Marketplace section is open
   setInterval(() => { if (!document.getElementById('view-market').hidden && !document.hidden) loadMarket().catch(() => {}); }, 60000);
 
-  const loaders = { market: loadMarket, overview: loadOverview, enquiries: loadEnquiries, leads: loadLeads, profiles: loadUsers, kyc: loadKyc, gigs: loadGigs, bookings: loadBookings };
+  const loaders = { comms: () => window.loadComms(), market: loadMarket, overview: loadOverview, enquiries: loadEnquiries, leads: loadLeads, profiles: loadUsers, kyc: loadKyc, gigs: loadGigs, bookings: loadBookings };
   initViews(name => loaders[name] && loaders[name]().catch(err => toast(err.message, true)));
   loadMarket().catch(() => {}); // waiting-review badge in the menu
   loadOverview().catch(() => {});
