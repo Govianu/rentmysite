@@ -2,7 +2,7 @@
    requests, the mandate, statements and Profile & KYC. Data: /api/owner, /api/business, /api/market, /api/growth */
 (function () {
   const STEPS = [
-    ['Mandate, not a lease', 'You sign a mandate. We assess the space and agree the terms and revenue model with you. No upfront cost.'],
+    ['Mandate, not a lease', 'You sign a mandate. We assess the dormant space and agree the terms and revenue model with you. No upfront cost.'],
     ['Survey and plan', 'We survey frontage, access, power and drainage and draw a plan you approve. Nothing is built before that.'],
     ['Build and activate', 'We arrange approvals and basic infrastructure, and bring in brands and operators you approved.'],
     ['Operate and share', 'Brands run their business; we run the site. Revenue is collected, costs accounted for, and your share paid monthly.'],
@@ -36,7 +36,7 @@
     document.getElementById('reportBox').innerHTML = `
       <div class="report">
         <div class="panel">
-          <h2 style="margin-top:0">Your space</h2>
+          <h2 style="margin-top:0">Your dormant space</h2>
           <p class="meta">${s.type ? esc(s.type) : 'Type not set'}${s.size ? ` · ${s.size.toLocaleString('en-IN')} sq ft` : ''}${s.location ? ` · ${esc(s.location)}` : ''}</p>
           <h3>Best uses for it</h3>
           <ul class="uses-list">${r.bestUses.map(u => `<li><span>${esc(u.name)}</span><b>₹${u.low}–${u.high} / sq ft / month</b></li>`).join('')}</ul>
@@ -50,7 +50,7 @@
             <div class="est-row"><span>Site profit a month</span><b>${inr(est.profit)}</b></div>
             <h3>Your share each month</h3>
             <div class="tier-grid">${est.tiers.map(t => `<div class="${t.key === 'brand' ? 'std' : ''}"><small>${esc(t.name)}</small><b>${inr(t.amount)}</b><small>${Math.round(t.share * 100)}%</small></div>`).join('')}</div>`
-          : `<p class="meta">Add the size of your space to see an estimate.</p><a class="btn small" href="#space">Add my space details</a>`}
+          : `<p class="meta">Add the size of your dormant space to see an estimate.</p><a class="btn small" href="#space">Add my space details</a>`}
           <p class="fine">Illustrative only, not an offer. Earnings depend on location and demand and are not guaranteed. A survey sets the real figure, and your share is set in the signed mandate.</p>
         </div>
       </div>`;
@@ -91,7 +91,7 @@
         <div class="std"><small>All streams together</small><b>${range(f.totals.low, f.totals.high)}</b><small>site revenue a month</small></div>
       </div>
       <h4>Core streams <span class="meta">the main uses, sharing the space</span></h4>
-      ${f.core.length && f.totals.core ? streamTable(f.core) : '<p class="meta">Add the size of your space to see what each use earns.</p>'}
+      ${f.core.length && f.totals.core ? streamTable(f.core) : '<p class="meta">Add the size of your dormant space to see what each use earns.</p>'}
       ${f.addOns.length ? `<h4>Add-on streams <span class="meta">need little or no floor space</span></h4>${streamTable(f.addOns, f.core.length)}` : ''}
       ${aiRows.length ? `<h4>Suggested by AI for your site</h4>${f.ai.summary ? `<p>${esc(f.ai.summary)}</p>` : ''}${streamTable(aiRows, f.core.length + f.addOns.length)}`
         : f.aiPending ? '<p class="meta feas-ai-wait">AI is looking at your site for more revenue streams. This takes about a minute…</p>' : ''}

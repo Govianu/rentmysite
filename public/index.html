@@ -5,7 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RentMySite.ai | Dormant space into multiple revenue streams</title>
 <meta name="description" content="List your dormant space free: a vacant site, a terrace, godown, shed or spare seats. We plan, build and run it as a multi-use site. You keep the title and earn every month.">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0E6B4A">
+<!-- Link previews (WhatsApp, LinkedIn, X, Slack) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RentMySite.ai">
+<meta property="og:url" content="https://rentmysite.ai/">
+<meta property="og:title" content="RentMySite.ai | Dormant space into multiple revenue streams">
+<meta property="og:description" content="List your dormant space free. We plan, build and run it as a multi-use site. You keep the title and earn every month.">
+<meta property="og:image" content="https://rentmysite.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://rentmysite.ai/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <style>
@@ -34,7 +48,10 @@ img{max-width:100%}
 .nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem}
 .nav a:hover{color:var(--ink)}
 .top .actions{margin-left:auto;display:flex;gap:.5rem;white-space:nowrap;flex-shrink:0}
-.brand{white-space:nowrap;flex-shrink:0}
+.brand{white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center}
+.brand img{margin-right:.5rem;flex-shrink:0}
+.cta-short{display:none}
+@media (max-width:520px){.cta-long{display:none}.cta-short{display:inline}}
 @media (min-width:1120px){.nav{display:flex}}
 @media (max-width:520px){.top .actions .line{display:none}}
 /* hero */
@@ -216,7 +233,7 @@ footer .brand{color:#fff}
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="/">RentMySite<span>.ai</span></a>
+    <a class="brand" href="/"><img src="/favicon.svg" alt="" width="30" height="30">RentMySite<span>.ai</span></a>
     <nav class="nav" aria-label="Main">
       <a href="#examples">Examples</a>
       <a href="#simple">How it works</a>
@@ -229,7 +246,7 @@ footer .brand{color:#fff}
     </nav>
     <div class="actions">
       <a class="btn line sm" href="/login#login">Log in</a>
-      <a class="btn sm" href="#list">List your space</a>
+      <a class="btn sm" href="#list"><span class="cta-long">List your dormant space</span><span class="cta-short">List free</span></a>
     </div>
   </div>
 </header>
@@ -239,17 +256,17 @@ footer .brand{color:#fff}
   <div class="wrap">
     <div>
       <span class="kicker">Dormant space into multiple revenue streams</span>
-      <h1>Don't sell your space. Monetise it.</h1>
+      <h1>Don't sell your dormant space. Monetise it.</h1>
       <p class="lead">List your dormant space for free: a vacant site, a terrace, godown, shed, spare seats, or the hours your place stands empty. We plan it, build it and run it as a multi-use site. You keep the title and earn every month.</p>
       <div class="hero-cta">
         <a class="btn sun" href="#estimate">Get my 60-second estimate</a>
-        <a class="btn line" href="#list">List your space free</a>
+        <a class="btn line" href="#list">List your dormant space free</a>
       </div>
     </div>
     <aside class="hero-card" aria-label="Revenue share versus nothing">
       <h3>The real comparison, 20,000 sq ft main-road dormant space, Bengaluru</h3>
       <div class="compare">
-        <div><small>Empty space, waiting</small><b>₹0</b><small>No taker, no rent</small></div>
+        <div><small>Dormant space, waiting</small><b>₹0</b><small>No taker, no rent</small></div>
         <div class="on"><small>Operated multi-use site</small><b>~₹1.8L</b><small>to you every month</small></div>
       </div>
       <p>About ₹6.5 lakh a month of site revenue, ₹3.6 lakh profit after costs, split 50:50 at the standard tier. Illustrative only, not an offer. Every site gets a written estimate after a survey.</p>
@@ -286,7 +303,7 @@ footer .brand{color:#fff}
       </div>
       <div class="pick-card" id="exCard" aria-live="polite"></div>
     </div>
-    <p class="fine">Examples only. Which streams fit, and what they earn, depends on the size, the road, the hours it is free and local rules. Your free report lists the streams for your space.</p>
+    <p class="fine">Examples only. Which streams fit, and what they earn, depends on the size, the road, the hours it is free and local rules. Your free report lists the streams for your dormant space.</p>
   </div>
 </section>
 
@@ -295,7 +312,7 @@ footer .brand{color:#fff}
     <div class="sec-head">
       <span class="kicker">Explained simply</span>
       <h2>If it sits idle, it can probably earn.</h2>
-      <p>Like Airbnb, but for any unused space: spare office seats, terraces, godowns, vacant sites, shops, and even the hours your place is closed.</p>
+      <p>Like Airbnb, but for any dormant space: spare office seats, terraces, godowns, vacant sites, shops, and even the hours your place is closed.</p>
     </div>
     <div class="grid">
       <div class="card"><span class="tag">Spare seats</span><h3>10 empty seats in your office</h3><p>50 seats, 40 people. A small company nearby uses the other 10 and pays you every month.</p></div>
@@ -348,12 +365,12 @@ footer .brand{color:#fff}
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">60-second estimate</span>
-      <h2>What could your space earn?</h2>
+      <h2>What could your dormant space earn?</h2>
       <p>Enter the size and pick the uses you'd like. We show the site revenue, costs and your monthly share at each tier.</p>
     </div>
     <div class="est">
       <form class="form" id="estForm" onsubmit="return false">
-        <div class="field"><label for="eSize">Size of the space (sq ft)</label><input id="eSize" type="number" min="500" step="500" value="20000" inputmode="numeric"></div>
+        <div class="field"><label for="eSize">Size of the dormant space (sq ft)</label><input id="eSize" type="number" min="500" step="500" value="20000" inputmode="numeric"></div>
         <div class="field"><label for="eRoad">Where is it?</label>
           <select id="eRoad"><option value="1">On a main road</option><option value="0.75">On an inner road</option><option value="0.55">Outskirts or industrial area</option></select></div>
         <div class="field"><span class="label">Uses you'd like</span><div class="checks" id="eUses"></div></div>
@@ -419,7 +436,7 @@ footer .brand{color:#fff}
 
 <section>
   <div class="wrap">
-    <div class="sec-head"><span class="kicker">Why trust us</span><h2>Your property stays yours.</h2></div>
+    <div class="sec-head"><span class="kicker">Why trust us</span><h2>Your dormant space stays yours.</h2></div>
     <div class="grid">
       <div class="card"><h3>You keep the title</h3><p>A mandate, not a lease. No tenancy is created.</p></div>
       <div class="card"><h3>No upfront fee</h3><p>Free to list. We earn only when you earn.</p></div>
@@ -445,8 +462,8 @@ footer .brand{color:#fff}
       <div class="card"><h3>Build-out and assets</h3><p>Assets belong to whoever paid for them, and are removed or handed over at the end of the term.</p></div>
       <div class="card"><h3>Approvals</h3><p>You approve the site plan and operator mix before anything is built. We obtain and pay for operating permits and licences.</p></div>
       <div class="card"><h3>Insurance</h3><p>We hold public liability cover for the site, and every operator insures its own activity.</p></div>
-      <div class="card"><h3>Your undertakings</h3><p>Clear title, site access, and no parallel arrangements on the space during the term. Taxes on the property stay with you.</p></div>
-      <div class="card"><h3>Selling the property</h3><p>Sell at any time. The buyer steps into the mandate, or the site winds down on notice with the unrecovered build cost settled as the schedule sets out.</p></div>
+      <div class="card"><h3>Your undertakings</h3><p>Clear title, site access, and no parallel arrangements on the space during the term. Taxes on the dormant space stay with you.</p></div>
+      <div class="card"><h3>Selling the dormant space</h3><p>Sell at any time. The buyer steps into the mandate, or the site winds down on notice with the unrecovered build cost settled as the schedule sets out.</p></div>
       <div class="card"><h3>Ending it, and disputes</h3><p>Either side may end the mandate for a material breach not cured within thirty days. Force majeure suspends obligations while it lasts. Disputes go to arbitration in Bengaluru under Indian law.</p></div>
     </div>
     <div class="grid" style="margin-top:1.5rem">
@@ -514,12 +531,12 @@ footer .brand{color:#fff}
     <details class="faq"><summary>What if I want to sell?</summary><p>Sell any time. The buyer steps into the mandate, or the site winds down on notice as the schedule sets out.</p></details>
     <details class="faq"><summary>I'm an NRI. Can I take part?</summary><p>Yes, on the same terms, signed through a registered power of attorney, with income paid to your NRO account.</p></details>
     <details class="faq"><summary>I am a tenant. Can I list?</summary><p>Yes, if your landlord agrees in writing.</p></details>
-    <details class="faq"><summary>Who pays for permits, insurance and staff?</summary><p>We do. Taxes on the property stay with the owner, as with any tenant.</p></details>
+    <details class="faq"><summary>Who pays for permits, insurance and staff?</summary><p>We do. Taxes on the dormant space stay with the owner, as with any tenant.</p></details>
     <details class="faq"><summary>What if a brand stops paying, or leaves?</summary><p>Brands pay us, not you. We manage collections, hold deposits and replace operators who fall behind from our bundle pipeline. A multi-brand site keeps earning while a slot is refilled.</p></details>
     <details class="faq"><summary>Who insures the site?</summary><p>We do, for public liability and operator activity. The mandate lists the cover and the insurer.</p></details>
-    <details class="faq"><summary>Can I use part of the space myself?</summary><p>Yes, if we agree it in the plan before build-out.</p></details>
+    <details class="faq"><summary>Can I use part of the dormant space myself?</summary><p>Yes, if we agree it in the plan before build-out.</p></details>
     <details class="faq"><summary>Is there a listing fee?</summary><p>No fee and no obligation until you sign the mandate. The estimate and the survey are free.</p></details>
-    <details class="faq"><summary>What about property tax?</summary><p>Taxes on the property remain yours. Operating permits and licences for the uses are ours to obtain and pay for.</p></details>
+    <details class="faq"><summary>What about property tax?</summary><p>Taxes on the dormant space remain yours. Operating permits and licences for the uses are ours to obtain and pay for.</p></details>
     <details class="faq"><summary>How are the estimates made?</summary><p>From more than 1,000 site assessments, by use, city, frontage, surroundings and surface. A survey confirms the number before a mandate proposal.</p></details>
     <details class="faq"><summary>How is this different from a broker?</summary><p>A broker finds one long-term tenant for the whole property. We find users for the parts and hours that sit idle, run the site, and handle the paperwork and collections.</p></details>
   </div>
@@ -529,8 +546,8 @@ footer .brand{color:#fff}
   <div class="wrap enq">
     <div class="sec-head" style="margin:0">
       <span class="kicker">Free to list</span>
-      <h2>List your space, or find one.</h2>
-      <p>Tell us about the space or what you need. We call back within one working day with a free report: the best uses, an indicative earning range and the permissions you may need.</p>
+      <h2>List your dormant space, or find one.</h2>
+      <p>Tell us about the dormant space or what you need. We call back within one working day with a free report: the best uses, an indicative earning range and the permissions you may need.</p>
       <p style="margin-top:1.2rem">Prefer to talk? <a href="https://wa.me/918103990990" target="_blank" rel="noopener">WhatsApp +91 81039 90990</a> or <a href="mailto:info@rentmysite.ai">info@rentmysite.ai</a></p>
     </div>
     <form class="form" id="enqForm" novalidate>
@@ -565,7 +582,7 @@ footer .brand{color:#fff}
 <footer>
   <div class="wrap">
     <div><a class="brand" href="/">RentMySite<span style="color:var(--sun)">.ai</span></a>
-      <p>Don't sell your space. Monetise it. RentMySite.ai is a Govianu Wealth Management company, Bengaluru.</p>
+      <p>Don't sell your dormant space. Monetise it. RentMySite.ai is a Govianu Wealth Management company, Bengaluru.</p>
       <p style="font-size:.85rem">The group also runs govianu.com (one-project-one-LLP investment structures for property owners and investing partners), CashMyProperty.ai (AI-driven property monetisation, Dubai), NomadLivings (fractional forest-cottage co-ownership, and the cottage operator on our outskirts sites) and JVProp.com (joint-venture property development).</p>
       <p style="font-size:.8rem">Earnings depend on location and demand and are not guaranteed. Every use is subject to local rules, building bye-laws and, for tenants, the landlord's consent. Figures are indicative and not an offer.</p></div>
     <div><strong style="color:#fff">Contact</strong>
@@ -669,24 +686,24 @@ footer .brand{color:#fff}
   var DATA_ROOM = {href: "mailto:info@rentmysite.ai?subject=Data%20room%20request&body=Name%3A%0AFund%3A", label: "Request the data room"};
   var DECKS = {
     owners: [
-      {k: "For owners", t: "Keep the property. Activate the value.", b: "We plan it, build it and run it. You earn every month, and you keep the title.", f: ["No upfront cost", "A mandate, not a lease", "Profit shared monthly with a statement"]},
-      {k: "The problem", t: "Your dormant space has been waiting for years.", b: "Property tax every year, no tenant, no rent, and an idle site still needs fencing, clearing and watching.", f: []},
-      {k: "The real comparison", t: "Revenue share versus nothing.", b: "An empty site may ask about ₹10 per sq ft a month and often finds no taker. The same space run as a multi-brand site produces about three times that, from several uses at once.", f: ["Illustrative, based on indicative Bengaluru figures"]},
-      {k: "How it works", t: "From dormant space to operating site.", b: "1. Mandate: we assess the space and agree terms. 2. Build and activate: survey, plan you approve, approvals, brands. 3. Operate and share: we run the site and pay your share monthly.", f: []},
+      {k: "For owners", t: "Keep the title. Activate the dormant space.", b: "We plan it, build it and run it. You earn every month, and you keep the title.", f: ["No upfront cost", "A mandate, not a lease", "Profit shared monthly with a statement"]},
+      {k: "The problem", t: "Your dormant space has been waiting for years.", b: "Property tax every year, no tenant, no rent, and a dormant space still needs fencing, clearing and watching.", f: []},
+      {k: "The real comparison", t: "Revenue share versus nothing.", b: "A dormant space may ask about ₹10 per sq ft a month and often finds no taker. The same dormant space run as a multi-brand site produces about three times that, from several uses at once.", f: ["Illustrative, based on indicative Bengaluru figures"]},
+      {k: "How it works", t: "From dormant space to operating site.", b: "1. Mandate: we assess the dormant space and agree terms. 2. Build and activate: survey, plan you approve, approvals, brands. 3. Operate and share: we run the site and pay your share monthly.", f: []},
       {k: "Pick your tier", t: "Your share, by who funds the build.", b: "We fund the build: 35%. The brand funds (standard): 50%. You fund the build: 65%.", f: ["On ₹3.6 lakh monthly site profit: ₹1.26L, ₹1.80L or ₹2.34L a month", "Tier percentages are illustrative until the mandate is signed"]},
       {k: "Over five years", t: "About ₹1.2 crore to you.", b: "At the standard tier on a 20,000 sq ft main-road dormant space, versus nothing while the space waits.", f: ["Illustrative example only, not an offer"]}
     ],
     nri: [
-      {k: "For NRI owners", t: "Your dormant space back home, earning every month.", b: "We plan, build and run a multi-use site on your idle space. You keep the title, wherever you live.", f: []},
+      {k: "For NRI owners", t: "Your dormant space back home, earning every month.", b: "We plan, build and run a multi-use site on your dormant space. You keep the title, wherever you live.", f: []},
       {k: "The problem", t: "A dormant space thousands of kilometres away earns nothing.", b: "Encroachment risk, years idle, upkeep and tax with no income, and relatives having to keep checking on it.", f: []},
       {k: "From abroad", t: "You never need to fly home.", b: "Send the location and documents on email or WhatsApp. We survey and share a plan with a video walkthrough. Sign through a registered power of attorney.", f: ["Your share is paid monthly to your NRO account", "A statement on your phone every month"]},
-      {k: "Safety and title", t: "Your property stays yours. Always.", b: "Title never transfers. A working, staffed site is far harder to encroach. Sell any time on the terms in your mandate.", f: []}
+      {k: "Safety and title", t: "Your dormant space stays yours. Always.", b: "Title never transfers. A working, staffed site is far harder to encroach. Sell any time on the terms in your mandate.", f: []}
     ],
     sheds: [
       {k: "Sheds and institutions", t: "One shed. Many uses.", b: "We turn closed factories, idle yards and institutional campuses into professionally run multi-use sites, under your approval.", f: []},
       {k: "The problem", t: "Paying to stand still.", b: "Security, upkeep and property tax every month, and often too big or too specialised for one tenant.", f: []},
       {k: "What it can become", t: "Put back to work.", b: "Market hall, weekend markets, dark store or delivery hub, parking, storage, and community uses that fit the institution's purpose.", f: []},
-      {k: "Governance", t: "Your property. Your approval. Full transparency.", b: "Every plan and contract goes through your board or committee. Monthly reporting line by line, a yearly audit, and title is never transferred.", f: []}
+      {k: "Governance", t: "Your dormant space. Your approval. Full transparency.", b: "Every plan and contract goes through your board or committee. Monthly reporting line by line, a yearly audit, and title is never transferred.", f: []}
     ],
     brands: [
       {k: "For brands and retailers", t: "Prime location. Without rent.", b: "Kiosks, drive-through pads, courts and market slots on operated sites across the city. Pay a share of what you sell.", f: ["Up to ten sites, one agreement"]},
@@ -696,12 +713,12 @@ footer .brand{color:#fff}
     ],
     partners: [
       {k: "Partner programme", t: "One intro. One new site.", b: "For real-estate agents, property brokers, RWAs and layout associations who know the dormant spaces and the brands looking for space.", f: []},
-      {k: "What qualifies", t: "Dormant spaces and brands we are looking for.", b: "Dormant sites with road frontage, closed sheds and yards, institutional or society campuses; and food, retail, fleet, EV, quick-commerce, event and sports brands needing space.", f: []},
+      {k: "What qualifies", t: "Dormant spaces and brands we are looking for.", b: "Dormant spaces with road frontage, closed sheds and yards, institutional or society campuses; and food, retail, fleet, EV, quick-commerce, event and sports brands needing space.", f: []},
       {k: "How to introduce", t: "Three steps. That's all.", b: "Share the dormant space or the brand's need on WhatsApp, connect us to the owner or brand, and we take it from there: survey, plan and conversations.", f: ["Partner terms shared on request"]}
     ],
     investors: [
-      {k: "Investor summary", t: "Rent expectations are low. Operated yields are not.", b: "Owners will accept modest rent for an idle space. An operated, multi-brand site produces about three times that. RentMySite.ai keeps the gap, shares it with the owner, and never owns the property.", f: ["3× operated yield versus the rent owners expect", "Platform revenue target: about 2% of onboarded property value a year (US$100M onboarded → US$2M a year)", "No leases or property on the balance sheet"], cta: DATA_ROOM},
-      {k: "The opportunity", t: "Owners will not build. Brands will not lease raw space.", b: "Millions of idle urban and highway-facing dormant spaces, yards and sheds in India, while QSR, quick commerce, EV fleets, sports operators and D2C brands want locations without leases. A platform that mandates the space and operates the site closes the gap.", f: ["The same gap exists in the US (out-parcels, church and school lots) and the Gulf (vacant shops and showrooms)"], cta: DATA_ROOM},
+      {k: "Investor summary", t: "Rent expectations are low. Operated yields are not.", b: "Owners will accept modest rent for a dormant space. An operated, multi-brand site produces about three times that. RentMySite.ai keeps the gap, shares it with the owner, and never owns the dormant space.", f: ["3× operated yield versus the rent owners expect", "Platform revenue target: about 2% of onboarded property value a year (US$100M onboarded → US$2M a year)", "No leases or property on the balance sheet"], cta: DATA_ROOM},
+      {k: "The opportunity", t: "Owners will not build. Brands will not lease a raw dormant space.", b: "Millions of idle urban and highway-facing dormant spaces, yards and sheds in India, while QSR, quick commerce, EV fleets, sports operators and D2C brands want locations without leases. A platform that mandates the dormant space and operates the site closes the gap.", f: ["The same gap exists in the US (out-parcels, church and school lots) and the Gulf (vacant shops and showrooms)"], cta: DATA_ROOM},
       {k: "The model", t: "Mandates, bundles, revenue lines.", b: "Supply: exclusive mandates on dormant spaces, no rent and no property purchase. Demand: brands on 70:30 revenue share, sold in bundles of 10 sites per city. Operation: several lines per mandate; the owner takes 50% of profit, we keep the rest plus the brand share.", f: ["Each operated site contributes about ₹21.6 lakh a year to the platform at the standard tier"], cta: DATA_ROOM},
       {k: "Unit economics", t: "₹5 lakh a month per site is the floor.", b: "India: ₹5 lakh a month or more of site revenue per listed site; 25 sites across five cities in six months. United States: a US$1M site at a 5% yield produces about US$50k a year, about US$10k of it base share to the platform; 100 sites is about US$1M a year before operated-use profit.", f: ["Figures are targets and estimates, not audited results"], cta: DATA_ROOM},
       {k: "Traction", t: "Demand on both sides, already.", b: "1,000+ sites assessed, 500+ owner enquiries in two months, 100+ owners ready to sign across five cities, and 50 brands targeted in the first three months.", f: [], cta: DATA_ROOM},
@@ -780,14 +797,14 @@ footer .brand{color:#fff}
   var kind = "space", i = 0, chosen = false;
   function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function fill(){
-    sel.innerHTML = '<option value="" disabled selected>Choose your space</option>' +
+    sel.innerHTML = '<option value="" disabled selected>Choose your dormant space</option>' +
       EX[kind].map(function(e, n){ return '<option value="' + n + '">' + esc(e[1]) + '</option>'; }).join("");
   }
   function render(){
     var g = EX[kind], e = g[i], who = nameIn.value.trim().split(/\s+/)[0], where = loc.value.trim().split(",")[0];
-    var line = who && where ? who + ", here is what a space like yours in " + where + " can earn from."
-      : who ? who + ", here is what a space like yours can earn from."
-      : where ? "What a space like this in " + where + " can earn from." : "";
+    var line = who && where ? who + ", here is what a dormant space like yours in " + where + " can earn from."
+      : who ? who + ", here is what a dormant space like yours can earn from."
+      : where ? "What a dormant space like this in " + where + " can earn from." : "";
     card.innerHTML = '<div class="pick-side"><span class="tag">' + (chosen ? "" : "For example · ") + (kind === "space" ? "Empty space" : "Empty time") + ' · ' + esc(e[0]) + '</span>' +
       '<h3>' + esc(e[1]) + '</h3><p>' + esc(e[2]) + '</p>' + (line ? '<p class="pick-for">' + esc(line) + '</p>' : '') +
       '<p class="pick-count">' + e[4].length + ' revenue streams from the same space</p>' +
