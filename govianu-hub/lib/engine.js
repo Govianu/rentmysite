@@ -458,9 +458,9 @@ async function campaignTick() {
     lead.campaign = { state: 'sent', sentAt: now(), template: c.templateName };
     db.sentToday.count++;
     failStreak = 0;
-    if (lead.email && mailConfigured()) {
+    if (lead.email && mailConfigured(lead.brand)) {
       const subject = fill(c.emailSubject, lead);
-      await sendMail(lead.email, subject, fill(c.emailBody, lead))
+      await sendMail(lead.email, subject, fill(c.emailBody, lead), lead.brand)
         .then(() => {
           lead.campaign.emailedAt = now();
           db.messages.push({ id: uid(), phone: lead.phone, brand: lead.brand, channel: 'email', dir: 'out', by: 'campaign', text: `Email to ${lead.email}: ${subject}`, at: now(), status: 'sent' });
