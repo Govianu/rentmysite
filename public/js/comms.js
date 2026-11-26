@@ -42,10 +42,14 @@
       ? `<div class="comms-view admin"><span><strong>Admin view</strong>: everyone's performance and timelines, reassigning, imports and the campaign.</span><button class="btn ghost small" type="button" id="cLeaveAdmin">Leave admin view</button></div>`
       : `<div class="comms-view"><span><strong>Shared dashboard</strong>: everyone sees all leads. When you call or WhatsApp a lead it is marked <em>contacted by ${esc(S.me.me.name)}</em> and kept in your record.</span>
           <form id="cAdminForm" class="comms-admin-form"><input type="password" id="cAdminCode" placeholder="Admin code" autocomplete="off" aria-label="Admin code"><button class="btn small" type="submit">Admin view</button></form></div>`;
-    el.innerHTML = `${viewBar}${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
+    const askNotif = 'Notification' in window && Notification.permission === 'default'
+      ? '<div class="comms-banner"><strong>Turn on desktop alerts</strong> so customer messages and missed calls pop up on your screen, even when this tab is in the background. <button class="btn small" type="button" id="cNotifOn">Turn on</button></div>'
+      : '';
+    el.innerHTML = `${viewBar}${askNotif}${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
       <div class="comms-tabs" role="tablist">${subs.map(([k, l]) => `<button type="button" data-sub="${k}" ${k === S.sub ? 'aria-current="page"' : ''}>${l}</button>`).join('')}</div>
       <div id="commsBody"><p class="meta">Loading…</p></div>`;
     el.querySelectorAll('[data-sub]').forEach((b) => b.addEventListener('click', () => { S.sub = b.dataset.sub; window.loadComms(); }));
+    document.getElementById('cNotifOn')?.addEventListener('click', () => Notification.requestPermission().then(() => window.loadComms()));
     document.getElementById('cAdminForm')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const code = document.getElementById('cAdminCode').value.trim();
@@ -313,6 +317,25 @@
       dr.querySelector('[data-send-tpl]').addEventListener('click', () => tplSel.value && run(() => hub(`/leads/${encodeURIComponent(phone)}/send`, { method: 'POST', body: { template: tplSel.value } }), 'Template sent').then(() => openLead(phone)));
     }
   }
+
+  // Desktop notifications while the team dashboard is open (any tab, also in the background): customer messages,
+  // missed calls and the repeating reminders, until someone replies. Clicking one opens the chat.
+  let seen = 0;
+  try { seen = Number(localStorage.getItem('hubNotifSeen')) || Date.now(); } catch { seen = Date.now(); }
+  async function checkNotifs() {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    const list = await api('/hub/notifications').catch(() => []);
+    if (!Array.isArray(list)) return;
+    const fresh = list.filter((n) => !n.read && n.at > seen).sort((a, b) => a.at - b.at).slice(-3);
+    for (const n of fresh) {
+      const pop = new Notification('WhatsApp & Calls', { body: n.text, tag: n.id, requireInteraction: true });
+      pop.onclick = () => { window.focus(); location.hash = 'comms'; if (n.phone) openLead(n.phone); pop.close(); };
+    }
+    if (list.length) seen = Math.max(seen, ...list.map((n) => n.at));
+    try { localStorage.setItem('hubNotifSeen', String(seen)); } catch {}
+  }
+  setInterval(() => checkNotifs().catch(() => {}), 30000);
+  setTimeout(() => checkNotifs().catch(() => {}), 3000);
 
   // Keep "Waiting for reply" and Overview fresh while open
   setInterval(() => {

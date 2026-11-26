@@ -11,6 +11,13 @@ const fmtPhone = (p) => (p ? `+${p}` : '');
 function employeePhones() {
   return new Set(db.employees.map((e) => normPhone(e.phone)).filter(Boolean));
 }
+// Shared logins (e.g. support@) never get leads assigned and don't receive customer alerts.
+const SHARED = (process.env.TEAM_EXCLUDE_EMAILS ?? 'support@govianu.com').toLowerCase().split(',').map((x) => x.trim()).filter(Boolean);
+const isShared = (e) => !e || SHARED.includes(String(e.email).toLowerCase());
+// Everyone who should hear about an unanswered customer of this business
+function alertTeam(brand) {
+  return db.employees.filter((e) => e.active !== false && !isShared(e) && (!brand || (e.brands || []).includes(brand)));
+}
 function admins() {
   return db.employees.filter((e) => e.role === 'admin' && e.active !== false);
 }
@@ -27,11 +34,18 @@ function trackUnmapped(userId, info = {}) {
 // Record which team member contacted the lead: the first one stays as "contacted by", the latest as "last contact".
 function markContact(lead, empId, how, at = now()) {
   if (!lead || !empId || !employee(empId)) return;
-  if (!lead.contactedBy) {
+  // shared logins (support@) are recorded as "last contact" but never as "contacted by" or "assigned to"
+  if (!lead.contactedBy && !isShared(employee(empId))) {
     lead.contactedBy = empId;
     lead.contactedAt = at;
     lead.contactedHow = how;
     logActivity(empId, 'contacted', lead, `Contacted ${lead.name || fmtPhone(lead.phone)} first (${how})`);
+  }
+  const emp = employee(empId);
+  if (!isShared(emp) && lead.assignedBy !== 'manual' && lead.assignedBy !== 'first-contact') {
+    lead.assignedTo = empId;
+    lead.assignedBy = 'first-contact';
+    logActivity(empId, 'assigned', lead, `Assigned to ${emp.name} (replied first)`);
   }
   lead.lastContactBy = empId;
   lead.lastContactAt = at;
@@ -158,9 +172,10 @@ async function handleWhatsApp(ev) {
       const pend = openPending(lead, 'message', text, at);
       const emp = employee(lead.assignedTo);
       if (pend.count === 1) {
-        await alertEmployee(emp, `💬 ${lead.name || fmtPhone(phone)} messaged on WhatsApp (${lead.brand}): "${text.slice(0, 120)}"\nReply from the Hub.`, phone);
+        const who = emp && !isShared(emp) ? [emp] : alertTeam(lead.brand);
+        const head = emp && !isShared(emp) ? '💬' : '💬 NEW – first to reply gets this lead:';
+        for (const e of who) await alertEmployee(e, `${head} ${lead.name || fmtPhone(phone)} messaged on WhatsApp (${lead.brand}): "${text.slice(0, 120)}"`, phone);
       }
-      if (!emp) for (const a of admins()) notify(a.id, `Unassigned contact ${fmtPhone(phone)} messaged: "${text.slice(0, 80)}"`, phone);
       scheduleAi(phone);
       return;
     }
@@ -322,7 +337,8 @@ async function finalizeCall(c) {
     resolvePending(lead.phone, emp?.id, out ? 'call' : 'answered call');
   } else if (!out) {
     openPending(lead, 'missed_call', `Missed call (${c.status})`, c.startedAt || now());
-    await alertEmployee(employee(lead.assignedTo), `📞 Missed call from ${lead.name || fmtPhone(lead.phone)} (${lead.brand}). Please call back.`, lead.phone);
+    const owner = employee(lead.assignedTo);
+    for (const e of owner && !isShared(owner) ? [owner] : alertTeam(lead.brand)) await alertEmployee(e, `📞 Missed call from ${lead.name || fmtPhone(lead.phone)} (${lead.brand}). Please call back${owner && !isShared(owner) ? '' : ' – first to call gets this lead'}.`, lead.phone);
   }
 }
 
@@ -382,7 +398,7 @@ async function aiReply(phone) {
   if (out.stage === 'qualified' || out.stage === 'needs_human') {
     const msg = `${out.stage === 'qualified' ? '🔥 QUALIFIED' : '🙋 Needs you'}: ${lead.name || fmtPhone(phone)} (${lead.brand})\n${out.summary}\nCall them now.`;
     await alertEmployee(employee(lead.assignedTo), msg, phone, { email: true });
-    for (const a of admins()) notify(a.id, msg, phone);
+    for (const a of alertTeam(lead.brand)) if (a.id !== lead.assignedTo) notify(a.id, msg, phone);
   }
   if (out.stage === 'not_interested') {
     lead.aiFlag = 'not_interested';
@@ -400,19 +416,21 @@ async function reminderTick() {
   const overdue = open.filter((p) => now() - p.firstAt >= r.firstAfterMin * MIN);
   if (!overdue.length) return;
 
+  // decide once per round which customers are due, so every recipient gets this round's reminder
+  const dueNow = new Set(overdue.filter((p) => now() - (p.lastReminderAt || 0) >= r.repeatEveryMin * MIN));
   const byEmp = new Map();
   for (const p of overdue) {
     const lead = db.leads[p.phone];
     p.assignedTo = lead?.assignedTo || p.assignedTo;
-    const targets = p.assignedTo ? [p.assignedTo] : admins().map((a) => a.id);
+    const owner = employee(p.assignedTo);
+    const targets = owner && !isShared(owner) ? [owner.id] : alertTeam(p.brand).map((a) => a.id);
     for (const t of targets) {
       if (!byEmp.has(t)) byEmp.set(t, []);
       byEmp.get(t).push(p);
     }
   }
   for (const [empId, items] of byEmp) {
-    const due = items.filter((p) => now() - (p.lastReminderAt || 0) >= r.repeatEveryMin * MIN);
-    if (!due.length) continue;
+    if (!items.some((p) => dueNow.has(p))) continue;
     const lines = items
       .sort((a, b) => a.firstAt - b.firstAt)
       .slice(0, 15)
@@ -420,17 +438,17 @@ async function reminderTick() {
         const l = db.leads[p.phone] || {};
         return `${i + 1}. ${l.name || fmtPhone(p.phone)} – ${p.kind === 'missed_call' ? 'missed call' : `"${(p.lastText || '').slice(0, 50)}"`} – ${Math.round((now() - p.firstAt) / MIN)} min`;
       });
-    await alertEmployee(employee(empId), `⏰ ${items.length} customer(s) waiting for you:\n${lines.join('\n')}\nReply/call from the Hub or MyOperator.`, null);
-    for (const p of due) {
-      p.lastReminderAt = now();
-      p.remindersSent++;
-    }
+    await alertEmployee(employee(empId), `⏰ ${items.length} customer(s) waiting for you:\n${lines.join('\n')}\nReply/call from the Hub or MyOperator.`, items.length === 1 ? items[0].phone : null);
+  }
+  for (const p of dueNow) {
+    p.lastReminderAt = now();
+    p.remindersSent++;
   }
   for (const p of overdue.filter((x) => !x.escalated && now() - x.firstAt >= r.escalateAfterMin * MIN)) {
     p.escalated = true;
     const l = db.leads[p.phone] || {};
     const who = employee(p.assignedTo)?.name || 'nobody';
-    for (const a of admins()) await alertEmployee(a, `🚨 Not attended for ${r.escalateAfterMin}+ min: ${l.name || fmtPhone(p.phone)} (${p.brand}) – assigned to ${who}.`, p.phone);
+    for (const a of alertTeam(p.brand)) if (a.id !== p.assignedTo) await alertEmployee(a, `🚨 Not attended for ${r.escalateAfterMin}+ min: ${l.name || fmtPhone(p.phone)} (${p.brand}) – assigned to ${who}. Anyone can reply.`, p.phone);
   }
   save();
 }
@@ -523,8 +541,30 @@ function syncSites() {
   }
 }
 
+function unassignAutoAssigned() {
+  if (db.migratedFirstContact) return;
+  let n = 0;
+  for (const l of Object.values(db.leads)) {
+    if (l.contactedBy || l.assignedBy || !l.assignedTo) continue;
+    const src = String(l.source || '').toLowerCase();
+    const fromSheet = src && !src.startsWith('site') && src !== 'whatsapp' && src !== 'call';
+    if (!fromSheet || isShared(employee(l.assignedTo))) {
+      l.assignedTo = null;
+      n++;
+    }
+  }
+  for (const l of Object.values(db.leads)) if (l.contactedBy && !l.assignedBy && !isShared(employee(l.contactedBy))) {
+    l.assignedTo = l.contactedBy;
+    l.assignedBy = 'first-contact';
+  }
+  db.migratedFirstContact = true;
+  console.log(`[hub] first-reply assignment on: ${n} untouched leads unassigned`);
+  save();
+}
+
 function startEngine() {
   backfillContacts();
+  unassignAutoAssigned();
   syncSites();
   setInterval(syncSites, 5 * 60_000);
   setInterval(() => campaignTick().catch((e) => console.error('[campaign]', e.message)), 1000);

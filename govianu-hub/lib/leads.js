@@ -16,19 +16,21 @@ function findEmployeeByName(name) {
   return activeEmployees().find((e) => e.name.toLowerCase() === n || e.name.toLowerCase().split(' ')[0] === n.split(' ')[0]) || null;
 }
 
+// New leads are NOT handed out round-robin any more: the first team member who replies or calls becomes
+// "assigned to" (see markContact in engine.js). Only the sheet's "Assign To" name is used up front.
 function autoAssign(lead, hintName) {
   if (lead.assignedTo && employee(lead.assignedTo)) return lead.assignedTo;
   const byName = findEmployeeByName(hintName);
-  if (byName) return (lead.assignedTo = byName.id);
-  const pool = activeEmployees(lead.brand).filter((e) => e.role !== 'admin');
-  const list = pool.length ? pool : activeEmployees(lead.brand);
-  if (!list.length) return null;
-  lead.assignedTo = list[db.rr++ % list.length].id;
-  return lead.assignedTo;
+  if (byName) {
+    lead.assignedTo = byName.id;
+    lead.assignedBy = 'sheet';
+  }
+  return lead.assignedTo || null;
 }
 
 function assign(lead, employeeId, byId) {
   lead.assignedTo = employeeId || null;
+  lead.assignedBy = employeeId ? 'manual' : null; // a hand-made assignment sticks; first contact no longer changes it
   const emp = employee(employeeId);
   logActivity(byId, 'assigned', lead, `Assigned to ${emp ? emp.name : 'nobody'}`);
   if (emp) notify(emp.id, `New lead assigned: ${lead.name || '+' + lead.phone} (${lead.brand})`, lead.phone);

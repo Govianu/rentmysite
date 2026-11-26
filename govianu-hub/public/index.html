@@ -131,12 +131,15 @@ function shell(crumb, inner) {
   return `<header><a class="logo" href="#/">Govianu Hub</a><a class="crumb" href="#/" ${navOn('#/')}>Leads</a><a class="crumb" href="#/team" ${navOn('#/team')}>Team summary</a>${crumb}<span class="sp"></span>
     ${Object.values(ME.brands).map((b) => `<a class="crumb" href="${esc(b.site)}#comms" target="_blank" rel="noopener" title="Open the ${esc(b.name)} team dashboard">${esc(b.key === 'pmb' ? 'PMB' : b.name)} dashboard ↗</a>`).join('')}
     ${ME.configured.dryRun ? '<span class="pill warn">TEST MODE – nothing sent</span>' : ''}
+    ${'Notification' in window && Notification.permission === 'default' ? '<button class="btn sm" id="notifOn" style="background:#f59e0b">🔔 Turn on desktop alerts</button>' : ''}
     <button class="icon" id="bell" title="Notifications">🔔${ME.unread ? `<span class="dot">${ME.unread}</span>` : ''}</button>
     ${isAdmin() ? '<a class="crumb" href="#/settings">Settings</a>' : ''}
     <a class="crumb" href="#/me">${esc(ME.me.name)}</a><button class="icon" id="logout" title="Sign out" style="font-size:14px">Sign out</button>
     <div class="notif" id="notif"></div></header><main>${inner}</main>`;
 }
 function wireShell() {
+  const on = $('#notifOn');
+  if (on) on.onclick = () => Notification.requestPermission().then(() => { route(); checkNotifs().catch(() => {}); });
   $('#logout').onclick = async () => { await api('auth/logout', {}); ME = null; renderLogin(); };
   $('#bell').onclick = async () => {
     const box = $('#notif'); if (box.style.display === 'block') return (box.style.display = 'none');
@@ -165,9 +168,24 @@ window.addEventListener('hashchange', route);
 
 async function refreshMe() {
   ME = await api('me');
-  if (ME.unread > lastUnread && 'Notification' in window && Notification.permission === 'granted') new Notification('Govianu Hub', { body: `${ME.unread} new notification(s)` });
   lastUnread = ME.unread;
 }
+// Desktop notifications: every 30 s, also while this tab is in the background. Each new alert pops up with the
+// customer and message; clicking it opens the chat. Reminders repeat until someone replies, so do the pop-ups.
+let notifSeen = 0;
+try { notifSeen = Number(localStorage.getItem('hubNotifSeen')) || Date.now(); } catch { notifSeen = Date.now(); }
+async function checkNotifs() {
+  if (!ME || !('Notification' in window) || Notification.permission !== 'granted') return;
+  const list = await api('notifications').catch(() => []);
+  const fresh = list.filter((n) => !n.read && n.at > notifSeen).sort((a, b) => a.at - b.at).slice(-3);
+  for (const n of fresh) {
+    const pop = new Notification('Govianu Hub', { body: n.text, tag: n.id, requireInteraction: true });
+    pop.onclick = () => { window.focus(); if (n.phone) openLead(n.phone); pop.close(); };
+  }
+  if (list.length) notifSeen = Math.max(notifSeen, ...list.map((n) => n.at));
+  try { localStorage.setItem('hubNotifSeen', String(notifSeen)); } catch {}
+}
+setInterval(() => checkNotifs().catch(() => {}), 30000);
 function every(ms, fn) { clearInterval(timer); timer = setInterval(async () => { if (document.hidden || $('#drawer').style.display === 'block') return; try { await refreshMe(); await fn(); } catch {} }, ms); }
 
 // ───────── home: both websites together ─────────
