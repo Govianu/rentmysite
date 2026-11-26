@@ -45,10 +45,22 @@
     const askNotif = 'Notification' in window && Notification.permission === 'default'
       ? '<div class="comms-banner"><strong>Turn on desktop alerts</strong> so customer messages and missed calls pop up on your screen, even when this tab is in the background. <button class="btn small" type="button" id="cNotifOn">Turn on</button></div>'
       : '';
-    el.innerHTML = `${viewBar}${askNotif}${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
+    const myPhone = S.me.me.phone || '';
+    const phoneBar = `<form id="cMyPhone" class="comms-view" style="justify-content:flex-start;gap:.6rem">
+        <span>📱 <strong>My WhatsApp for alerts:</strong></span>
+        <input id="cMyPhoneIn" value="${esc(myPhone)}" placeholder="98xxxxxxxx" aria-label="My WhatsApp number for alerts" style="width:150px">
+        <button class="btn ${myPhone ? 'ghost ' : ''}small" type="submit">${myPhone ? 'Update' : 'Save'}</button>
+        <span class="meta">${myPhone ? 'Customer messages, missed calls and reminders also come to this WhatsApp.' : 'Add it so customer messages, missed calls and reminders reach your phone too.'}</span></form>`;
+    el.innerHTML = `${viewBar}${phoneBar}${askNotif}${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
       <div class="comms-tabs" role="tablist">${subs.map(([k, l]) => `<button type="button" data-sub="${k}" ${k === S.sub ? 'aria-current="page"' : ''}>${l}</button>`).join('')}</div>
       <div id="commsBody"><p class="meta">Loading…</p></div>`;
     el.querySelectorAll('[data-sub]').forEach((b) => b.addEventListener('click', () => { S.sub = b.dataset.sub; window.loadComms(); }));
+    document.getElementById('cMyPhone').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const v = document.getElementById('cMyPhoneIn').value.trim();
+      if (!/^(\+?91)?[6-9]\d{9}$/.test(v.replace(/[\s-]/g, ''))) return toast('Enter a 10-digit Indian mobile number', true);
+      run(() => hub(`/employees/${encodeURIComponent(S.me.me.id)}`, { method: 'PATCH', body: { phone: v } }), 'Saved – alerts will come to this WhatsApp').then(window.loadComms);
+    });
     document.getElementById('cNotifOn')?.addEventListener('click', () => Notification.requestPermission().then(() => window.loadComms()));
     document.getElementById('cAdminForm')?.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -73,21 +85,12 @@
   async function overview() {
     const o = await hub(`/overview?range=${S.range}`);
     const total = o.leads || 1;
-    const myPhone = S.me.me.phone || '';
-    body().innerHTML = `<div class="comms-bar">${rangeSel()}
-        <form id="cMyPhone" class="comms-admin-form" style="margin-left:auto"><input id="cMyPhoneIn" value="${esc(myPhone)}" placeholder="98xxxxxxxx" aria-label="My WhatsApp number for alerts" style="width:150px"><button class="btn ghost small" type="submit">${myPhone ? 'Update' : 'Save'} my alert number</button></form></div>
-      ${myPhone ? '' : '<div class="comms-banner">Add your WhatsApp number above so customer messages, missed calls and reminders reach you on WhatsApp.</div>'}
+    body().innerHTML = `<div class="comms-bar">${rangeSel()}</div>
       <div class="stats">${stat(o.leads, 'leads')}${stat(o.newLeads, 'new in period')}${stat(o.openNow, 'waiting for a reply now')}${stat(o.unassigned, 'not assigned')}</div>
       <div class="stats">${stat(o.inbound, 'WhatsApp received')}${stat(o.outbound, 'WhatsApp sent')}${stat(o.aiReplies, 'answered by AI')}${stat(o.emails, 'emails sent')}${stat(o.calls, 'calls')}${stat(o.callsConnected, 'calls connected')}${stat(o.callsMissed, 'calls missed')}</div>
       <div class="comms-cols"><div class="comms-card"><h3>Pipeline</h3>${S.me.stages.map((s) => `<div class="meta" style="display:flex"><span style="flex:1">${esc(pretty(s))}</span><strong>${o.stages[s] || 0}</strong></div><div class="comms-bar-chart"><i style="width:${Math.round(((o.stages[s] || 0) / total) * 100)}%"></i></div>`).join('')}</div>
       <div class="comms-card"><h3>WhatsApp campaign</h3><div class="stats" style="margin:0">${stat(o.campaign.queued, 'queued')}${stat(o.campaign.sent, 'sent')}${stat(o.campaign.replied, 'replied')}${stat(o.campaign.failed, 'failed')}</div></div></div>`;
     wireRange();
-    document.getElementById('cMyPhone').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const v = document.getElementById('cMyPhoneIn').value.trim();
-      if (!/^(\+?91)?[6-9]\d{9}$/.test(v.replace(/[\s-]/g, ''))) return toast('Enter a 10-digit Indian mobile number', true);
-      run(() => hub(`/employees/${encodeURIComponent(S.me.me.id)}`, { method: 'PATCH', body: { phone: v } }), 'Saved – alerts will come to this number').then(window.loadComms);
-    });
   }
 
   // ───────── Waiting for reply ─────────
@@ -322,15 +325,51 @@
   // missed calls and the repeating reminders, until someone replies. Clicking one opens the chat.
   let seen = 0;
   try { seen = Number(localStorage.getItem('hubNotifSeen')) || Date.now(); } catch { seen = Date.now(); }
+  // ── Big alert: a large pop-up in the middle of the screen with a sound, for customer messages, missed calls and
+  // reminders. Stays until dismissed or opened. Shown in addition to the desktop notification.
+  function beep() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [0, 0.35, 0.7].forEach((t) => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.25, ctx.currentTime + t); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.3);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.3);
+      });
+    } catch { /* sound blocked until the page has been clicked once */ }
+  }
+  function bigAlert(list, onOpen) {
+    if (!list.length) return;
+    document.getElementById('bigAlert')?.remove();
+    const box = document.createElement('div');
+    box.id = 'bigAlert';
+    box.setAttribute('role', 'alertdialog');
+    box.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    const esc2 = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    box.innerHTML = `<div style="background:#fff;color:#111827;max-width:560px;width:100%;border-radius:18px;padding:26px 26px 20px;box-shadow:0 20px 60px rgba(0,0,0,.35);border-top:8px solid #dc2626;font-family:inherit">
+      <div style="font-size:26px;font-weight:800;margin-bottom:10px">🔔 Customers are waiting</div>
+      ${list.map((n) => `<div style="font-size:17px;line-height:1.45;padding:10px 0;border-bottom:1px solid #e5e7eb;white-space:pre-wrap">${esc2(n.text)}</div>`).join('')}
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap">
+        <button type="button" data-big-x style="font:inherit;font-size:15px;padding:10px 16px;border-radius:10px;border:1px solid #d1d5db;background:#fff;cursor:pointer">Dismiss</button>
+        ${list.find((n) => n.phone) ? '<button type="button" data-big-open style="font:inherit;font-size:15px;padding:10px 18px;border-radius:10px;border:0;background:#dc2626;color:#fff;font-weight:700;cursor:pointer">Open chat and reply</button>' : ''}
+      </div></div>`;
+    document.body.appendChild(box);
+    box.querySelector('[data-big-x]').onclick = () => box.remove();
+    const open = box.querySelector('[data-big-open]');
+    if (open) open.onclick = () => { box.remove(); onOpen(list.find((n) => n.phone).phone); };
+    beep();
+  }
   async function checkNotifs() {
-    if (!('Notification' in window) || Notification.permission !== 'granted') return;
     const list = await api('/hub/notifications').catch(() => []);
     if (!Array.isArray(list)) return;
     const fresh = list.filter((n) => !n.read && n.at > seen).sort((a, b) => a.at - b.at).slice(-3);
-    for (const n of fresh) {
-      const pop = new Notification('WhatsApp & Calls', { body: n.text, tag: n.id, requireInteraction: true });
-      pop.onclick = () => { window.focus(); location.hash = 'comms'; if (n.phone) openLead(n.phone); pop.close(); };
+    if ('Notification' in window && Notification.permission === 'granted') {
+      for (const n of fresh) {
+        const pop = new Notification('WhatsApp & Calls', { body: n.text, tag: n.id, requireInteraction: true });
+        pop.onclick = () => { window.focus(); location.hash = 'comms'; if (n.phone) openLead(n.phone); pop.close(); };
+      }
     }
+    bigAlert(fresh, (phone) => { location.hash = 'comms'; openLead(phone); });
     if (list.length) seen = Math.max(seen, ...list.map((n) => n.at));
     try { localStorage.setItem('hubNotifSeen', String(seen)); } catch {}
   }

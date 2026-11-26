@@ -174,14 +174,51 @@ async function refreshMe() {
 // customer and message; clicking it opens the chat. Reminders repeat until someone replies, so do the pop-ups.
 let notifSeen = 0;
 try { notifSeen = Number(localStorage.getItem('hubNotifSeen')) || Date.now(); } catch { notifSeen = Date.now(); }
+// ── Big alert: a large pop-up in the middle of the screen with a sound, for customer messages, missed calls and
+// reminders. Stays until dismissed or opened. Shown in addition to the desktop notification.
+function beep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.35, 0.7].forEach((t) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.25, ctx.currentTime + t); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.3);
+      o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.3);
+    });
+  } catch { /* sound blocked until the page has been clicked once */ }
+}
+function bigAlert(list, onOpen) {
+  if (!list.length) return;
+  document.getElementById('bigAlert')?.remove();
+  const box = document.createElement('div');
+  box.id = 'bigAlert';
+  box.setAttribute('role', 'alertdialog');
+  box.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+  const esc2 = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  box.innerHTML = `<div style="background:#fff;color:#111827;max-width:560px;width:100%;border-radius:18px;padding:26px 26px 20px;box-shadow:0 20px 60px rgba(0,0,0,.35);border-top:8px solid #dc2626;font-family:inherit">
+    <div style="font-size:26px;font-weight:800;margin-bottom:10px">🔔 Customers are waiting</div>
+    ${list.map((n) => `<div style="font-size:17px;line-height:1.45;padding:10px 0;border-bottom:1px solid #e5e7eb;white-space:pre-wrap">${esc2(n.text)}</div>`).join('')}
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap">
+      <button type="button" data-big-x style="font:inherit;font-size:15px;padding:10px 16px;border-radius:10px;border:1px solid #d1d5db;background:#fff;cursor:pointer">Dismiss</button>
+      ${list.find((n) => n.phone) ? '<button type="button" data-big-open style="font:inherit;font-size:15px;padding:10px 18px;border-radius:10px;border:0;background:#dc2626;color:#fff;font-weight:700;cursor:pointer">Open chat and reply</button>' : ''}
+    </div></div>`;
+  document.body.appendChild(box);
+  box.querySelector('[data-big-x]').onclick = () => box.remove();
+  const open = box.querySelector('[data-big-open]');
+  if (open) open.onclick = () => { box.remove(); onOpen(list.find((n) => n.phone).phone); };
+  beep();
+}
 async function checkNotifs() {
-  if (!ME || !('Notification' in window) || Notification.permission !== 'granted') return;
+  if (!ME) return;
   const list = await api('notifications').catch(() => []);
   const fresh = list.filter((n) => !n.read && n.at > notifSeen).sort((a, b) => a.at - b.at).slice(-3);
-  for (const n of fresh) {
-    const pop = new Notification('Govianu Hub', { body: n.text, tag: n.id, requireInteraction: true });
-    pop.onclick = () => { window.focus(); if (n.phone) openLead(n.phone); pop.close(); };
+  if ('Notification' in window && Notification.permission === 'granted') {
+    for (const n of fresh) {
+      const pop = new Notification('Govianu Hub', { body: n.text, tag: n.id, requireInteraction: true });
+      pop.onclick = () => { window.focus(); if (n.phone) openLead(n.phone); pop.close(); };
+    }
   }
+  bigAlert(fresh, (phone) => openLead(phone));
   if (list.length) notifSeen = Math.max(notifSeen, ...list.map((n) => n.at));
   try { localStorage.setItem('hubNotifSeen', String(notifSeen)); } catch {}
 }
