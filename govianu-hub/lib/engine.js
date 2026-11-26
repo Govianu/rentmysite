@@ -60,9 +60,12 @@ const advance = (lead, to) => {
 };
 
 // ───────────────────────── staff alerts ─────────────────────────
+const HUB_URL = () => (process.env.APP_URL || 'https://hub.govianu.com').replace(/\/$/, '');
 async function alertEmployee(emp, text, phone, { email = false } = {}) {
   if (!emp) return;
   notify(emp.id, text, phone);
+  // On the phone the alert opens the lead itself (or the "waiting for reply" list for a reminder about several)
+  text = `${text}\n\n👉 Open: ${HUB_URL()}/#/${phone ? `lead/${phone}` : 'waiting'}`;
   const p = normPhone(emp.phone);
   if (p && myop.configured()) {
     const { templateName, variable } = db.settings.staffAlert;
