@@ -68,12 +68,21 @@
   async function overview() {
     const o = await hub(`/overview?range=${S.range}`);
     const total = o.leads || 1;
-    body().innerHTML = `<div class="comms-bar">${rangeSel()}</div>
+    const myPhone = S.me.me.phone || '';
+    body().innerHTML = `<div class="comms-bar">${rangeSel()}
+        <form id="cMyPhone" class="comms-admin-form" style="margin-left:auto"><input id="cMyPhoneIn" value="${esc(myPhone)}" placeholder="98xxxxxxxx" aria-label="My WhatsApp number for alerts" style="width:150px"><button class="btn ghost small" type="submit">${myPhone ? 'Update' : 'Save'} my alert number</button></form></div>
+      ${myPhone ? '' : '<div class="comms-banner">Add your WhatsApp number above so customer messages, missed calls and reminders reach you on WhatsApp.</div>'}
       <div class="stats">${stat(o.leads, 'leads')}${stat(o.newLeads, 'new in period')}${stat(o.openNow, 'waiting for a reply now')}${stat(o.unassigned, 'not assigned')}</div>
       <div class="stats">${stat(o.inbound, 'WhatsApp received')}${stat(o.outbound, 'WhatsApp sent')}${stat(o.aiReplies, 'answered by AI')}${stat(o.emails, 'emails sent')}${stat(o.calls, 'calls')}${stat(o.callsConnected, 'calls connected')}${stat(o.callsMissed, 'calls missed')}</div>
       <div class="comms-cols"><div class="comms-card"><h3>Pipeline</h3>${S.me.stages.map((s) => `<div class="meta" style="display:flex"><span style="flex:1">${esc(pretty(s))}</span><strong>${o.stages[s] || 0}</strong></div><div class="comms-bar-chart"><i style="width:${Math.round(((o.stages[s] || 0) / total) * 100)}%"></i></div>`).join('')}</div>
       <div class="comms-card"><h3>WhatsApp campaign</h3><div class="stats" style="margin:0">${stat(o.campaign.queued, 'queued')}${stat(o.campaign.sent, 'sent')}${stat(o.campaign.replied, 'replied')}${stat(o.campaign.failed, 'failed')}</div></div></div>`;
     wireRange();
+    document.getElementById('cMyPhone').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const v = document.getElementById('cMyPhoneIn').value.trim();
+      if (!/^(\+?91)?[6-9]\d{9}$/.test(v.replace(/[\s-]/g, ''))) return toast('Enter a 10-digit Indian mobile number', true);
+      run(() => hub(`/employees/${encodeURIComponent(S.me.me.id)}`, { method: 'PATCH', body: { phone: v } }), 'Saved – alerts will come to this number').then(window.loadComms);
+    });
   }
 
   // ───────── Waiting for reply ─────────
