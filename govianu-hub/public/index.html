@@ -34,6 +34,16 @@
   .stat { font-size:24px; font-weight:650; } .stat small { display:block; font-size:12px; font-weight:400; color:var(--mute); }
   .sites { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(520px,1fr)); align-items:start; }
   @media (max-width:1100px) { .sites { grid-template-columns:1fr; } }
+  .lr-tabs { display:flex; gap:4px; flex-wrap:wrap; align-items:center; }
+  .lr-tabs button { background:none; border:0; padding:7px 11px; border-radius:8px; color:var(--mute); }
+  .lr-tabs button.on { background:#111827; color:#fff; }
+  .lr-tabs button .pill { margin-left:4px; }
+  .lr-table th { background:#111827; color:#fff; text-transform:uppercase; font-size:11px; letter-spacing:.05em; padding:11px 9px; }
+  .lr-table td { padding:11px 9px; }
+  .lr-tag { display:block; font-size:11px; margin-top:2px; }
+  .lr-tag.untouched { color:#e11d48; } .lr-tag.touched { color:var(--ok); }
+  .lr-status { font-weight:600; font-size:13px; }
+  .lr-notes { max-width:360px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:13px; }
   .tiles { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
   .tile { display:block; text-decoration:none; color:#fff; border-radius:16px; padding:22px; min-height:190px; }
   .tile h2 { margin:0 0 4px; font-size:22px; } .tile p { margin:0 0 16px; opacity:.85; }
@@ -117,7 +127,8 @@ function renderLogin() {
 
 // ───────── shell ─────────
 function shell(crumb, inner) {
-  return `<header><a class="logo" href="#/">Govianu Hub</a>${crumb}<span class="sp"></span>
+  const navOn = (h) => ((location.hash || '#/') === h || (h === '#/' && location.hash.startsWith('#/leads')) ? 'style="color:#fff;font-weight:600"' : '');
+  return `<header><a class="logo" href="#/">Govianu Hub</a><a class="crumb" href="#/" ${navOn('#/')}>Leads</a><a class="crumb" href="#/team" ${navOn('#/team')}>Team summary</a>${crumb}<span class="sp"></span>
     ${ME.configured.dryRun ? '<span class="pill warn">TEST MODE – nothing sent</span>' : ''}
     <button class="icon" id="bell" title="Notifications">🔔${ME.unread ? `<span class="dot">${ME.unread}</span>` : ''}</button>
     ${isAdmin() ? '<a class="crumb" href="#/settings">Settings</a>' : ''}
@@ -145,7 +156,8 @@ async function route() {
     else if (parts[0] === 'b' && ME.brands[parts[1]]) await brandView(parts[1], parts[2] || 'overview');
     else if (parts[0] === 'settings' && isAdmin()) await settingsView();
     else if (parts[0] === 'me') await meView();
-    else await homeView();
+    else if (parts[0] === 'team') await homeView();
+    else await leadsView();
   } catch (e) { if (ME) toast('⚠ ' + e.message); }
 }
 window.addEventListener('hashchange', route);
@@ -211,7 +223,87 @@ async function homeView() {
   document.querySelectorAll('[data-mode]').forEach((btn) => (btn.onclick = () => { HOME[btn.dataset.b].mode = btn.dataset.mode; homeView(); }));
   document.querySelectorAll('tr[data-emp][data-b]').forEach((tr) => (tr.onclick = () => { HOME[tr.dataset.b] = { emp: tr.dataset.emp, mode: 'feed' }; homeView(); }));
   document.querySelectorAll('tr.click[data-ph]').forEach((tr) => (tr.onclick = () => openLead(tr.dataset.ph)));
-  every(20000, homeView);
+  every(20000, () => { if (location.hash === '#/team') homeView(); });
+}
+
+// ───────── Leads (main page, lead-CRM style) ─────────
+const LS = { brand: '', who: 'all', view: 'active', q: '', created: 'all', size: 25, offset: 0 };
+const STAGE_COLOR = { new: '#b42318', contacted: '#b54708', replied: '#1d4ed8', qualified: '#067647', meeting: '#067647', cta_sent: '#6d28d9', signed: '#067647', lost: '#667085' };
+const STAGE_NAME = { new: 'New', contacted: 'Contacted', replied: 'Replied', qualified: 'Qualified', meeting: 'Meeting', cta_sent: 'CTA sent', signed: 'Signed', lost: 'Lost' };
+function leadsQuery(extra = {}) {
+  const o = { ...LS, ...extra };
+  const qp = new URLSearchParams({ view: o.view, q: o.q, created: o.created, limit: o.size, offset: o.offset });
+  if (o.brand) qp.set('brand', o.brand);
+  if (o.who !== 'all') qp.set('assigned', o.who);
+  return 'leads?' + qp;
+}
+async function leadsView() {
+  const res = await api(leadsQuery());
+  const c = res.counts || {};
+  const tabsWho = [['all', 'All'], ['me', 'My leads'], ['none', 'Unassigned']];
+  const tabsView = [['active', 'Active leads'], ['new', 'New'], ['waiting', 'Waiting for reply'], ['overdue', 'Overdue'], ['contacted', 'Contacted'], ['qualified', 'Qualified'], ['closed', 'Closed']];
+  const brands = [['', 'Both'], ['rentmysite', 'RentMySite'], ['pmb', 'PartnerMyBusiness']];
+  const isEmp = !['all', 'me', 'none'].includes(LS.who);
+  const notes = (l) => {
+    if (l.lastNote) return `<b>Notes</b> – ${esc(l.lastNote.text)} <span class="muted">(${esc(l.lastNote.by)}, ${fmtT(l.lastNote.at)})</span>`;
+    if (l.lastActivity) return `${esc(l.lastActivity.text)} <span class="muted">– ${esc(l.lastActivity.by)}, ${fmtT(l.lastActivity.at)}</span>`;
+    return esc(l.aiSummary || l.remarks || l.sheetStatus || '') || '<span class="muted">–</span>';
+  };
+  const from = res.total ? res.offset + 1 : 0, to = Math.min(res.offset + LS.size, res.total);
+  $('#app').innerHTML = shell('', `
+    <div class="card" style="padding:10px 14px">
+      <div class="row">
+        <div class="lr-tabs">${brands.map(([k, l]) => `<button data-brand="${k}" class="${LS.brand === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+        <span style="flex:1"></span>
+        <div class="lr-tabs">${tabsWho.map(([k, l]) => `<button data-who="${k}" class="${LS.who === k ? 'on' : ''}">${l}</button>`).join('')}
+          <select id="lrEmp" style="width:auto;margin-left:6px"><option value="">Team member…</option>${ME.employees.map((e) => `<option value="${esc(e.id)}" ${LS.who === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></div>
+      </div>
+      <div class="lr-tabs" style="margin-top:8px;border-top:1px solid var(--line);padding-top:8px">${tabsView.map(([k, l]) => `<button data-view="${k}" class="${LS.view === k ? 'on' : ''}">${l}<span class="pill ${k === 'overdue' && c[k] ? 'bad' : ''}">${c[k] ?? 0}</span></button>`).join('')}</div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="row" style="padding:12px 14px">
+        <input id="lrQ" placeholder="Type to search name, phone, email, area… (press Enter)" value="${esc(LS.q)}" style="flex:2">
+        <select id="lrCreated" style="max-width:170px">${[['all', 'Any date'], ['today', 'Added today'], ['7d', 'Added last 7 days'], ['30d', 'Added last 30 days']].map(([v, l]) => `<option value="${v}" ${LS.created === v ? 'selected' : ''}>${l}</option>`).join('')}</select>
+        <select id="lrSize" style="max-width:90px">${[10, 25, 50, 100].map((n2) => `<option ${LS.size === n2 ? 'selected' : ''}>${n2}</option>`).join('')}</select>
+        <button class="btn" id="lrExport" style="background:#0f9d76">Export</button>
+      </div>
+      <div class="tw"><table class="lr-table"><thead><tr><th>Lead name</th><th>Assigned to</th><th>Source</th><th>Status</th><th>Notes / latest activity</th><th>Actions</th></tr></thead><tbody>
+        ${res.rows.map((l) => `<tr>
+          <td><b>${esc(l.name || ph(l.phone))}</b>${l.contactedByName ? `<span class="lr-tag touched">Contacted by ${esc(l.contactedByName)}</span>` : '<span class="lr-tag untouched">(Untouched)</span>'}
+            <span class="small muted">${esc(ph(l.phone))}${LS.brand ? '' : ` · ${esc(ME.brands[l.brand]?.name || '')}`}</span></td>
+          <td>${esc(l.assignedName || '--')}</td>
+          <td><b>${esc(l.origin)}</b><br><span class="small muted">${esc(l.source && l.source.toLowerCase() !== l.origin.toLowerCase() ? l.source : '')}</span></td>
+          <td><span class="lr-status" style="color:${STAGE_COLOR[l.stage] || '#344054'}">${esc(STAGE_NAME[l.stage] || l.stage)}</span>${l.waiting ? '<br><span class="pill bad">waiting</span>' : ''}</td>
+          <td><div class="lr-notes">${notes(l)}</div></td>
+          <td><button class="btn ghost sm" data-open="${esc(l.phone)}" title="History, messages, calls">🕘 Open</button></td></tr>`).join('') || '<tr><td colspan="6" class="muted" style="padding:20px">No leads here.</td></tr>'}
+      </tbody></table></div>
+      <div class="row" style="padding:10px 14px"><span class="small muted" style="flex:1">${from}–${to} of ${res.total}</span>
+        <button class="btn ghost sm" id="lrPrev" ${res.offset ? '' : 'disabled'}>‹ Prev</button><button class="btn ghost sm" id="lrNext" ${to < res.total ? '' : 'disabled'}>Next ›</button></div>
+    </div>`);
+  wireShell();
+  const go = (patch) => { Object.assign(LS, patch); leadsView(); };
+  document.querySelectorAll('[data-brand]').forEach((b) => (b.onclick = () => go({ brand: b.dataset.brand, offset: 0 })));
+  document.querySelectorAll('[data-who]').forEach((b) => (b.onclick = () => go({ who: b.dataset.who, offset: 0 })));
+  document.querySelectorAll('[data-view]').forEach((b) => (b.onclick = () => go({ view: b.dataset.view, offset: 0 })));
+  $('#lrEmp').onchange = (e) => go({ who: e.target.value || 'all', offset: 0 });
+  $('#lrQ').addEventListener('keydown', (e) => { if (e.key === 'Enter') go({ q: e.target.value.trim(), offset: 0 }); });
+  $('#lrCreated').onchange = (e) => go({ created: e.target.value, offset: 0 });
+  $('#lrSize').onchange = (e) => go({ size: Number(e.target.value), offset: 0 });
+  $('#lrPrev').onclick = () => go({ offset: Math.max(0, LS.offset - LS.size) });
+  $('#lrNext').onclick = () => go({ offset: LS.offset + LS.size });
+  document.querySelectorAll('[data-open]').forEach((b) => (b.onclick = () => openLead(b.dataset.open)));
+  $('#lrExport').onclick = async () => {
+    const all = await run(() => api(leadsQuery({ size: 5000, offset: 0 })));
+    if (!all) return;
+    const head = ['Lead name', 'Phone', 'Email', 'Business', 'Assigned to', 'Contacted by', 'Source', 'Source detail', 'Status', 'Waiting', 'Latest note', 'Latest activity', 'Added'];
+    const lines = all.rows.map((l) => [l.name, l.phone, l.email, ME.brands[l.brand]?.name || l.brand, l.assignedName, l.contactedByName, l.origin, l.source, STAGE_NAME[l.stage] || l.stage, l.waiting ? 'yes' : '', l.lastNote?.text || '', l.lastActivity ? `${l.lastActivity.text} (${l.lastActivity.by})` : '', l.createdAt ? new Date(l.createdAt).toISOString().slice(0, 10) : '']);
+    const csv = [head, ...lines].map((r2) => r2.map((v) => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `leads-${LS.brand || 'all'}-${LS.view}.csv`;
+    a.click();
+  };
+  every(30000, () => { if (!location.hash || location.hash === '#/' || location.hash.startsWith('#/leads')) leadsView(); });
 }
 
 // ───────── per-website team report ─────────

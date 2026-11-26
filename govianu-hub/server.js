@@ -118,10 +118,37 @@ r.get('/api/leads', h((req) => {
     const s = String(q).toLowerCase();
     list = list.filter((l) => `${l.name} ${l.phone} ${l.email} ${l.area} ${l.sheetStatus} ${l.remarks}`.toLowerCase().includes(s));
   }
+  if (req.query.created && req.query.created !== 'all') {
+    const from = metrics.rangeStart(req.query.created);
+    list = list.filter((l) => l.createdAt >= from);
+  }
+  // Status tabs (lead-CRM style), counted before the tab itself is applied
+  const late = (db.settings.reminders?.firstAfterMin || 10) * 60000;
+  const isWaiting = (l) => db.pending[l.phone]?.status === 'open';
+  const VIEWS = {
+    active: (l) => !['signed', 'lost'].includes(l.stage),
+    new: (l) => l.stage === 'new' && !l.contactedBy,
+    waiting: isWaiting,
+    overdue: (l) => (isWaiting(l) && Date.now() - db.pending[l.phone].firstAt >= late) || (l.stage === 'new' && !l.contactedBy && Date.now() - l.createdAt >= 86400000),
+    contacted: (l) => ['contacted', 'replied'].includes(l.stage),
+    qualified: (l) => ['qualified', 'meeting', 'cta_sent'].includes(l.stage),
+    closed: (l) => ['signed', 'lost'].includes(l.stage),
+  };
+  const counts = { all: list.length };
+  for (const [k, f] of Object.entries(VIEWS)) counts[k] = list.filter(f).length;
+  if (VIEWS[req.query.view]) list = list.filter(VIEWS[req.query.view]);
   list.sort((a, b) => Math.max(b.lastInboundAt || 0, b.lastOutboundAt || 0, b.createdAt) - Math.max(a.lastInboundAt || 0, a.lastOutboundAt || 0, a.createdAt));
+  const offset = Math.max(0, Number(req.query.offset) || 0);
+  const page = list.slice(offset, offset + Math.min(Number(req.query.limit) || 300, 5000));
+  // latest activity per lead on this page (one pass over the log)
+  const want = new Set(page.map((l) => l.phone));
+  const lastAct = {};
+  for (const a of db.activity) if (a.phone && want.has(a.phone) && (!lastAct[a.phone] || a.at > lastAct[a.phone].at)) lastAct[a.phone] = a;
   return {
     total: list.length,
-    rows: list.slice(0, Number(req.query.limit) || 300).map((l) => ({
+    counts,
+    offset,
+    rows: page.map((l) => ({
       phone: l.phone, name: l.name, email: l.email, area: l.area, brand: l.brand, stage: l.stage, sheetStatus: l.sheetStatus,
       assignedTo: l.assignedTo, assignedName: employee(l.assignedTo)?.name || '', campaign: l.campaign?.state || 'none',
       lastInboundAt: l.lastInboundAt, lastOutboundAt: l.lastOutboundAt, aiSummary: l.aiSummary || '', waiting: db.pending[l.phone]?.status === 'open',
@@ -129,6 +156,9 @@ r.get('/api/leads', h((req) => {
       origin: metrics.origin(l), source: l.source || '',
       contactedBy: l.contactedBy || null, contactedByName: employee(l.contactedBy)?.name || '', contactedAt: l.contactedAt || null, contactedHow: l.contactedHow || '',
       lastContactBy: l.lastContactBy || null, lastContactByName: employee(l.lastContactBy)?.name || '', lastContactAt: l.lastContactAt || null, lastContactHow: l.lastContactHow || '',
+      createdAt: l.createdAt, remarks: l.remarks || '',
+      lastNote: l.notes?.length ? { text: l.notes[l.notes.length - 1].text, by: nameOf(l.notes[l.notes.length - 1].by), at: l.notes[l.notes.length - 1].at } : null,
+      lastActivity: lastAct[l.phone] ? { text: lastAct[l.phone].text, by: nameOf(lastAct[l.phone].employeeId) || 'System', at: lastAct[l.phone].at } : null,
     })),
   };
 }));
