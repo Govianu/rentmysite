@@ -97,4 +97,110 @@ function employeeTimeline(employeeId, limit = 200) {
     .slice(0, limit);
 }
 
-module.exports = { overview, team, employeeTimeline, rangeStart };
+// Where a lead first came from
+function origin(lead) {
+  const s = String(lead.source || '').toLowerCase();
+  if (s.startsWith('site')) return 'Website';
+  if (s === 'whatsapp') return 'WhatsApp';
+  if (s === 'call') return 'Call';
+  if (s === 'email') return 'Email';
+  return 'Sheet / ads';
+}
+const ORIGINS = ['Website', 'WhatsApp', 'Call', 'Email', 'Sheet / ads'];
+
+// Both websites together: every lead, where they came from, and today's (or the period's) activity
+function overviewAll(range = 'today') {
+  const from = rangeStart(range);
+  const leads = Object.values(db.leads);
+  const count = (list, key) => list.reduce((m, x) => ((m[key(x)] = (m[key(x)] || 0) + 1), m), {});
+  const msgs = db.messages.filter((m) => !m.internal && m.at >= from);
+  const calls = Object.values(db.calls).filter((c) => (c.startedAt || c.createdAt) >= from);
+  const fresh = leads.filter((l) => l.createdAt >= from);
+  return {
+    origins: ORIGINS,
+    total: leads.length,
+    byBrand: count(leads, (l) => l.brand),
+    byOrigin: count(leads, origin),
+    newInPeriod: fresh.length,
+    newByOrigin: count(fresh, origin),
+    byStage: count(leads, (l) => l.stage),
+    notContacted: leads.filter((l) => !l.contactedBy && l.stage === 'new').length,
+    waIn: msgs.filter((m) => m.dir === 'in').length,
+    waOut: msgs.filter((m) => m.dir === 'out' && m.channel !== 'email').length,
+    aiReplies: msgs.filter((m) => m.by === 'ai').length,
+    emails: msgs.filter((m) => m.channel === 'email').length,
+    calls: calls.length,
+    callsConnected: calls.filter((c) => c.status === 'bridged').length,
+    callsMissed: calls.filter((c) => c.status && c.status !== 'bridged').length,
+    waitingNow: Object.values(db.pending).filter((p) => p.status === 'open').length,
+  };
+}
+
+// Per-employee report for one website (lead-CRM style): leads by stage, calls attended / missed,
+// WhatsApp messages attended / missed, response time, results.
+function report(brand, range = 'today') {
+  const from = rangeStart(range);
+  const late = (db.settings.reminders?.firstAfterMin || 10) * 60000;
+  const leads = Object.values(db.leads).filter(inBrand(brand));
+  const calls = Object.values(db.calls).filter((c) => (c.startedAt || c.createdAt) >= from && inBrand(brand)(c));
+  const msgs = db.messages.filter((m) => !m.internal && m.dir === 'out' && m.at >= from && inBrand(brand)(m));
+  const episodes = (db.pendingLog || []).filter((p) => p.firstAt >= from && inBrand(brand)(p) && p.kind === 'message');
+  const openNow = Object.values(db.pending).filter((p) => p.status === 'open' && inBrand(brand)(p));
+  const acts = db.activity.filter((a) => inBrand(brand)(a));
+
+  const rows = db.employees
+    .filter((e) => e.active !== false && (!brand || (e.brands || []).includes(brand)))
+    .map((e) => {
+      const mine = leads.filter((l) => l.assignedTo === e.id);
+      const stages = {};
+      for (const l of mine) stages[l.stage] = (stages[l.stage] || 0) + 1;
+      const answered = calls.filter((c) => c.employeeId === e.id && c.status === 'bridged');
+      const missedCalls = calls.filter((c) => (c.missedByIds || []).includes(e.id) || (!c.missedByIds && (c.missedBy || []).includes(e.name)));
+      const attended = episodes.filter((p) => p.resolvedBy === e.id);
+      const missedMsgs = episodes.filter((p) => p.assignedTo === e.id && (p.resolvedBy !== e.id || p.escalated)).length
+        + openNow.filter((p) => p.kind === 'message' && (db.leads[p.phone]?.assignedTo || p.assignedTo) === e.id && Date.now() - p.firstAt >= late).length;
+      const last = acts.filter((a) => a.employeeId === e.id).reduce((m, a) => Math.max(m, a.at), 0);
+      return {
+        id: e.id,
+        name: e.name,
+        email: e.email,
+        linked: Boolean(e.myopUserId),
+        totalLeads: mine.length,
+        newLeads: mine.filter((l) => l.createdAt >= from).length,
+        notContacted: mine.filter((l) => !l.contactedBy && l.stage === 'new').length,
+        contactedFirst: leads.filter((l) => l.contactedBy === e.id && (l.contactedAt || 0) >= from).length,
+        stages,
+        callsAttended: answered.length,
+        callsMissed: missedCalls.length,
+        callsOut: calls.filter((c) => c.employeeId === e.id && c.direction === 'outgoing').length,
+        talkSec: calls.filter((c) => c.employeeId === e.id).reduce((s, c) => s + (Number(c.talk) || 0), 0),
+        msgsAttended: attended.length,
+        msgsMissed: missedMsgs,
+        waSent: msgs.filter((m) => m.by === e.id && m.channel !== 'email').length,
+        emailsSent: msgs.filter((m) => m.by === e.id && m.channel === 'email').length,
+        avgReplyMin: attended.length ? Math.round(attended.reduce((s, p) => s + (p.resolvedAt - p.firstAt), 0) / attended.length / 60000) : null,
+        waitingNow: openNow.filter((p) => (db.leads[p.phone]?.assignedTo || p.assignedTo) === e.id).length,
+        lastActivityAt: last || null,
+      };
+    });
+
+  const sum = (k) => rows.reduce((s, r) => s + (Number(r[k]) || 0), 0);
+  const totals = Object.fromEntries(['totalLeads', 'newLeads', 'notContacted', 'contactedFirst', 'callsAttended', 'callsMissed', 'callsOut', 'talkSec', 'msgsAttended', 'msgsMissed', 'waSent', 'emailsSent', 'waitingNow'].map((k) => [k, sum(k)]));
+  totals.stages = {};
+  for (const l of leads) totals.stages[l.stage] = (totals.stages[l.stage] || 0) + 1;
+  totals.unassigned = leads.filter((l) => !l.assignedTo).length;
+  totals.allLeads = leads.length;
+  totals.callsNotAnsweredByAnyone = calls.filter((c) => c.status && c.status !== 'bridged').length;
+  totals.aiReplies = db.messages.filter((m) => m.by === 'ai' && m.at >= from && inBrand(brand)(m)).length;
+  return { rows, totals };
+}
+
+// Every lead activity, newest first
+function activityFeed(brand, limit = 100, employeeId = null) {
+  return db.activity
+    .filter((a) => inBrand(brand)(a) && (!employeeId || a.employeeId === employeeId))
+    .sort((a, b) => b.at - a.at)
+    .slice(0, limit);
+}
+
+module.exports = { overview, team, employeeTimeline, rangeStart, overviewAll, report, activityFeed, origin };

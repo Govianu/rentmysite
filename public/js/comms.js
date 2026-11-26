@@ -17,7 +17,8 @@
     try { const r = await fn(); if (ok) toast(typeof ok === 'function' ? ok(r) : ok); return r; } catch (e) { toast(e.message, true); return undefined; }
   }
 
-  const SUBS = [['overview', 'Overview'], ['inbox', 'Waiting for reply'], ['leads', 'Leads'], ['calls', 'Calls'], ['team', 'Team'], ['campaign', 'Campaign']];
+  // Per-employee numbers live in the Govianu Hub report (hub.govianu.com), so there is no Team tab here
+  const SUBS = [['overview', 'Overview'], ['inbox', 'Waiting for reply'], ['leads', 'Leads'], ['calls', 'Calls'], ['campaign', 'Campaign']];
 
   window.loadComms = async function () {
     const el = root();
@@ -152,7 +153,7 @@
         <td>${c.direction === 'outgoing' ? '↗ outgoing' : '↙ incoming'}</td>
         <td>${pill(c.status === 'bridged' ? 'connected' : c.status || 'ringing')}${c.missedBy.length ? `<div class="meta">rang: ${esc(c.missedBy.join(', '))}</div>` : ''}</td>
         <td>${secs(c.talk)}</td><td>${esc(c.employeeName || '—')}</td>
-        <td>${c.hasRecording ? `<a class="btn ghost small" href="/api/hub/calls/${encodeURIComponent(c.id)}/recording" target="_blank" rel="noopener">▶ Play</a>` : ''}</td></tr>`).join('') || '<tr><td colspan="7" class="empty"><strong>No calls in this period</strong>Calls appear once MyOperator sends them to the Hub.</td></tr>'}
+        <td>${c.hasRecording ? `<a class="btn ghost small" href="https://in.app.myoperator.com/logs" target="_blank" rel="noopener">▶ Play in MyOperator</a>` : ''}</td></tr>`).join('') || '<tr><td colspan="7" class="empty"><strong>No calls in this period</strong>Calls appear once MyOperator sends them to the Hub.</td></tr>'}
       </tbody></table></div>`;
     wireRange();
     document.getElementById('cEmp')?.addEventListener('change', (e) => { S.callEmp = e.target.value; window.loadComms(); });
@@ -262,7 +263,7 @@
       })),
       ...d.calls.map((c) => ({
         at: c.startedAt || c.createdAt,
-        html: `<div class="comms-msg call">📞 ${c.direction === 'outgoing' ? 'Outgoing' : 'Incoming'} call · <strong>${esc(c.status === 'bridged' ? 'connected' : c.status || '')}</strong> · ${secs(c.talk)} · ${esc(c.employeeName || 'no one answered')}${c.recording_filename ? ` · <a href="/api/hub/calls/${encodeURIComponent(c.id)}/recording" target="_blank" rel="noopener">▶ recording</a>` : ''}<div class="meta">${when(c.startedAt || c.createdAt)}</div></div>`,
+        html: `<div class="comms-msg call">📞 ${c.direction === 'outgoing' ? 'Outgoing' : 'Incoming'} call · <strong>${esc(c.status === 'bridged' ? 'connected' : c.status || '')}</strong> · ${secs(c.talk)} · ${esc(c.employeeName || 'no one answered')}${c.recording_filename ? ` · <a href="https://in.app.myoperator.com/logs" target="_blank" rel="noopener">▶ recording</a>` : ''}<div class="meta">${when(c.startedAt || c.createdAt)}</div></div>`,
       })),
     ].sort((a, b) => a.at - b.at);
     document.querySelector('.comms-drawer')?.remove();

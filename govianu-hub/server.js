@@ -89,6 +89,18 @@ r.get('/api/me', h((req) => ({
 
 r.get('/api/overview', h((req) => metrics.overview(brandOf(req), req.query.range)));
 
+// Hub home: both websites together
+r.get('/api/overview-all', h((req) => metrics.overviewAll(req.query.range)));
+// Per-employee report for one website. Team members see their own row; admins see everyone.
+r.get('/api/report', h((req) => {
+  const rep = metrics.report(brandOf(req), req.query.range);
+  if (!req.isAdmin) rep.rows = rep.rows.filter((x) => x.id === req.user.id);
+  return rep;
+}));
+// Every lead activity, newest first (admins: everyone's; team members: their own)
+r.get('/api/activity', h((req) => metrics.activityFeed(brandOf(req), Math.min(Number(req.query.limit) || 100, 500), req.isAdmin ? req.query.employee || null : req.user.id)
+  .map((a) => ({ ...a, byName: nameOf(a.employeeId) || 'System', leadName: db.leads[a.phone]?.name || '', brandName: BRANDS[a.brand]?.name || '' }))));
+
 // ───── leads ─────
 r.get('/api/leads', h((req) => {
   const brand = brandOf(req);
@@ -114,6 +126,7 @@ r.get('/api/leads', h((req) => {
       assignedTo: l.assignedTo, assignedName: employee(l.assignedTo)?.name || '', campaign: l.campaign?.state || 'none',
       lastInboundAt: l.lastInboundAt, lastOutboundAt: l.lastOutboundAt, aiSummary: l.aiSummary || '', waiting: db.pending[l.phone]?.status === 'open',
       skip: l.campaign?.state === 'none' ? leadsLib.skipReason(l) : null,
+      origin: metrics.origin(l), source: l.source || '',
       contactedBy: l.contactedBy || null, contactedByName: employee(l.contactedBy)?.name || '', contactedAt: l.contactedAt || null, contactedHow: l.contactedHow || '',
       lastContactBy: l.lastContactBy || null, lastContactByName: employee(l.lastContactBy)?.name || '', lastContactAt: l.lastContactAt || null, lastContactHow: l.lastContactHow || '',
     })),
@@ -193,10 +206,17 @@ r.get('/api/calls', h((req) => {
     .slice(0, 500)
     .map((c) => ({ id: c.id, phone: c.phone, name: db.leads[c.phone]?.name || '', direction: c.direction, status: c.status, duration: c.duration, talk: c.talk, startedAt: c.startedAt || c.createdAt, employeeId: c.employeeId, employeeName: employee(c.employeeId)?.name || c.agentName || '', missedBy: c.missedBy || [], hasRecording: Boolean(c.recording_filename), brand: c.brand }));
 }));
+// ▶ Play: MyOperator's link to this call's recording, or MyOperator's call logs when that isn't available
+const MYOP_LOGS = 'https://in.app.myoperator.com/logs';
 r.get('/api/calls/:id/recording', h(async (req, res) => {
   const c = db.calls[req.params.id];
-  if (!c?.recording_filename) throw Object.assign(new Error('No recording for this call'), { status: 404 });
-  res.redirect(await myop.recordingLink(c.recording_filename));
+  if (!c?.recording_filename || !myop.callingConfigured()) return res.redirect(MYOP_LOGS);
+  try {
+    res.redirect(await myop.recordingLink(c.recording_filename));
+  } catch (e) {
+    console.warn('[recording]', e.message);
+    res.redirect(MYOP_LOGS);
+  }
 }));
 
 // ───── team ─────

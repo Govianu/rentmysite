@@ -97,6 +97,10 @@ function resolvePending(phone, byId, how) {
   p.resolvedAt = now();
   p.resolvedBy = byId || null;
   p.how = how;
+  p.assignedTo = db.leads[phone]?.assignedTo || p.assignedTo;
+  db.pendingLog ||= [];
+  db.pendingLog.push({ phone, brand: p.brand, assignedTo: p.assignedTo, kind: p.kind, firstAt: p.firstAt, resolvedAt: p.resolvedAt, resolvedBy: p.resolvedBy, how, escalated: p.escalated, remindersSent: p.remindersSent });
+  if (db.pendingLog.length > 50000) db.pendingLog.splice(0, db.pendingLog.length - 50000);
   clearTimeout(aiTimers.get(phone));
   if (byId) logActivity(byId, 'replied', db.leads[phone], `Responded (${how}) after ${Math.round((p.resolvedAt - p.firstAt) / MIN)} min`, { responseMs: p.resolvedAt - p.firstAt });
   save();
@@ -143,7 +147,7 @@ async function handleWhatsApp(ev) {
       if (isStaff) return; // staff replying to an alert
       const text = textOf(p.data);
       const at = Date.parse(p.created || ev.timestamp) || now();
-      const { lead } = upsertLead(phone, { name: conv.customer_name });
+      const { lead } = upsertLead(phone, { name: conv.customer_name, source: db.leads[phone] ? undefined : 'WhatsApp' });
       autoAssign(lead);
       lead.lastInboundAt = at;
       lead.waWindowUntil = Date.parse(conv.expire_at) || at + 24 * 60 * MIN;
@@ -172,7 +176,7 @@ async function handleWhatsApp(ev) {
       const emp = p.source === 'lc' ? byMyopUser(p.message_by) : null;
       if (p.source === 'lc' && !emp) trackUnmapped(p.message_by);
       const by = emp ? emp.id : p.source === 'cmp' ? 'myop-campaign' : p.source === 'lc' ? `myop:${p.message_by || '?'}` : 'api';
-      const { lead } = upsertLead(phone, { name: conv.customer_name });
+      const { lead } = upsertLead(phone, { name: conv.customer_name, source: db.leads[phone] ? undefined : 'WhatsApp' });
       autoAssign(lead);
       const text = textOf(p.data);
       db.messages.push({ id: uid(), myopId: p.id, phone, brand: lead.brand, dir: 'out', by, via: 'myoperator', text, at: Date.parse(p.created || ev.timestamp) || now(), status: 'sent' });
@@ -294,8 +298,9 @@ async function finalizeCall(c) {
   c.agentName = answered?.agent?.name || '';
   c.talk = answered?.talk || (c.status === 'bridged' ? c.duration : 0) || 0;
   c.missedBy = agents.filter((l) => l.result !== 'answered').map((l) => l.agent?.name).filter(Boolean);
+  c.missedByIds = [...new Set(agents.filter((l) => l.result !== 'answered' && l !== answered).map((l) => agentToEmployee(l.agent)?.id).filter(Boolean))];
 
-  const { lead } = upsertLead(c.phone, {});
+  const { lead } = upsertLead(c.phone, { source: db.leads[c.phone] ? undefined : 'Call' });
   autoAssign(lead);
   c.brand = lead.brand;
   const connected = c.status === 'bridged';
@@ -502,8 +507,26 @@ function backfillContacts() {
   }
 }
 
+function syncSites() {
+  const { syncFromSite } = require('./leads');
+  for (const brand of ['rentmysite', 'pmb']) {
+    try {
+      const r = syncFromSite(brand);
+      if (r.added) console.log(`[hub] ${r.added} new website leads from ${brand}`);
+    } catch (e) {
+      // data file not configured or not readable: skip quietly, it is logged once at start
+      if (!syncSites.warned?.[brand]) {
+        syncSites.warned = { ...(syncSites.warned || {}), [brand]: true };
+        console.warn(`[hub] website sync ${brand}: ${e.message}`);
+      }
+    }
+  }
+}
+
 function startEngine() {
   backfillContacts();
+  syncSites();
+  setInterval(syncSites, 5 * 60_000);
   setInterval(() => campaignTick().catch((e) => console.error('[campaign]', e.message)), 1000);
   setInterval(() => reminderTick().catch((e) => console.error('[reminders]', e.message)), 60_000);
 }

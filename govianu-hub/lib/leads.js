@@ -59,7 +59,7 @@ function upsertLead(phone, fields = {}, { brand } = {}) {
   }
   for (const [k, v] of Object.entries(fields)) {
     if (v === undefined || v === null || v === '') continue;
-    if (k === 'email' || k === 'name' || k === 'area') {
+    if (k === 'email' || k === 'name' || k === 'area' || k === 'source') {
       if (!lead[k]) lead[k] = v; // never overwrite what the team already has
     } else lead[k] = v;
   }

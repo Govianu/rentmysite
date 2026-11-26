@@ -139,7 +139,8 @@ async function route() {
   clearInterval(timer);
   const parts = location.hash.replace(/^#\/?/, '').split('/');
   try {
-    if (parts[0] === 'b' && ME.brands[parts[1]]) await brandView(parts[1], parts[2] || 'overview');
+    if (parts[0] === 'report' && ME.brands[parts[1]]) await reportView(parts[1]);
+    else if (parts[0] === 'b' && ME.brands[parts[1]]) await brandView(parts[1], parts[2] || 'overview');
     else if (parts[0] === 'settings' && isAdmin()) await settingsView();
     else if (parts[0] === 'me') await meView();
     else await homeView();
@@ -154,22 +155,105 @@ async function refreshMe() {
 }
 function every(ms, fn) { clearInterval(timer); timer = setInterval(async () => { if (document.hidden || $('#drawer').style.display === 'block') return; try { await refreshMe(); await fn(); } catch {} }, ms); }
 
-// ───────── home ─────────
+// ───────── home: both websites together ─────────
+const ACT_ICON = { contacted: '🤝', call_out: '📞↗', call_in: '📞↙', wa_sent: '💬', replied: '✅', stage: '🏷️', note: '📝', assigned: '👤', email_sent: '✉️', test_send: '🧪' };
+function feedTable(rows) {
+  if (!rows.length) return '<p class="muted">No activity yet.</p>';
+  return `<div class="tw"><table><tbody>${rows.map((a) => `<tr class="${a.phone ? 'click' : ''}" ${a.phone ? `data-ph="${esc(a.phone)}"` : ''}>
+    <td class="small" style="white-space:nowrap">${fmtT(a.at)}</td><td>${ACT_ICON[a.type] || '•'}</td><td><b>${esc(a.byName)}</b></td>
+    <td>${esc(a.text)}</td><td class="small muted">${esc(a.leadName || ph(a.phone))}</td><td>${a.brandName ? `<span class="pill">${esc(a.brandName)}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>`;
+}
 async function homeView() {
-  const [rms, pmb, mine] = await Promise.all([api('overview?brand=rentmysite&range=today'), api('overview?brand=pmb&range=today'), api('inbox?mine=1')]);
-  const tile = (key, o) => `<a class="tile" href="${esc(ME.brands[key].site)}#comms" style="background:${brandColor(key)}">
-      <h2>${esc(ME.brands[key].name)}</h2><p>Open team dashboard ↗ · today</p>
-      <div class="nums"><div><b>${o.leads}</b><span>leads</span></div><div><b>${o.openNow}</b><span>waiting</span></div><div><b>${o.inbound}</b><span>WhatsApp in</span></div><div><b>${o.calls}</b><span>calls</span></div></div></a>`;
+  const [all, rms, pmb, feed, mine] = await Promise.all([
+    api('overview-all?range=' + range), api('overview?brand=rentmysite&range=' + range), api('overview?brand=pmb&range=' + range),
+    api('activity?limit=60'), api('inbox?mine=1'),
+  ]);
+  const st = (n, l) => `<div class="card" style="margin:0"><div class="stat">${n ?? 0}<small>${l}</small></div></div>`;
+  const site = (key, o) => `<div class="tile" style="background:${brandColor(key)}">
+      <h2>${esc(ME.brands[key].name)}</h2><p>${o.leads} leads · ${o.openNow} waiting · ${o.calls} calls · ${o.inbound} WhatsApp in</p>
+      <div class="row"><a class="btn" style="background:#fff;color:${brandColor(key)}" href="${esc(ME.brands[key].site)}#comms" target="_blank" rel="noopener">Open team dashboard ↗</a>
+      <a class="btn" style="background:rgba(255,255,255,.18)" href="#/report/${key}">Team report →</a></div></div>`;
+  const total = all.total || 1;
   const c = ME.configured;
   const setup = isAdmin() ? `<div class="card"><h2>Setup status</h2><div class="row">
-      ${chk(c.myop, 'MyOperator WhatsApp API connected')}${chk(c.webhookToken, 'Webhook secret set')}${chk(c.waNumberId, 'WhatsApp number id known (learned from first webhook)')}
-      ${chk(c.calling, 'Calling API token (recordings)')}${chk(c.ai, 'AI replies (Claude key)')}${chk(c.email, 'Email (SMTP)')}</div></div>` : '';
-  $('#app').innerHTML = shell('', `${setup}<div class="tiles">${tile('rentmysite', rms)}${tile('pmb', pmb)}</div>
-    <div class="card" style="margin-top:18px"><h2>Customers waiting for you (${mine.length})</h2>${inboxTable(mine)}</div>
+      ${chk(c.myop, 'MyOperator connected')}${chk(c.webhookToken, 'Webhook secret set')}${chk(c.waNumberId, 'WhatsApp number confirmed')}
+      ${chk(c.calling, 'Calling API token')}${chk(c.ai, 'AI replies')}${chk(c.email, 'Email (SMTP)')}</div></div>` : '';
+  $('#app').innerHTML = shell('', `${setup}
+    <div class="row" style="margin-bottom:12px"><h1 style="margin:0;font-size:22px;flex:1">All leads – both websites</h1>${rangeSel()}</div>
+    <div class="grid">${st(all.total, 'leads in total')}${st(all.newInPeriod, 'new in this period')}${st(all.notContacted, 'not contacted yet')}${st(all.waitingNow, 'waiting for a reply now')}</div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h2>Where leads come from</h2>${all.origins.map((o) => `<div style="margin:6px 0"><div class="row small"><span style="flex:1">${esc(o)}</span><b>${all.byOrigin[o] || 0}</b><span class="muted">${all.newByOrigin[o] ? `+${all.newByOrigin[o]} new` : ''}</span></div><div class="bar"><i style="width:${Math.round(((all.byOrigin[o] || 0) / total) * 100)}%"></i></div></div>`).join('')}
+        <p class="small muted" style="margin-top:10px">${Object.entries(ME.brands).map(([k, b]) => `${esc(b.name)}: <b>${all.byBrand[k] || 0}</b>`).join(' · ')}</p></div>
+      <div class="card"><h2>Pipeline</h2>${ME.stages.map((s2) => `<div style="margin:6px 0"><div class="row small"><span style="flex:1">${s2}</span><b>${all.byStage[s2] || 0}</b></div><div class="bar"><i style="width:${Math.round(((all.byStage[s2] || 0) / total) * 100)}%"></i></div></div>`).join('')}</div></div>
+    <div class="grid" style="margin-bottom:16px">${st(all.waIn, 'WhatsApp received')}${st(all.waOut, 'WhatsApp sent')}${st(all.aiReplies, 'answered by AI')}${st(all.emails, 'emails sent')}${st(all.calls, 'calls')}${st(all.callsConnected, 'calls connected')}${st(all.callsMissed, 'calls missed')}</div>
+    <div class="tiles">${site('rentmysite', rms)}${site('pmb', pmb)}</div>
+    <div class="card" style="margin-top:18px"><h2>Live activity – every lead, every team member</h2>${feedTable(feed)}</div>
+    <div class="card"><h2>Customers waiting for you (${mine.length})</h2>${inboxTable(mine)}</div>
     ${'Notification' in window && Notification.permission === 'default' ? '<button class="btn ghost" id="perm">Turn on desktop notifications</button>' : ''}`);
   wireShell(); wireInbox();
+  $('#range').onchange = (e) => { range = e.target.value; homeView(); };
   if ($('#perm')) $('#perm').onclick = () => Notification.requestPermission().then(route);
-  every(15000, homeView);
+  every(20000, homeView);
+}
+
+// ───────── per-website team report ─────────
+async function reportView(brand) {
+  const B = ME.brands[brand];
+  const r = await api(`report?brand=${brand}&range=${range}`);
+  const t = r.totals;
+  const st = (n, l, cls = '') => `<div class="card" style="margin:0"><div class="stat ${cls}">${n ?? 0}<small>${l}</small></div></div>`;
+  const pill = (v, cls) => (v ? `<span class="pill ${cls}">${v}</span>` : '0');
+  const cols = [
+    ['totalLeads', 'Total leads'], ['newLeads', 'New'], ['notContacted', 'Not contacted'], ['contactedFirst', 'Contacted first'],
+    ['callsAttended', 'Calls attended'], ['callsMissed', 'Calls missed'], ['callsOut', 'Calls made'], ['talkSec', 'Talk time'],
+    ['msgsAttended', 'Messages attended'], ['msgsMissed', 'Messages missed'], ['waSent', 'WhatsApp sent'], ['emailsSent', 'Emails'],
+    ['avgReplyMin', 'Avg reply'], ['waitingNow', 'Waiting now'], ['lastActivityAt', 'Last activity'],
+  ];
+  const cell = (row, k) => {
+    const v = row[k];
+    if (k === 'talkSec') return secs(v);
+    if (k === 'avgReplyMin') return v == null ? '—' : `${v} min`;
+    if (k === 'lastActivityAt') return v ? `<span class="small">${fmtT(v)}</span>` : '—';
+    if (k === 'callsMissed' || k === 'msgsMissed' || k === 'waitingNow') return pill(v, 'bad');
+    if (k === 'notContacted') return pill(v, 'warn');
+    return v ?? 0;
+  };
+  const stages = ME.stages;
+  window._reportCsv = () => {
+    const head = ['Employee', 'Email', ...cols.map((c) => c[1]), ...stages.map((x) => `Stage: ${x}`)];
+    const lines = r.rows.map((row) => [row.name, row.email, ...cols.map(([k]) => (k === 'lastActivityAt' ? (row[k] ? new Date(row[k]).toISOString() : '') : row[k] ?? '')), ...stages.map((x) => row.stages[x] || 0)]);
+    const csv = [head, ...lines].map((l) => l.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `${brand}-team-report-${range}.csv`;
+    a.click();
+  };
+  $('#app').innerHTML = shell(`<span class="muted">›</span><a class="crumb" href="#/report/${brand}">${esc(B.name)} team report</a>`, `
+    <div class="row" style="margin-bottom:12px"><h1 style="margin:0;font-size:22px;color:${brandColor(brand)};flex:1">${esc(B.name)} – team report</h1>
+      ${rangeSel()}<button class="btn ghost" id="csvBtn">Download CSV</button><a class="btn ghost" href="${esc(B.site)}#comms" target="_blank" rel="noopener">Open team dashboard ↗</a></div>
+    ${isAdmin() ? '' : '<p class="small muted">You see your own numbers. Admins see every team member.</p>'}
+    <div class="grid" style="margin-bottom:16px">${st(t.allLeads, 'leads')}${st(t.unassigned, 'not assigned')}${st(t.notContacted, 'not contacted yet')}${st(t.callsAttended, 'calls attended')}${st(t.callsNotAnsweredByAnyone, 'calls nobody answered')}${st(t.msgsAttended, 'messages attended')}${st(t.msgsMissed, 'messages missed')}${st(t.aiReplies, 'answered by AI')}${st(t.waitingNow, 'waiting now')}</div>
+    <div class="card"><h2>Activity by team member</h2><div class="tw"><table><thead><tr><th>Team member</th>${cols.map((c) => `<th>${c[1]}</th>`).join('')}</tr></thead><tbody>
+      ${r.rows.map((row) => `<tr class="click" data-emp="${esc(row.id)}"><td><b>${esc(row.name)}</b>${row.linked ? '' : ' <span class="pill warn" title="Not linked to a MyOperator user: calls cannot be credited">not linked</span>'}<br><span class="small muted">${esc(row.email)}</span></td>${cols.map(([k]) => `<td>${cell(row, k)}</td>`).join('')}</tr>`).join('') || `<tr><td colspan="${cols.length + 1}" class="muted">No team members yet.</td></tr>`}
+      ${isAdmin() && r.rows.length > 1 ? `<tr><td><b>Total</b></td>${cols.map(([k]) => `<td><b>${k === 'talkSec' ? secs(t[k]) : k in t ? t[k] : ''}</b></td>`).join('')}</tr>` : ''}
+    </tbody></table></div>
+    <p class="small muted">Calls attended = answered by them. Calls missed = MyOperator rang them and they didn't pick up. Messages attended = customer WhatsApps they replied to. Messages missed = WhatsApps on their leads that someone else or nobody answered, or that waited past the reminder time. Click a name for their full activity.</p></div>
+    <div class="card"><h2>Leads by status</h2><div class="tw"><table><thead><tr><th>Team member</th>${stages.map((x) => `<th>${esc(x)}</th>`).join('')}<th>Total</th></tr></thead><tbody>
+      ${r.rows.map((row) => `<tr><td><b>${esc(row.name)}</b></td>${stages.map((x) => `<td>${row.stages[x] || 0}</td>`).join('')}<td><b>${row.totalLeads}</b></td></tr>`).join('')}
+      ${isAdmin() ? `<tr><td><b>All leads</b></td>${stages.map((x) => `<td><b>${t.stages[x] || 0}</b></td>`).join('')}<td><b>${t.allLeads}</b></td></tr>` : ''}
+    </tbody></table></div></div>
+    <div class="card" id="tl" hidden></div>`);
+  wireShell();
+  $('#range').onchange = (e) => { range = e.target.value; reportView(brand); };
+  $('#csvBtn').onclick = () => window._reportCsv();
+  document.querySelectorAll('[data-emp]').forEach((tr) => (tr.onclick = async () => {
+    const rows = await api(`activity?brand=${brand}&employee=${encodeURIComponent(tr.dataset.emp)}&limit=200`);
+    const box = $('#tl'); box.hidden = false;
+    box.innerHTML = `<h2>${esc(empName(tr.dataset.emp))} – everything they did</h2>${feedTable(rows)}`;
+    box.querySelectorAll('[data-ph]').forEach((x) => (x.onclick = () => openLead(x.dataset.ph)));
+    box.scrollIntoView({ behavior: 'smooth' });
+  }));
+  every(30000, () => reportView(brand));
 }
 const chk = (ok, t) => `<span class="pill ${ok ? 'ok' : 'bad'}">${ok ? '✓' : '✗'} ${esc(t)}</span>`;
 
