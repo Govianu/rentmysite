@@ -262,8 +262,53 @@ function agentToEmployee(agent) {
     emp = db.employees.find((e) => normPhone(e.phone) === p) || null;
     if (emp && agent.uuid && !emp.myopUserId) linkMyopUser(emp, agent.uuid);
   }
+  // Not known yet: add the MyOperator agent as a team member (name, email and phone from MyOperator), so their
+  // calls are credited, the lead is assigned to them and alerts reach their phone. Their own sign-in joins this
+  // record later (same email, or same first name – see lib/auth.js).
+  if (!emp && agent.uuid && agent.name) {
+    emp = {
+      id: uid(),
+      email: String(agent.email || `myop-${agent.uuid}@myoperator.local`).toLowerCase(),
+      name: String(agent.name).trim(),
+      role: 'employee',
+      phone: normPhone(agent.contact) || '',
+      myopUserId: agent.uuid,
+      brands: ['rentmysite', 'pmb'],
+      active: true,
+      source: 'myoperator',
+      createdAt: now(),
+    };
+    db.employees.push(emp);
+    delete db.unmappedAgents[agent.uuid];
+    console.log(`[hub] added MyOperator agent ${emp.name} as a team member`);
+  }
+  if (emp && !emp.phone && agent.contact) emp.phone = normPhone(agent.contact) || '';
   if (!emp) trackUnmapped(agent.uuid, { name: agent.name, email: agent.email });
   return emp;
+}
+
+// Calls that came in before their agent was known: credit them now and assign the lead (first contact)
+function backfillAgents() {
+  let n = 0;
+  for (const c of Object.values(db.calls)) {
+    if (c.employeeId || !c.legs) continue;
+    const agents = c.legs.filter((l) => l.type === 'agent');
+    const answered = agents.find((l) => l.result === 'answered') || (c.direction === 'outgoing' ? agents[0] : null);
+    const emp = answered?.agent ? agentToEmployee(answered.agent) : null;
+    if (!emp) continue;
+    c.employeeId = emp.id;
+    for (const a of db.activity) if (a.callId === c.id && !a.employeeId) a.employeeId = emp.id;
+    const lead = db.leads[c.phone];
+    if (lead && (c.direction === 'outgoing' || c.status === 'bridged')) markContact(lead, emp.id, c.direction === 'outgoing' ? 'call' : 'answered call', c.startedAt || c.createdAt);
+    n++;
+  }
+  for (const c of Object.values(db.calls)) {
+    if (!c.legs || c.missedByIds?.length) continue;
+    const ids = c.legs.filter((l) => l.type === 'agent' && l.result !== 'answered' && l.agent).map((l) => agentToEmployee(l.agent)?.id).filter((x) => x && x !== c.employeeId);
+    if (ids.length) c.missedByIds = [...new Set(ids)];
+  }
+  if (n) console.log(`[hub] credited ${n} earlier calls to their agents`);
+  save();
 }
 
 const finalizeTimers = new Map();
@@ -563,6 +608,7 @@ function unassignAutoAssigned() {
 }
 
 function startEngine() {
+  backfillAgents();
   backfillContacts();
   unassignAutoAssigned();
   syncSites();

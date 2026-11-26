@@ -49,7 +49,7 @@ function verifyCode(rawEmail, code) {
     throw Object.assign(new Error('Wrong code'), { status: 400 });
   }
   delete db.otps[email];
-  let emp = db.employees.find((e) => e.email === email);
+  let emp = db.employees.find((e) => e.email === email) || adoptAgent(email);
   const isFirst = db.employees.length === 0;
   if (!emp) {
     emp = {
@@ -82,6 +82,18 @@ function setCookie(res, token) {
 
 // The rentmysite / partnermybusiness servers call the Hub on behalf of their signed-in team member:
 // X-Hub-Key (shared secret, server-to-server only) + X-Hub-Actor (that person's @govianu.com email).
+// Someone signing in for the first time may already exist as a MyOperator agent (added from their calls).
+// Join them: same email, or the same first name on a record that has never signed in.
+function adoptAgent(email) {
+  const first = email.split('@')[0].split(/[._-]/)[0].toLowerCase();
+  const free = db.employees.filter((e) => e.source === 'myoperator' && !e.lastLoginAt && !e.adoptedBy);
+  const hit = free.find((e) => e.email === email) || free.find((e) => e.name.toLowerCase().split(/\s+/)[0] === first);
+  if (!hit) return null;
+  hit.email = email;
+  hit.adoptedBy = email;
+  return hit;
+}
+
 function siteActor(req) {
   const key = process.env.HUB_API_KEY;
   const got = req.get('x-hub-key');
@@ -91,7 +103,7 @@ function siteActor(req) {
   if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
   const email = String(req.get('x-hub-actor') || '').trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+$/.test(email)) return null;
-  let emp = db.employees.find((e) => e.email === email);
+  let emp = db.employees.find((e) => e.email === email) || adoptAgent(email);
   if (!emp) {
     emp = {
       id: uid(),

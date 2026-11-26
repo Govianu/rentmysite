@@ -38,10 +38,12 @@
       !c.calling && 'Call recordings need the MyOperator Calling API token (MYOP_CALL_TOKEN) in the Hub.',
       S.me.campaignPausedReason,
     ].filter(Boolean);
-    const viewBar = isHubAdmin()
-      ? `<div class="comms-view admin"><span><strong>Admin view</strong>: everyone's performance and timelines, reassigning, imports and the campaign.</span><button class="btn ghost small" type="button" id="cLeaveAdmin">Leave admin view</button></div>`
-      : `<div class="comms-view"><span><strong>Shared dashboard</strong>: everyone sees all leads. When you call or WhatsApp a lead it is marked <em>contacted by ${esc(S.me.me.name)}</em> and kept in your record.</span>
-          <form id="cAdminForm" class="comms-admin-form"><input type="password" id="cAdminCode" placeholder="Admin code" autocomplete="off" aria-label="Admin code"><button class="btn small" type="submit">Admin view</button></form></div>`;
+    // No banner: admin view is a small lock at the end of the tab row
+    const viewBar = '';
+    const adminCtl = isHubAdmin()
+      ? '<span class="pill approved" style="align-self:center">Admin view</span><button class="btn ghost small" type="button" id="cLeaveAdmin" style="align-self:center">Leave</button>'
+      : `<button type="button" id="cLock" title="Admin view" aria-label="Admin view">🔒</button>
+         <form id="cAdminForm" class="comms-admin-form" hidden style="align-self:center"><input type="password" id="cAdminCode" placeholder="Admin code" autocomplete="off" aria-label="Admin code"><button class="btn small" type="submit">Open</button></form>`;
     const askNotif = 'Notification' in window && Notification.permission === 'default'
       ? '<div class="comms-banner"><strong>Turn on desktop alerts</strong> so customer messages and missed calls pop up on your screen, even when this tab is in the background. <button class="btn small" type="button" id="cNotifOn">Turn on</button></div>'
       : '';
@@ -52,7 +54,7 @@
         <button class="btn ${myPhone ? 'ghost ' : ''}small" type="submit">${myPhone ? 'Update' : 'Save'}</button>
         <span class="meta">${myPhone ? 'Customer messages, missed calls and reminders also come to this WhatsApp.' : 'Add it so customer messages, missed calls and reminders reach your phone too.'}</span></form>`;
     el.innerHTML = `${viewBar}${phoneBar}${askNotif}${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
-      <div class="comms-tabs" role="tablist">${subs.map(([k, l]) => `<button type="button" data-sub="${k}" ${k === S.sub ? 'aria-current="page"' : ''}>${l}</button>`).join('')}</div>
+      <div class="comms-tabs" role="tablist">${subs.map(([k, l]) => `<button type="button" data-sub="${k}" ${k === S.sub ? 'aria-current="page"' : ''}>${l}</button>`).join('')}<span style="flex:1"></span>${adminCtl}</div>
       <div id="commsBody"><p class="meta">Loading…</p></div>`;
     el.querySelectorAll('[data-sub]').forEach((b) => b.addEventListener('click', () => { S.sub = b.dataset.sub; window.loadComms(); }));
     document.getElementById('cMyPhone').addEventListener('submit', (e) => {
@@ -62,6 +64,11 @@
       run(() => hub(`/employees/${encodeURIComponent(S.me.me.id)}`, { method: 'PATCH', body: { phone: v } }), 'Saved – alerts will come to this WhatsApp').then(window.loadComms);
     });
     document.getElementById('cNotifOn')?.addEventListener('click', () => Notification.requestPermission().then(() => window.loadComms()));
+    document.getElementById('cLock')?.addEventListener('click', () => {
+      const f = document.getElementById('cAdminForm');
+      f.hidden = !f.hidden;
+      if (!f.hidden) document.getElementById('cAdminCode').focus();
+    });
     document.getElementById('cAdminForm')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const code = document.getElementById('cAdminCode').value.trim();
