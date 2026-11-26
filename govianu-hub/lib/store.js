@@ -23,6 +23,9 @@ function defaults() {
       defaultBrand: 'rentmysite',
       campaign: {
         templateName: 'copy_rentmysite_lead_gen_april_14_utility',
+        mode: 'template', // 'template' = the same template for everyone; 'personal' = follow-up built from each lead's sheet notes
+        planTemplate: '', // approved template with variables: name, when, property, plan, amount, link
+        helloTemplate: '', // approved template with variables: name, when, property
         templateLang: 'en',
         headerMediaUrl: '',
         dailyCap: 250,

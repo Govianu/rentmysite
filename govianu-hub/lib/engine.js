@@ -398,14 +398,14 @@ function windowOpen(lead) {
   return lead?.waWindowUntil && lead.waWindowUntil > now();
 }
 
-async function hubSend(user, phone, { text, template, templateBody, headerMediaUrl, by }) {
+async function hubSend(user, phone, { text, template, templateBody, headerMediaUrl, by, shownText }) {
   const lead = db.leads[phone];
   if (!lead) throw new Error('Unknown lead');
   let r;
   let shown;
   if (template) {
     r = await myop.sendTemplate(phone, template, { body: templateBody, headerMediaUrl });
-    shown = `[template] ${template}`;
+    shown = shownText || `[template] ${template}`;
   } else {
     if (!windowOpen(lead)) throw new Error('24-hour WhatsApp window is closed for this contact – send an approved template instead');
     r = await myop.sendText(phone, text);
@@ -578,8 +578,15 @@ async function campaignTick() {
     return save();
   }
   try {
-    await hubSend(null, lead.phone, { template: c.templateName, headerMediaUrl: c.headerMediaUrl || undefined, by: 'campaign' });
-    lead.campaign = { state: 'sent', sentAt: now(), template: c.templateName };
+    let used = c.templateName;
+    if (c.mode === 'personal') {
+      const f = await require('./followup').build(lead);
+      await hubSend(null, lead.phone, { template: f.template, templateBody: f.body, shownText: f.text, by: 'campaign' });
+      used = `${f.template} (${f.kind})`;
+    } else {
+      await hubSend(null, lead.phone, { template: c.templateName, headerMediaUrl: c.headerMediaUrl || undefined, by: 'campaign' });
+    }
+    lead.campaign = { state: 'sent', sentAt: now(), template: used };
     db.sentToday.count++;
     failStreak = 0;
     if (lead.email && mailConfigured(lead.brand)) {

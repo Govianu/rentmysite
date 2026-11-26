@@ -111,7 +111,9 @@
       <td><button class="btn ghost small" type="button" data-done="${esc(p.phone)}">Done</button></td></tr>`).join('')}</tbody></table></div>`;
   }
   function wireRows() {
-    body().querySelectorAll('tr.comms-row[data-ph]').forEach((tr) => tr.addEventListener('click', (e) => { if (!e.target.closest('[data-done]')) openLead(tr.dataset.ph); }));
+    body().querySelectorAll('tr.comms-row[data-ph]').forEach((tr) => tr.addEventListener('click', (e) => { if (!e.target.closest('[data-done],[data-call],[data-wa]')) openLead(tr.dataset.ph); }));
+    body().querySelectorAll('[data-call]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); callLead(b.dataset.call); }));
+    body().querySelectorAll('[data-wa]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); waLead(b.dataset.wa); }));
     body().querySelectorAll('[data-done]').forEach((b) => b.addEventListener('click', () => run(() => hub(`/inbox/${b.dataset.done}/done`, { method: 'POST', body: {} }), 'Marked done').then(window.loadComms)));
   }
   async function inbox() {
@@ -133,13 +135,14 @@
         <select id="cAssigned" aria-label="Assigned to"><option value="">Assigned to anyone</option><option value="me" ${S.leadAssigned === 'me' ? 'selected' : ''}>Assigned to me</option><option value="none" ${S.leadAssigned === 'none' ? 'selected' : ''}>Not assigned</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadAssigned === e.id ? 'selected' : ''}>Assigned to ${esc(e.name)}</option>`).join('')}</select>
         <select id="cCamp"><option value="">Any campaign state</option>${['none', 'queued', 'sent', 'replied', 'failed', 'skipped'].map((s) => `<option ${s === S.leadCampaign ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
       <p class="meta">${res.total} leads${res.total > res.rows.length ? ` (showing ${res.rows.length})` : ''}</p>
-      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Stage</th><th>Contacted by</th><th>Last contact</th><th>Assigned to</th><th>WhatsApp campaign</th><th>Notes</th></tr></thead><tbody>
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Stage</th><th>Contacted by</th><th>Last contact</th><th>Assigned to</th><th>WhatsApp campaign</th><th>Notes</th><th>Actions</th></tr></thead><tbody>
       ${res.rows.map((l) => `<tr class="comms-row" data-ph="${esc(l.phone)}"><td><strong>${esc(l.name || '—')}</strong>${l.waiting ? ' <span class="pill rejected">waiting</span>' : ''}</td><td>${esc(ph(l.phone))}</td><td>${esc(l.area)}</td>
         <td>${pill(l.stage)}</td>
         <td>${l.contactedByName ? `<strong>${esc(l.contactedByName)}</strong><div class="meta">${when(l.contactedAt)} · ${esc(l.contactedHow)}</div>` : '<span class="meta">not yet</span>'}</td>
         <td class="meta">${l.lastContactByName ? `${esc(l.lastContactByName)} · ${when(l.lastContactAt)}` : when(Math.max(l.lastInboundAt || 0, l.lastOutboundAt || 0) || null)}</td>
         <td>${esc(l.assignedName || '—')}</td><td>${pill(l.campaign)}</td>
-        <td class="meta">${esc(l.aiSummary || l.skip || l.sheetStatus || '')}</td></tr>`).join('') || '<tr><td colspan="9" class="empty"><strong>No leads yet</strong>Import the sheet in the Campaign tab.</td></tr>'}
+        <td class="meta">${esc(l.aiSummary || l.skip || l.sheetStatus || '')}</td>
+        <td style="white-space:nowrap"><button class="btn small" type="button" data-call="${esc(l.phone)}">📞 Call</button> <button class="btn ghost small" type="button" data-wa="${esc(l.phone)}">💬 WhatsApp</button></td></tr>`).join('') || '<tr><td colspan="10" class="empty"><strong>No leads yet</strong>Import the sheet in the Campaign tab.</td></tr>'}
       </tbody></table></div>`;
     let t;
     document.getElementById('cQ').addEventListener('input', (e) => {
@@ -216,6 +219,15 @@
         <p class="meta">The first WhatsApp to someone who hasn't written in 24 h must be a template approved by Meta.</p>
         <label>Template</label><div class="comms-bar"><select id="cTpl"><option>${esc(c.templateName)}</option></select><button class="btn ghost small" type="button" id="cLoadTpl">Load approved</button></div>
         <pre id="cTplBody" class="meta" style="white-space:pre-wrap;max-height:150px;overflow:auto"></pre>
+        <label>What to send</label>
+        <select id="cMode"><option value="template" ${c.mode !== 'personal' ? 'selected' : ''}>The template above, same for everyone</option><option value="personal" ${c.mode === 'personal' ? 'selected' : ''}>Personal follow-up from each lead's sheet notes</option></select>
+        <div id="cPersonal" ${c.mode === 'personal' ? '' : 'hidden'}>
+          <p class="meta">Each owner's notes (size, road, address, status) give their plan and monthly figure from the RentMySite estimate, plus their Drive report link.</p>
+          <label>Template when the size is known (variables: name, when, property, plan, amount, link)</label><select id="cPlanTpl"><option>${esc(c.planTemplate || '')}</option></select>
+          <label>Template when the size is not known (variables: name, when, property)</label><select id="cHelloTpl"><option>${esc(c.helloTemplate || '')}</option></select>
+          <div class="comms-bar" style="margin-top:.6rem"><button class="btn ghost small" type="button" id="cPreview">Preview the next 5 messages</button><span class="meta">Nothing is sent.</span></div>
+          <div id="cPreviewOut"></div>
+        </div>
         <label>Header media link (only for templates with an image/video/PDF header)</label><input id="cHdr" value="${esc(c.headerMediaUrl)}">
         <label>Email subject (also emailed when the lead has an email)</label><input id="cSub" value="${esc(c.emailSubject)}">
         <label>Email text ({name}, {area}, {area_in})</label><textarea id="cBody" rows="6">${esc(c.emailBody)}</textarea>
@@ -248,10 +260,20 @@
     $('cLoadTpl').addEventListener('click', async () => {
       S.templates = (await run(() => hub('/templates'))) || [];
       $('cTpl').innerHTML = S.templates.filter((t) => t.status === 'approved').map((t) => `<option ${t.name === c.templateName ? 'selected' : ''}>${esc(t.name)}</option>`).join('');
+      const withVars = (sel) => '<option value="">Choose…</option>' + S.templates.filter((t) => t.status === 'approved' && t.variables.length).map((t) => `<option ${t.name === sel ? 'selected' : ''}>${esc(t.name)}</option>`).join('');
+      $('cPlanTpl').innerHTML = withVars(c.planTemplate);
+      $('cHelloTpl').innerHTML = withVars(c.helloTemplate);
       showTpl();
     });
     $('cTpl').addEventListener('change', showTpl);
-    $('cSave').addEventListener('click', () => run(() => hub('/settings', { method: 'POST', body: { campaign: { templateName: $('cTpl').value, headerMediaUrl: $('cHdr').value.trim(), emailSubject: $('cSub').value, emailBody: $('cBody').value, dailyCap: +$('cCap').value, gapSec: +$('cGap').value, startHour: +$('cSh').value, endHour: +$('cEh').value, skipStatuses: $('cSkip').value } } }), 'Saved').then(re));
+    $('cMode').addEventListener('change', () => { $('cPersonal').hidden = $('cMode').value !== 'personal'; });
+    $('cPreview').addEventListener('click', async () => {
+      $('cPreviewOut').innerHTML = '<p class="meta">Reading the sheet notes…</p>';
+      const list = await run(() => hub('/campaign/preview', { method: 'POST', body: { count: 5 } }));
+      $('cPreviewOut').innerHTML = (list || []).map((p) => `<div class="comms-card" style="margin:.6rem 0"><strong>${esc(p.name || '+' + p.phone)}</strong> <span class="pill">${esc(p.kind || 'error')}</span>
+        <div class="meta" style="white-space:pre-wrap;margin-top:.4rem">${esc(p.text || p.error)}</div></div>`).join('') || '<p class="meta">No leads to preview – upload and queue first.</p>';
+    });
+    $('cSave').addEventListener('click', () => run(() => hub('/settings', { method: 'POST', body: { campaign: { mode: $('cMode').value, planTemplate: $('cPlanTpl').value, helloTemplate: $('cHelloTpl').value, templateName: $('cTpl').value, headerMediaUrl: $('cHdr').value.trim(), emailSubject: $('cSub').value, emailBody: $('cBody').value, dailyCap: +$('cCap').value, gapSec: +$('cGap').value, startHour: +$('cSh').value, endHour: +$('cEh').value, skipStatuses: $('cSkip').value } } }), 'Saved').then(re));
     $('cTest').addEventListener('click', () => run(() => hub('/campaign/test', { method: 'POST', body: { phone: $('cTestPh').value, template: $('cTpl').value } }), (r) => (r.dryRun ? 'Test mode: logged, not sent' : 'Test sent – check WhatsApp')));
     $('cQN').addEventListener('click', () => run(() => hub('/campaign/queue', { method: 'POST', body: { count: +$('cN').value } }), (r) => `${r.queued} queued`).then(re));
     $('cQAll').addEventListener('click', () => { if (confirm('Queue every eligible lead? They go out within the daily limit.')) run(() => hub('/campaign/queue', { method: 'POST', body: { all: true } }), (r) => `${r.queued} queued`).then(re); });
@@ -261,6 +283,17 @@
   }
 
   // ───────── Lead panel ─────────
+  // 📞 through MyOperator: the team member's phone rings first, then the customer, from the company number
+  async function callLead(phone) {
+    if (!confirm('MyOperator will ring your phone first, then connect this customer from the company number. Call now?')) return;
+    await run(() => hub(`/leads/${encodeURIComponent(phone)}/call`, { method: 'POST', body: {} }), (r) => (r.dryRun ? 'Test mode: call logged, not placed' : '📞 Calling – pick up your phone'));
+  }
+  // 💬 opens the chat at the reply box (or the template list when the 24-hour window is closed)
+  async function waLead(phone) {
+    await openLead(phone);
+    const box = document.querySelector('.comms-drawer [data-reply], .comms-drawer [data-tpl]');
+    if (box) { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); box.focus(); }
+  }
   function closeLead() {
     document.querySelector('.comms-drawer')?.remove();
     document.querySelector('.comms-drawer-bg')?.remove();
@@ -287,7 +320,7 @@
     const dr = document.createElement('div');
     dr.className = 'comms-drawer';
     dr.setAttribute('role', 'dialog');
-    dr.innerHTML = `<div style="display:flex;gap:.6rem;align-items:center"><h2 style="flex:1">${esc(l.name || ph(l.phone))}</h2><button class="btn ghost small" type="button" data-close>Close</button></div>
+    dr.innerHTML = `<div style="display:flex;gap:.6rem;align-items:center"><h2 style="flex:1">${esc(l.name || ph(l.phone))}</h2><button class="btn small" type="button" data-callnow>📞 Call</button><button class="btn ghost small" type="button" data-close>Close</button></div>
       <p class="meta">${esc(ph(l.phone))}${l.email ? ' · ' + esc(l.email) : ''}${l.area ? ' · ' + esc(l.area) : ''} · source: ${esc(l.source || '—')}${l.sheetStatus ? ' · sheet: ' + esc(l.sheetStatus) : ''}</p>
       <div class="comms-fields">
         <div><label>Stage</label><select data-f="stage">${S.me.stages.map((s) => `<option value="${s}" ${s === l.stage ? 'selected' : ''}>${esc(pretty(s))}</option>`).join('')}</select></div>
@@ -317,6 +350,7 @@
     const patch = (b) => run(() => hub('/leads/' + encodeURIComponent(phone), { method: 'PATCH', body: b }), 'Saved').then(() => openLead(phone));
     bg.addEventListener('click', closeLead);
     dr.querySelector('[data-close]').addEventListener('click', closeLead);
+    dr.querySelector('[data-callnow]').addEventListener('click', () => callLead(phone));
     dr.querySelectorAll('[data-f]').forEach((s) => s.addEventListener('change', () => patch({ [s.dataset.f]: s.value || null })));
     dr.querySelector('[data-ai]')?.addEventListener('click', (e) => patch({ aiPaused: e.target.dataset.ai === 'off' }));
     dr.querySelector('[data-add-note]').addEventListener('click', () => { const v = dr.querySelector('[data-note]').value.trim(); if (v) patch({ note: v }); });

@@ -78,6 +78,11 @@ const COLS = {
   remarks: /remark/i,
   source: /source/i,
   assigned: /assign|lead owner/i,
+  drive: /drive/i,
+  size: /land size|^size|plot size|area \(sq/i,
+  road: /road/i,
+  map: /gmap|map pin|google map/i,
+  date: /^date/i,
 };
 
 function importRows(rows, { brand, tab }) {
@@ -85,7 +90,7 @@ function importRows(rows, { brand, tab }) {
   if (headerIdx < 0) throw new Error('Could not find a header row with a Number/Phone column');
   const header = rows[headerIdx].map((h) => String(h).trim());
   const col = {};
-  for (const [k, re] of Object.entries(COLS)) col[k] = header.findIndex((h) => re.test(h) && !(k === 'name' && COLS.phone.test(h)));
+  for (const [k, re] of Object.entries(COLS)) col[k] = header.findIndex((h) => re.test(h) && !(k === 'name' && COLS.phone.test(h)) && !(k === 'size' && /road/i.test(h)));
   const res = { added: 0, updated: 0, invalid: 0, duplicates: 0 };
   const seen = new Set();
   for (const r of rows.slice(headerIdx + 1)) {
@@ -102,7 +107,9 @@ function importRows(rows, { brand, tab }) {
     seen.add(phone);
     const { lead, isNew } = upsertLead(
       phone,
-      { name: get('name'), area: get('area'), email: get('email'), sheetStatus: get('status'), remarks: get('remarks'), source: get('source') || tab },
+      { name: get('name'), area: get('area'), email: get('email'), sheetStatus: get('status'), remarks: get('remarks'), source: get('source') || tab,
+        driveLink: /^https?:\/\//.test(get('drive')) ? get('drive') : undefined, landSize: get('size'), roadSize: get('road'),
+        mapLink: /^\s*https?:\/\//.test(get('map')) ? get('map').trim() : undefined, sheetDate: get('date') },
       { brand },
     );
     autoAssign(lead, get('assigned'));

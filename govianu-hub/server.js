@@ -79,7 +79,7 @@ r.get('/api/me', h((req) => ({
   brands: BRANDS,
   stages: STAGES,
   employees: db.employees.filter((e) => e.active !== false).map((e) => ({ id: e.id, name: e.name, brands: e.brands })),
-  configured: { myop: myop.configured(), dryRun: myop.DRY_RUN, waNumberId: Boolean(db.settings.waPhoneNumberId), calling: myop.callingConfigured(), ai: aiConfigured(), email: mailConfigured(), sheets: leadsLib.sheetsConfigured(), webhookToken: Boolean(process.env.MYOP_WEBHOOK_TOKEN) },
+  configured: { obd: myop.obdConfigured(), myop: myop.configured(), dryRun: myop.DRY_RUN, waNumberId: Boolean(db.settings.waPhoneNumberId), calling: myop.callingConfigured(), ai: aiConfigured(), email: mailConfigured(), sheets: leadsLib.sheetsConfigured(), webhookToken: Boolean(process.env.MYOP_WEBHOOK_TOKEN) },
   settings: req.isAdmin ? db.settings : undefined,
   campaignRunning: db.campaignRunning,
   campaignPausedReason: db.campaignPausedReason || '',
@@ -205,6 +205,15 @@ r.patch('/api/leads/:phone', h((req) => {
   return { ok: true };
 }));
 
+// 📞 Call: MyOperator rings the team member first, then connects the customer from the company number
+r.post('/api/leads/:phone/call', h(async (req) => {
+  const lead = leadFor(req, req.params.phone);
+  const { normPhone } = require('./lib/store');
+  const r2 = await myop.clickToCall({ customer: lead.phone, userId: req.user.myopUserId || '', agentPhone: normPhone(req.user.phone) || '', reference: `hub-${lead.phone}-${Date.now()}` });
+  logActivity(req.user.id, 'call_click', lead, `Started a call to ${lead.name || '+' + lead.phone} through MyOperator`);
+  return { ok: true, dryRun: Boolean(r2.dryRun) };
+}));
+
 r.post('/api/leads/:phone/send', h(async (req) => {
   const { text, template, templateBody, headerMediaUrl } = req.body;
   if (!text && !template) throw new Error('Type a message or choose a template');
@@ -321,6 +330,24 @@ r.post('/api/campaign/test', admin, h(async (req) => {
   const r2 = await myop.sendTemplate(phone, req.body.template || c.templateName, { headerMediaUrl: c.headerMediaUrl || undefined });
   logActivity(req.user.id, 'test_send', null, `Test template "${req.body.template || c.templateName}" to +${phone}`);
   return { ok: true, messageId: r2.messageId, dryRun: myop.DRY_RUN };
+}));
+// The next personal follow-ups exactly as they would be sent (nothing is sent)
+r.post('/api/campaign/preview', admin, h(async (req) => {
+  const brand = brandOf(req) || 'rentmysite';
+  const n = Math.min(Number(req.body.count) || 5, 10);
+  const pool = Object.values(db.leads).filter((l) => l.brand === brand && ['queued', 'none'].includes(l.campaign?.state || 'none') && !leadsLib.skipReason(l))
+    .sort((a, b) => (a.campaign?.state === 'queued' ? 0 : 1) - (b.campaign?.state === 'queued' ? 0 : 1));
+  const out = [];
+  for (const l of pool.slice(0, n)) {
+    try {
+      const f = await require('./lib/followup').build(l);
+      out.push({ name: l.name, phone: l.phone, kind: f.kind, template: f.template, text: f.text });
+    } catch (e) {
+      out.push({ name: l.name, phone: l.phone, error: e.message });
+    }
+  }
+  save();
+  return out;
 }));
 r.post('/api/campaign/clear', admin, h(() => {
   let n = 0;

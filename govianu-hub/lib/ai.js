@@ -104,4 +104,41 @@ async function draftReply({ timeline, lead, notes = [] }) {
   }
 }
 
-module.exports = { draftReply, aiConfigured };
+// ── Follow-ups: read a lead's sheet notes into the details the RentMySite estimate needs ──
+const SPACE_TYPES = [
+  'Vacant site or open space', 'Terrace or rooftop', 'Godown or warehouse', 'Closed shed or factory',
+  'Institutional or society campus', 'Shop or showroom', 'Hall or event space', 'Parking area', 'Other',
+];
+const Property = z.object({
+  type: z.enum(SPACE_TYPES).describe('The kind of space. Land, plot or site = "Vacant site or open space".'),
+  sizeSqft: z.number().describe('Total area in sq ft, 0 if not known. 1 acre = 43,560 sq ft; 1 gunta = 1,089 sq ft; 30 × 50 ft = 1,500 sq ft.'),
+  road: z.enum(['main', 'inner', 'outskirts', 'unknown']).describe('main = main road / highway frontage; inner = internal road; outskirts = village, farm or industrial outskirts.'),
+  place: z.string().describe('Short location, e.g. "KIADB, Airport Road" or "RR Nagar". Empty if not known.'),
+  property: z.string().describe('How to name it in a message, e.g. "10,000 sq ft plot at KIADB, Airport Road" or "empty land in RR Nagar". Empty if nothing is known.'),
+});
+
+async function extractProperty(lead) {
+  if (!client) client = new Anthropic();
+  const facts = [
+    `Name: ${lead.name || ''}`, `Area / address: ${lead.area || ''}`, `Land size: ${lead.landSize || ''}`, `Road size: ${lead.roadSize || ''}`,
+    `Sheet status: ${lead.sheetStatus || ''}`, `Notes: ${lead.remarks || ''}`,
+  ].join('\n');
+  try {
+    const res = await client.beta.messages.parse({
+      model: MODEL,
+      max_tokens: 2000,
+      betas: ['server-side-fallback-2026-07-01'],
+      fallbacks: 'default',
+      system: 'You read a property owner\'s enquiry notes from a lead sheet and extract the property details. Use only what the notes say; never guess a size.',
+      output_config: { effort: 'low', format: betaZodOutputFormat(Property) },
+      messages: [{ role: 'user', content: facts }],
+    });
+    if (res.stop_reason === 'refusal' || !res.parsed_output) return null;
+    return res.parsed_output;
+  } catch (e) {
+    console.error('[ai] extract:', e.message);
+    return null;
+  }
+}
+
+module.exports = { draftReply, aiConfigured, extractProperty, SPACE_TYPES };

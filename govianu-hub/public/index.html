@@ -299,7 +299,9 @@ async function leadsView() {
           <td><b>${esc(l.origin)}</b><br><span class="small muted">${esc(l.source && l.source.toLowerCase() !== l.origin.toLowerCase() ? l.source : '')}</span></td>
           <td><span class="lr-status" style="color:${STAGE_COLOR[l.stage] || '#344054'}">${esc(STAGE_NAME[l.stage] || l.stage)}</span>${l.waiting ? '<br><span class="pill bad">waiting</span>' : ''}</td>
           <td><div class="lr-notes">${notes(l)}</div></td>
-          <td><button class="btn ghost sm" data-open="${esc(l.phone)}" title="History, messages, calls">🕘 Open</button></td></tr>`).join('') || '<tr><td colspan="6" class="muted" style="padding:20px">No leads here.</td></tr>'}
+          <td style="white-space:nowrap"><button class="btn sm" data-call="${esc(l.phone)}" title="MyOperator rings your phone, then the customer, from the company number">📞 Call</button>
+            <button class="btn ghost sm" data-wa="${esc(l.phone)}" title="WhatsApp from the company number">💬 WhatsApp</button>
+            <button class="btn ghost sm" data-open="${esc(l.phone)}" title="History, messages, calls">🕘</button></td></tr>`).join('') || '<tr><td colspan="6" class="muted" style="padding:20px">No leads here.</td></tr>'}
       </tbody></table></div>
       <div class="row" style="padding:10px 14px"><span class="small muted" style="flex:1">${from}–${to} of ${res.total}</span>
         <button class="btn ghost sm" id="lrPrev" ${res.offset ? '' : 'disabled'}>‹ Prev</button><button class="btn ghost sm" id="lrNext" ${to < res.total ? '' : 'disabled'}>Next ›</button></div>
@@ -316,6 +318,8 @@ async function leadsView() {
   $('#lrPrev').onclick = () => go({ offset: Math.max(0, LS.offset - LS.size) });
   $('#lrNext').onclick = () => go({ offset: LS.offset + LS.size });
   document.querySelectorAll('[data-open]').forEach((b) => (b.onclick = () => openLead(b.dataset.open)));
+  document.querySelectorAll('[data-call]').forEach((b) => (b.onclick = () => callLead(b.dataset.call)));
+  document.querySelectorAll('[data-wa]').forEach((b) => (b.onclick = () => waLead(b.dataset.wa)));
   $('#lrExport').onclick = async () => {
     const all = await run(() => api(leadsQuery({ size: 5000, offset: 0 })));
     if (!all) return;
@@ -559,7 +563,7 @@ async function openLead(phone) {
     ...d.calls.map((c) => ({ at: c.startedAt || c.createdAt, html: `<div class="msg call">📞 ${c.direction === 'outgoing' ? 'Outgoing' : 'Incoming'} call · <b>${esc(c.status === 'bridged' ? 'connected' : c.status || '')}</b> · ${secs(c.talk || 0)} · ${esc(c.employeeName || 'no agent')}${c.recording_filename ? ` · <a href="api/calls/${encodeURIComponent(c.id)}/recording" target="_blank" rel="noopener">▶ recording</a>` : ''}<div class="meta">${fmtT(c.startedAt || c.createdAt)}</div></div>` })),
   ].sort((a, b) => a.at - b.at);
   const dr = $('#drawer');
-  dr.innerHTML = `<div class="row"><h2 style="margin:0;flex:1">${esc(l.name || ph(l.phone))}</h2><button class="btn ghost sm" id="close">✕ Close</button></div>
+  dr.innerHTML = `<div class="row"><h2 style="margin:0;flex:1">${esc(l.name || ph(l.phone))}</h2><button class="btn sm" id="callNow">📞 Call</button><button class="btn ghost sm" id="close">✕ Close</button></div>
     <p class="muted" style="margin:4px 0 12px">${esc(ph(l.phone))}${l.email ? ' · ' + esc(l.email) : ''}${l.area ? ' · ' + esc(l.area) : ''} · source: ${esc(l.source || '—')}${l.sheetStatus ? ' · sheet: ' + esc(l.sheetStatus) : ''}</p>
     <div class="row"><div style="flex:1"><label>Business</label><select id="lb">${Object.values(ME.brands).map((b) => `<option value="${b.key}" ${b.key === l.brand ? 'selected' : ''}>${esc(b.name)}</option>`).join('')}</select></div>
       <div style="flex:1"><label>Stage</label><select id="ls">${ME.stages.map((s) => `<option ${s === l.stage ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
@@ -585,6 +589,7 @@ async function openLead(phone) {
   const th = $('#thread'); th.scrollTop = th.scrollHeight;
   const patch = (b) => run(() => api('leads/' + phone, b, 'PATCH'), 'Saved').then(() => openLead(phone));
   $('#close').onclick = closeLead;
+  $('#callNow').onclick = () => callLead(phone);
   $('#lb').onchange = (e) => patch({ brand: e.target.value });
   $('#ls').onchange = (e) => patch({ stage: e.target.value });
   if ($('#aiOn')) $('#aiOn').onclick = () => patch({ aiPaused: false });
@@ -597,6 +602,17 @@ async function openLead(phone) {
     api('templates').then((t) => { $('#tplS').innerHTML = '<option value="">Choose template…</option>' + t.filter((x) => x.status === 'approved' && !x.variables.length && !x.headerFormat).map((x) => `<option>${esc(x.name)}</option>`).join(''); }).catch(() => {});
     $('#sendT').onclick = () => $('#tplS').value && run(() => api(`leads/${phone}/send`, { template: $('#tplS').value }), 'Template sent').then(() => openLead(phone));
   }
+}
+// 📞 through MyOperator: your phone rings first, then the customer, from the company number (recorded, credited to you)
+async function callLead(phone) {
+  if (!confirm('MyOperator will ring your phone first, then connect this customer from the company number. Call now?')) return;
+  await run(() => api(`leads/${phone}/call`, {}), (r) => (r.dryRun ? 'Test mode: call logged, not placed' : '📞 Calling – pick up your phone'));
+}
+// 💬 opens the chat with the reply box (or the template list when the 24-hour window is closed)
+async function waLead(phone) {
+  await openLead(phone);
+  const box = document.getElementById('txt') || document.getElementById('tplS');
+  if (box) { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); box.focus(); }
 }
 function closeLead() { $('#drawer').style.display = 'none'; $('#drawerBg').style.display = 'none'; route(); }
 $('#drawerBg').onclick = closeLead;

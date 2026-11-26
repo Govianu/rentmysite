@@ -130,4 +130,39 @@ async function listUsers() {
   return Array.isArray(rows) ? rows : [];
 }
 
-module.exports = { configured, callingConfigured, sendText, sendTemplate, sendMedia, listTemplates, recordingLink, listUsers, DRY_RUN };
+function obdConfigured() {
+  return Boolean(process.env.MYOP_OBD_API_KEY && process.env.MYOP_OBD_SECRET && process.env.MYOP_PUBLIC_IVR_ID && process.env.MYOP_COMPANY_ID);
+}
+
+// OBD API, type 1: user dialer (agent's MyOperator user id) or anonymous dialer (agent's phone number)
+async function clickToCall({ customer, userId, agentPhone, reference }) {
+  if (!obdConfigured()) throw new Error('Click-to-call is not set up: add MYOP_OBD_API_KEY, MYOP_OBD_SECRET and MYOP_PUBLIC_IVR_ID to the Hub .env');
+  if (!userId && !agentPhone) throw new Error('Your MyOperator user is not linked and no phone is saved on your profile');
+  const body = {
+    company_id: process.env.MYOP_COMPANY_ID,
+    secret_token: process.env.MYOP_OBD_SECRET,
+    type: '1',
+    number: '+' + customer,
+    public_ivr_id: process.env.MYOP_PUBLIC_IVR_ID,
+    reference_id: reference || randomUUID(),
+    max_call_duration: 1800,
+    call_hold: true,
+  };
+  if (userId) body.user_id = userId;
+  else body.number_2 = '+' + agentPhone;
+  if (process.env.MYOP_CALLER_ID) body.caller_id = process.env.MYOP_CALLER_ID;
+  if (DRY_RUN) {
+    console.log('[MYOP DRY RUN] click-to-call', JSON.stringify({ ...body, secret_token: '***' }));
+    return { status: 'success', dryRun: true };
+  }
+  const res = await fetch('https://obd-api.myoperator.co/obd-api-v1', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': process.env.MYOP_OBD_API_KEY },
+    body: JSON.stringify(body),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok || json.status === 'error') throw new Error(`MyOperator call ${res.status}: ${json.details || json.message || JSON.stringify(json).slice(0, 200)}`);
+  return json;
+}
+
+module.exports = { obdConfigured, clickToCall, configured, callingConfigured, sendText, sendTemplate, sendMedia, listTemplates, recordingLink, listUsers, DRY_RUN };
