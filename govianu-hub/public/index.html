@@ -129,6 +129,7 @@ function renderLogin() {
 function shell(crumb, inner) {
   const navOn = (h) => ((location.hash || '#/') === h || (h === '#/' && location.hash.startsWith('#/leads')) ? 'style="color:#fff;font-weight:600"' : '');
   return `<header><a class="logo" href="#/">Govianu Hub</a><a class="crumb" href="#/" ${navOn('#/')}>Leads</a><a class="crumb" href="#/team" ${navOn('#/team')}>Team summary</a>${crumb}<span class="sp"></span>
+    ${Object.values(ME.brands).map((b) => `<a class="crumb" href="${esc(b.site)}#comms" target="_blank" rel="noopener" title="Open the ${esc(b.name)} team dashboard">${esc(b.key === 'pmb' ? 'PMB' : b.name)} dashboard ↗</a>`).join('')}
     ${ME.configured.dryRun ? '<span class="pill warn">TEST MODE – nothing sent</span>' : ''}
     <button class="icon" id="bell" title="Notifications">🔔${ME.unread ? `<span class="dot">${ME.unread}</span>` : ''}</button>
     ${isAdmin() ? '<a class="crumb" href="#/settings">Settings</a>' : ''}
@@ -254,6 +255,7 @@ async function leadsView() {
     <div class="card" style="padding:10px 14px">
       <div class="row">
         <div class="lr-tabs">${brands.map(([k, l]) => `<button data-brand="${k}" class="${LS.brand === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+        ${LS.brand ? `<a class="btn sm" style="background:${brandColor(LS.brand)}" href="${esc(ME.brands[LS.brand].site)}#comms" target="_blank" rel="noopener">Open ${esc(ME.brands[LS.brand].name)} dashboard ↗</a>` : ''}
         <span style="flex:1"></span>
         <div class="lr-tabs">${tabsWho.map(([k, l]) => `<button data-who="${k}" class="${LS.who === k ? 'on' : ''}">${l}</button>`).join('')}
           <select id="lrEmp" style="width:auto;margin-left:6px"><option value="">Team member…</option>${ME.employees.map((e) => `<option value="${esc(e.id)}" ${LS.who === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></div>
