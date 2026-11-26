@@ -6,7 +6,9 @@ const { sendMail, mailConfigured } = require('./mail');
 
 const SECRET = process.env.JWT_SECRET || 'dev-only-secret-change-me';
 const DOMAIN = (process.env.STAFF_EMAIL_DOMAIN || 'govianu.com').toLowerCase();
-const ADMINS = (process.env.ADMIN_EMAILS || '').toLowerCase().split(',').map((s) => s.trim()).filter(Boolean);
+// ADMIN_EMAILS: exact addresses and/or whole domains, e.g. "media@govianu.com" or "@govianu.com" (everyone there)
+const ADMINS = (process.env.ADMIN_EMAILS || '').toLowerCase().split(',').map((s) => s.trim().replace(/^\*@/, '@')).filter(Boolean);
+const isAdminEmail = (email) => ADMINS.some((a) => (a.startsWith('@') ? String(email).toLowerCase().endsWith(a) : a === String(email).toLowerCase()));
 const COOKIE = 'hub_session';
 const hash = (s) => crypto.createHash('sha256').update(s).digest('hex');
 
@@ -17,7 +19,7 @@ if (process.env.NODE_ENV === 'production' && SECRET === 'dev-only-secret-change-
 function checkEmail(raw) {
   const email = String(raw || '').trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+$/.test(email)) throw Object.assign(new Error('Enter a valid email'), { status: 400 });
-  if (!email.endsWith('@' + DOMAIN) && !ADMINS.includes(email)) {
+  if (!email.endsWith('@' + DOMAIN) && !isAdminEmail(email)) {
     throw Object.assign(new Error(`Only @${DOMAIN} team emails can sign in`), { status: 403 });
   }
   return email;
@@ -54,7 +56,7 @@ function verifyCode(rawEmail, code) {
       id: uid(),
       email,
       name: email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
-      role: ADMINS.includes(email) || isFirst ? 'admin' : 'employee',
+      role: isAdminEmail(email) || isFirst ? 'admin' : 'employee',
       phone: '',
       myopUserId: '',
       brands: ['rentmysite', 'pmb'],
@@ -62,7 +64,7 @@ function verifyCode(rawEmail, code) {
       createdAt: now(),
     };
     db.employees.push(emp);
-  } else if (ADMINS.includes(email)) emp.role = 'admin';
+  } else if (isAdminEmail(email)) emp.role = 'admin';
   emp.lastLoginAt = now();
   save();
   return jwt.sign({ id: emp.id }, SECRET, { expiresIn: '30d' });
@@ -95,7 +97,7 @@ function siteActor(req) {
       id: uid(),
       email,
       name: String(req.get('x-hub-actor-name') || email.split('@')[0]).slice(0, 80),
-      role: ADMINS.includes(email) ? 'admin' : 'employee',
+      role: isAdminEmail(email) ? 'admin' : 'employee',
       phone: '',
       myopUserId: '',
       brands: ['rentmysite', 'pmb'],
@@ -123,7 +125,7 @@ function requireUser(req, res, next) {
     const emp = db.employees.find((e) => e.id === id && e.active !== false);
     if (!emp) throw new Error('no user');
     req.user = emp;
-    req.isAdmin = emp.role === 'admin';
+    req.isAdmin = emp.role === 'admin' || isAdminEmail(emp.email);
     next();
   } catch {
     res.status(401).json({ error: 'Please sign in' });
