@@ -104,6 +104,11 @@ function origin(lead) {
   if (s === 'whatsapp') return 'WhatsApp';
   if (s === 'call') return 'Call';
   if (s === 'email') return 'Email';
+  if (!s) {
+    // Leads from before sources were recorded: judge by how they first reached us
+    if (lead.lastInboundAt) return 'WhatsApp';
+    if (lead.lastCallAt || Object.values(db.calls).some((c) => c.phone === lead.phone)) return 'Call';
+  }
   return 'Sheet / ads';
 }
 const ORIGINS = ['Website', 'WhatsApp', 'Call', 'Email', 'Sheet / ads'];

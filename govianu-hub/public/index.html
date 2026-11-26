@@ -32,6 +32,8 @@
   .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); }
   .grid2 { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); }
   .stat { font-size:24px; font-weight:650; } .stat small { display:block; font-size:12px; font-weight:400; color:var(--mute); }
+  .sites { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(520px,1fr)); align-items:start; }
+  @media (max-width:1100px) { .sites { grid-template-columns:1fr; } }
   .tiles { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
   .tile { display:block; text-decoration:none; color:#fff; border-radius:16px; padding:22px; min-height:190px; }
   .tile h2 { margin:0 0 4px; font-size:22px; } .tile p { margin:0 0 16px; opacity:.85; }
@@ -163,36 +165,52 @@ function feedTable(rows) {
     <td class="small" style="white-space:nowrap">${fmtT(a.at)}</td><td>${ACT_ICON[a.type] || '•'}</td><td><b>${esc(a.byName)}</b></td>
     <td>${esc(a.text)}</td><td class="small muted">${esc(a.leadName || ph(a.phone))}</td><td>${a.brandName ? `<span class="pill">${esc(a.brandName)}</span>` : ''}</td></tr>`).join('')}</tbody></table></div>`;
 }
+const HOME = { rentmysite: { emp: '', mode: 'group' }, pmb: { emp: '', mode: 'group' } };
 async function homeView() {
-  const [all, rms, pmb, feed, mine] = await Promise.all([
-    api('overview-all?range=' + range), api('overview?brand=rentmysite&range=' + range), api('overview?brand=pmb&range=' + range),
-    api('activity?limit=60'), api('inbox?mine=1'),
-  ]);
-  const st = (n, l) => `<div class="card" style="margin:0"><div class="stat">${n ?? 0}<small>${l}</small></div></div>`;
-  const site = (key, o) => `<div class="tile" style="background:${brandColor(key)}">
-      <h2>${esc(ME.brands[key].name)}</h2><p>${o.leads} leads · ${o.openNow} waiting · ${o.calls} calls · ${o.inbound} WhatsApp in</p>
-      <div class="row"><a class="btn" style="background:#fff;color:${brandColor(key)}" href="${esc(ME.brands[key].site)}#comms" target="_blank" rel="noopener">Open team dashboard ↗</a>
-      <a class="btn" style="background:rgba(255,255,255,.18)" href="#/report/${key}">Team report →</a></div></div>`;
-  const total = all.total || 1;
-  const c = ME.configured;
-  const setup = isAdmin() ? `<div class="card"><h2>Setup status</h2><div class="row">
-      ${chk(c.myop, 'MyOperator connected')}${chk(c.webhookToken, 'Webhook secret set')}${chk(c.waNumberId, 'WhatsApp number confirmed')}
-      ${chk(c.calling, 'Calling API token')}${chk(c.ai, 'AI replies')}${chk(c.email, 'Email (SMTP)')}</div></div>` : '';
-  $('#app').innerHTML = shell('', `${setup}
-    <div class="row" style="margin-bottom:12px"><h1 style="margin:0;font-size:22px;flex:1">All leads – both websites</h1>${rangeSel()}</div>
-    <div class="grid">${st(all.total, 'leads in total')}${st(all.newInPeriod, 'new in this period')}${st(all.notContacted, 'not contacted yet')}${st(all.waitingNow, 'waiting for a reply now')}</div>
-    <div class="grid2" style="margin-top:14px">
-      <div class="card"><h2>Where leads come from</h2>${all.origins.map((o) => `<div style="margin:6px 0"><div class="row small"><span style="flex:1">${esc(o)}</span><b>${all.byOrigin[o] || 0}</b><span class="muted">${all.newByOrigin[o] ? `+${all.newByOrigin[o]} new` : ''}</span></div><div class="bar"><i style="width:${Math.round(((all.byOrigin[o] || 0) / total) * 100)}%"></i></div></div>`).join('')}
-        <p class="small muted" style="margin-top:10px">${Object.entries(ME.brands).map(([k, b]) => `${esc(b.name)}: <b>${all.byBrand[k] || 0}</b>`).join(' · ')}</p></div>
-      <div class="card"><h2>Pipeline</h2>${ME.stages.map((s2) => `<div style="margin:6px 0"><div class="row small"><span style="flex:1">${s2}</span><b>${all.byStage[s2] || 0}</b></div><div class="bar"><i style="width:${Math.round(((all.byStage[s2] || 0) / total) * 100)}%"></i></div></div>`).join('')}</div></div>
-    <div class="grid" style="margin-bottom:16px">${st(all.waIn, 'WhatsApp received')}${st(all.waOut, 'WhatsApp sent')}${st(all.aiReplies, 'answered by AI')}${st(all.emails, 'emails sent')}${st(all.calls, 'calls')}${st(all.callsConnected, 'calls connected')}${st(all.callsMissed, 'calls missed')}</div>
-    <div class="tiles">${site('rentmysite', rms)}${site('pmb', pmb)}</div>
-    <div class="card" style="margin-top:18px"><h2>Live activity – every lead, every team member</h2>${feedTable(feed)}</div>
-    <div class="card"><h2>Customers waiting for you (${mine.length})</h2>${inboxTable(mine)}</div>
-    ${'Notification' in window && Notification.permission === 'default' ? '<button class="btn ghost" id="perm">Turn on desktop notifications</button>' : ''}`);
-  wireShell(); wireInbox();
+  const brands = ['rentmysite', 'pmb'];
+  const data = await Promise.all(brands.map(async (b) => {
+    const h = HOME[b];
+    const [rep, feed] = await Promise.all([
+      api(`report?brand=${b}&range=${range}`),
+      api(`activity?brand=${b}&limit=60${h.emp ? '&employee=' + encodeURIComponent(h.emp) : ''}`),
+    ]);
+    return { b, rep, feed };
+  }));
+  const n = (v, cls) => (v ? `<span class="pill ${cls}">${v}</span>` : '0');
+  const st = (v, l) => `<div class="card" style="margin:0;padding:12px"><div class="stat" style="font-size:20px">${v ?? 0}<small>${l}</small></div></div>`;
+  const column = ({ b, rep, feed }) => {
+    const B = ME.brands[b], h = HOME[b], t = rep.totals;
+    const rows = rep.rows.filter((r) => !h.emp || r.id === h.emp);
+    const people = rep.rows.map((r) => `<option value="${esc(r.id)}" ${r.id === h.emp ? 'selected' : ''}>${esc(r.name)}</option>`).join('');
+    const sel = (key) => (key === 'group'
+      ? `<table><thead><tr><th>Name</th><th>Leads</th><th>Calls ✓</th><th>Calls ✗</th><th>Msgs ✓</th><th>Msgs ✗</th><th>WhatsApp sent</th><th>Waiting</th></tr></thead><tbody>
+          ${rows.map((r) => `<tr class="click" data-emp="${esc(r.id)}" data-b="${b}"><td><b>${esc(r.name)}</b></td><td>${r.totalLeads}</td><td>${r.callsAttended}</td><td>${n(r.callsMissed, 'bad')}</td><td>${r.msgsAttended}</td><td>${n(r.msgsMissed, 'bad')}</td><td>${r.waSent}</td><td>${n(r.waitingNow, 'bad')}</td></tr>`).join('') || '<tr><td colspan="8" class="muted">No team members yet</td></tr>'}
+          ${!h.emp && rows.length > 1 ? `<tr><td><b>Total</b></td><td><b>${t.totalLeads}</b></td><td><b>${t.callsAttended}</b></td><td><b>${t.callsMissed}</b></td><td><b>${t.msgsAttended}</b></td><td><b>${t.msgsMissed}</b></td><td><b>${t.waSent}</b></td><td><b>${t.waitingNow}</b></td></tr>` : ''}
+        </tbody></table>`
+      : feedTable(feed));
+    return `<div class="card" style="border-top:4px solid ${brandColor(b)}">
+      <div class="row" style="margin-bottom:10px"><h2 style="margin:0;flex:1;font-size:18px;color:${brandColor(b)}">${esc(B.name)}</h2>
+        <a class="btn ghost sm" href="${esc(B.site)}#comms" target="_blank" rel="noopener">Dashboard ↗</a><a class="btn ghost sm" href="#/report/${b}">Full report →</a></div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">
+        ${st(t.allLeads, 'total leads')}${st(t.newLeads, 'new')}${st(t.notContacted, 'not contacted')}${st(t.waitingNow, 'waiting now')}
+        ${st(t.callsAttended, 'calls attended')}${st(t.callsNotAnsweredByAnyone, 'calls missed')}${st(t.msgsAttended, 'messages attended')}${st(t.msgsMissed, 'messages missed')}${st(t.aiReplies, 'answered by AI')}</div>
+      <div class="row" style="margin:14px 0 8px">
+        <select data-filter="${b}" style="max-width:220px"><option value="">Everyone</option>${people}</select>
+        <span style="flex:1"></span>
+        <button class="btn ${h.mode === 'group' ? '' : 'ghost'} sm" data-mode="group" data-b="${b}">Group by name</button>
+        <button class="btn ${h.mode === 'feed' ? '' : 'ghost'} sm" data-mode="feed" data-b="${b}">All activity</button></div>
+      <div class="tw">${sel(h.mode)}</div></div>`;
+  };
+  $('#app').innerHTML = shell('', `
+    <div class="row" style="margin-bottom:12px"><h1 style="margin:0;font-size:22px;flex:1">Team activity</h1>${rangeSel()}</div>
+    ${isAdmin() ? '' : '<p class="small muted">You see your own numbers. Admins see every team member.</p>'}
+    <div class="sites">${data.map(column).join('')}</div>`);
+  wireShell();
   $('#range').onchange = (e) => { range = e.target.value; homeView(); };
-  if ($('#perm')) $('#perm').onclick = () => Notification.requestPermission().then(route);
+  document.querySelectorAll('[data-filter]').forEach((s2) => (s2.onchange = () => { HOME[s2.dataset.filter].emp = s2.value; homeView(); }));
+  document.querySelectorAll('[data-mode]').forEach((btn) => (btn.onclick = () => { HOME[btn.dataset.b].mode = btn.dataset.mode; homeView(); }));
+  document.querySelectorAll('tr[data-emp][data-b]').forEach((tr) => (tr.onclick = () => { HOME[tr.dataset.b] = { emp: tr.dataset.emp, mode: 'feed' }; homeView(); }));
+  document.querySelectorAll('tr.click[data-ph]').forEach((tr) => (tr.onclick = () => openLead(tr.dataset.ph)));
   every(20000, homeView);
 }
 
