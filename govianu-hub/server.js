@@ -191,6 +191,11 @@ r.patch('/api/leads/:phone', h((req) => {
     lead.brandLocked = true;
   }
   for (const k of ['name', 'email', 'area']) if (typeof b[k] === 'string') lead[k] = b[k].trim();
+  if (typeof b.aiPaused === 'boolean' && b.aiPaused !== Boolean(lead.aiPaused)) {
+    lead.aiPaused = b.aiPaused;
+    logActivity(req.user.id, b.aiPaused ? 'ai_paused' : 'ai_resumed', lead, b.aiPaused ? 'AI paused by hand' : 'Chat handed back to the AI');
+    if (!b.aiPaused && db.pending[lead.phone]?.status === 'open') engine.scheduleAi(lead.phone);
+  }
   if (b.note) {
     lead.notes = lead.notes || [];
     lead.notes.push({ at: now(), by: req.user.id, text: String(b.note).slice(0, 2000) });

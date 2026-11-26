@@ -203,9 +203,11 @@ async function handleWhatsApp(ev) {
       if (emp) {
         logActivity(emp.id, 'wa_sent', lead, `WhatsApp (MyOperator panel): ${text.slice(0, 80)}`);
         markContact(lead, emp.id, 'WhatsApp');
+        humanTookOver(lead, emp.id);
         resolvePending(phone, emp.id, 'WhatsApp');
       } else if (p.source === 'lc') {
         resolvePending(phone, null, 'WhatsApp from MyOperator panel (user not mapped)');
+        humanTookOver(lead, null);
         if (db.pending[phone]) db.pending[phone].myopUser = p.message_by;
       }
       return;
@@ -382,6 +384,7 @@ async function finalizeCall(c) {
   if (emp && (out || connected)) markContact(lead, emp.id, out ? (connected ? 'call' : 'call, not answered') : 'answered call', c.startedAt || now());
   if (connected) {
     lead.lastCallAt = now();
+    if (emp) humanTookOver(lead, emp.id);
     resolvePending(lead.phone, emp?.id, out ? 'call' : 'answered call');
   } else if (!out) {
     openPending(lead, 'missed_call', `Missed call (${c.status})`, c.startedAt || now());
@@ -415,6 +418,7 @@ async function hubSend(user, phone, { text, template, templateBody, headerMediaU
   if (HUMAN(sender)) {
     logActivity(sender, 'wa_sent', lead, `WhatsApp: ${shown.slice(0, 80)}`);
     markContact(lead, sender, 'WhatsApp');
+    humanTookOver(lead, sender);
     resolvePending(phone, sender, 'WhatsApp');
   }
   save();
@@ -429,24 +433,73 @@ function scheduleAi(phone) {
   aiTimers.set(phone, setTimeout(() => aiReply(phone).catch((e) => console.error('[ai]', e.message)), db.settings.ai.delaySec * 1000));
 }
 
+function humanTookOver(lead, empId) {
+  if (!lead || lead.aiPaused) return;
+  lead.aiPaused = true;
+  lead.aiPausedAt = now();
+  lead.aiPausedBy = empId || null;
+  clearTimeout(aiTimers.get(lead.phone));
+  logActivity(empId, 'ai_paused', lead, `AI stopped – ${employee(empId)?.name || 'a team member'} took over the chat`);
+}
+
+// Approved template texts, so the AI sees what our templates actually said (refreshed hourly)
+const tplCache = { at: 0, bodies: {} };
+async function templateBodies() {
+  if (Date.now() - tplCache.at < 3600_000 || !myop.configured()) return tplCache.bodies;
+  tplCache.at = Date.now();
+  try {
+    for (const t of await myop.listTemplates()) tplCache.bodies[t.name] = t.body;
+  } catch (e) {
+    console.warn('[ai] could not load templates:', e.message);
+  }
+  return tplCache.bodies;
+}
+
+const nameOfSender = (by) => {
+  if (by === 'ai') return 'US (assistant)';
+  if (by === 'campaign' || by === 'myop-campaign') return 'US (campaign message)';
+  const e = employee(by);
+  return e ? `US (${e.name})` : 'US';
+};
+
 async function aiReply(phone) {
   const pend = db.pending[phone];
   const lead = db.leads[phone];
-  if (!pend || pend.status !== 'open' || !lead || !windowOpen(lead)) return;
-  const history = db.messages.filter((m) => m.phone === phone && !m.internal).slice(-15);
-  const out = await draftReply({ history, lead });
-  if (!out || db.pending[phone]?.status !== 'open') return;
+  if (!pend || pend.status !== 'open' || !lead || !windowOpen(lead) || lead.aiPaused) return;
+  const bodies = await templateBodies();
+  const timeline = [
+    ...db.messages.filter((m) => m.phone === phone && !m.internal).slice(-60).map((m) => {
+      let text = m.text || '';
+      const tpl = text.match(/^\[template\]\s*(\S+)/);
+      if (tpl && bodies[tpl[1]]) text = `(template) ${bodies[tpl[1]]}`;
+      if (m.channel === 'email') return { at: m.at, who: 'US (email)', text };
+      return { at: m.at, who: m.dir === 'in' ? 'CUSTOMER' : nameOfSender(m.by), text };
+    }),
+    ...Object.values(db.calls).filter((c) => c.phone === phone).map((c) => ({
+      at: c.startedAt || c.createdAt,
+      who: 'CALL',
+      text: `${c.direction === 'outgoing' ? 'We called them' : 'They called us'} – ${c.status === 'bridged' ? `talked ${c.talk || c.duration || 0}s with ${employee(c.employeeId)?.name || c.agentName || 'our team'}` : 'not answered'}`,
+    })),
+  ].sort((a, b) => a.at - b.at);
+  const notes = (lead.notes || []).slice(-10).map((n) => ({ at: n.at, by: employee(n.by)?.name || 'team', text: n.text }));
+  const out = await draftReply({ timeline, lead, notes });
+  if (!out || db.pending[phone]?.status !== 'open' || lead.aiPaused) return;
   if (out.brand !== 'unknown' && !lead.brandLocked && lead.stage === 'replied' && !lead.campaign?.sentAt) lead.brand = out.brand;
   lead.aiSummary = out.summary;
   if (out.reply.trim() && out.stage !== 'no_reply_needed') {
     await hubSend(null, phone, { text: out.reply.trim(), by: 'ai' });
     pend.aiReplied = true;
   }
-  if (out.stage === 'qualified') advance(lead, 'qualified');
-  if (out.stage === 'qualified' || out.stage === 'needs_human') {
-    const msg = `${out.stage === 'qualified' ? '🔥 QUALIFIED' : '🙋 Needs you'}: ${lead.name || fmtPhone(phone)} (${lead.brand})\n${out.summary}\nCall them now.`;
-    await alertEmployee(employee(lead.assignedTo), msg, phone, { email: true });
-    for (const a of alertTeam(lead.brand)) if (a.id !== lead.assignedTo) notify(a.id, msg, phone);
+  if (out.stage === 'qualified' && !lead.aiQualifiedAlerted) {
+    advance(lead, 'qualified');
+    lead.aiQualifiedAlerted = true;
+  }
+  // the team hears about hot or tricky chats; the AI keeps the conversation going until someone takes over
+  if ((out.stage === 'qualified' && lead.aiQualifiedAlerted === true && !lead.aiQualifiedSent) || out.stage === 'needs_human') {
+    if (out.stage === 'qualified') lead.aiQualifiedSent = true;
+    const owner = employee(lead.assignedTo);
+    const msg = `${out.stage === 'qualified' ? '🔥 HOT LEAD' : '🙋 Wants a person'}: ${lead.name || fmtPhone(phone)} (${lead.brand})\n${out.summary}\nThe assistant is chatting with them – reply or call to take over.`;
+    for (const e of owner && !isShared(owner) ? [owner] : alertTeam(lead.brand)) await alertEmployee(e, msg, phone, { email: true });
   }
   if (out.stage === 'not_interested') {
     lead.aiFlag = 'not_interested';
@@ -629,4 +682,4 @@ function setCampaignRunning(on) {
   save();
 }
 
-module.exports = { setCampaignRunning, handleWebhook, hubSend, resolvePending, startEngine, windowOpen, reminderTick, linkMyopUser, HUMAN };
+module.exports = { scheduleAi, setCampaignRunning, handleWebhook, hubSend, resolvePending, startEngine, windowOpen, reminderTick, linkMyopUser, HUMAN };

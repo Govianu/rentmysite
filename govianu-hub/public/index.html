@@ -564,6 +564,9 @@ async function openLead(phone) {
     <div class="row"><div style="flex:1"><label>Business</label><select id="lb">${Object.values(ME.brands).map((b) => `<option value="${b.key}" ${b.key === l.brand ? 'selected' : ''}>${esc(b.name)}</option>`).join('')}</select></div>
       <div style="flex:1"><label>Stage</label><select id="ls">${ME.stages.map((s) => `<option ${s === l.stage ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
       <div style="flex:1"><label>Assigned to</label><select id="la">${empOptions(l.assignedTo, '<option value="">— nobody —</option>')}</select></div></div>
+    <p class="small" style="margin-top:12px;padding:8px 10px;border-radius:8px;background:${l.aiPaused ? '#f2f4f7' : '#ecfdf3'}">${l.aiPaused
+      ? `👤 <b>A team member is handling this chat</b> – the AI is paused. <button class="btn ghost sm" id="aiOn">Hand back to AI</button>`
+      : `🤖 <b>The AI assistant is replying</b> until a team member replies or calls. <button class="btn ghost sm" id="aiOff">Pause AI</button>`}</p>
     ${l.aiSummary ? `<p class="small" style="margin-top:12px"><span class="pill">AI summary</span> ${esc(l.aiSummary)}</p>` : ''}
     ${d.pending?.status === 'open' ? `<p><span class="pill bad">Waiting ${ago(d.pending.firstAt)}</span> <button class="btn ghost sm" id="done">Mark done</button></p>` : ''}
     <h3 style="font-size:14px;margin:16px 0 8px">Conversation &amp; calls</h3>
@@ -584,6 +587,8 @@ async function openLead(phone) {
   $('#close').onclick = closeLead;
   $('#lb').onchange = (e) => patch({ brand: e.target.value });
   $('#ls').onchange = (e) => patch({ stage: e.target.value });
+  if ($('#aiOn')) $('#aiOn').onclick = () => patch({ aiPaused: false });
+  if ($('#aiOff')) $('#aiOff').onclick = () => patch({ aiPaused: true });
   $('#la').onchange = (e) => patch({ assignedTo: e.target.value || null });
   $('#addNote').onclick = () => $('#note').value.trim() && patch({ note: $('#note').value.trim() });
   if ($('#done')) $('#done').onclick = () => run(() => api(`inbox/${phone}/done`, {}), 'Marked done').then(() => openLead(phone));

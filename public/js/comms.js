@@ -295,6 +295,9 @@
       <p class="comms-contacted">${l.contactedByName
         ? `<strong>Contacted by ${esc(l.contactedByName)}</strong> · ${when(l.contactedAt)} (${esc(l.contactedHow)})${l.lastContactByName && (l.lastContactBy !== l.contactedBy || l.lastContactAt !== l.contactedAt) ? `<br>Last contact: ${esc(l.lastContactByName)} · ${when(l.lastContactAt)} (${esc(l.lastContactHow)})` : ''}`
         : '<span class="meta">Not contacted by the team yet. Call from the MyOperator app or reply below, and it will show your name.</span>'}</p>
+      <p class="comms-contacted" style="background:${l.aiPaused ? 'var(--paper)' : 'var(--teal-soft)'}">${l.aiPaused
+        ? '👤 <strong>A team member is handling this chat</strong> – the AI is paused. <button class="btn ghost small" type="button" data-ai="on">Hand back to AI</button>'
+        : '🤖 <strong>The AI assistant is replying</strong> until a team member replies or calls. <button class="btn ghost small" type="button" data-ai="off">Pause AI</button>'}</p>
       ${l.aiSummary ? `<p><span class="pill">AI summary</span> ${esc(l.aiSummary)}</p>` : ''}
       ${d.pending?.status === 'open' ? `<p><span class="pill rejected">Waiting ${ago(d.pending.firstAt)}</span> <button class="btn ghost small" type="button" data-done-lead>Mark done</button></p>` : ''}
       <h3>Messages, emails &amp; calls</h3>
@@ -315,6 +318,7 @@
     bg.addEventListener('click', closeLead);
     dr.querySelector('[data-close]').addEventListener('click', closeLead);
     dr.querySelectorAll('[data-f]').forEach((s) => s.addEventListener('change', () => patch({ [s.dataset.f]: s.value || null })));
+    dr.querySelector('[data-ai]')?.addEventListener('click', (e) => patch({ aiPaused: e.target.dataset.ai === 'off' }));
     dr.querySelector('[data-add-note]').addEventListener('click', () => { const v = dr.querySelector('[data-note]').value.trim(); if (v) patch({ note: v }); });
     dr.querySelector('[data-done-lead]')?.addEventListener('click', () => run(() => hub(`/inbox/${phone}/done`, { method: 'POST', body: {} }), 'Marked done').then(() => openLead(phone)));
     dr.querySelector('[data-send]')?.addEventListener('click', () => {
