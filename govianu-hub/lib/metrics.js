@@ -68,6 +68,7 @@ function team(brand, range = 'today') {
         assigned: mine.length,
         untouched: mine.filter((l) => l.stage === 'new').length,
         contactedInRange: touchedPhones.size,
+        contactedFirst: leads.filter((l) => l.contactedBy === e.id && (l.contactedAt || 0) >= from).length,
         callsOut: myCalls.filter((c) => c.direction === 'outgoing').length,
         callsIn: myCalls.filter((c) => c.direction !== 'outgoing').length,
         connected: myCalls.filter((c) => c.status === 'bridged').length,

@@ -24,6 +24,21 @@ function trackUnmapped(userId, info = {}) {
   u.count++;
   u.lastAt = now();
 }
+// Record which team member contacted the lead: the first one stays as "contacted by", the latest as "last contact".
+function markContact(lead, empId, how, at = now()) {
+  if (!lead || !empId || !employee(empId)) return;
+  if (!lead.contactedBy) {
+    lead.contactedBy = empId;
+    lead.contactedAt = at;
+    lead.contactedHow = how;
+    logActivity(empId, 'contacted', lead, `Contacted ${lead.name || fmtPhone(lead.phone)} first (${how})`);
+  }
+  lead.lastContactBy = empId;
+  lead.lastContactAt = at;
+  lead.lastContactHow = how;
+  advance(lead, 'contacted');
+}
+
 const advance = (lead, to) => {
   const order = ['new', 'contacted', 'replied', 'qualified', 'meeting', 'cta_sent', 'signed'];
   if (lead.stage === 'lost') return;
@@ -165,6 +180,7 @@ async function handleWhatsApp(ev) {
       advance(lead, 'contacted');
       if (emp) {
         logActivity(emp.id, 'wa_sent', lead, `WhatsApp (MyOperator panel): ${text.slice(0, 80)}`);
+        markContact(lead, emp.id, 'WhatsApp');
         resolvePending(phone, emp.id, 'WhatsApp');
       } else if (p.source === 'lc') {
         resolvePending(phone, null, 'WhatsApp from MyOperator panel (user not mapped)');
@@ -208,6 +224,7 @@ function linkMyopUser(emp, userId) {
     m.by = emp.id;
     logActivity(emp.id, 'wa_sent', db.leads[m.phone], `WhatsApp (MyOperator panel): ${String(m.text).slice(0, 80)}`);
     db.activity[db.activity.length - 1].at = m.at;
+    markContact(db.leads[m.phone], emp.id, 'WhatsApp', m.at);
   }
   for (const p of Object.values(db.pending)) if (p.how === 'WhatsApp from MyOperator panel (user not mapped)' && p.myopUser === userId) p.resolvedBy = emp.id;
   save();
@@ -294,6 +311,7 @@ async function finalizeCall(c) {
     lead.lastOutboundAt = now();
     advance(lead, 'contacted');
   }
+  if (emp && (out || connected)) markContact(lead, emp.id, out ? (connected ? 'call' : 'call, not answered') : 'answered call', c.startedAt || now());
   if (connected) {
     lead.lastCallAt = now();
     resolvePending(lead.phone, emp?.id, out ? 'call' : 'answered call');
@@ -327,6 +345,7 @@ async function hubSend(user, phone, { text, template, templateBody, headerMediaU
   advance(lead, 'contacted');
   if (HUMAN(sender)) {
     logActivity(sender, 'wa_sent', lead, `WhatsApp: ${shown.slice(0, 80)}`);
+    markContact(lead, sender, 'WhatsApp');
     resolvePending(phone, sender, 'WhatsApp');
   }
   save();
@@ -463,7 +482,28 @@ async function campaignTick() {
 }
 let failStreak = 0;
 
+// Leads contacted before "contacted by" existed: fill it in from the activity log.
+function backfillContacts() {
+  const kinds = { call_out: 'call', call_in: 'answered call', wa_sent: 'WhatsApp' };
+  const acts = db.activity.filter((a) => a.employeeId && a.phone && kinds[a.type]).sort((a, b) => a.at - b.at);
+  let n = 0;
+  for (const a of acts) {
+    const lead = db.leads[a.phone];
+    if (!lead || (lead.contactedBy && lead.lastContactAt >= a.at)) continue;
+    if (!lead.contactedBy) {
+      Object.assign(lead, { contactedBy: a.employeeId, contactedAt: a.at, contactedHow: kinds[a.type] });
+      n++;
+    }
+    Object.assign(lead, { lastContactBy: a.employeeId, lastContactAt: a.at, lastContactHow: kinds[a.type] });
+  }
+  if (n) {
+    console.log(`[hub] filled in "contacted by" for ${n} earlier leads`);
+    save();
+  }
+}
+
 function startEngine() {
+  backfillContacts();
   setInterval(() => campaignTick().catch((e) => console.error('[campaign]', e.message)), 1000);
   setInterval(() => reminderTick().catch((e) => console.error('[reminders]', e.message)), 60_000);
 }

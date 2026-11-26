@@ -3,7 +3,7 @@
 // Uses api(), esc() and toast() from api.js.
 (function () {
   const root = () => document.getElementById('comms');
-  const S = { sub: 'overview', range: 'today', me: null, leadQ: '', leadStage: '', leadAssigned: '', leadCampaign: '', callEmp: '', inboxMine: false, templates: null };
+  const S = { sub: 'overview', range: 'today', me: null, leadQ: '', leadStage: '', leadAssigned: '', leadContacted: '', leadCampaign: '', callEmp: '', inboxMine: false, templates: null };
 
   const ago = (t) => { if (!t) return ''; const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `${m} min` : m < 1440 ? `${Math.floor(m / 60)} h ${m % 60} m` : `${Math.floor(m / 1440)} d`; };
   const when = (t) => (t ? new Date(t).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '');
@@ -38,8 +38,8 @@
       S.me.campaignPausedReason,
     ].filter(Boolean);
     const viewBar = isHubAdmin()
-      ? `<div class="comms-view admin"><span><strong>Admin view</strong>: every team member's leads, chats, calls and recordings.</span><button class="btn ghost small" type="button" id="cLeaveAdmin">Leave admin view</button></div>`
-      : `<div class="comms-view"><span><strong>My view</strong>: only leads assigned to you, ${esc(S.me.me.name)}.</span>
+      ? `<div class="comms-view admin"><span><strong>Admin view</strong>: everyone's performance and timelines, reassigning, imports and the campaign.</span><button class="btn ghost small" type="button" id="cLeaveAdmin">Leave admin view</button></div>`
+      : `<div class="comms-view"><span><strong>Shared dashboard</strong>: everyone sees all leads. When you call or WhatsApp a lead it is marked <em>contacted by ${esc(S.me.me.name)}</em> and kept in your record.</span>
           <form id="cAdminForm" class="comms-admin-form"><input type="password" id="cAdminCode" placeholder="Admin code" autocomplete="off" aria-label="Admin code"><button class="btn small" type="submit">Admin view</button></form></div>`;
     el.innerHTML = `${viewBar}${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
       <div class="comms-tabs" role="tablist">${subs.map(([k, l]) => `<button type="button" data-sub="${k}" ${k === S.sub ? 'aria-current="page"' : ''}>${l}</button>`).join('')}</div>
@@ -50,9 +50,9 @@
       const code = document.getElementById('cAdminCode').value.trim();
       if (!code) return toast('Enter the admin code', true);
       const ok = await run(() => hub('/admin-view', { method: 'POST', body: { code } }), 'Admin view on for 12 hours');
-      if (ok) { S.leadAssigned = ''; S.callEmp = ''; window.loadComms(); }
+      if (ok) window.loadComms();
     });
-    document.getElementById('cLeaveAdmin')?.addEventListener('click', () => run(() => hub('/admin-view', { method: 'DELETE' }), 'Back to your own view').then(() => { S.leadAssigned = ''; S.callEmp = ''; if (S.sub === 'campaign') S.sub = 'overview'; window.loadComms(); }));
+    document.getElementById('cLeaveAdmin')?.addEventListener('click', () => run(() => hub('/admin-view', { method: 'DELETE' }), 'Back to your own view').then(() => { if (S.sub === 'campaign') S.sub = 'overview'; window.loadComms(); }));
     try {
       await ({ overview, inbox, leads, calls, team, campaign }[S.sub])();
     } catch (e) {
@@ -100,18 +100,22 @@
 
   // ───────── Leads ─────────
   async function leads() {
-    const q = new URLSearchParams({ q: S.leadQ, stage: S.leadStage, assigned: S.leadAssigned, campaign: S.leadCampaign, limit: 300 });
+    const q = new URLSearchParams({ q: S.leadQ, stage: S.leadStage, assigned: S.leadAssigned, contactedBy: S.leadContacted, campaign: S.leadCampaign, limit: 300 });
     const res = await hub('/leads?' + q);
     body().innerHTML = `<div class="comms-bar">
         <input id="cQ" placeholder="Search name, phone, email, area…" value="${esc(S.leadQ)}">
         <select id="cStage"><option value="">All stages</option>${S.me.stages.map((s) => `<option value="${s}" ${s === S.leadStage ? 'selected' : ''}>${esc(pretty(s))}</option>`).join('')}</select>
-        ${isHubAdmin() ? `<select id="cAssigned"><option value="">Everyone</option><option value="me" ${S.leadAssigned === 'me' ? 'selected' : ''}>My leads</option><option value="none" ${S.leadAssigned === 'none' ? 'selected' : ''}>Not assigned</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadAssigned === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select>` : ''}
+        <select id="cContacted" aria-label="Contacted by"><option value="">Contacted by anyone</option><option value="me" ${S.leadContacted === 'me' ? 'selected' : ''}>Contacted by me</option><option value="none" ${S.leadContacted === 'none' ? 'selected' : ''}>Not contacted yet</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadContacted === e.id ? 'selected' : ''}>Contacted by ${esc(e.name)}</option>`).join('')}</select>
+        <select id="cAssigned" aria-label="Assigned to"><option value="">Assigned to anyone</option><option value="me" ${S.leadAssigned === 'me' ? 'selected' : ''}>Assigned to me</option><option value="none" ${S.leadAssigned === 'none' ? 'selected' : ''}>Not assigned</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadAssigned === e.id ? 'selected' : ''}>Assigned to ${esc(e.name)}</option>`).join('')}</select>
         <select id="cCamp"><option value="">Any campaign state</option>${['none', 'queued', 'sent', 'replied', 'failed', 'skipped'].map((s) => `<option ${s === S.leadCampaign ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
       <p class="meta">${res.total} leads${res.total > res.rows.length ? ` (showing ${res.rows.length})` : ''}</p>
-      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Stage</th><th>Assigned to</th><th>WhatsApp campaign</th><th>Last contact</th><th>Notes</th></tr></thead><tbody>
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Stage</th><th>Contacted by</th><th>Last contact</th><th>Assigned to</th><th>WhatsApp campaign</th><th>Notes</th></tr></thead><tbody>
       ${res.rows.map((l) => `<tr class="comms-row" data-ph="${esc(l.phone)}"><td><strong>${esc(l.name || '—')}</strong>${l.waiting ? ' <span class="pill rejected">waiting</span>' : ''}</td><td>${esc(ph(l.phone))}</td><td>${esc(l.area)}</td>
-        <td>${pill(l.stage)}</td><td>${esc(l.assignedName || '—')}</td><td>${pill(l.campaign)}</td>
-        <td class="meta">${when(Math.max(l.lastInboundAt || 0, l.lastOutboundAt || 0) || null)}</td><td class="meta">${esc(l.aiSummary || l.skip || l.sheetStatus || '')}</td></tr>`).join('') || '<tr><td colspan="8" class="empty"><strong>No leads yet</strong>Import the sheet in the Campaign tab.</td></tr>'}
+        <td>${pill(l.stage)}</td>
+        <td>${l.contactedByName ? `<strong>${esc(l.contactedByName)}</strong><div class="meta">${when(l.contactedAt)} · ${esc(l.contactedHow)}</div>` : '<span class="meta">not yet</span>'}</td>
+        <td class="meta">${l.lastContactByName ? `${esc(l.lastContactByName)} · ${when(l.lastContactAt)}` : when(Math.max(l.lastInboundAt || 0, l.lastOutboundAt || 0) || null)}</td>
+        <td>${esc(l.assignedName || '—')}</td><td>${pill(l.campaign)}</td>
+        <td class="meta">${esc(l.aiSummary || l.skip || l.sheetStatus || '')}</td></tr>`).join('') || '<tr><td colspan="9" class="empty"><strong>No leads yet</strong>Import the sheet in the Campaign tab.</td></tr>'}
       </tbody></table></div>`;
     let t;
     document.getElementById('cQ').addEventListener('input', (e) => {
@@ -125,6 +129,7 @@
     });
     document.getElementById('cStage').addEventListener('change', (e) => { S.leadStage = e.target.value; window.loadComms(); });
     document.getElementById('cAssigned')?.addEventListener('change', (e) => { S.leadAssigned = e.target.value; window.loadComms(); });
+    document.getElementById('cContacted').addEventListener('change', (e) => { S.leadContacted = e.target.value; window.loadComms(); });
     document.getElementById('cCamp').addEventListener('change', (e) => { S.leadCampaign = e.target.value; window.loadComms(); });
     wireRows();
   }
@@ -132,7 +137,7 @@
   // ───────── Calls ─────────
   async function calls() {
     const rows = await hub(`/calls?range=${S.range}${S.callEmp ? '&employee=' + encodeURIComponent(S.callEmp) : ''}`);
-    body().innerHTML = `<div class="comms-bar">${rangeSel()}${isHubAdmin() ? `<select id="cEmp"><option value="">All team members</option>${empOptions(S.callEmp)}</select>` : ''}</div>
+    body().innerHTML = `<div class="comms-bar">${rangeSel()}<select id="cEmp"><option value="">All team members</option>${empOptions(S.callEmp)}</select></div>
       <div class="table-wrap"><table><thead><tr><th>When</th><th>Customer</th><th>Direction</th><th>Result</th><th>Talk time</th><th>Handled by</th><th>Recording</th></tr></thead><tbody>
       ${rows.map((c) => `<tr><td class="meta">${when(c.startedAt)}</td><td class="comms-row" data-ph="${esc(c.phone)}"><strong>${esc(c.name || ph(c.phone))}</strong></td>
         <td>${c.direction === 'outgoing' ? '↗ outgoing' : '↙ incoming'}</td>
@@ -151,11 +156,11 @@
     const unmapped = Object.entries(t.unmappedAgents || {});
     const n = (v, cls) => (v ? `<span class="pill ${cls}">${v}</span>` : '0');
     body().innerHTML = `<div class="comms-bar">${rangeSel()}</div>
-      <div class="table-wrap"><table><thead><tr><th>Team member</th><th>Assigned</th><th>Not contacted yet</th><th>People contacted</th><th>Calls out</th><th>Calls in</th><th>Connected</th><th>Talk time</th><th>Missed (their leads)</th><th>WhatsApp sent</th><th>Emails</th><th>Replied</th><th>Avg reply</th><th>Waiting now</th><th>Qualified</th><th>Signed</th></tr></thead><tbody>
+      <div class="table-wrap"><table><thead><tr><th>Team member</th><th>Assigned</th><th>Not contacted yet</th><th>Leads contacted first</th><th>People contacted</th><th>Calls out</th><th>Calls in</th><th>Connected</th><th>Talk time</th><th>Missed (their leads)</th><th>WhatsApp sent</th><th>Emails</th><th>Replied</th><th>Avg reply</th><th>Waiting now</th><th>Qualified</th><th>Signed</th></tr></thead><tbody>
       ${t.rows.map((r) => `<tr class="comms-row" data-emp="${esc(r.id)}"><td><strong>${esc(r.name)}</strong>${r.mapped ? '' : ' <span class="pill pending" title="Not linked to a MyOperator user yet: their calls cannot be credited">not linked</span>'}<div class="meta">${esc(r.email)}</div></td>
-        <td>${r.assigned}</td><td>${n(r.untouched, 'pending')}</td><td>${r.contactedInRange}</td><td>${r.callsOut}</td><td>${r.callsIn}</td><td>${r.connected}</td><td>${secs(r.talkSec)}</td>
+        <td>${r.assigned}</td><td>${n(r.untouched, 'pending')}</td><td>${r.contactedFirst || 0}</td><td>${r.contactedInRange}</td><td>${r.callsOut}</td><td>${r.callsIn}</td><td>${r.connected}</td><td>${secs(r.talkSec)}</td>
         <td>${n(r.missedAssigned, 'rejected')}</td><td>${r.waSent}</td><td>${r.emailsSent || 0}</td><td>${r.replied}</td><td>${r.avgResponseMin == null ? '—' : r.avgResponseMin + ' min'}</td>
-        <td>${n(r.waitingNow, 'rejected')}</td><td>${r.qualified}</td><td>${r.signed}</td></tr>`).join('') || '<tr><td colspan="16" class="empty"><strong>No team members yet</strong>They appear after they open this tab or the Hub.</td></tr>'}
+        <td>${n(r.waitingNow, 'rejected')}</td><td>${r.qualified}</td><td>${r.signed}</td></tr>`).join('') || '<tr><td colspan="17" class="empty"><strong>No team members yet</strong>They appear after they open this tab or the Hub.</td></tr>'}
       </tbody></table></div><p class="meta">Click a person to see everything they did.</p>
       ${isHubAdmin() && unmapped.length ? `<div class="comms-card"><h3>MyOperator users not linked to a team member</h3><p class="meta">Link each one so their calls and WhatsApp replies count for them. Earlier activity is credited too.</p>
         <div class="table-wrap"><table><tbody>${unmapped.map(([id, u]) => `<tr><td><strong>${esc(u.name || id)}</strong><div class="meta">${esc(u.email || '')} · ${esc(id)}</div></td><td class="meta">${u.count}×</td>
@@ -167,7 +172,7 @@
   }
   async function timeline(id) {
     const rows = await hub(`/team/${encodeURIComponent(id)}/timeline`);
-    const icon = { call_out: '📞↗', call_in: '📞↙', wa_sent: '💬', replied: '✅', stage: '🏷️', note: '📝', assigned: '👤', email_sent: '✉️', test_send: '🧪' };
+    const icon = { contacted: '🤝', call_out: '📞↗', call_in: '📞↙', wa_sent: '💬', replied: '✅', stage: '🏷️', note: '📝', assigned: '👤', email_sent: '✉️', test_send: '🧪' };
     const box = document.getElementById('cTimeline');
     box.innerHTML = `<div class="comms-card"><h3>${esc(empName(id))}: activity</h3><div class="table-wrap"><table><tbody>${rows.map((a) => `<tr class="${a.phone ? 'comms-row' : ''}" ${a.phone ? `data-ph="${esc(a.phone)}"` : ''}><td class="meta" style="white-space:nowrap">${when(a.at)}</td><td>${icon[a.type] || '•'}</td><td>${esc(a.text)}</td><td class="meta">${esc(a.leadName || ph(a.phone))}</td></tr>`).join('') || '<tr><td class="meta">No activity yet</td></tr>'}</tbody></table></div></div>`;
     box.querySelectorAll('[data-ph]').forEach((tr) => tr.addEventListener('click', () => openLead(tr.dataset.ph)));
@@ -263,6 +268,9 @@
       <div class="comms-fields">
         <div><label>Stage</label><select data-f="stage">${S.me.stages.map((s) => `<option value="${s}" ${s === l.stage ? 'selected' : ''}>${esc(pretty(s))}</option>`).join('')}</select></div>
         <div><label>Assigned to</label>${isHubAdmin() ? `<select data-f="assignedTo">${empOptions(l.assignedTo, '<option value="">Nobody</option>')}</select>` : `<p style="margin:.4rem 0">${esc(l.assignedName || 'Nobody')}</p>`}</div></div>
+      <p class="comms-contacted">${l.contactedByName
+        ? `<strong>Contacted by ${esc(l.contactedByName)}</strong> · ${when(l.contactedAt)} (${esc(l.contactedHow)})${l.lastContactByName && (l.lastContactBy !== l.contactedBy || l.lastContactAt !== l.contactedAt) ? `<br>Last contact: ${esc(l.lastContactByName)} · ${when(l.lastContactAt)} (${esc(l.lastContactHow)})` : ''}`
+        : '<span class="meta">Not contacted by the team yet. Call from the MyOperator app or reply below, and it will show your name.</span>'}</p>
       ${l.aiSummary ? `<p><span class="pill">AI summary</span> ${esc(l.aiSummary)}</p>` : ''}
       ${d.pending?.status === 'open' ? `<p><span class="pill rejected">Waiting ${ago(d.pending.firstAt)}</span> <button class="btn ghost small" type="button" data-done-lead>Mark done</button></p>` : ''}
       <h3>Messages, emails &amp; calls</h3>

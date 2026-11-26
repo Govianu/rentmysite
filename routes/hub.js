@@ -5,8 +5,10 @@
 //   .env: HUB_URL=http://127.0.0.1:4100   HUB_API_KEY=<same value as in the Hub's .env>
 //         ADMIN_VIEW_CODE=<secret code that unlocks everyone's records>
 //
-// Who sees what: every team member sees only the leads assigned to them (and those leads' chats, calls and
-// recordings). Entering ADMIN_VIEW_CODE gives that person the admin view (all employees) for 12 hours.
+// Who sees what: one shared dashboard. Every team member sees all leads, chats, calls and recordings; whoever
+// contacts a lead is shown on it ("contacted by X") and every action is kept under their name. Entering
+// ADMIN_VIEW_CODE gives that person the admin view for 12 hours: everyone's performance numbers and timelines,
+// reassigning, imports and the campaign.
 const crypto = require('crypto');
 const express = require('express');
 const jwt = require('jsonwebtoken');

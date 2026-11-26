@@ -43,10 +43,11 @@ With `MYOP_DRY_RUN=true`, nothing is sent to MyOperator. Without SMTP, the sign-
 The team works in each website's own dashboard: **rentmysite.ai/admin.html → WhatsApp & Calls** and **partnermybusiness.ai/admin.html → WhatsApp & Calls**. Each site's `routes/hub.js` forwards the signed-in team member's requests to this Hub on `127.0.0.1:4100`, always for that site's brand. The shared secret `HUB_API_KEY` never reaches the browser. The Hub's own page (port 4100) is only for setup and the two tiles.
 
 **Who sees what:**
-- **My view (default):** each team member sees only the leads assigned to them, plus those leads' chats, calls, recordings and their own numbers.
-- **Admin view:** entering the site's `ADMIN_VIEW_CODE` in the box at the top of WhatsApp & Calls opens it for 12 hours. It shows every employee's leads, activity and recordings, and allows reassigning leads, imports and the campaign.
-
-The code is checked only on the website server, with 5 tries per 15 minutes. The Hub accepts "admin view" only together with the server-to-server key.
+- **Shared dashboard (everyone):** all leads, chats, calls and recordings.
+  - The first team member who calls or WhatsApps a lead is stamped on it as **Contacted by X** (with time and how). Later contacts show as **Last contact by Y**.
+  - The lead moves to the *contacted* stage on its own, and every action is kept in the activity log under that person's name.
+  - Each person sees their own numbers on the Team tab.
+- **Admin view:** entering the site's `ADMIN_VIEW_CODE` in the box at the top of WhatsApp & Calls opens it for 12 hours. It shows every employee's numbers and full timelines, and allows reassigning leads, imports and the campaign. The code is checked only on the website server, with 5 tries per 15 minutes.
 
 ## Deploy on the VPS (94.136.188.14)
 

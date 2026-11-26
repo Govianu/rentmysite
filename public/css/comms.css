@@ -37,3 +37,4 @@
 .comms-reply { display: flex; gap: .6rem; margin-top: .7rem; align-items: flex-start; }
 .comms-reply textarea, .comms-reply select { flex: 1; min-height: 64px; }
 .comms-reply select { min-height: 0; }
+.comms-contacted { margin: .8rem 0; padding: .55rem .8rem; border-radius: 10px; background: var(--teal-soft); }

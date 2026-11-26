@@ -63,14 +63,13 @@ r.post('/api/auth/logout', h((req, res) => {
 r.use('/api', auth.requireUser);
 const admin = auth.requireAdmin;
 
-// Team members see only leads assigned to them (and those leads' chats, calls and recordings);
-// the admin view (admin code on the websites, or a Hub admin) sees everyone's.
-const mineOnly = (req) => (req.isAdmin ? null : req.user.id);
-const canSee = (req, lead) => req.isAdmin || (lead && lead.assignedTo === req.user.id);
+// One shared dashboard: every team member sees every lead, chat, call and recording. Whoever contacts a lead
+// is recorded on it ("contacted by X") and every action is kept in the activity log under their name.
+// The admin view (admin code on the websites, or a Hub admin) adds everyone's performance numbers and timelines,
+// reassigning, imports and the campaign.
 function leadFor(req, phone) {
   const lead = db.leads[phone];
   if (!lead) throw Object.assign(new Error('Not found'), { status: 404 });
-  if (!canSee(req, lead)) throw Object.assign(new Error('This lead is assigned to someone else'), { status: 403 });
   return lead;
 }
 
@@ -88,7 +87,7 @@ r.get('/api/me', h((req) => ({
   unread: db.notifications.filter((n) => n.employeeId === req.user.id && !n.read).length,
 })));
 
-r.get('/api/overview', h((req) => metrics.overview(brandOf(req), req.query.range, mineOnly(req))));
+r.get('/api/overview', h((req) => metrics.overview(brandOf(req), req.query.range)));
 
 // ───── leads ─────
 r.get('/api/leads', h((req) => {
@@ -97,8 +96,10 @@ r.get('/api/leads', h((req) => {
   let list = Object.values(db.leads).filter((l) => !brand || l.brand === brand);
   if (stage) list = list.filter((l) => l.stage === stage);
   if (campaign) list = list.filter((l) => (l.campaign?.state || 'none') === campaign);
-  if (!req.isAdmin) list = list.filter((l) => l.assignedTo === req.user.id);
-  else if (assigned === 'me') list = list.filter((l) => l.assignedTo === req.user.id);
+  if (req.query.contactedBy === 'me') list = list.filter((l) => l.contactedBy === req.user.id || l.lastContactBy === req.user.id);
+  else if (req.query.contactedBy === 'none') list = list.filter((l) => !l.contactedBy);
+  else if (req.query.contactedBy) list = list.filter((l) => l.contactedBy === req.query.contactedBy || l.lastContactBy === req.query.contactedBy);
+  if (assigned === 'me') list = list.filter((l) => l.assignedTo === req.user.id);
   else if (assigned === 'none') list = list.filter((l) => !l.assignedTo);
   else if (assigned) list = list.filter((l) => l.assignedTo === assigned);
   if (q) {
@@ -113,6 +114,8 @@ r.get('/api/leads', h((req) => {
       assignedTo: l.assignedTo, assignedName: employee(l.assignedTo)?.name || '', campaign: l.campaign?.state || 'none',
       lastInboundAt: l.lastInboundAt, lastOutboundAt: l.lastOutboundAt, aiSummary: l.aiSummary || '', waiting: db.pending[l.phone]?.status === 'open',
       skip: l.campaign?.state === 'none' ? leadsLib.skipReason(l) : null,
+      contactedBy: l.contactedBy || null, contactedByName: employee(l.contactedBy)?.name || '', contactedAt: l.contactedAt || null, contactedHow: l.contactedHow || '',
+      lastContactBy: l.lastContactBy || null, lastContactByName: employee(l.lastContactBy)?.name || '', lastContactAt: l.lastContactAt || null, lastContactHow: l.lastContactHow || '',
     })),
   };
 }));
@@ -120,7 +123,7 @@ r.get('/api/leads', h((req) => {
 r.get('/api/leads/:phone', h((req) => {
   const lead = leadFor(req, req.params.phone);
   return {
-    lead: { ...lead, assignedName: employee(lead.assignedTo)?.name || '' },
+    lead: { ...lead, assignedName: employee(lead.assignedTo)?.name || '', contactedByName: employee(lead.contactedBy)?.name || '', lastContactByName: employee(lead.lastContactBy)?.name || '' },
     windowOpen: engine.windowOpen(lead),
     pending: db.pending[lead.phone] || null,
     messages: db.messages.filter((m) => m.phone === lead.phone && !m.internal).slice(-200).map((m) => ({ ...m, byName: nameOf(m.by) })),
@@ -171,7 +174,7 @@ r.get('/api/inbox', h((req) => {
       const l = db.leads[p.phone] || {};
       return { ...p, name: l.name, assignedTo: l.assignedTo, assignedName: employee(l.assignedTo)?.name || '', aiSummary: l.aiSummary || '', stage: l.stage };
     })
-    .filter((p) => (req.isAdmin && req.query.mine !== '1') || p.assignedTo === req.user.id)
+    .filter((p) => req.query.mine !== '1' || p.assignedTo === req.user.id)
     .sort((a, b) => a.firstAt - b.firstAt);
 }));
 r.post('/api/inbox/:phone/done', h((req) => {
@@ -184,8 +187,7 @@ r.get('/api/calls', h((req) => {
   const brand = brandOf(req);
   const from = metrics.rangeStart(req.query.range || '7d');
   let list = Object.values(db.calls).filter((c) => (c.startedAt || c.createdAt) >= from && (!brand || c.brand === brand));
-  if (!req.isAdmin) list = list.filter((c) => c.employeeId === req.user.id || db.leads[c.phone]?.assignedTo === req.user.id);
-  else if (req.query.employee) list = list.filter((c) => c.employeeId === req.query.employee);
+  if (req.query.employee) list = list.filter((c) => c.employeeId === req.query.employee);
   return list
     .sort((a, b) => (b.startedAt || b.createdAt) - (a.startedAt || a.createdAt))
     .slice(0, 500)
@@ -194,7 +196,6 @@ r.get('/api/calls', h((req) => {
 r.get('/api/calls/:id/recording', h(async (req, res) => {
   const c = db.calls[req.params.id];
   if (!c?.recording_filename) throw Object.assign(new Error('No recording for this call'), { status: 404 });
-  if (!req.isAdmin && c.employeeId !== req.user.id && db.leads[c.phone]?.assignedTo !== req.user.id) throw Object.assign(new Error('This call belongs to someone else'), { status: 403 });
   res.redirect(await myop.recordingLink(c.recording_filename));
 }));
 
