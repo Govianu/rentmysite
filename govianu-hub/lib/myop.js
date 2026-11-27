@@ -88,7 +88,7 @@ async function listTemplates() {
     const r = await waRequest('GET', `/chat/templates?limit=20&offset=${offset}`);
     const rows = r.data?.results || [];
     out.push(...rows);
-    if (!r.data?.next || !rows.length) break;
+    if (rows.length < 20) break; // keep paging: new templates are usually at the end
   }
   return out.map((t) => {
     const body = (t.components || []).find((c) => c.type === 'BODY')?.text || '';
@@ -144,7 +144,9 @@ async function createTemplate(t) {
     console.log('[MYOP DRY RUN] create template', t.name);
     return { data: { id: 'dry' } };
   }
-  return waRequest('POST', '/chat/templates', { ...t, waba_id: await wabaId() });
+  const r = await waRequest('POST', '/chat/templates', { ...t, waba_id: await wabaId() });
+  console.log('[templates] created', t.name, JSON.stringify(r).slice(0, 300));
+  return r;
 }
 
 function obdConfigured() {
@@ -182,4 +184,4 @@ async function clickToCall({ customer, userId, agentPhone, reference }) {
   return json;
 }
 
-module.exports = { createTemplate, obdConfigured, clickToCall, configured, callingConfigured, sendText, sendTemplate, sendMedia, listTemplates, recordingLink, listUsers, DRY_RUN };
+module.exports = { waRequest, wabaId, createTemplate, obdConfigured, clickToCall, configured, callingConfigured, sendText, sendTemplate, sendMedia, listTemplates, recordingLink, listUsers, DRY_RUN };
