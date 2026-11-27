@@ -101,4 +101,6 @@
   });
 
   window.loadPlots = load;
+  // show how many plots wait for approval in the menu as soon as the dashboard opens
+  api('/plots/admin/list?status=pending_review').then((r) => typeof setCount === 'function' && setCount('plots', r.counts.pending_review)).catch(() => {});
 })();

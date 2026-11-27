@@ -150,6 +150,22 @@ const TEMPLATES = [
     type: 'template',
     components: [{ type: 'BODY', format: 'TEXT', example: { name: 'Ravi' }, text: 'Hi {{name}}, thank you for calling Govianu (RentMySite.ai and PartnerMyBusiness.ai). We could not take your call right now as our team is busy with other clients. We will call you back as soon as possible.\n\nMeanwhile, you can reply here with your question or the details of your space or business.' }],
   },
+  {
+    // first WhatsApp to a website enquiry from a space owner (lib/site.js)
+    name: 'rms_enquiry_owner',
+    language: 'en',
+    category: 'utility',
+    type: 'template',
+    components: [{ type: 'BODY', format: 'TEXT', example: { name: 'Ravi', link: 'https://rentmysite.ai/list-plot?phone=9845012345&src=web' }, text: 'Hi {{name}}, thank you for your enquiry on RentMySite.ai.\n\nTo prepare your free earning plan, please upload your plot or space details, photos and documents here (takes about 5 minutes): {{link}}\n\nOur team will review it and take it forward with you. You can also reply here with any questions.' }],
+  },
+  {
+    // first WhatsApp to a website enquiry from someone looking for space (lib/site.js)
+    name: 'rms_enquiry_seeker',
+    language: 'en',
+    category: 'utility',
+    type: 'template',
+    components: [{ type: 'BODY', format: 'TEXT', example: { name: 'Asha', link: 'https://rentmysite.ai/find#plots' }, text: 'Hi {{name}}, thank you for your enquiry on RentMySite.ai.\n\nYou can see the plots and spaces available right now here: {{link}}\n\nTell us what you need – the use, the area and the size – and we will shortlist the right sites for you.' }],
+  },
 ];
 
 async function createTemplates() {

@@ -49,6 +49,15 @@ r.post('/api/webhooks/myoperator', (req, res) => {
   })();
 });
 
+// ───── website events (server to server, X-Hub-Key): new enquiry → Leads + welcome WhatsApp; plot uploads ─────
+r.post('/api/site-event', h(async (req) => {
+  const key = process.env.HUB_API_KEY;
+  const got = String(req.get('x-hub-key') || '');
+  const crypto = require('crypto');
+  if (!key || got.length !== key.length || !crypto.timingSafeEqual(Buffer.from(got), Buffer.from(key))) throw Object.assign(new Error('Hub key not accepted'), { status: 401 });
+  return require('./lib/site').handleSiteEvent(req.body || {});
+}));
+
 // ───── auth ─────
 r.post('/api/auth/request', h((req) => auth.requestCode(req.body.email)));
 r.post('/api/auth/verify', h((req, res) => {

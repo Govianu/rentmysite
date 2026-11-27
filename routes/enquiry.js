@@ -98,6 +98,12 @@ router.post('/', rateLimit(5, 10 * 60 * 1000), async (req, res) => {
     stage: 'new', history: [{ stage: 'new', note: `Website enquiry, terms ${TERMS_VERSION} accepted`, at: termsAcceptedAt }]
   });
 
+  // WhatsApp: into the Hub's Leads straight away, with the first message (owners: upload your plot)
+  require('../utils/hubNotify').notifyHub({
+    type: 'enquiry', phone, name, email, role, roleName: ROLE_NAMES[role], leadId, area,
+    details: [fields.spaceType || fields.format, fields.size ? fields.size.toLocaleString('en-IN') + ' sq ft' : '', fields.location, fields.message].filter(Boolean).join(', ')
+  });
+
   // To them: code, dashboard button, and (owners) an indicative first estimate
   const est = role === 'owner' && fields.size ? estimateFor(fields.size, { category: fields.spaceType }) : null;
   const inr = n => `₹${Math.round(n).toLocaleString('en-IN')}`;

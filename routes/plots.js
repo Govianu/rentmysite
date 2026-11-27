@@ -17,6 +17,7 @@ const rateLimit = require('../utils/rateLimit');
 const { sendMail } = require('../utils/mailer');
 const emails = require('../utils/emails');
 const { TYPES, UPLOAD_DIR, TEMP_DIR, mediaFilePath } = require('../utils/mediaUpload');
+const { notifyHub } = require('../utils/hubNotify');
 
 // ---------- The format every plot is submitted in ----------
 const PLOT_TYPES = ['Vacant plot / land', 'Agricultural land', 'Converted (DC) land', 'Commercial site', 'Industrial plot / KIADB',
@@ -203,6 +204,7 @@ router.post('/', rateLimit(8, 60 * 60 * 1000), uploadFiles, async (req, res) => 
     }).catch((e) => console.error('[plots] lead:', e.message));
     await sendMail(emails.plotSubmitted({ plot: adminPlot(plot) })).catch((e) => console.error('[plots] team email:', e.message));
     if (ownerEmail) await sendMail(emails.plotReceived({ plot: adminPlot(plot) })).catch((e) => console.error('[plots] owner email:', e.message));
+    notifyHub({ type: 'plot', status: 'submitted', phone: ownerPhone, name: ownerName, email: ownerEmail, area: f.locality, plotId, title: plot.title, photos: storedPhotos.length, documents: storedDocs.length });
     res.status(201).json({ plotId, title: plot.title });
   } catch (e) {
     await cleanup(files);
@@ -277,7 +279,21 @@ router.patch('/admin/:id', admin, async (req, res) => {
   await p.save();
   if (b.action === 'approve' && was !== 'live' && p.ownerEmail) await sendMail(emails.plotPublished({ plot: adminPlot(p) })).catch((e) => console.error('[plots] owner email:', e.message));
   if (b.action === 'reject' && p.ownerEmail) await sendMail(emails.plotRejected({ plot: adminPlot(p) })).catch((e) => console.error('[plots] owner email:', e.message));
+  if ((b.action === 'approve' && was !== 'live') || b.action === 'reject') notifyHub({ type: 'plot', status: b.action === 'approve' ? 'approved' : 'rejected', note: p.reviewNote || '', phone: p.ownerPhone, name: p.ownerName, plotId: p.plotId, title: p.title });
   res.json({ plot: adminPlot(p) });
+});
+
+// Plots uploaded from one phone number (WhatsApp & Calls → lead drawer), and which numbers have uploads (Leads badges)
+const last10 = (v) => String(v || '').replace(/\D/g, '').slice(-10);
+router.get('/admin/by-phone/:phone', admin, async (req, res) => {
+  const want = last10(req.params.phone);
+  const rows = (await Plot.find({})).filter((p) => want && last10(p.ownerPhone) === want).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  res.json({ plots: rows.map(adminPlot) });
+});
+router.get('/admin/phones', admin, async (req, res) => {
+  const out = {};
+  for (const p of await Plot.find({})) if (p.status !== 'removed') { const k = last10(p.ownerPhone); out[k] = out[k] === 'live' ? 'live' : p.status; }
+  res.json({ phones: out });
 });
 
 // ---------- One plot ----------

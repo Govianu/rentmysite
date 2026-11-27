@@ -742,6 +742,7 @@ function startEngine() {
   setInterval(() => campaignTick().catch((e) => console.error('[campaign]', e.message)), 1000);
   setInterval(() => reminderTick().catch((e) => console.error('[reminders]', e.message)), 60_000);
   setInterval(() => autopilotTick().catch((e) => console.error('[autopilot]', e.message)), 5 * 60_000);
+  setInterval(() => require('./site').retryPendingWelcomes().catch((e) => console.error('[site]', e.message)), 10 * 60_000);
   setTimeout(() => autopilotTick().catch(() => {}), 15_000);
 }
 
