@@ -130,13 +130,32 @@ async function listUsers() {
   return Array.isArray(rows) ? rows : [];
 }
 
-// The WhatsApp Business Account id (needed to create templates): MYOP_WABA_ID, or read from the phone numbers
+// The WhatsApp Business Account id (needed to create templates). MyOperator's responses carry several ids
+// (internal uuid, Meta's WABA id, …) and the field name isn't documented, so collect every candidate:
+// MYOP_WABA_ID first, then every waba-like id on the WhatsApp phone numbers.
+let goodWaba = null;
+function collectWaba(obj, out, depth = 0) {
+  if (!obj || typeof obj !== 'object' || depth > 4) return;
+  for (const [k, v] of Object.entries(obj)) {
+    if (/waba/i.test(k) && (typeof v === 'string' || typeof v === 'number') && String(v)) out.add(String(v));
+    else if (/waba/i.test(k) && v && typeof v === 'object') {
+      for (const [k2, v2] of Object.entries(v)) if (/(^id$|waba|meta|account)/i.test(k2) && (typeof v2 === 'string' || typeof v2 === 'number')) out.add(String(v2));
+      collectWaba(v, out, depth + 1);
+    } else if (v && typeof v === 'object') collectWaba(v, out, depth + 1);
+  }
+}
+async function wabaCandidates() {
+  const out = new Set();
+  if (goodWaba) out.add(goodWaba);
+  if (process.env.MYOP_WABA_ID) out.add(process.env.MYOP_WABA_ID);
+  const p = await waRequest('GET', '/chat/phonenumbers?limit=10&offset=0&expand=waba_account').catch(() => null);
+  for (const row of p?.data?.results || []) collectWaba(row, out);
+  return [...out];
+}
 async function wabaId() {
-  if (process.env.MYOP_WABA_ID) return process.env.MYOP_WABA_ID;
-  const r = await waRequest('GET', '/chat/phonenumbers?limit=10&offset=0&expand=waba_account');
-  const row = (r.data?.results || []).find((x) => x.waba_account?.id);
-  if (!row) throw new Error('Could not find the WhatsApp Business Account id – add MYOP_WABA_ID to the Hub .env (MyOperator → WhatsApp settings)');
-  return row.waba_account.id;
+  const c = await wabaCandidates();
+  if (!c.length) throw new Error('Could not find the WhatsApp Business Account id – add MYOP_WABA_ID to the Hub .env');
+  return c.join(' / ');
 }
 
 async function createTemplate(t) {
@@ -144,9 +163,20 @@ async function createTemplate(t) {
     console.log('[MYOP DRY RUN] create template', t.name);
     return { data: { id: 'dry' } };
   }
-  const r = await waRequest('POST', '/chat/templates', { ...t, waba_id: await wabaId() });
-  console.log('[templates] created', t.name, JSON.stringify(r).slice(0, 300));
-  return r;
+  const cands = await wabaCandidates();
+  let last = new Error('no WhatsApp Business Account id found');
+  for (const id of cands) {
+    try {
+      const r = await waRequest('POST', '/chat/templates', { ...t, waba_id: id });
+      goodWaba = id;
+      console.log('[templates] created', t.name, 'waba', id, JSON.stringify(r).slice(0, 300));
+      return r;
+    } catch (e) {
+      last = e;
+      if (!/waba/i.test(e.message)) throw e; // a real error about the template itself
+    }
+  }
+  throw new Error(`${last.message} (tried: ${cands.join(', ')})`);
 }
 
 function obdConfigured() {
@@ -184,4 +214,4 @@ async function clickToCall({ customer, userId, agentPhone, reference }) {
   return json;
 }
 
-module.exports = { waRequest, wabaId, createTemplate, obdConfigured, clickToCall, configured, callingConfigured, sendText, sendTemplate, sendMedia, listTemplates, recordingLink, listUsers, DRY_RUN };
+module.exports = { wabaCandidates, waRequest, wabaId, createTemplate, obdConfigured, clickToCall, configured, callingConfigured, sendText, sendTemplate, sendMedia, listTemplates, recordingLink, listUsers, DRY_RUN };
