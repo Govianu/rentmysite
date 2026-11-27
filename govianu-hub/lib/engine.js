@@ -388,9 +388,31 @@ async function finalizeCall(c) {
     resolvePending(lead.phone, emp?.id, out ? 'call' : 'answered call');
   } else if (!out) {
     openPending(lead, 'missed_call', `Missed call (${c.status})`, c.startedAt || now());
+    await missedCallReply(lead).catch((e) => console.error('[missed-call reply]', lead.phone, e.message));
     const owner = employee(lead.assignedTo);
     for (const e of owner && !isShared(owner) ? [owner] : alertTeam(lead.brand)) await alertEmployee(e, `📞 Missed call from ${lead.name || fmtPhone(lead.phone)} (${lead.brand}). Please call back${owner && !isShared(owner) ? '' : ' – first to call gets this lead'}.`, lead.phone);
   }
+}
+
+// WhatsApp to a caller we missed: "busy right now, we will call you back as soon as possible".
+// Free text inside the 24-hour window, otherwise the approved template. At most once per repeatAfterHours.
+async function missedCallReply(lead) {
+  const m = db.settings.missedCall || {};
+  if (!m.enabled || !myop.configured()) return;
+  if (lead.missedReplyAt && now() - lead.missedReplyAt < (m.repeatAfterHours || 6) * 60 * MIN) return;
+  if (windowOpen(lead) && m.text) {
+    await hubSend(null, lead.phone, { text: m.text, by: 'ai' });
+  } else if (m.template) {
+    const { approvedNames } = require('./followup');
+    if (!(await approvedNames().catch(() => new Set())).has(m.template)) {
+      console.warn(`[missed-call reply] template ${m.template} not approved yet – skipped ${lead.phone}`);
+      return;
+    }
+    await hubSend(null, lead.phone, { template: m.template, shownText: m.text || `[template] ${m.template}`, by: 'ai' });
+  } else return;
+  lead.missedReplyAt = now();
+  logActivity(null, 'ai_reply', lead, 'Missed call – sent "busy, will call back" WhatsApp');
+  save();
 }
 
 // ───────────────────────── sending from the Hub ─────────────────────────

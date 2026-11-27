@@ -49,6 +49,8 @@ function defaults() {
         officeHours: process.env.OFFICE_HOURS || 'Monday to Saturday, 10 am to 7 pm',
       },
       staffAlert: { templateName: '', variable: 'details' },
+      // WhatsApp sent automatically to anyone whose call was missed (template outside the 24-hour window)
+      missedCall: { enabled: true, template: 'govianu_missed_call', text: 'Hi, thank you for calling Govianu (RentMySite.ai and PartnerMyBusiness.ai). We could not take your call right now as our team is busy with other clients. We will call you back as soon as possible.\n\nMeanwhile, you can reply here with your question or the details of your space or business.', repeatAfterHours: 6 },
     },
     employees: [], // {id,email,name,role,phone,myopUserId,brands,active,createdAt}
     leads: {}, // phone(91XXXXXXXXXX) -> lead
@@ -81,6 +83,7 @@ function load() {
       reminders: { ...base.settings.reminders, ...(s.reminders || {}) },
       ai: { ...base.settings.ai, ...(s.ai || {}) },
       staffAlert: { ...base.settings.staffAlert, ...(s.staffAlert || {}) },
+      missedCall: { ...base.settings.missedCall, ...(s.missedCall || {}) },
     },
   };
 }
