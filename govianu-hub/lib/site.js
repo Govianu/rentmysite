@@ -57,7 +57,8 @@ async function handleSiteEvent(ev) {
     autoAssign(lead);
     lead.notes = [...(lead.notes || []), { at: now(), by: 'website', text: `Website enquiry (${ev.roleName || ev.role || 'enquiry'})${ev.details ? ': ' + String(ev.details).slice(0, 400) : ''}` }];
     logActivity(null, 'imported', lead, `New website enquiry${ev.roleName ? ` – ${ev.roleName}` : ''}`);
-    if (lead.campaign?.state === 'queued') lead.campaign = { state: 'skipped', reason: 'website enquiry – welcomed directly' };
+    // Never also put them in the 100-a-day follow-up: they get the website welcome instead
+    if (['none', 'queued', undefined].includes(lead.campaign?.state)) lead.campaign = { state: 'skipped', reason: 'website enquiry – welcomed directly' };
     save();
     const welcomeResult = ev.welcome === false ? 'not needed' : brand === 'rentmysite' ? await sendWelcome(lead, ev.role).catch((e) => `error: ${e.message}`) : 'not for this brand';
     save();
