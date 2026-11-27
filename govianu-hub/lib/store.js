@@ -42,7 +42,12 @@ function defaults() {
           'Reply to this email or WhatsApp us on 8103990990 and our team will call you.\n\nRegards,\nTeam RentMySite',
       },
       reminders: { enabled: true, firstAfterMin: 10, repeatEveryMin: 15, escalateAfterMin: 30 },
-      ai: { enabled: true, delaySec: 20, extraInstructions: '' },
+      ai: {
+        enabled: true, delaySec: 20, extraInstructions: '',
+        officeAddress: process.env.OFFICE_ADDRESS || 'Govianu office, Sadashivanagar, Bengaluru',
+        officeMap: process.env.OFFICE_MAP_URL || 'https://www.google.com/maps/search/?api=1&query=Govianu+Sadashivanagar+Bengaluru',
+        officeHours: process.env.OFFICE_HOURS || 'Monday to Saturday, 10 am to 7 pm',
+      },
       staffAlert: { templateName: '', variable: 'details' },
     },
     employees: [], // {id,email,name,role,phone,myopUserId,brands,active,createdAt}

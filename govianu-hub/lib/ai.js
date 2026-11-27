@@ -14,12 +14,12 @@ const Reply = z.object({
   stage: z
     .enum(['engaged', 'qualified', 'not_interested', 'needs_human', 'no_reply_needed'])
     .describe(
-      'engaged = conversation going; qualified = clearly interested and we know enough (what, where, size) or they agreed to a survey/visit/meeting; ' +
+      'engaged = conversation going; qualified = clearly interested and we know enough (what, where, size) or they agreed to an office visit, survey or meeting; ' +
         'not_interested = they declined; needs_human = a complaint, payment or legal dispute, or they insist on speaking to a person (still reply helpfully); ' +
         'no_reply_needed = only "ok"/"thanks"/an emoji after the conversation has ended.',
     ),
   brand: z.enum(['rentmysite', 'pmb', 'unknown']).describe('Which business this person is talking about.'),
-  summary: z.string().describe('One line for the team: who this is, what they have, what they want, where the deal stands.'),
+  summary: z.string().describe('One line for the team: who this is, what they have, what they want, where the deal stands (include any office visit day/time they agreed).'),
 });
 
 const SYSTEM = `You are the WhatsApp assistant for Govianu (Bengaluru), answering for two businesses. You handle the conversation yourself until a team member takes over the chat. Your job: understand the person, answer their questions properly, make them interested in the deal, and keep the conversation moving forward.
@@ -49,7 +49,8 @@ const SYSTEM = `You are the WhatsApp assistant for Govianu (Bengaluru), answerin
 - Short WhatsApp messages, 1–4 lines, warm and confident, Indian English. Reply in the customer's language if they write in Hindi, Kannada, Tamil or Telugu.
 - Find out their situation one question at a time: what the space or business is, where, how big, what it is used for now, the road it is on, what they hope for. End with one clear question so the conversation keeps going.
 - Answer their questions properly with the facts above. Show what their kind of space or business could earn or become, with the examples. Handle doubts (no upfront cost, they keep ownership, monthly statements, they approve everything).
-- Move the deal forward: once you know the basics, offer the free site survey / revenue report and ask for a convenient day and time, or ask them to share photos and the Google Maps location.
+- Move the deal forward. The goal of every conversation is an office visit: as soon as the client shows interest (asks how it works, about earnings, the next step, says yes / interested / okay, or shares details of their space or business), invite them to visit the Govianu office in Sadashivanagar to meet the team and see their plan – give the office address and the Google Maps link from "Office" below, ask which day and time suits them, and confirm it back once they choose. If they cannot come, offer the free site survey / revenue report instead and ask them to share photos and the Google Maps location of their space.
+- Send the office address and map link in full the first time you invite them, and again whenever they ask for the location or confirm a visit; otherwise do not repeat it in every message.
 - Do NOT say "our team will assist you", "someone will call you", "we will get back to you" or hand the conversation off. You are handling it.
 - Never invent prices, earnings, dates, availability or promises beyond the facts. Figures above are illustrative; say exact numbers come in the written estimate after the free survey.
 - If asked whether you are a bot, say honestly that you are the RentMySite / PartnerMyBusiness assistant, and keep helping.`;
@@ -72,6 +73,8 @@ async function draftReply({ timeline, lead, notes = [] }) {
       ? `Lead: name=${lead.name || 'unknown'}, business=${lead.brand}, area=${lead.area || 'unknown'}, source=${lead.source || 'unknown'}, stage=${lead.stage}${lead.remarks ? `, sheet remarks: ${lead.remarks}` : ''}${lead.aiSummary ? `\nWhat we know so far: ${lead.aiSummary}` : ''}`
       : 'New contact.',
     notes.length ? `Team notes (internal – use for context, never quote them):\n${notes.map((n) => `- ${fmt(n.at)} ${n.by}: ${n.text}`).join('\n')}` : '',
+    `Office (where to invite interested clients): ${db.settings.ai.officeAddress || 'Govianu office, Sadashivanagar, Bengaluru'}` +
+      `${db.settings.ai.officeMap ? ` | Google Maps: ${db.settings.ai.officeMap}` : ''}${db.settings.ai.officeHours ? ` | Open: ${db.settings.ai.officeHours}` : ''}`,
     db.settings.ai.extraInstructions ? `Extra instructions from the team: ${db.settings.ai.extraInstructions}` : '',
     `Current time: ${fmt(Date.now())}`,
     '',

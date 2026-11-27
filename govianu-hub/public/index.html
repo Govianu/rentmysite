@@ -649,6 +649,9 @@ async function settingsView() {
       <p class="small muted">Without a template, alerts are sent as normal text, which WhatsApp only delivers if that employee messaged ${esc(s.waNumberLabel)} in the last 24 h. Alerts always show in the Hub 🔔 too.</p></div>
     <div class="card"><h2>AI replies</h2><label class="check"><input type="checkbox" id="aen" ${s.ai.enabled ? 'checked' : ''}> AI answers customers while staff are busy</label>
       <label>Wait before AI replies (sec)</label><input id="ad" type="number" value="${s.ai.delaySec}">
+      <label>Office address (AI invites interested clients here)</label><input id="aoa" value="${esc(s.ai.officeAddress || '')}">
+      <label>Office Google Maps link (sent as the location)</label><input id="aom" value="${esc(s.ai.officeMap || '')}" placeholder="https://maps.app.goo.gl/...">
+      <label>Office visiting hours</label><input id="aoh" value="${esc(s.ai.officeHours || '')}">
       <label>Extra instructions</label><textarea id="ax">${esc(s.ai.extraInstructions)}</textarea></div>
     <div class="card"><h2>MyOperator</h2>
       <label>Webhook URL – paste in MyOperator → APIs &amp; Webhooks → Webhooks v2 → Add (tick Call events + WhatsApp events)</label><code>${esc(webhookUrl)}</code>
@@ -666,7 +669,7 @@ async function settingsView() {
   $('#saveS').onclick = () => run(() => api('settings', {
     reminders: { enabled: $('#ren').checked, firstAfterMin: +$('#rf').value, repeatEveryMin: +$('#rr').value, escalateAfterMin: +$('#re').value },
     staffAlert: { templateName: $('#sat').value.trim(), variable: $('#sav').value.trim() || 'details' },
-    ai: { enabled: $('#aen').checked, delaySec: +$('#ad').value, extraInstructions: $('#ax').value },
+    ai: { enabled: $('#aen').checked, delaySec: +$('#ad').value, extraInstructions: $('#ax').value, officeAddress: $('#aoa').value.trim(), officeMap: $('#aom').value.trim(), officeHours: $('#aoh').value.trim() },
     waPhoneNumberId: $('#pnid').value, waNumberLabel: $('#pnl').value, defaultBrand: $('#db').value,
   }), 'Settings saved').then(boot);
 }
