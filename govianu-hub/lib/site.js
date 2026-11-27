@@ -59,7 +59,7 @@ async function handleSiteEvent(ev) {
     logActivity(null, 'imported', lead, `New website enquiry${ev.roleName ? ` – ${ev.roleName}` : ''}`);
     if (lead.campaign?.state === 'queued') lead.campaign = { state: 'skipped', reason: 'website enquiry – welcomed directly' };
     save();
-    const welcomeResult = brand === 'rentmysite' ? await sendWelcome(lead, ev.role).catch((e) => `error: ${e.message}`) : 'not for this brand';
+    const welcomeResult = ev.welcome === false ? 'not needed' : brand === 'rentmysite' ? await sendWelcome(lead, ev.role).catch((e) => `error: ${e.message}`) : 'not for this brand';
     save();
     return { ok: true, phone, isNew, welcome: welcomeResult };
   }

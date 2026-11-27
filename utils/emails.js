@@ -155,7 +155,7 @@ function teamEnquiry(e) {
     ['Offer', e.offer], ['Territory', e.territory], ['Notes', e.message], ['Dashboard plan', e.plan],
     ['Terms accepted', `Yes, version ${e.termsVersion}, ${new Date(e.termsAcceptedAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST`],
     ['Dashboard', e.handle ? `${e.handle} (verification code sent${e.existingAccount ? ', existing account' : ''})` : 'Not applicable']
-  ]) + button(teamLink('leads'), 'Open this lead in the RentMySite team dashboard')
+  ]) + button(teamLink('comms'), 'Open this lead in the RentMySite team dashboard')
     + p(`<span style="font-size:13px;color:#47537C">Their own dashboard opens only with the code sent to their email, so it stays private to them.</span>`);
   return {
     to: TEAM_INBOX(),
@@ -219,7 +219,7 @@ function ctaRequest({ user, industry, label, topic, note, preferred }) {
     ['Lead ID', user.leadId], ['Request', label], ['About', topic], ['Name', user.name], ['Business', company], ['Type', industry.display],
     ['Email', user.email], ['Phone', user.phone], ['Area', user.location], ['Best time to call', preferred], ['Note', note],
     ['Skills', (user.skills || user.associate?.skills || []).join(', ')], ['Handle', user.handle]
-  ]) + button(teamLink('leads'), 'Open in the RentMySite team dashboard');
+  ]) + button(teamLink('comms'), 'Open in the RentMySite team dashboard');
   return {
     to: TEAM_INBOX(),
     replyTo: user.email || undefined,
@@ -430,7 +430,7 @@ function plotEnquiry({ plot, enquiry }) {
   const body = p('Someone looking for space is interested in a published plot. Call them, then coordinate with the owner (no direct contact between them).')
     + table([['Name', enquiry.name], ['Phone', enquiry.phone], ['Email', enquiry.email], ['What they want it for', enquiry.purpose], ['Message', enquiry.message]])
     + p('<strong>The plot</strong>') + table([['Owner', `${plot.ownerName}, ${plot.ownerPhone}`], ['Address', plot.address], ['Google Maps', plot.mapUrl], ...plotRows(plot).slice(0, 6)])
-    + button(teamLink('leads'), 'Open Leads');
+    + button(teamLink('comms'), 'Open Leads');
   return { to: TEAM_INBOX(), replyTo: enquiry.email || undefined, subject: `[${plot.plotId}] Enquiry from ${enquiry.name}: ${plot.title}`, html: layout('Plot enquiry', body), text: `${enquiry.name} (${enquiry.phone}) is interested in ${plot.plotId}.` };
 }
 Object.assign(module.exports, { plotSubmitted, plotReceived, plotPublished, plotRejected, plotEnquiry });

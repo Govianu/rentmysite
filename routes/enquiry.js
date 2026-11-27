@@ -120,7 +120,7 @@ router.post('/', rateLimit(5, 10 * 60 * 1000), async (req, res) => {
     [role === 'brand' ? 'Needs' : 'Space', fields.spaceType || fields.format], ['Size', fields.size ? `${fields.size.toLocaleString('en-IN')} sq ft` : ''],
     ['Location', fields.location], ['Message', fields.message]].filter(([, v]) => v);
   const teamBody = `<table style="border-collapse:collapse;width:100%">${teamRows.map(([k, v]) => `<tr><td style="padding:6px 10px;border-bottom:1px solid #D6E2DC;color:#4D5F57;font-size:13px">${esc(k)}</td><td style="padding:6px 10px;border-bottom:1px solid #D6E2DC">${esc(v)}</td></tr>`).join('')}</table>`
-    + button(`${APP_URL()}/admin#leads`, 'Open in the team dashboard');
+    + button(`${APP_URL()}/team?next=comms`, 'Open in the team dashboard');
   const [toPerson] = await Promise.all([
     sendMail({ to: email, subject: role === 'owner' ? 'Your RentMySite.ai dashboard and free report' : 'Welcome to RentMySite.ai', html: layout('Welcome', personBody) }),
     sendMail({ to: TEAM_INBOX(), subject: `[${leadId}] New enquiry: ${ROLE_NAMES[role]}, ${fields.location}`, html: layout('New enquiry', teamBody) })

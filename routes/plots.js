@@ -335,6 +335,7 @@ router.post('/:id/enquire', rateLimit(10, 60 * 60 * 1000), async (req, res) => {
     notes: `Interested in ${p.plotId} (${p.title}). ${purpose ? 'Use: ' + purpose + '. ' : ''}${message}`,
     history: [{ stage: 'new', note: `Enquired about plot ${p.plotId}` }],
   });
+  notifyHub({ type: 'enquiry', welcome: false, phone, name, email, role: 'brand', roleName: 'Interested in a plot', details: `Interested in ${p.plotId} (${p.title}) in ${p.locality}${purpose ? '. Use: ' + purpose : ''}${message ? '. ' + message : ''}` });
   p.enquiries = (p.enquiries || 0) + 1;
   await p.save();
   await sendMail(emails.plotEnquiry({ plot: adminPlot(p), enquiry: { name, phone, email, purpose, message } })).catch((e) => console.error('[plots] enquiry email:', e.message));
