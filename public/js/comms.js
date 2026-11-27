@@ -3,7 +3,7 @@
 // Uses api(), esc() and toast() from api.js.
 (function () {
   const root = () => document.getElementById('comms');
-  const S = { sub: 'overview', range: 'today', me: null, leadQ: '', leadStage: '', leadAssigned: '', leadContacted: '', leadCampaign: '', leadView: '', callEmp: '', inboxMine: false, templates: null };
+  const S = { sub: 'overview', range: 'today', me: null, leadQ: '', leadStage: '', leadAssigned: '', leadContacted: '', leadCampaign: '', leadOrigin: '', leadView: '', callEmp: '', inboxMine: false, templates: null };
 
   const ago = (t) => { if (!t) return ''; const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `${m} min` : m < 1440 ? `${Math.floor(m / 60)} h ${m % 60} m` : `${Math.floor(m / 1440)} d`; };
   const when = (t) => (t ? new Date(t).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '');
@@ -168,11 +168,12 @@
 
   // ───────── Leads ─────────
   async function leads() {
-    const q = new URLSearchParams({ q: S.leadQ, stage: S.leadStage, assigned: S.leadAssigned, contactedBy: S.leadContacted, campaign: S.leadCampaign, view: S.leadView, limit: 300 });
+    const q = new URLSearchParams({ q: S.leadQ, stage: S.leadStage, assigned: S.leadAssigned, contactedBy: S.leadContacted, campaign: S.leadCampaign, origin: S.leadOrigin, view: S.leadView, limit: 300 });
     const [res, pp] = await Promise.all([hub('/leads?' + q), plotPhones()]);
     body().innerHTML = `<div class="comms-bar">
         <input id="cQ" placeholder="Search name, phone, email, area…" value="${esc(S.leadQ)}">
         <select id="cView" aria-label="Show"><option value="">All leads${res.counts ? ` (${res.counts.all})` : ''}</option><option value="waiting" ${S.leadView === 'waiting' ? 'selected' : ''}>Waiting for reply${res.counts ? ` (${res.counts.waiting})` : ''}</option><option value="overdue" ${S.leadView === 'overdue' ? 'selected' : ''}>Overdue${res.counts ? ` (${res.counts.overdue})` : ''}</option><option value="new" ${S.leadView === 'new' ? 'selected' : ''}>Not contacted yet${res.counts ? ` (${res.counts.new})` : ''}</option></select>
+        <select id="cOrigin" aria-label="Came from"><option value="">From anywhere</option>${[['Website', 'Website enquiries'], ['WhatsApp', 'WhatsApp'], ['Call', 'Calls'], ['Sheet / ads', 'Sheet / re-approach'], ['Email', 'Email']].map(([v, l]) => `<option value="${v}" ${S.leadOrigin === v ? 'selected' : ''}>${l}</option>`).join('')}</select>
         <select id="cStage"><option value="">All stages</option>${S.me.stages.map((s) => `<option value="${s}" ${s === S.leadStage ? 'selected' : ''}>${esc(pretty(s))}</option>`).join('')}</select>
         <select id="cContacted" aria-label="Contacted by"><option value="">Contacted by anyone</option><option value="me" ${S.leadContacted === 'me' ? 'selected' : ''}>Contacted by me</option><option value="none" ${S.leadContacted === 'none' ? 'selected' : ''}>Not contacted yet</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadContacted === e.id ? 'selected' : ''}>Contacted by ${esc(e.name)}</option>`).join('')}</select>
         <select id="cAssigned" aria-label="Assigned to"><option value="">Assigned to anyone</option><option value="me" ${S.leadAssigned === 'me' ? 'selected' : ''}>Assigned to me</option><option value="none" ${S.leadAssigned === 'none' ? 'selected' : ''}>Not assigned</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadAssigned === e.id ? 'selected' : ''}>Assigned to ${esc(e.name)}</option>`).join('')}</select>
@@ -199,6 +200,7 @@
       }, 400);
     });
     document.getElementById('cStage').addEventListener('change', (e) => { S.leadStage = e.target.value; window.loadComms(); });
+    document.getElementById('cOrigin').addEventListener('change', (e) => { S.leadOrigin = e.target.value; window.loadComms(); });
     document.getElementById('cView').addEventListener('change', (e) => { S.leadView = e.target.value; window.loadComms(); });
     document.getElementById('cAssigned')?.addEventListener('change', (e) => { S.leadAssigned = e.target.value; window.loadComms(); });
     document.getElementById('cContacted').addEventListener('change', (e) => { S.leadContacted = e.target.value; window.loadComms(); });

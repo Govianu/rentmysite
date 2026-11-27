@@ -100,7 +100,7 @@ function employeeTimeline(employeeId, limit = 200) {
 // Where a lead first came from
 function origin(lead) {
   const s = String(lead.source || '').toLowerCase();
-  if (s.startsWith('site')) return 'Website';
+  if (s.startsWith('site') || s.startsWith('website') || s === 'plot upload') return 'Website';
   if (s === 'whatsapp') return 'WhatsApp';
   if (s === 'call') return 'Call';
   if (s === 'email') return 'Email';

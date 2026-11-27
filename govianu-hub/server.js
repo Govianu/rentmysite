@@ -118,6 +118,7 @@ r.get('/api/leads', h((req) => {
   let list = Object.values(db.leads).filter((l) => !brand || l.brand === brand);
   if (stage) list = list.filter((l) => l.stage === stage);
   if (campaign) list = list.filter((l) => (l.campaign?.state || 'none') === campaign);
+  if (req.query.origin) list = list.filter((l) => metrics.origin(l) === req.query.origin);
   if (req.query.contactedBy === 'me') list = list.filter((l) => l.contactedBy === req.user.id || l.lastContactBy === req.user.id);
   else if (req.query.contactedBy === 'none') list = list.filter((l) => !l.contactedBy);
   else if (req.query.contactedBy) list = list.filter((l) => l.contactedBy === req.query.contactedBy || l.lastContactBy === req.query.contactedBy);
