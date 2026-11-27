@@ -400,15 +400,18 @@ async function missedCallReply(lead) {
   const m = db.settings.missedCall || {};
   if (!m.enabled || !myop.configured()) return;
   if (lead.missedReplyAt && now() - lead.missedReplyAt < (m.repeatAfterHours || 6) * 60 * MIN) return;
-  if (windowOpen(lead) && m.text) {
-    await hubSend(null, lead.phone, { text: m.text, by: 'ai' });
+  const first = String(lead.name || '').trim().split(/\s+/)[0];
+  const name = first && /^[A-Za-z][A-Za-z.]{1,20}$/.test(first) ? first[0].toUpperCase() + first.slice(1).toLowerCase() : 'there';
+  const text = String(m.text || '').replace(/^Hi,/, 'Hi {{name}},').replace(/\{\{name\}\}/g, name);
+  if (windowOpen(lead) && text) {
+    await hubSend(null, lead.phone, { text, by: 'ai' });
   } else if (m.template) {
     const { approvedNames } = require('./followup');
     if (!(await approvedNames().catch(() => new Set())).has(m.template)) {
       console.warn(`[missed-call reply] template ${m.template} not approved yet – skipped ${lead.phone}`);
       return;
     }
-    await hubSend(null, lead.phone, { template: m.template, shownText: m.text || `[template] ${m.template}`, by: 'ai' });
+    await hubSend(null, lead.phone, { template: m.template, templateBody: { name }, shownText: text || `[template] ${m.template}`, by: 'ai' });
   } else return;
   lead.missedReplyAt = now();
   logActivity(null, 'ai_reply', lead, 'Missed call – sent "busy, will call back" WhatsApp');

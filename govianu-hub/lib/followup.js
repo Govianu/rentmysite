@@ -148,7 +148,7 @@ const TEMPLATES = [
     language: 'en',
     category: 'utility',
     type: 'template',
-    components: [{ type: 'BODY', format: 'TEXT', text: 'Hi, thank you for calling Govianu (RentMySite.ai and PartnerMyBusiness.ai). We could not take your call right now as our team is busy with other clients. We will call you back as soon as possible.\n\nMeanwhile, you can reply here with your question or the details of your space or business.' }],
+    components: [{ type: 'BODY', format: 'TEXT', example: { name: 'Ravi' }, text: 'Hi {{name}}, thank you for calling Govianu (RentMySite.ai and PartnerMyBusiness.ai). We could not take your call right now as our team is busy with other clients. We will call you back as soon as possible.\n\nMeanwhile, you can reply here with your question or the details of your space or business.' }],
   },
 ];
 
