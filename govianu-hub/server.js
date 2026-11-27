@@ -361,6 +361,8 @@ r.post('/api/campaign/autopilot', admin, h(async (req) => {
   await engine.autopilotTick();
   return { templates: templatesResult, perDay, gapSec: c.gapSec, status: db.autopilotStatus, running: db.campaignRunning };
 }));
+// Clients who were sent the office location: list them (send=false) or send the "upload first" correction
+r.post('/api/ai/location-fix', admin, h(async (req) => ({ rows: await engine.locationFix(Boolean(req.body.send)) })));
 r.post('/api/campaign/autopilot/stop', admin, h(() => {
   db.settings.campaign.autopilot = false;
   db.autopilotStatus = 'off';

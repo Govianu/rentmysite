@@ -418,6 +418,44 @@ async function missedCallReply(lead) {
   save();
 }
 
+// Clients the AI sent the office location to (before that was switched off): a correction asking them to upload
+// their plot first. WhatsApp can't delete delivered messages, so this follows up instead. Text only works inside
+// the 24-hour window; the others are listed for the team (or reached by the follow-up campaign).
+function locationMessage(m) {
+  const a = db.settings.ai || {};
+  const t = String(m.text || '');
+  return m.dir === 'out' && m.by === 'ai' && (/sadashiv/i.test(t) || (a.officeMap && t.includes(a.officeMap)) || /13th Cross|share\.google|office address/i.test(t));
+}
+async function locationFix(send) {
+  const phones = [...new Set(db.messages.filter(locationMessage).map((m) => m.phone))];
+  const out = [];
+  for (const phone of phones) {
+    const lead = db.leads[phone];
+    if (!lead) continue;
+    const row = { phone, name: lead.name || '', window: Boolean(windowOpen(lead)), done: Boolean(lead.locationFixAt), sent: false, error: '' };
+    if (send && !row.done && row.window) {
+      const first = String(lead.name || '').trim().split(/\s+/)[0];
+      const hi = first && /^[A-Za-z]{2,20}$/.test(first) ? `Hi ${first[0].toUpperCase()}${first.slice(1).toLowerCase()},` : 'Hi,';
+      const link = `${(db.settings.ai && db.settings.ai.plotFormUrl) || 'https://rentmysite.ai/list-plot'}?phone=${phone.slice(-10)}&src=wa`;
+      const text = `${hi} a small correction to our earlier message: please ignore the office location we shared for now.
+
+As the first step, please upload your plot details, photos and documents here (takes about 5 minutes):
+${link}
+
+Our team will review it and take it forward with you once it is approved.`;
+      try {
+        await hubSend(null, phone, { text, by: 'ai' });
+        lead.locationFixAt = now();
+        row.sent = true;
+        logActivity(null, 'ai_reply', lead, 'Sent correction: ignore office location, upload the plot first');
+      } catch (e) { row.error = e.message; }
+    }
+    out.push(row);
+  }
+  save();
+  return out;
+}
+
 // ───────────────────────── sending from the Hub ─────────────────────────
 function windowOpen(lead) {
   return lead?.waWindowUntil && lead.waWindowUntil > now();
@@ -746,4 +784,4 @@ function setCampaignRunning(on) {
   save();
 }
 
-module.exports = { autopilotTick, scheduleAi, setCampaignRunning, handleWebhook, hubSend, resolvePending, startEngine, windowOpen, reminderTick, linkMyopUser, HUMAN };
+module.exports = { locationFix, autopilotTick, scheduleAi, setCampaignRunning, handleWebhook, hubSend, resolvePending, startEngine, windowOpen, reminderTick, linkMyopUser, HUMAN };
