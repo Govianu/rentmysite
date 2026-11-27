@@ -678,6 +678,38 @@ function startEngine() {
   setInterval(syncSites, 5 * 60_000);
   setInterval(() => campaignTick().catch((e) => console.error('[campaign]', e.message)), 1000);
   setInterval(() => reminderTick().catch((e) => console.error('[reminders]', e.message)), 60_000);
+  setInterval(() => autopilotTick().catch((e) => console.error('[autopilot]', e.message)), 5 * 60_000);
+  setTimeout(() => autopilotTick().catch(() => {}), 15_000);
+}
+
+// Autopilot: once switched on, it waits for Meta to approve the follow-up templates, then queues every eligible
+// lead of the business (including leads uploaded later) and keeps the campaign running within the daily limit.
+async function autopilotTick() {
+  const c = db.settings.campaign;
+  if (!c.autopilot) return;
+  if (db.campaignPausedReason) {
+    db.autopilotStatus = `paused: ${db.campaignPausedReason}`;
+    return save();
+  }
+  if (c.mode === 'personal') {
+    const ok = await require('./followup').approvedNames().catch(() => new Set());
+    const missing = [c.planTemplate, c.helloTemplate].filter((t) => !ok.has(t));
+    if (missing.length) {
+      db.autopilotStatus = `waiting for Meta to approve: ${missing.join(', ')}`;
+      return save();
+    }
+  }
+  let n = 0;
+  for (const l of Object.values(db.leads)) {
+    if (l.brand !== (c.autopilotBrand || 'rentmysite') || (l.campaign?.state || 'none') !== 'none' || skipReason(l)) continue;
+    l.campaign = { state: 'queued' };
+    n++;
+  }
+  const queued = Object.values(db.leads).filter((l) => l.campaign?.state === 'queued').length;
+  if (queued && !db.campaignRunning) db.campaignRunning = true;
+  db.autopilotStatus = queued ? `sending – ${queued} in the queue, up to ${c.dailyCap} a day (${c.startHour}:00–${c.endHour}:00)` : 'everyone has been messaged – new uploads are picked up automatically';
+  if (n) console.log(`[autopilot] queued ${n} leads`);
+  save();
 }
 
 function setCampaignRunning(on) {
@@ -689,4 +721,4 @@ function setCampaignRunning(on) {
   save();
 }
 
-module.exports = { scheduleAi, setCampaignRunning, handleWebhook, hubSend, resolvePending, startEngine, windowOpen, reminderTick, linkMyopUser, HUMAN };
+module.exports = { autopilotTick, scheduleAi, setCampaignRunning, handleWebhook, hubSend, resolvePending, startEngine, windowOpen, reminderTick, linkMyopUser, HUMAN };

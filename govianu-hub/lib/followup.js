@@ -162,4 +162,9 @@ async function createTemplates() {
   return out;
 }
 
-module.exports = { build, whenText, parseDate, createTemplates, TEMPLATES };
+async function approvedNames() {
+  cache.at = 0;
+  return new Set((await templates()).filter((t) => t.status === 'approved').map((t) => t.name));
+}
+
+module.exports = { build, whenText, parseDate, createTemplates, approvedNames, TEMPLATES };

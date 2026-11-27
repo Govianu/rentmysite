@@ -83,6 +83,7 @@ r.get('/api/me', h((req) => ({
   settings: req.isAdmin ? db.settings : undefined,
   campaignRunning: db.campaignRunning,
   campaignPausedReason: db.campaignPausedReason || '',
+  autopilot: { on: Boolean(db.settings.campaign.autopilot), status: db.autopilotStatus || '', perDay: db.settings.campaign.dailyCap },
   sentToday: db.sentToday,
   unread: db.notifications.filter((n) => n.employeeId === req.user.id && !n.read).length,
 })));
@@ -349,6 +350,22 @@ r.post('/api/campaign/preview', admin, h(async (req) => {
   }
   save();
   return out;
+}));
+// Autopilot: personal follow-ups, N a day between 10:00 and 19:00, starting as soon as Meta approves the templates
+r.post('/api/campaign/autopilot', admin, h(async (req) => {
+  const c = db.settings.campaign;
+  const perDay = Math.min(Math.max(Number(req.body.perDay) || 100, 10), 250);
+  Object.assign(c, { mode: 'personal', dailyCap: perDay, startHour: 10, endHour: 19, gapSec: Math.max(60, Math.floor((9 * 3600) / perDay)), autopilot: true, autopilotBrand: brandOf(req) || 'rentmysite' });
+  db.campaignPausedReason = '';
+  const templatesResult = await require('./lib/followup').createTemplates();
+  await engine.autopilotTick();
+  return { templates: templatesResult, perDay, gapSec: c.gapSec, status: db.autopilotStatus, running: db.campaignRunning };
+}));
+r.post('/api/campaign/autopilot/stop', admin, h(() => {
+  db.settings.campaign.autopilot = false;
+  db.autopilotStatus = 'off';
+  engine.setCampaignRunning(false);
+  return { ok: true };
 }));
 r.post('/api/templates/followups', admin, h(() => require('./lib/followup').createTemplates()));
 r.post('/api/campaign/clear', admin, h(() => {

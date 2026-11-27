@@ -213,7 +213,16 @@
   async function campaign() {
     const o = await hub('/overview?range=all');
     const c = S.me.settings.campaign;
-    body().innerHTML = `<div class="comms-cols">
+    const ap = S.me.autopilot || {};
+    body().innerHTML = `<div class="comms-card" style="border:2px solid ${ap.on ? 'var(--teal)' : 'var(--line)'}">
+        <h3>🤖 Autopilot: ${ap.on ? 'ON' : 'off'}</h3>
+        <p>${ap.on ? `<strong>${esc(ap.status || 'starting…')}</strong>` : 'Sends the personal follow-up to every owner in the list, a set number per day, starting by itself as soon as Meta approves the two templates. New uploads are picked up automatically.'}</p>
+        <div class="comms-bar">${ap.on
+          ? `<span class="meta">Sent today: ${S.me.sentToday.count || 0} / ${ap.perDay}</span><button class="btn warn small" type="button" id="cApOff">Stop autopilot</button>`
+          : `<label>Per day <input id="cApN" type="number" value="100" min="10" max="250" style="width:90px"></label><button class="btn" type="button" id="cApOn">Start autopilot</button>`}</div>
+        <p class="meta">Upload the owners file below first (step 1). Everything else is automatic.</p>
+      </div>
+      <div class="comms-cols">
       <div class="comms-card"><h3>1. Import leads</h3>
         <label>CSV of the “Enq - Owner” tab (Google Sheets → File → Download → CSV)</label><div class="comms-bar"><input type="file" id="cCsv" accept=".csv"><button class="btn ghost" type="button" id="cUp">Upload</button></div>
         <label>Or straight from the Google Sheet ${S.me.configured.sheets ? '' : '<span class="pill pending">service account not set</span>'}</label><div class="comms-bar"><input id="cTab" value="Enq - Owner"><button class="btn ghost" type="button" id="cSheet">Import</button><button class="btn ghost" type="button" id="cDnd">DND tab</button></div>
@@ -246,6 +255,8 @@
         <p class="meta">Skipped automatically: DND, “not interested” and similar, and anyone already talking to us. Replies go to “Waiting for reply”, the assigned person is alerted, and the AI answers meanwhile.</p></div>`;
     const re = () => window.loadComms();
     const $ = (id) => document.getElementById(id);
+    $('cApOn')?.addEventListener('click', () => run(() => hub('/campaign/autopilot', { method: 'POST', body: { perDay: +$('cApN').value } }), (r) => `Autopilot on: ${r.perDay} a day – ${r.status}`).then(re));
+    $('cApOff')?.addEventListener('click', () => run(() => hub('/campaign/autopilot/stop', { method: 'POST', body: {} }), 'Autopilot stopped').then(re));
     $('cUp').addEventListener('click', async () => {
       const f = $('cCsv').files[0];
       if (!f) return toast('Choose a CSV file first', true);
