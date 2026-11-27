@@ -130,6 +130,23 @@ async function listUsers() {
   return Array.isArray(rows) ? rows : [];
 }
 
+// The WhatsApp Business Account id (needed to create templates): MYOP_WABA_ID, or read from the phone numbers
+async function wabaId() {
+  if (process.env.MYOP_WABA_ID) return process.env.MYOP_WABA_ID;
+  const r = await waRequest('GET', '/chat/phonenumbers?limit=10&offset=0&expand=waba_account');
+  const row = (r.data?.results || []).find((x) => x.waba_account?.id);
+  if (!row) throw new Error('Could not find the WhatsApp Business Account id – add MYOP_WABA_ID to the Hub .env (MyOperator → WhatsApp settings)');
+  return row.waba_account.id;
+}
+
+async function createTemplate(t) {
+  if (DRY_RUN) {
+    console.log('[MYOP DRY RUN] create template', t.name);
+    return { data: { id: 'dry' } };
+  }
+  return waRequest('POST', '/chat/templates', { ...t, waba_id: await wabaId() });
+}
+
 function obdConfigured() {
   return Boolean(process.env.MYOP_OBD_API_KEY && process.env.MYOP_OBD_SECRET && process.env.MYOP_PUBLIC_IVR_ID && process.env.MYOP_COMPANY_ID);
 }
@@ -165,4 +182,4 @@ async function clickToCall({ customer, userId, agentPhone, reference }) {
   return json;
 }
 
-module.exports = { obdConfigured, clickToCall, configured, callingConfigured, sendText, sendTemplate, sendMedia, listTemplates, recordingLink, listUsers, DRY_RUN };
+module.exports = { createTemplate, obdConfigured, clickToCall, configured, callingConfigured, sendText, sendTemplate, sendMedia, listTemplates, recordingLink, listUsers, DRY_RUN };

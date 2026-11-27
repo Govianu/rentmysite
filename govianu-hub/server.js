@@ -157,6 +157,7 @@ r.get('/api/leads', h((req) => {
       contactedBy: l.contactedBy || null, contactedByName: employee(l.contactedBy)?.name || '', contactedAt: l.contactedAt || null, contactedHow: l.contactedHow || '',
       lastContactBy: l.lastContactBy || null, lastContactByName: employee(l.lastContactBy)?.name || '', lastContactAt: l.lastContactAt || null, lastContactHow: l.lastContactHow || '',
       createdAt: l.createdAt, remarks: l.remarks || '',
+      waitingSince: db.pending[l.phone]?.status === 'open' ? db.pending[l.phone].firstAt : null, waitingKind: db.pending[l.phone]?.status === 'open' ? db.pending[l.phone].kind : null,
       lastNote: l.notes?.length ? { text: l.notes[l.notes.length - 1].text, by: nameOf(l.notes[l.notes.length - 1].by), at: l.notes[l.notes.length - 1].at } : null,
       lastActivity: lastAct[l.phone] ? { text: lastAct[l.phone].text, by: nameOf(lastAct[l.phone].employeeId) || 'System', at: lastAct[l.phone].at } : null,
     })),
@@ -349,6 +350,7 @@ r.post('/api/campaign/preview', admin, h(async (req) => {
   save();
   return out;
 }));
+r.post('/api/templates/followups', admin, h(() => require('./lib/followup').createTemplates()));
 r.post('/api/campaign/clear', admin, h(() => {
   let n = 0;
   for (const l of Object.values(db.leads)) if (l.campaign?.state === 'queued') (l.campaign = { state: 'none' }), n++;

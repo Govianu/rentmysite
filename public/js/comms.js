@@ -3,7 +3,7 @@
 // Uses api(), esc() and toast() from api.js.
 (function () {
   const root = () => document.getElementById('comms');
-  const S = { sub: 'overview', range: 'today', me: null, leadQ: '', leadStage: '', leadAssigned: '', leadContacted: '', leadCampaign: '', callEmp: '', inboxMine: false, templates: null };
+  const S = { sub: 'overview', range: 'today', me: null, leadQ: '', leadStage: '', leadAssigned: '', leadContacted: '', leadCampaign: '', leadView: '', callEmp: '', inboxMine: false, templates: null };
 
   const ago = (t) => { if (!t) return ''; const m = Math.round((Date.now() - t) / 60000); return m < 60 ? `${m} min` : m < 1440 ? `${Math.floor(m / 60)} h ${m % 60} m` : `${Math.floor(m / 1440)} d`; };
   const when = (t) => (t ? new Date(t).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '');
@@ -18,7 +18,7 @@
   }
 
   // Per-employee numbers live in the Govianu Hub report (hub.govianu.com), so there is no Team tab here
-  const SUBS = [['overview', 'Overview'], ['inbox', 'Waiting for reply'], ['leads', 'Leads'], ['calls', 'Calls'], ['campaign', 'Campaign']];
+  const SUBS = [['overview', 'Overview'], ['leads', 'Leads'], ['calls', 'Calls'], ['campaign', 'Campaign']];
 
   window.loadComms = async function () {
     const el = root();
@@ -126,22 +126,24 @@
 
   // ───────── Leads ─────────
   async function leads() {
-    const q = new URLSearchParams({ q: S.leadQ, stage: S.leadStage, assigned: S.leadAssigned, contactedBy: S.leadContacted, campaign: S.leadCampaign, limit: 300 });
+    const q = new URLSearchParams({ q: S.leadQ, stage: S.leadStage, assigned: S.leadAssigned, contactedBy: S.leadContacted, campaign: S.leadCampaign, view: S.leadView, limit: 300 });
     const res = await hub('/leads?' + q);
     body().innerHTML = `<div class="comms-bar">
         <input id="cQ" placeholder="Search name, phone, email, area…" value="${esc(S.leadQ)}">
+        <select id="cView" aria-label="Show"><option value="">All leads${res.counts ? ` (${res.counts.all})` : ''}</option><option value="waiting" ${S.leadView === 'waiting' ? 'selected' : ''}>Waiting for reply${res.counts ? ` (${res.counts.waiting})` : ''}</option><option value="overdue" ${S.leadView === 'overdue' ? 'selected' : ''}>Overdue${res.counts ? ` (${res.counts.overdue})` : ''}</option><option value="new" ${S.leadView === 'new' ? 'selected' : ''}>Not contacted yet${res.counts ? ` (${res.counts.new})` : ''}</option></select>
         <select id="cStage"><option value="">All stages</option>${S.me.stages.map((s) => `<option value="${s}" ${s === S.leadStage ? 'selected' : ''}>${esc(pretty(s))}</option>`).join('')}</select>
         <select id="cContacted" aria-label="Contacted by"><option value="">Contacted by anyone</option><option value="me" ${S.leadContacted === 'me' ? 'selected' : ''}>Contacted by me</option><option value="none" ${S.leadContacted === 'none' ? 'selected' : ''}>Not contacted yet</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadContacted === e.id ? 'selected' : ''}>Contacted by ${esc(e.name)}</option>`).join('')}</select>
         <select id="cAssigned" aria-label="Assigned to"><option value="">Assigned to anyone</option><option value="me" ${S.leadAssigned === 'me' ? 'selected' : ''}>Assigned to me</option><option value="none" ${S.leadAssigned === 'none' ? 'selected' : ''}>Not assigned</option>${S.me.employees.map((e) => `<option value="${esc(e.id)}" ${S.leadAssigned === e.id ? 'selected' : ''}>Assigned to ${esc(e.name)}</option>`).join('')}</select>
         <select id="cCamp"><option value="">Any campaign state</option>${['none', 'queued', 'sent', 'replied', 'failed', 'skipped'].map((s) => `<option ${s === S.leadCampaign ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
       <p class="meta">${res.total} leads${res.total > res.rows.length ? ` (showing ${res.rows.length})` : ''}</p>
       <div class="table-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Stage</th><th>Contacted by</th><th>Last contact</th><th>Assigned to</th><th>WhatsApp campaign</th><th>Notes</th><th>Actions</th></tr></thead><tbody>
-      ${res.rows.map((l) => `<tr class="comms-row" data-ph="${esc(l.phone)}"><td><strong>${esc(l.name || '—')}</strong>${l.waiting ? ' <span class="pill rejected">waiting</span>' : ''}</td><td>${esc(ph(l.phone))}</td><td>${esc(l.area)}</td>
+      ${res.rows.map((l) => `<tr class="comms-row" data-ph="${esc(l.phone)}"><td><strong>${esc(l.name || '—')}</strong>${l.waitingSince ? `<br><span class="pill rejected">${l.waitingKind === 'missed_call' ? '📞 missed call' : 'waiting'} ${ago(l.waitingSince)}</span> <button class="btn ghost small" type="button" data-done="${esc(l.phone)}">Done</button>` : ''}</td><td>${esc(ph(l.phone))}</td>
+        <td>${/^https?:\/\//.test(l.area || '') ? `<a href="${esc(l.area)}" target="_blank" rel="noopener">📍 map</a>` : esc(l.area)}</td>
         <td>${pill(l.stage)}</td>
         <td>${l.contactedByName ? `<strong>${esc(l.contactedByName)}</strong><div class="meta">${when(l.contactedAt)} · ${esc(l.contactedHow)}</div>` : '<span class="meta">not yet</span>'}</td>
         <td class="meta">${l.lastContactByName ? `${esc(l.lastContactByName)} · ${when(l.lastContactAt)}` : when(Math.max(l.lastInboundAt || 0, l.lastOutboundAt || 0) || null)}</td>
         <td>${esc(l.assignedName || '—')}</td><td>${pill(l.campaign)}</td>
-        <td class="meta">${esc(l.aiSummary || l.skip || l.sheetStatus || '')}</td>
+        <td class="meta"><div class="comms-notes">${esc(l.aiSummary || l.skip || l.sheetStatus || '')}</div></td>
         <td style="white-space:nowrap"><button class="btn small" type="button" data-call="${esc(l.phone)}">📞 Call</button> <button class="btn ghost small" type="button" data-wa="${esc(l.phone)}">💬 WhatsApp</button></td></tr>`).join('') || '<tr><td colspan="10" class="empty"><strong>No leads yet</strong>Import the sheet in the Campaign tab.</td></tr>'}
       </tbody></table></div>`;
     let t;
@@ -155,6 +157,7 @@
       }, 400);
     });
     document.getElementById('cStage').addEventListener('change', (e) => { S.leadStage = e.target.value; window.loadComms(); });
+    document.getElementById('cView').addEventListener('change', (e) => { S.leadView = e.target.value; window.loadComms(); });
     document.getElementById('cAssigned')?.addEventListener('change', (e) => { S.leadAssigned = e.target.value; window.loadComms(); });
     document.getElementById('cContacted').addEventListener('change', (e) => { S.leadContacted = e.target.value; window.loadComms(); });
     document.getElementById('cCamp').addEventListener('change', (e) => { S.leadCampaign = e.target.value; window.loadComms(); });
@@ -225,6 +228,7 @@
           <p class="meta">Each owner's notes (size, road, address, status) give their plan and monthly figure from the RentMySite estimate, plus their Drive report link.</p>
           <label>Template when the size is known (variables: name, when, property, plan, amount, link)</label><select id="cPlanTpl"><option>${esc(c.planTemplate || '')}</option></select>
           <label>Template when the size is not known (variables: name, when, property)</label><select id="cHelloTpl"><option>${esc(c.helloTemplate || '')}</option></select>
+          <div class="comms-bar" style="margin-top:.6rem"><button class="btn small" type="button" id="cMakeTpl">Create the two follow-up templates for me</button><span class="meta">Submits rms_followup_plan and rms_followup_hello to Meta; approval takes minutes to hours.</span></div>
           <div class="comms-bar" style="margin-top:.6rem"><button class="btn ghost small" type="button" id="cPreview">Preview the next 5 messages</button><span class="meta">Nothing is sent.</span></div>
           <div id="cPreviewOut"></div>
         </div>
@@ -267,6 +271,10 @@
     });
     $('cTpl').addEventListener('change', showTpl);
     $('cMode').addEventListener('change', () => { $('cPersonal').hidden = $('cMode').value !== 'personal'; });
+    $('cMakeTpl').addEventListener('click', async () => {
+      const r = await run(() => hub('/templates/followups', { method: 'POST', body: {} }));
+      if (r) toast(r.map((x) => `${x.name}: ${x.ok ? 'submitted' : x.error}`).join(' · '), !r.every((x) => x.ok));
+    });
     $('cPreview').addEventListener('click', async () => {
       $('cPreviewOut').innerHTML = '<p class="meta">Reading the sheet notes…</p>';
       const list = await run(() => hub('/campaign/preview', { method: 'POST', body: { count: 5 } }));

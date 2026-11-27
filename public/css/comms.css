@@ -38,3 +38,4 @@
 .comms-reply textarea, .comms-reply select { flex: 1; min-height: 64px; }
 .comms-reply select { min-height: 0; }
 .comms-contacted { margin: .8rem 0; padding: .55rem .8rem; border-radius: 10px; background: var(--teal-soft); }
+.comms-notes { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 340px; }

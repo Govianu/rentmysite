@@ -112,4 +112,54 @@ async function build(lead) {
   return { kind, template: name, body, text, vars };
 }
 
-module.exports = { build, whenText, parseDate };
+// The two templates the personal follow-up uses, submitted to Meta through MyOperator (approval: minutes to hours)
+const TEMPLATES = [
+  {
+    name: 'rms_followup_plan',
+    language: 'en',
+    category: 'marketing',
+    type: 'template',
+    components: [{
+      type: 'BODY',
+      format: 'TEXT',
+      text: 'Hi {{name}}, Greetings from RentMySite.ai.\n\nThis is a follow-up message since we connected {{when}}.\nWe studied your {{property}} and prepared a free earning plan: {{plan}}, up to {{amount}}/month site revenue.\n\nReport and details here: {{link}}\n\nReply YES to discuss your plan.',
+      example: {
+        name: 'Venkateshappa', when: 'two months ago', property: '10,000 sq ft plot at KIADB, Airport Road',
+        plan: 'Food kiosk court + EV and fleet parking + Car care and detailing', amount: '₹1,81,000',
+        link: 'https://drive.google.com/drive/folders/example',
+      },
+    }],
+  },
+  {
+    name: 'rms_followup_hello',
+    language: 'en',
+    category: 'marketing',
+    type: 'template',
+    components: [{
+      type: 'BODY',
+      format: 'TEXT',
+      text: 'Hi {{name}}, Greetings from RentMySite.ai.\n\nThis is a follow-up message since we connected {{when}} about your {{property}}.\nWe turn dormant space into multiple monthly revenue streams – you keep the title, with no upfront cost.\n\nCould you share the size and location of the space so we can prepare your free earning plan?',
+      example: { name: 'Ravi', when: 'two months ago', property: 'property in Whitefield' },
+    }],
+  },
+];
+
+async function createTemplates() {
+  const out = [];
+  for (const t of TEMPLATES) {
+    try {
+      await myop.createTemplate(t);
+      out.push({ name: t.name, ok: true });
+    } catch (e) {
+      out.push({ name: t.name, ok: /exist/i.test(e.message), error: e.message });
+    }
+  }
+  const c = db.settings.campaign;
+  c.planTemplate = 'rms_followup_plan';
+  c.helloTemplate = 'rms_followup_hello';
+  cache.at = 0; // re-read the template list next time
+  save();
+  return out;
+}
+
+module.exports = { build, whenText, parseDate, createTemplates, TEMPLATES };
