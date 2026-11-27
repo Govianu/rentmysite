@@ -27,7 +27,10 @@
   let browse = null;
   document.addEventListener('market:requested', () => { location.hash = 'requests'; });
   initViews(view => {
-    if (view === 'find' && !browse) browse = Market.renderBrowse(document.getElementById('findBox'), { user });
+    if (view === 'find' && !browse) {
+      Plots.renderBrowse(document.getElementById('plotsBox'), { user });
+      browse = Market.renderBrowse(document.getElementById('findBox'), { user });
+    }
     if (view === 'requests') Market.renderMyRequests(document.getElementById('myRequestsBox'));
   });
 })();

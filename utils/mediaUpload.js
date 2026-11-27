@@ -115,6 +115,9 @@ async function cleanupFile(filePath) {
 }
 
 module.exports = {
+  TYPES,
+  UPLOAD_DIR,
+  TEMP_DIR,
   MAX_TOTAL_BYTES,
   MAX_USER_BYTES,
   mediaFilePath,

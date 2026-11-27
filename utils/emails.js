@@ -393,3 +393,44 @@ Object.assign(module.exports, { dealForApproval, dealUpdate, shareRequest, match
 
 // Building blocks for other email modules (utils/drip.js)
 Object.assign(module.exports, { layout, p, button, esc, inr, PHONE });
+
+// ---------- Plots & land (/list-plot → team approval → shown to space seekers) ----------
+function plotRows(plot) {
+  return [
+    ['Plot ID', plot.plotId], ['Title', plot.title], ['Type', plot.type], ['Size', plot.sizeText],
+    ['Area', [plot.locality, plot.city].filter(Boolean).join(', ')], ['Road', [plot.roadText, plot.roadWidthFt ? `${plot.roadWidthFt} ft wide` : ''].filter(Boolean).join(', ')],
+    ['Frontage', plot.frontageFt ? `${plot.frontageFt} ft` : ''], ['Zoning', plot.zoning], ['Current use', plot.currentUse],
+    ['Available from', plot.availableFrom], ['Owner prefers', plot.preferenceText], ['Expected per month', plot.expectedRent ? inr(plot.expectedRent) : ''],
+    ['Amenities', (plot.amenities || []).join(', ')], ['Description', plot.description]
+  ];
+}
+function plotSubmitted({ plot }) {
+  const body = p('An owner listed a plot on the website. Check the photos and documents, then approve it to publish it for space seekers.')
+    + table([['Owner', plot.ownerName], ['Phone', plot.ownerPhone], ['Email', plot.ownerEmail], ['Address', plot.address], ['Google Maps', plot.mapUrl], ['Survey no.', plot.surveyNo],
+      ...plotRows(plot), ['Photos', String(plot.photos.length)], ['Documents', plot.documents.map(d => d.kindText).join(', ') || 'None uploaded']])
+    + button(teamLink('plots'), 'Review it in Plot approvals');
+  return { to: TEAM_INBOX(), replyTo: plot.ownerEmail || undefined, subject: `[${plot.plotId}] New plot to approve: ${plot.title}`, html: layout('New plot to approve', body), text: `New plot ${plot.plotId} from ${plot.ownerName} (${plot.ownerPhone}): ${plot.title}` };
+}
+function plotReceived({ plot }) {
+  const body = p(`Hi ${esc(firstName(plot.ownerName))},`) + p(`Thank you for listing your plot with RentMySite.ai. Our team is checking the details and documents, and will publish it for businesses and brands looking for space, usually within one working day.`)
+    + table(plotRows(plot).slice(0, 6)) + p(`Your reference is <strong>${esc(plot.plotId)}</strong>. Questions? WhatsApp or call us on ${PHONE}, or visit us at our Sadashivanagar office.`);
+  return { to: plot.ownerEmail, subject: `We received your plot (${plot.plotId})`, html: layout('Plot received', body), text: `We received your plot ${plot.plotId}. Our team will publish it after checking.` };
+}
+function plotPublished({ plot }) {
+  const body = p(`Hi ${esc(firstName(plot.ownerName))},`) + p(`Good news: your plot <strong>${esc(plot.title)}</strong> (${esc(plot.plotId)}) is now live on RentMySite.ai for everyone looking for space. When a business or brand is interested, our team will call you and coordinate everything. Your phone number and exact address are never shown publicly.`)
+    + button(`${APP_URL()}/find#plots`, 'See your plot on RentMySite');
+  return { to: plot.ownerEmail, subject: `Your plot is live on RentMySite (${plot.plotId})`, html: layout('Your plot is live', body), text: `Your plot ${plot.plotId} is now live on RentMySite.ai.` };
+}
+function plotRejected({ plot }) {
+  const body = p(`Hi ${esc(firstName(plot.ownerName))},`) + p(`Thank you for listing your plot (${esc(plot.plotId)}). We could not publish it yet${plot.reviewNote ? `: ${esc(plot.reviewNote)}` : '.'}`)
+    + p(`Please WhatsApp us on ${PHONE} with the missing details or documents and we will publish it.`);
+  return { to: plot.ownerEmail, subject: `About your plot listing (${plot.plotId})`, html: layout('About your plot', body), text: `We could not publish plot ${plot.plotId} yet. ${plot.reviewNote || ''}` };
+}
+function plotEnquiry({ plot, enquiry }) {
+  const body = p('Someone looking for space is interested in a published plot. Call them, then coordinate with the owner (no direct contact between them).')
+    + table([['Name', enquiry.name], ['Phone', enquiry.phone], ['Email', enquiry.email], ['What they want it for', enquiry.purpose], ['Message', enquiry.message]])
+    + p('<strong>The plot</strong>') + table([['Owner', `${plot.ownerName}, ${plot.ownerPhone}`], ['Address', plot.address], ['Google Maps', plot.mapUrl], ...plotRows(plot).slice(0, 6)])
+    + button(teamLink('leads'), 'Open Leads');
+  return { to: TEAM_INBOX(), replyTo: enquiry.email || undefined, subject: `[${plot.plotId}] Enquiry from ${enquiry.name}: ${plot.title}`, html: layout('Plot enquiry', body), text: `${enquiry.name} (${enquiry.phone}) is interested in ${plot.plotId}.` };
+}
+Object.assign(module.exports, { plotSubmitted, plotReceived, plotPublished, plotRejected, plotEnquiry });

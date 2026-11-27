@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="/css/market.css">
   <link rel="stylesheet" href="/css/comms.css">
+  <link rel="stylesheet" href="/css/plots.css">
 </head>
 <body>
 <div class="shell">
@@ -27,6 +28,7 @@
     <nav class="nav" aria-label="Operations">
       <a href="#overview" data-view="overview">Today</a>
       <a href="#comms" data-view="comms">WhatsApp &amp; Calls</a>
+      <a href="#plots" data-view="plots">Plot approvals</a>
       <a href="#market" data-view="market">Marketplace</a>
       <a href="#enquiries" data-view="enquiries">Website enquiries</a>
       <a href="#import" data-view="import">Import from Maps</a>
@@ -50,6 +52,11 @@
     <section id="view-comms" hidden>
       <div class="view-head"><div><h1>WhatsApp &amp; Calls</h1><p>Every WhatsApp message, call and email on the MyOperator number, who handled it, and who is still waiting for a reply.</p></div></div>
       <div id="comms"></div>
+    </section>
+
+    <section id="view-plots" hidden>
+      <div class="view-head"><div><h1>Plot approvals</h1><p>Plots owners listed at rentmysite.ai/list-plot. Check the photos and documents, correct anything, then approve: it is published straight away for everyone looking for space (Find page and buyer dashboards). Owner contact, exact address, map pin and documents are never shown publicly.</p></div><a class="btn ghost" href="/list-plot" target="_blank" rel="noopener">Open the owner form</a></div>
+      <div id="plotsAdmin"></div>
     </section>
 
     <section id="view-market" hidden>
@@ -183,6 +190,7 @@
 
 <script src="/js/api.js"></script>
 <script src="/js/comms.js"></script>
+<script src="/js/admin-plots.js"></script>
 <script src="/js/admin.js"></script>
 </body>
 </html>

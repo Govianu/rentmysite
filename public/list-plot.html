@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>List your plot | RentMySite.ai</title>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0E6B4A">
+  <meta name="description" content="List your plot, land or dormant space free on RentMySite.ai. Upload photos and documents; our team checks it and shows it to businesses and brands looking for space.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/growth.css">
+  <link rel="stylesheet" href="/css/market.css">
+  <link rel="stylesheet" href="/css/plots.css">
+  <style>
+    .fh { background: #0E6B4A; color: #fff; padding: 1rem clamp(1rem, 4vw, 2.5rem); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .fh .brandmark { color: #fff; }
+    .fh nav { display: flex; gap: .4rem 1.1rem; align-items: center; flex-wrap: wrap; }
+    .fh nav a { color: #fff; text-decoration: none; font-weight: 600; }
+    .fhero { background: #0E6B4A; color: #fff; padding: .5rem clamp(1rem, 4vw, 2.5rem) 2.6rem; }
+    .fhero h1 { color: #fff; max-width: 24ch; margin: .6rem 0 .5rem; }
+    .fhero p { color: rgba(255,255,255,.88); max-width: 62ch; margin: 0; }
+    .fwrap { max-width: 900px; margin: -1.6rem auto 0; padding: 0 clamp(1rem, 4vw, 2.5rem) 3rem; }
+    .lp-steps { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: 1rem 0 0; padding: 0; list-style: none; color: rgba(255,255,255,.9); font-size: .92rem; }
+  </style>
+</head>
+<body>
+<header class="fh">
+  <a class="brandmark" href="/">RentMySite<span>.ai</span></a>
+  <nav aria-label="Main"><a href="/">Home</a><a href="/find#plots">See listed plots</a></nav>
+</header>
+<section class="fhero">
+  <h1>List your plot or space, free</h1>
+  <p>Add the details, photos and documents below. Our team checks everything and publishes your plot for businesses and brands looking for space. Your phone number, exact address and documents are never shown publicly.</p>
+  <ol class="lp-steps"><li>Fill the details</li><li>Our team checks &amp; approves</li><li>Published for space seekers</li><li>We bring you enquiries</li></ol>
+</section>
+<main class="fwrap">
+  <form id="lpForm" novalidate>
+    <section class="lp-section">
+      <h2>1. Your details</h2>
+      <p class="meta">Only the RentMySite team sees these.</p>
+      <div class="lp-grid">
+        <div class="field"><label for="ownerName">Full name *</label><input id="ownerName" name="ownerName" autocomplete="name" required maxlength="100"></div>
+        <div class="field"><label for="ownerPhone">Mobile / WhatsApp number *</label><input id="ownerPhone" name="ownerPhone" type="tel" autocomplete="tel" required placeholder="98XXXXXXXX"></div>
+        <div class="field"><label for="ownerEmail">Email <span class="hint">(optional, for updates)</span></label><input id="ownerEmail" name="ownerEmail" type="email" autocomplete="email"></div>
+        <div class="field"><label for="ownerRole">You are</label><select id="ownerRole" name="ownerRole"><option value="owner">The owner</option><option value="family">Family of the owner</option><option value="agent">Authorised agent</option><option value="other">Other</option></select></div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <h2>2. About the plot</h2>
+      <div class="lp-grid">
+        <div class="field"><label for="type">Type of plot or space *</label><select id="type" name="type" required><option value="">Choose…</option></select></div>
+        <div class="field"><label for="sizeValue">Size *</label><div class="lp-size"><input id="sizeValue" name="sizeValue" inputmode="decimal" placeholder="e.g. 10000" required><select name="sizeUnit" id="sizeUnit" aria-label="Unit"></select></div></div>
+        <div class="field"><label for="zoning">Zoning / land use</label><select id="zoning" name="zoning"></select></div>
+        <div class="field"><label for="currentUse">Used for now</label><input id="currentUse" name="currentUse" maxlength="200" placeholder="Vacant, parking, farming, old shed…"></div>
+        <div class="field"><label for="availableFrom">Available from</label><input id="availableFrom" name="availableFrom" maxlength="40" placeholder="Immediately / Jan 2027"></div>
+        <div class="field"><label for="title">Short title <span class="hint">(optional)</span></label><input id="title" name="title" maxlength="120" placeholder="Corner plot on Airport Road"></div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <h2>3. Location</h2>
+      <p class="meta">Space seekers only see the area. The exact address and map pin stay with our team.</p>
+      <div class="lp-grid">
+        <div class="field"><label for="locality">Area / locality *</label><input id="locality" name="locality" required maxlength="120" placeholder="KIADB Aerospace Park, Devanahalli"></div>
+        <div class="field"><label for="city">City</label><input id="city" name="city" value="Bengaluru" maxlength="60"></div>
+      </div>
+      <div class="field"><label for="address">Full address</label><textarea id="address" name="address" maxlength="400" rows="2" placeholder="Plot no., street, landmark, PIN"></textarea></div>
+      <div class="lp-grid">
+        <div class="field"><label for="mapUrl">Google Maps link</label><input id="mapUrl" name="mapUrl" type="url" placeholder="https://maps.app.goo.gl/…"><span class="hint">In Google Maps, drop a pin on the plot → Share → Copy link. Address or map link: at least one is needed.</span></div>
+        <div class="field"><label for="surveyNo">Survey / khata number <span class="hint">(optional)</span></label><input id="surveyNo" name="surveyNo" maxlength="80"></div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <h2>4. Road &amp; access</h2>
+      <div class="lp-grid">
+        <div class="field"><label for="road">Road type</label><select id="road" name="road"></select></div>
+        <div class="field"><label for="roadWidthFt">Road width (ft)</label><input id="roadWidthFt" name="roadWidthFt" inputmode="numeric" placeholder="40"></div>
+        <div class="field"><label for="frontageFt">Frontage on the road (ft)</label><input id="frontageFt" name="frontageFt" inputmode="numeric" placeholder="100"></div>
+      </div>
+      <label style="margin-top:.6rem">Facilities on the plot</label>
+      <div class="lp-checks" id="amenities"></div>
+    </section>
+
+    <section class="lp-section">
+      <h2>5. What you are looking for</h2>
+      <div class="lp-grid">
+        <div class="field"><label for="preference">I prefer</label><select id="preference" name="preference"></select></div>
+        <div class="field"><label for="expectedRent">Expected per month in ₹ <span class="hint">(optional)</span></label><input id="expectedRent" name="expectedRent" inputmode="numeric" placeholder="50000"></div>
+      </div>
+      <div class="field"><label for="description">Anything else about the plot</label><textarea id="description" name="description" maxlength="2000" rows="3" placeholder="Nearby landmarks, power connection, trees, gate, previous use…"></textarea></div>
+    </section>
+
+    <section class="lp-section">
+      <h2>6. Photos *</h2>
+      <p class="meta">At least 1, up to 12 (JPG or PNG, 10 MB each). Front view, the road, the full plot and any structures.</p>
+      <input id="photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+      <div class="lp-thumbs" id="thumbs"></div>
+    </section>
+
+    <section class="lp-section">
+      <h2>7. Documents</h2>
+      <p class="meta">Helps us approve faster. Seen only by the RentMySite team, never published. PDF or photo, 25 MB each, up to 8.</p>
+      <div id="docs"></div>
+      <button class="btn ghost small" type="button" id="addDoc">+ Add a document</button>
+    </section>
+
+    <section class="lp-section">
+      <label class="check"><input type="checkbox" name="consent" value="yes" required><span>I own this plot or am authorised to list it, and the details are correct. I agree to the <a href="/terms" target="_blank" rel="noopener">Terms</a>.</span></label>
+      <p class="error-box" role="alert" id="lpErr"></p>
+      <button class="btn" type="submit" id="lpSend">Submit for approval</button>
+      <p class="meta" style="margin-top:.6rem">Questions? WhatsApp or call +91 81039 90990, or visit our Sadashivanagar office.</p>
+    </section>
+  </form>
+  <div id="lpDone" class="lp-section lp-done" hidden></div>
+</main>
+<script src="/js/api.js"></script>
+<script>
+(async function () {
+  const $ = (id) => document.getElementById(id);
+  const f = await api('/plots/format');
+  const opts = (list) => list.map((x) => Array.isArray(x) ? `<option value="${esc(x[0])}">${esc(x[1])}</option>` : `<option>${esc(x)}</option>`).join('');
+  $('type').insertAdjacentHTML('beforeend', opts(f.types));
+  $('sizeUnit').innerHTML = opts(Object.entries(f.units));
+  $('zoning').innerHTML = opts(f.zoning);
+  $('zoning').value = 'Not sure';
+  $('road').innerHTML = opts(Object.entries(f.roads));
+  $('road').value = 'inner';
+  $('preference').innerHTML = opts(Object.entries(f.preferences));
+  $('preference').value = 'open';
+  $('amenities').innerHTML = f.amenities.map((a) => `<label><input type="checkbox" name="amenities" value="${esc(a)}"> ${esc(a)}</label>`).join('');
+  const qs = new URLSearchParams(location.search);
+  if (qs.get('phone')) $('ownerPhone').value = qs.get('phone').replace(/\D/g, '').slice(-10);
+  if (qs.get('name')) $('ownerName').value = qs.get('name');
+
+  const docRow = () => {
+    if ($('docs').children.length >= 8) return;
+    $('docs').insertAdjacentHTML('beforeend', `<div class="lp-doc"><select class="dk" aria-label="Document type">${opts(Object.entries(f.docKinds))}</select>
+      <input class="df" type="file" accept="application/pdf,image/jpeg,image/png" aria-label="Document file"><button type="button" class="link-btn" data-rm>Remove</button></div>`);
+  };
+  docRow();
+  $('addDoc').onclick = docRow;
+  $('docs').onclick = (e) => { if (e.target.closest('[data-rm]')) e.target.closest('.lp-doc').remove(); };
+
+  $('photos').onchange = () => {
+    const files = [...$('photos').files];
+    $('thumbs').innerHTML = files.slice(0, 12).map((file) => `<img alt="" src="${URL.createObjectURL(file)}">`).join('');
+    if (files.length > 12) $('lpErr').textContent = 'Only the first 12 photos will be uploaded.';
+  };
+
+  $('lpForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const err = $('lpErr');
+    err.textContent = '';
+    const need = [['ownerName', 'Enter your name'], ['ownerPhone', 'Enter your mobile number'], ['type', 'Choose the type of plot'], ['sizeValue', 'Enter the size'], ['locality', 'Enter the area / locality']];
+    for (const [id, msg] of need) if (!$(id).value.trim()) { err.textContent = msg; $(id).focus(); return; }
+    if (!$('address').value.trim() && !$('mapUrl').value.trim()) { err.textContent = 'Enter the full address or a Google Maps link'; $('address').focus(); return; }
+    if (!$('photos').files.length) { err.textContent = 'Add at least one photo'; $('photos').focus(); return; }
+    if (!form.consent.checked) { err.textContent = 'Tick the box to confirm you can list this plot'; return; }
+
+    const fd = new FormData();
+    for (const [k, v] of new FormData(form).entries()) if (k !== 'photos' && k !== 'amenities' && typeof v === 'string') fd.append(k, v);
+    fd.set('amenities', [...form.querySelectorAll('[name="amenities"]:checked')].map((c) => c.value).join(','));
+    [...$('photos').files].slice(0, 12).forEach((file) => fd.append('photos', file));
+    const kinds = [];
+    $('docs').querySelectorAll('.lp-doc').forEach((row) => { const file = row.querySelector('.df').files[0]; if (file) { fd.append('documents', file); kinds.push(row.querySelector('.dk').value); } });
+    fd.set('docKinds', kinds.join(','));
+    if (qs.get('src')) fd.set('source', qs.get('src'));
+
+    const btn = $('lpSend');
+    btn.disabled = true;
+    btn.textContent = 'Uploading… please wait';
+    try {
+      const r = await api('/plots', { method: 'POST', body: fd });
+      form.hidden = true;
+      $('lpDone').hidden = false;
+      $('lpDone').innerHTML = `<h2>Thank you! Your plot is submitted ✅</h2>
+        <p>Reference: <strong>${esc(r.plotId)}</strong></p>
+        <p>Our team will check the details and publish it for businesses and brands looking for space, usually within one working day. We will call or WhatsApp you on the number you gave.</p>
+        <p class="meta">Want to meet us? Visit the Govianu office in Sadashivanagar, Bengaluru, or WhatsApp +91 81039 90990.</p>
+        <p><a class="btn ghost" href="/list-plot">List another plot</a></p>`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (ex) {
+      err.textContent = ex.message;
+      btn.disabled = false;
+      btn.textContent = 'Submit for approval';
+    }
+  };
+})();
+</script>
+</body>
+</html>

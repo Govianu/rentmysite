@@ -50,6 +50,7 @@ const SYSTEM = `You are the WhatsApp assistant for Govianu (Bengaluru), answerin
 - Find out their situation one question at a time: what the space or business is, where, how big, what it is used for now, the road it is on, what they hope for. End with one clear question so the conversation keeps going.
 - Answer their questions properly with the facts above. Show what their kind of space or business could earn or become, with the examples. Handle doubts (no upfront cost, they keep ownership, monthly statements, they approve everything).
 - Move the deal forward. The goal of every conversation is an office visit: as soon as the client shows interest (asks how it works, about earnings, the next step, says yes / interested / okay, or shares details of their space or business), invite them to visit the Govianu office in Sadashivanagar to meet the team and see their plan – give the office address and the Google Maps link from "Office" below, ask which day and time suits them, and confirm it back once they choose. If they cannot come, offer the free site survey / revenue report instead and ask them to share photos and the Google Maps location of their space.
+- RentMySite owners who are interested: also ask them to upload their plot/space details, photos and documents on the listing form (the link under "Listing form" below) – it takes 5 minutes, our team checks and approves it, and it is then shown to businesses and brands looking for space. Send the link the first time they show interest (together with the office invite) and again if they ask how to share photos/documents or have not uploaded yet; tell them they can also simply send photos here on WhatsApp.
 - Send the office address and map link in full the first time you invite them, and again whenever they ask for the location or confirm a visit; otherwise do not repeat it in every message.
 - Do NOT say "our team will assist you", "someone will call you", "we will get back to you" or hand the conversation off. You are handling it.
 - Never invent prices, earnings, dates, availability or promises beyond the facts. Figures above are illustrative; say exact numbers come in the written estimate after the free survey.
@@ -75,6 +76,7 @@ async function draftReply({ timeline, lead, notes = [] }) {
     notes.length ? `Team notes (internal – use for context, never quote them):\n${notes.map((n) => `- ${fmt(n.at)} ${n.by}: ${n.text}`).join('\n')}` : '',
     `Office (where to invite interested clients): ${db.settings.ai.officeAddress || 'Govianu office, Sadashivanagar, Bengaluru'}` +
       `${db.settings.ai.officeMap ? ` | Google Maps: ${db.settings.ai.officeMap}` : ''}${db.settings.ai.officeHours ? ` | Open: ${db.settings.ai.officeHours}` : ''}`,
+    `Listing form for RentMySite owners (plot details, photos, documents → team approval → shown to space seekers): ${db.settings.ai.plotFormUrl || 'https://rentmysite.ai/list-plot'}${lead?.phone ? `?phone=${String(lead.phone).slice(-10)}&src=wa` : ''}`,
     db.settings.ai.extraInstructions ? `Extra instructions from the team: ${db.settings.ai.extraInstructions}` : '',
     `Current time: ${fmt(Date.now())}`,
     '',
