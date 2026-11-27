@@ -340,7 +340,8 @@ router.get('/:id/photo/:key', async (req, res) => {
   if (!ph) throw fail('Photo not found', 404);
   if (p.status !== 'live') {
     const u = await optionalUser(req);
-    if (u?.role !== 'admin') throw fail('Photo not found', 404);
+    const isOwner = u && p.owner && String(u._id) === String(p.owner);
+    if (u?.role !== 'admin' && !isOwner) throw fail('Photo not found', 404);
   }
   res.set({ 'Content-Type': ph.mimeType, 'X-Content-Type-Options': 'nosniff', 'Cache-Control': p.status === 'live' ? 'public, max-age=86400' : 'private, no-store' });
   res.sendFile(mediaFilePath(ph.key));
