@@ -413,7 +413,7 @@ function plotSubmitted({ plot }) {
 }
 function plotReceived({ plot }) {
   const body = p(`Hi ${esc(firstName(plot.ownerName))},`) + p(`Thank you for listing your plot with RentMySite.ai. Our team is checking the details and documents, and will publish it for businesses and brands looking for space, usually within one working day.`)
-    + table(plotRows(plot).slice(0, 6)) + p(`Your reference is <strong>${esc(plot.plotId)}</strong>. Questions? WhatsApp or call us on ${PHONE}, or visit us at our Sadashivanagar office.`);
+    + table(plotRows(plot).slice(0, 6)) + p(`Your reference is <strong>${esc(plot.plotId)}</strong>. Questions? WhatsApp or call us on ${PHONE}, `);
   return { to: plot.ownerEmail, subject: `We received your plot (${plot.plotId})`, html: layout('Plot received', body), text: `We received your plot ${plot.plotId}. Our team will publish it after checking.` };
 }
 function plotPublished({ plot }) {

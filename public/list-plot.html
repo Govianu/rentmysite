@@ -115,7 +115,7 @@
       <label class="check"><input type="checkbox" name="consent" value="yes" required><span>I own this plot or am authorised to list it, and the details are correct. I agree to the <a href="/terms" target="_blank" rel="noopener">Terms</a>.</span></label>
       <p class="error-box" role="alert" id="lpErr"></p>
       <button class="btn" type="submit" id="lpSend">Submit for approval</button>
-      <p class="meta" style="margin-top:.6rem">Questions? WhatsApp or call +91 81039 90990, or visit our Sadashivanagar office.</p>
+      <p class="meta" style="margin-top:.6rem">Questions? WhatsApp or call +91 81039 90990.</p>
     </section>
   </form>
   <div id="lpDone" class="lp-section lp-done" hidden></div>
@@ -184,7 +184,7 @@
       $('lpDone').innerHTML = `<h2>Thank you! Your plot is submitted ✅</h2>
         <p>Reference: <strong>${esc(r.plotId)}</strong></p>
         <p>Our team will check the details and publish it for businesses and brands looking for space, usually within one working day. We will call or WhatsApp you on the number you gave.</p>
-        <p class="meta">Want to meet us? Visit the Govianu office in Sadashivanagar, Bengaluru, or WhatsApp +91 81039 90990.</p>
+        <p class="meta">Once it is approved, our team will take it forward with you. Questions? WhatsApp +91 81039 90990.</p>
         <p><a class="btn ghost" href="/list-plot">List another plot</a></p>`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (ex) {
