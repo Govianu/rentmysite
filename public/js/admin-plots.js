@@ -1,15 +1,30 @@
-// Team dashboard → Plot approvals: plots owners submitted from /list-plot. Check photos + documents, correct details,
-// approve to publish (shown to space seekers on /find and the buyer dashboard), reject with a reason, or take down.
+// Team dashboard → Approvals: every plot owners uploaded from their dashboard, with that owner's KYC beside it, so the
+// plot and the KYC are approved together; plus KYC waiting from people without a plot. Approving a plot publishes it
+// (shown to space seekers on /find and the buyer dashboard); reject with a reason, or take down.
 (function () {
   let status = 'pending_review';
   let data = null;
   const LABEL = { pending_review: 'To approve', live: 'Published', rejected: 'Rejected', removed: 'Taken down' };
   const box = () => document.getElementById('plotsAdmin');
 
+  function kycDocs(userId, k) {
+    return ['aadhaar', 'pan', 'bank'].map((d) => k.docs && k.docs[d]
+      ? `<a class="btn ghost small" href="/api/kyc/docs/${d}?user=${esc(userId)}" target="_blank" rel="noopener">🪪 ${esc((k.docLabels && k.docLabels[d]) || d)}</a>`
+      : `<span class="meta">${esc((k.docLabels && k.docLabels[d]) || d)}: missing</span>`).join(' ');
+  }
+  function kycBlock(k) {
+    if (!k) return '<div class="pa-kyc"><strong>KYC:</strong> <span class="meta">This plot was uploaded without an owner account (older upload), so there is no KYC.</span></div>';
+    const state = k.verifiedAt ? '<span class="pill approved">KYC verified</span>' : k.complete ? '<span class="pill pending">KYC complete – check it</span>' : `<span class="pill rejected">KYC missing: ${esc(k.missing.join(', '))}</span>`;
+    return `<div class="pa-kyc ${k.verifiedAt ? 'ok' : ''}"><strong>Owner KYC</strong> ${state}
+      <div class="pa-cols" style="margin-top:.4rem"><div><b>Aadhaar:</b> ${esc(k.aadhaar || '—')}</div><div><b>PAN:</b> ${esc(k.pan || '—')}</div>
+        <div><b>Bank:</b> ${esc([k.accountName, k.bankName, k.accountNumber, k.ifsc].filter(Boolean).join(' · ') || '—')}</div></div>
+      <div class="pa-docs">${kycDocs(k.userId, k)}</div></div>`;
+  }
+
   function item(p) {
     const row = (k, v) => (v ? `<div><b>${esc(k)}:</b> ${esc(v)}</div>` : '');
     const actions = {
-      pending_review: '<button class="btn small" data-act="approve">✓ Approve &amp; publish</button><button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="reject">Reject</button>',
+      pending_review: `${p.kyc && p.kyc.complete && !p.kyc.verifiedAt ? '<button class="btn small" data-act="approve" data-kyc="1">✓ Approve plot &amp; verify KYC</button>' : `<button class="btn small" data-act="approve">✓ Approve &amp; publish${p.kyc && !p.kyc.complete ? ' (KYC still missing)' : ''}</button>`}<button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="reject">Reject</button>`,
       live: '<button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="remove">Take down</button>',
       rejected: '<button class="btn small" data-act="approve">Approve &amp; publish</button><button class="btn ghost small" data-act="edit">Edit details</button>',
       removed: '<button class="btn small" data-act="approve">Publish again</button>',
@@ -31,6 +46,7 @@
         <div class="pa-docs">${p.mapUrl ? `<a class="btn ghost small" href="${esc(p.mapUrl)}" target="_blank" rel="noopener">📍 Map</a>` : ''}
           ${p.documents.map((d) => `<a class="btn ghost small" href="${esc(d.url)}" target="_blank" rel="noopener">📄 ${esc(d.kindText)}</a>`).join('') || '<span class="meta">No documents uploaded</span>'}
           <a class="btn ghost small" href="https://wa.me/${esc(p.ownerPhone.replace(/\D/g, ''))}" target="_blank" rel="noopener">WhatsApp owner</a></div>
+        ${kycBlock(p.kyc)}
         ${p.reviewNote ? `<p class="meta">Reason given: ${esc(p.reviewNote)}</p>` : ''}
         <div class="pa-actions">${actions}</div>
       </div>
@@ -39,12 +55,18 @@
 
   async function load() {
     data = await api('/plots/admin/list?status=' + status);
-    if (typeof setCount === 'function') setCount('plots', data.counts.pending_review);
+    if (typeof setCount === 'function') setCount('plots', (data.counts.pending_review || 0) + (data.counts.kyc || 0));
     const nav = document.querySelector('[data-view="plots"]');
     if (nav) nav.dataset.count = data.counts.pending_review || '';
     box().innerHTML = `<div class="view-tabs" role="group" aria-label="Status">${Object.entries(LABEL).map(([k, v]) =>
       `<button type="button" data-st="${k}" aria-pressed="${k === status}">${v} (${data.counts[k] || 0})</button>`).join('')}</div>
-      ${data.plots.length ? data.plots.map(item).join('') : `<div class="list"><div class="empty"><strong>Nothing here</strong>${status === 'pending_review' ? 'New plots from owners (rentmysite.ai/list-plot) appear here for approval.' : ''}</div></div>`}`;
+      ${data.plots.length ? data.plots.map(item).join('') : `<div class="list"><div class="empty"><strong>No plots here</strong>${status === 'pending_review' ? 'Plots owners upload from their dashboard (link: rentmysite.ai/list-plot) appear here with their KYC.' : ''}</div></div>`}
+      ${status === 'pending_review' && data.kycWaiting.length ? `<h2 style="margin-top:1.6rem">KYC to verify (${data.kycWaiting.length})</h2><p class="meta">People who completed KYC but have no plot waiting: owners, space seekers and partners.</p>
+        ${data.kycWaiting.map((u) => `<article class="pa-item" style="grid-template-columns:1fr"><div>
+          <div class="item-top"><h3>${esc(u.business || u.name)}</h3><span class="pill">${esc(u.role === 'business' ? 'owner' : u.role)}</span></div>
+          <p class="meta">${esc(u.name)} · ${esc(u.email)} · ${esc(u.phone)}</p>
+          ${kycBlock({ ...u.kyc, userId: u.userId })}
+          <div class="pa-actions"><button class="btn small" type="button" data-kyc-only="${esc(u.userId)}">✓ Verify KYC</button></div></div></article>`).join('')}` : ''}`;
   }
 
   function editDialog(p) {
@@ -84,6 +106,12 @@
     if (!box() || !box().contains(e.target)) return;
     const st = e.target.closest('[data-st]');
     if (st) { status = st.dataset.st; return load().catch((x) => toast(x.message, true)); }
+    const kv = e.target.closest('[data-kyc-only]');
+    if (kv) {
+      kv.disabled = true;
+      try { await api(`/kyc/user/${kv.dataset.kycOnly}/verify`, { method: 'POST', body: {} }); toast('KYC verified'); load(); } catch (ex) { toast(ex.message, true); kv.disabled = false; }
+      return;
+    }
     const b = e.target.closest('[data-act]');
     if (!b) return;
     const p = data.plots.find((x) => x.id === b.closest('[data-id]').dataset.id);
@@ -94,13 +122,13 @@
     if (act === 'remove' && !confirm('Take this plot down? Space seekers will no longer see it.')) return;
     b.disabled = true;
     try {
-      await api(`/plots/admin/${p.id}`, { method: 'PATCH', body: { action: act, note } });
-      toast({ approve: 'Published – space seekers can see it now', reject: 'Rejected', remove: 'Taken down' }[act] || 'Done');
+      await api(`/plots/admin/${p.id}`, { method: 'PATCH', body: { action: act, note, verifyKyc: b.dataset.kyc === '1' } });
+      toast({ approve: b.dataset.kyc === '1' ? 'Plot published and KYC verified' : 'Published – space seekers can see it now', reject: 'Rejected', remove: 'Taken down' }[act] || 'Done');
       load();
     } catch (ex) { toast(ex.message, true); b.disabled = false; }
   });
 
   window.loadPlots = load;
   // show how many plots wait for approval in the menu as soon as the dashboard opens
-  api('/plots/admin/list?status=pending_review').then((r) => typeof setCount === 'function' && setCount('plots', r.counts.pending_review)).catch(() => {});
+  api('/plots/admin/list?status=pending_review').then((r) => typeof setCount === 'function' && setCount('plots', (r.counts.pending_review || 0) + (r.counts.kyc || 0))).catch(() => {});
 })();

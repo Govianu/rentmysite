@@ -408,7 +408,7 @@ function plotSubmitted({ plot }) {
   const body = p('An owner listed a plot on the website. Check the photos and documents, then approve it to publish it for space seekers.')
     + table([['Owner', plot.ownerName], ['Phone', plot.ownerPhone], ['Email', plot.ownerEmail], ['Address', plot.address], ['Google Maps', plot.mapUrl], ['Survey no.', plot.surveyNo],
       ...plotRows(plot), ['Photos', String(plot.photos.length)], ['Documents', plot.documents.map(d => d.kindText).join(', ') || 'None uploaded']])
-    + button(teamLink('plots'), 'Review it in Plot approvals');
+    + button(teamLink('plots'), 'Review plot and KYC in Approvals');
   return { to: TEAM_INBOX(), replyTo: plot.ownerEmail || undefined, subject: `[${plot.plotId}] New plot to approve: ${plot.title}`, html: layout('New plot to approve', body), text: `New plot ${plot.plotId} from ${plot.ownerName} (${plot.ownerPhone}): ${plot.title}` };
 }
 function plotReceived({ plot }) {

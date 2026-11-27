@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/css/growth.css">
   <link rel="stylesheet" href="/css/market.css">
   <link rel="stylesheet" href="/css/rms.css">
+  <link rel="stylesheet" href="/css/plots.css">
 </head>
 <body>
 <div class="shell">
@@ -24,6 +25,7 @@
     </div>
     <nav class="nav" aria-label="Dashboard">
       <a href="#overview" data-view="overview">My site report</a>
+      <a href="#plots" data-view="plots">Upload my plot</a>
       <a href="#feasibility" data-view="feasibility">Feasibility report</a>
       <a href="#space" data-view="space">My space details</a>
       <a href="#spaces" data-view="spaces">Listings</a>
@@ -88,6 +90,11 @@
       <div class="panel empty"><strong>No statements yet</strong>Your first statement appears in the month your site starts earning.</div>
     </section>
 
+    <section id="view-plots" hidden>
+      <div class="view-head"><div><h1>Upload my plot</h1><p>Three steps: upload your plot, complete your KYC, and our team approves both together. Your phone number, exact address and documents are never shown publicly.</p></div></div>
+      <div id="plotsBox"><p class="meta">Loading…</p></div>
+    </section>
+
     <section id="view-profile" hidden>
       <div class="view-head"><div><h1>Profile &amp; KYC</h1><p>Needed before your site goes live, so we can pay you safely.</p></div></div>
       <form class="panel" id="profileForm">
@@ -105,5 +112,6 @@
 <script src="/js/cta-dash.js"></script>
 <script src="/js/owner.js"></script>
 <script src="/js/kyc.js"></script>
+<script src="/js/owner-plots.js"></script>
 </body>
 </html>

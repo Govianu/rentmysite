@@ -135,7 +135,7 @@
   async function uploads() {
     const r = await api('/plots/admin/list?status=all');
     const LBL = { pending_review: 'to approve', live: 'published', rejected: 'rejected', removed: 'taken down' };
-    body().innerHTML = `<p class="meta">Everything owners uploaded at rentmysite.ai/list-plot: ${r.counts.pending_review} to approve, ${r.counts.live} published. Click a row to open that person's chat and history. Approve or reject in <a href="#plots">Plot approvals</a>.</p>
+    body().innerHTML = `<p class="meta">Everything owners uploaded at rentmysite.ai/list-plot: ${r.counts.pending_review} to approve, ${r.counts.live} published. Click a row to open that person's chat and history. Approve plot + KYC in <a href="#plots">Approvals</a>.</p>
       <div class="table-wrap"><table><thead><tr><th>Photo</th><th>Plot</th><th>Owner</th><th>Area</th><th>Size</th><th>Files</th><th>Status</th><th>Uploaded</th><th></th></tr></thead><tbody>
       ${r.plots.map((p) => `<tr class="comms-row" data-ph="91${esc(L10(p.ownerPhone))}">
         <td>${p.photos[0] ? `<img src="${esc(p.photos[0])}" alt="" style="width:72px;height:52px;object-fit:cover;border-radius:6px">` : '—'}</td>
@@ -160,7 +160,7 @@
         <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap"><strong style="flex:1">${esc(p.title)}</strong><span class="pill ${p.status === 'live' ? 'approved' : p.status === 'pending_review' ? 'pending' : 'rejected'}">${esc({ pending_review: 'to approve', live: 'published', rejected: 'rejected', removed: 'taken down' }[p.status] || p.status)}</span></div>
         <p class="meta">${esc(p.plotId)} · ${esc(p.type)} · ${esc(p.sizeText)} · ${esc(p.locality)}${p.address ? ' · ' + esc(p.address) : ''}</p>
         <div style="display:flex;gap:.3rem;flex-wrap:wrap">${p.photos.map((src) => `<a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="" style="width:90px;height:66px;object-fit:cover;border-radius:6px"></a>`).join('')}</div>
-        <p style="display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0 0">${p.mapUrl ? `<a class="btn ghost small" href="${esc(p.mapUrl)}" target="_blank" rel="noopener">📍 Map</a>` : ''}${p.documents.map((d) => `<a class="btn ghost small" href="${esc(d.url)}" target="_blank" rel="noopener">📄 ${esc(d.kindText)}</a>`).join('')}<a class="btn small" href="#plots">Review in Plot approvals</a></p>
+        <p style="display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0 0">${p.mapUrl ? `<a class="btn ghost small" href="${esc(p.mapUrl)}" target="_blank" rel="noopener">📍 Map</a>` : ''}${p.documents.map((d) => `<a class="btn ghost small" href="${esc(d.url)}" target="_blank" rel="noopener">📄 ${esc(d.kindText)}</a>`).join('')}<a class="btn small" href="#plots">Review in Approvals</a></p>
       </div>`).join('');
       box.querySelectorAll('a[href="#plots"]').forEach((a) => a.addEventListener('click', closeLead));
     } catch { box.innerHTML = ''; }

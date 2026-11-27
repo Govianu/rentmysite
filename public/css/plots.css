@@ -69,3 +69,19 @@
 .gdialog-body { padding: 1.5rem; }
 .gdialog-actions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: .5rem; }
 .pl-dialog { width: min(760px, calc(100vw - 2rem)); }
+
+/* owner dashboard: Upload my plot */
+.op-steps { list-style: none; padding: 0; margin: 0 0 1.4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .8rem; }
+.op-step { display: flex; gap: .7rem; align-items: flex-start; background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: .9rem 1rem; }
+.op-step.done { border-color: var(--teal, #0E6B4A); background: var(--teal-soft, #E7F3EE); }
+.op-step p { margin: .15rem 0 .5rem; }
+.op-n { flex: 0 0 auto; width: 1.9rem; height: 1.9rem; border-radius: 999px; display: grid; place-items: center; font-weight: 800; background: #F7B32B; color: #2A1A00; }
+.op-step.done .op-n { background: var(--teal, #0E6B4A); color: #fff; }
+.op-plots { display: grid; gap: .6rem; margin-bottom: 1.4rem; }
+.op-plot { display: flex; gap: .8rem; align-items: center; background: var(--surface); border: 1.5px solid var(--line); border-radius: 12px; padding: .6rem; }
+.op-plot img, .op-ph { width: 96px; height: 70px; object-fit: cover; border-radius: 8px; flex: 0 0 auto; display: grid; place-items: center; background: var(--teal-soft, #E7F3EE); font-size: 1.8rem; }
+.op-plot p { margin: .1rem 0 .3rem; }
+.lp-section h3 { font-size: 1.05rem; margin: 0 0 .2rem; }
+/* team: KYC next to the plot */
+.pa-kyc { margin-top: .7rem; padding: .7rem .8rem; border-radius: 10px; background: var(--paper, #F6F7FB); border: 1px solid var(--line); font-size: .9rem; }
+.pa-kyc.ok { background: var(--teal-soft, #E7F3EE); }

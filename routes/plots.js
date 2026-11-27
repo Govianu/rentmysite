@@ -18,6 +18,7 @@ const { sendMail } = require('../utils/mailer');
 const emails = require('../utils/emails');
 const { TYPES, UPLOAD_DIR, TEMP_DIR, mediaFilePath } = require('../utils/mediaUpload');
 const { notifyHub } = require('../utils/hubNotify');
+const kyc = require('../utils/kyc');
 
 // ---------- The format every plot is submitted in ----------
 const PLOT_TYPES = ['Vacant plot / land', 'Agricultural land', 'Converted (DC) land', 'Commercial site', 'Industrial plot / KIADB',
@@ -146,7 +147,7 @@ function adminPlot(p) {
     ownerName: p.ownerName, ownerPhone: p.ownerPhone, ownerEmail: p.ownerEmail || '', ownerRole: p.ownerRole || '',
     address: p.address || '', mapUrl: p.mapUrl || '', surveyNo: p.surveyNo || '', sizeValue: p.sizeValue, sizeUnit: p.sizeUnit,
     documents: (p.documents || []).map((d) => ({ kind: d.kind, kindText: DOC_KINDS[d.kind] || 'Document', name: d.name, url: `/api/plots/admin/${p._id}/file/${d.key}` })),
-    enquiries: p.enquiries || 0, history: p.history || [],
+    enquiries: p.enquiries || 0, history: p.history || [], ownerId: p.owner ? String(p.owner) : null,
   };
 }
 
@@ -170,13 +171,27 @@ async function optionalUser(req) {
 router.get('/format', (req, res) => res.json(FORMAT));
 
 // An owner submits a plot: goes to the team for approval
-router.post('/', rateLimit(8, 60 * 60 * 1000), uploadFiles, async (req, res) => {
+async function ownerOnly(req, res, next) {
+  const u = await optionalUser(req);
+  if (!u || u.role !== 'business') return next(fail('Sign in to your owner dashboard to upload your plot', 401));
+  req.owner = u;
+  next();
+}
+
+// The owner's own plots (owner dashboard → Upload my plot)
+router.get('/mine', ownerOnly, async (req, res) => {
+  const rows = (await Plot.find({ owner: req.owner._id })).filter((p) => p.status !== 'removed').sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  res.json({ plots: rows.map((p) => ({ ...publicPlot(p), status: p.status, reviewNote: p.reviewNote || '', createdAt: p.createdAt })), kyc: kyc.kycSummary(req.owner) });
+});
+
+router.post('/', rateLimit(8, 60 * 60 * 1000), ownerOnly, uploadFiles, async (req, res) => {
   const files = allFiles(req);
   try {
     const b = req.body || {};
-    const ownerName = str(b.ownerName).slice(0, 100);
-    const ownerPhone = phoneOf(b.ownerPhone);
-    const ownerEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str(b.ownerEmail)) ? str(b.ownerEmail).toLowerCase().slice(0, 160) : '';
+    const u = req.owner;
+    const ownerName = str(b.ownerName).slice(0, 100) || u.name || '';
+    const ownerPhone = phoneOf(b.ownerPhone) || phoneOf(u.phone);
+    const ownerEmail = u.email || '';
     if (!ownerName) throw fail('Enter your name');
     if (!ownerPhone) throw fail('Enter a valid 10-digit mobile number');
     if (b.consent !== 'yes' && b.consent !== 'on' && b.consent !== 'true') throw fail('Tick the box to confirm you own the plot or are authorised to list it');
@@ -192,7 +207,7 @@ router.post('/', rateLimit(8, 60 * 60 * 1000), uploadFiles, async (req, res) => 
 
     const plotId = await nextPlotId();
     const plot = await Plot.create({
-      ...f, plotId, ownerName, ownerPhone, ownerEmail, ownerRole: ['owner', 'family', 'agent', 'other'].includes(b.ownerRole) ? b.ownerRole : 'owner',
+      ...f, plotId, owner: u._id, ownerName, ownerPhone, ownerEmail, ownerRole: ['owner', 'family', 'agent', 'other'].includes(b.ownerRole) ? b.ownerRole : 'owner',
       photos: storedPhotos, documents: storedDocs, status: 'pending_review', source: str(b.source).slice(0, 40) || 'website',
       history: [{ at: new Date().toISOString(), what: 'Submitted by the owner' }],
     });
@@ -235,7 +250,19 @@ router.get('/admin/list', admin, async (req, res) => {
   const rows = (await Plot.find(status === 'all' ? {} : { status })).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
   const all = await Plot.find({});
   const counts = Object.fromEntries(['pending_review', 'live', 'rejected', 'removed'].map((s) => [s, all.filter((p) => p.status === s).length]));
-  res.json({ plots: rows.map(adminPlot), counts, format: FORMAT });
+  const users = new Map();
+  const userOf = async (id) => { if (!id) return null; if (!users.has(String(id))) users.set(String(id), await User.findById(id)); return users.get(String(id)); };
+  const plots = [];
+  for (const p of rows) {
+    const u = await userOf(p.owner);
+    plots.push({ ...adminPlot(p), kyc: u ? { ...kyc.kycTeamView(u), userId: String(u._id) } : null });
+  }
+  // KYC complete but not verified, from people with no plot waiting here (businesses, buyers, partners)
+  const withPlot = new Set(all.filter((p) => p.owner && p.status === 'pending_review').map((p) => String(p.owner)));
+  const kycWaiting = (await User.find({})).filter((u) => u.role !== 'admin' && u.kyc && kyc.kycComplete(u) && !u.kyc.verifiedAt && !withPlot.has(String(u._id)))
+    .map((u) => ({ userId: String(u._id), name: u.name, business: u.business?.businessName || '', role: u.role, email: u.email, phone: u.phone || '', kyc: kyc.kycTeamView(u) }));
+  counts.kyc = kycWaiting.length;
+  res.json({ plots, kycWaiting, counts, format: FORMAT });
 });
 
 router.get('/admin/:id/file/:key', admin, async (req, res) => {
@@ -265,6 +292,15 @@ router.patch('/admin/:id', admin, async (req, res) => {
     p.publishedAt = p.publishedAt || at;
     p.reviewNote = '';
     p.history = [...(p.history || []), { at, what: `Approved and published by ${by}` }];
+    if (b.verifyKyc && p.owner) {
+      const u = await User.findById(p.owner);
+      if (u && kyc.kycComplete(u) && !u.kyc.verifiedAt) {
+        u.kyc.verifiedAt = at;
+        u.kyc.verifiedBy = String(req.user._id);
+        await u.save();
+        p.history = [...(p.history || []), { at, what: `Owner KYC verified by ${by}` }];
+      }
+    }
   } else if (b.action === 'reject') {
     p.status = 'rejected';
     p.reviewNote = str(b.note).slice(0, 500);
