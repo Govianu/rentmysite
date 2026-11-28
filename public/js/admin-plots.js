@@ -9,23 +9,23 @@
   const w = () => (data && data.format && data.format.words) || { noun: 'plot', Noun: 'Plot', seekers: 'people looking for space' };
 
   function kycDocs(userId, k) {
-    return ['aadhaar', 'pan', 'bank'].map((d) => k.docs && k.docs[d]
+    return ['aadhaar', 'pan', 'bank'].filter((d) => d !== 'bank' || (k.docs && k.docs.bank)).map((d) => k.docs && k.docs[d]
       ? `<a class="btn ghost small" href="/api/kyc/docs/${d}?user=${esc(userId)}" target="_blank" rel="noopener">🪪 ${esc((k.docLabels && k.docLabels[d]) || d)}</a>`
       : `<span class="meta">${esc((k.docLabels && k.docLabels[d]) || d)}: missing</span>`).join(' ');
   }
   function kycBlock(k) {
     if (!k) return `<div class="pa-kyc"><strong>KYC:</strong> <span class="meta">This ${w().noun} was uploaded without an account (older upload), so there is no KYC.</span></div>`;
-    const state = k.verifiedAt ? '<span class="pill approved">KYC verified</span>' : k.complete ? '<span class="pill pending">KYC complete – check it</span>' : `<span class="pill rejected">KYC missing: ${esc(k.missing.join(', '))}</span>`;
-    return `<div class="pa-kyc ${k.verifiedAt ? 'ok' : ''}"><strong>Owner KYC</strong> ${state}
+    const state = k.idVerifiedAt ? '<span class="pill approved">Aadhaar &amp; PAN verified</span>' : k.idComplete ? '<span class="pill pending">Aadhaar &amp; PAN done – check them</span>' : `<span class="pill rejected">Missing: ${esc(k.idMissing.join(', '))}</span>`;
+    return `<div class="pa-kyc ${k.idVerifiedAt ? 'ok' : ''}"><strong>Owner KYC</strong> ${state}
       <div class="pa-cols" style="margin-top:.4rem"><div><b>Aadhaar:</b> ${esc(k.aadhaar || '—')}</div><div><b>PAN:</b> ${esc(k.pan || '—')}</div>
-        <div><b>Bank:</b> ${esc([k.accountName, k.bankName, k.accountNumber, k.ifsc].filter(Boolean).join(' · ') || '—')}</div></div>
+        <div><b>Bank:</b> ${esc([k.accountName, k.bankName, k.accountNumber, k.ifsc].filter(Boolean).join(' · ') || 'asked later, when there is a customer')}</div></div>
       <div class="pa-docs">${kycDocs(k.userId, k)}</div></div>`;
   }
 
   function item(p) {
     const row = (k, v) => (v ? `<div><b>${esc(k)}:</b> ${esc(v)}</div>` : '');
     const actions = {
-      pending_review: `${p.kyc && p.kyc.complete && !p.kyc.verifiedAt ? `<button class="btn small" data-act="approve" data-kyc="1">✓ Approve ${w().noun} &amp; verify KYC</button>` : `<button class="btn small" data-act="approve">✓ Approve &amp; publish${p.kyc && !p.kyc.complete ? ' (KYC still missing)' : ''}</button>`}<button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="reject">Reject</button>`,
+      pending_review: `${p.kyc && p.kyc.idComplete && !p.kyc.idVerifiedAt ? `<button class="btn small" data-act="approve" data-kyc="1">✓ Approve ${w().noun} &amp; verify Aadhaar/PAN</button>` : `<button class="btn small" data-act="approve">✓ Approve &amp; publish${p.kyc && !p.kyc.idComplete ? ' (Aadhaar/PAN still missing)' : ''}</button>`}<button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="reject">Reject</button>`,
       live: '<button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="remove">Take down</button>',
       rejected: '<button class="btn small" data-act="approve">Approve &amp; publish</button><button class="btn ghost small" data-act="edit">Edit details</button>',
       removed: '<button class="btn small" data-act="approve">Publish again</button>',
@@ -63,12 +63,12 @@
     box().innerHTML = `<div class="view-tabs" role="group" aria-label="Status">${Object.entries(LABEL).map(([k, v]) =>
       `<button type="button" data-st="${k}" aria-pressed="${k === status}">${v} (${data.counts[k] || 0})</button>`).join('')}</div>
       ${data.plots.length ? data.plots.map(item).join('') : `<div class="list"><div class="empty"><strong>Nothing here</strong>${status === 'pending_review' ? `${w().Nouns} uploaded from dashboards (link: ${location.host}${w().formPath}) appear here with the owner's KYC.` : ''}</div></div>`}
-      ${status === 'pending_review' && data.kycWaiting.length ? `<h2 style="margin-top:1.6rem">KYC to verify (${data.kycWaiting.length})</h2><p class="meta">People who completed KYC but have no plot waiting: owners, space seekers and partners.</p>
+      ${status === 'pending_review' && data.kycWaiting.length ? `<h2 style="margin-top:1.6rem">Aadhaar &amp; PAN to verify (${data.kycWaiting.length})</h2><p class="meta">People who added Aadhaar and PAN but have nothing waiting here.</p>
         ${data.kycWaiting.map((u) => `<article class="pa-item" style="grid-template-columns:1fr"><div>
           <div class="item-top"><h3>${esc(u.business || u.name)}</h3><span class="pill">${esc(u.role === 'business' ? 'owner' : u.role)}</span></div>
           <p class="meta">${esc(u.name)} · ${esc(u.email)} · ${esc(u.phone)}</p>
           ${kycBlock({ ...u.kyc, userId: u.userId })}
-          <div class="pa-actions"><button class="btn small" type="button" data-kyc-only="${esc(u.userId)}">✓ Verify KYC</button></div></div></article>`).join('')}` : ''}`;
+          <div class="pa-actions"><button class="btn small" type="button" data-kyc-only="${esc(u.userId)}">✓ Verify Aadhaar &amp; PAN</button></div></div></article>`).join('')}` : ''}`;
   }
 
   function editDialog(p) {
@@ -125,7 +125,7 @@
     b.disabled = true;
     try {
       await api(`/plots/admin/${p.id}`, { method: 'PATCH', body: { action: act, note, verifyKyc: b.dataset.kyc === '1' } });
-      toast({ approve: b.dataset.kyc === '1' ? `${w().Noun} published and KYC verified` : 'Published – it is shown publicly now', reject: 'Rejected', remove: 'Taken down' }[act] || 'Done');
+      toast({ approve: b.dataset.kyc === '1' ? `${w().Noun} published and Aadhaar/PAN verified` : 'Published – it is shown publicly now', reject: 'Rejected', remove: 'Taken down' }[act] || 'Done');
       load();
     } catch (ex) { toast(ex.message, true); b.disabled = false; }
   });

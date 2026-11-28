@@ -269,7 +269,7 @@ router.get('/admin/list', admin, async (req, res) => {
   }
   // KYC complete but not verified, from people with no plot waiting here (businesses, buyers, partners)
   const withPlot = new Set(all.filter((p) => p.owner && p.status === 'pending_review').map((p) => String(p.owner)));
-  const kycWaiting = (await User.find({})).filter((u) => u.role !== 'admin' && u.kyc && kyc.kycComplete(u) && !u.kyc.verifiedAt && !withPlot.has(String(u._id)))
+  const kycWaiting = (await User.find({})).filter((u) => u.role !== 'admin' && u.kyc && kyc.idComplete(u) && !u.kyc.idVerifiedAt && !u.kyc.verifiedAt && !withPlot.has(String(u._id)))
     .map((u) => ({ userId: String(u._id), name: u.name, business: u.business?.businessName || '', role: u.role, email: u.email, phone: u.phone || '', kyc: kyc.kycTeamView(u) }));
   counts.kyc = kycWaiting.length;
   res.json({ plots, kycWaiting, counts, format: FORMAT });
@@ -304,11 +304,12 @@ router.patch('/admin/:id', admin, async (req, res) => {
     p.history = [...(p.history || []), { at, what: `Approved and published by ${by}` }];
     if (b.verifyKyc && p.owner) {
       const u = await User.findById(p.owner);
-      if (u && kyc.kycComplete(u) && !u.kyc.verifiedAt) {
-        u.kyc.verifiedAt = at;
+      if (u && kyc.idComplete(u) && !u.kyc.idVerifiedAt) {
+        u.kyc.idVerifiedAt = at;
+        if (kyc.kycComplete(u)) u.kyc.verifiedAt = at;
         u.kyc.verifiedBy = String(req.user._id);
         await u.save();
-        p.history = [...(p.history || []), { at, what: `Owner KYC verified by ${by}` }];
+        p.history = [...(p.history || []), { at, what: `Owner Aadhaar and PAN verified by ${by}` }];
       }
     }
   } else if (b.action === 'reject') {

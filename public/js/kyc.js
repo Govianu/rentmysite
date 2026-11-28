@@ -23,10 +23,11 @@
       </div>`;
     };
     box.innerHTML = `
-      <h3>KYC ${k.complete ? (k.verifiedAt ? '<span class="pill ok">Verified</span>' : '<span class="pill">Complete, being checked</span>') : '<span class="pill warn">Needed before booking</span>'}</h3>
+      <h3>KYC ${k.verifiedAt ? '<span class="pill ok">Verified</span>' : k.idVerifiedAt ? '<span class="pill ok">Aadhaar &amp; PAN verified</span>' : k.idComplete ? '<span class="pill">Aadhaar &amp; PAN done, being checked</span>' : '<span class="pill warn">Aadhaar &amp; PAN needed</span>'}</h3>
       <p class="meta">Aadhaar, PAN and bank details are needed before you can make, accept or apply for any booking, so we can pay you safely.
         We keep only the last 4 digits of your Aadhaar. Your documents are private: only you and the RentMySite team can see them.</p>
-      ${k.complete ? '' : `<p class="error-box" style="display:block">Still needed: ${esc(k.missing.join(', '))}.</p>`}
+      ${k.idComplete ? '' : `<p class="error-box" style="display:block">Needed now: ${esc(k.idMissing.join(', '))}.</p>`}
+      <p class="meta"><strong>Now:</strong> Aadhaar and PAN with a photo of each card. <strong>Later:</strong> bank details, only when you get your first customer.</p>
       <form id="kycForm" class="kyc-form">
         <div class="error-box" role="alert"></div>
         <div class="row">
@@ -35,6 +36,9 @@
           <div class="field"><label for="kPan">PAN ${k.pan ? `<span class="hint">saved: ${esc(k.pan)}</span>` : ''}</label>
             <input id="kPan" name="pan" autocomplete="off" maxlength="10" style="text-transform:uppercase" placeholder="${k.pan ? 'Leave blank to keep' : 'ABCDE1234F'}"></div>
         </div>
+        <div class="row">
+        </div>
+        <h4 style="margin:1rem 0 .2rem">Bank details <span class="hint">only needed when you get your first customer – you can leave these empty for now</span></h4>
         <div class="row">
           <div class="field"><label for="kName">Account holder name</label><input id="kName" name="accountName" maxlength="120" value="${esc(k.accountName)}"></div>
           <div class="field"><label for="kBank">Bank name</label><input id="kBank" name="bankName" maxlength="80" value="${esc(k.bankName)}"></div>
@@ -47,12 +51,13 @@
         <button class="btn" type="submit">Save KYC details</button>
       </form>
       <h4 style="margin:1.2rem 0 .4rem">Documents <span class="hint">JPG, PNG or PDF, up to 8 MB. Please hide the first 8 digits of your Aadhaar.</span></h4>
-      <div class="kyc-docs">${['aadhaar', 'pan', 'bank'].map(doc).join('')}</div>
+      <div class="kyc-docs">${['aadhaar', 'pan'].map(doc).join('')}</div>
+      <p class="meta" style="margin:.6rem 0 .2rem">Later, with your bank details:</p><div class="kyc-docs">${doc('bank')}</div>
       <div class="kyc-send">
         ${k.submittedAt
           ? `<p><span class="pill approved">Sent to RentMySite</span> <span class="meta">on ${fmtDate(k.submittedAt)}. The RentMySite team will check it. If you change anything, send it again.</span></p>`
-          : `<p class="meta">${k.complete ? 'Everything is filled in. Send it to the RentMySite team to check.' : 'Fill in all the details and upload the 3 documents, then send it to RentMySite.'}</p>`}
-        <button class="btn" type="button" data-kyc-send ${k.complete && !k.submittedAt ? '' : 'disabled'}>${k.submittedAt ? 'Sent' : 'All filled, send to RentMySite'}</button>
+          : `<p class="meta">${k.idComplete ? 'Aadhaar and PAN are filled in. Send it to the RentMySite team to check.' : 'Fill in Aadhaar and PAN and upload both cards, then send it to RentMySite.'}</p>`}
+        <button class="btn" type="button" data-kyc-send ${k.idComplete && !k.submittedAt ? '' : 'disabled'}>${k.submittedAt ? 'Sent' : 'All filled, send to RentMySite'}</button>
       </div>`;
 
     onSubmit(box.querySelector('#kycForm'), async data => {

@@ -414,7 +414,7 @@ function plotSubmitted({ plot }) {
   return { to: TEAM_INBOX(), replyTo: plot.ownerEmail || undefined, subject: `[${plot.plotId}] New ${PW.noun} to approve: ${plot.title}`, html: layout(`New ${PW.noun} to approve`, body), text: `New ${PW.noun} ${plot.plotId} from ${plot.ownerName} (${plot.ownerPhone}): ${plot.title}` };
 }
 function plotReceived({ plot }) {
-  const body = p(`Hi ${esc(firstName(plot.ownerName))},`) + p(`Thank you for uploading your ${PW.noun} to ${PW.site}. Our team is checking the details, documents and your KYC, and will publish it for ${PW.seekers}, usually within one working day. If your KYC is not complete yet, please finish it in your dashboard under Profile.`)
+  const body = p(`Hi ${esc(firstName(plot.ownerName))},`) + p(`Thank you for uploading your ${PW.noun} to ${PW.site}. Our team is checking the details, documents and your KYC, and will publish it for ${PW.seekers}, usually within one working day. If you have not added your Aadhaar and PAN yet, please add them in your dashboard under Profile. Bank details are only needed later, when there is a customer.`)
     + table(plotRows(plot).slice(0, 6)) + p(`Your reference is <strong>${esc(plot.plotId)}</strong>. Questions? WhatsApp or call us on ${PHONE}.`);
   return { to: plot.ownerEmail, subject: `We received your ${PW.noun} (${plot.plotId})`, html: layout(`${PW.Noun} received`, body), text: `We received your ${PW.noun} ${plot.plotId}. Our team will publish it after checking.` };
 }

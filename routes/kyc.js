@@ -31,7 +31,7 @@ router.post('/docs/:kind', rateLimit(20, 60 * 60 * 1000), uploadMiddleware, asyn
 // "All filled, send to RentMySite": everything goes to info@rentmysite.ai with the documents attached
 router.post('/submit', rateLimit(10, 60 * 60 * 1000), async (req, res) => {
   const u = req.user;
-  if (!kyc.kycComplete(u)) throw fail(`Fill in everything first: ${kyc.kycSummary(u).missing.join(', ')}.`);
+  if (!kyc.idComplete(u)) throw fail(`Fill in these first: ${kyc.kycSummary(u).idMissing.join(', ')}.`);
   const result = await kyc.sendTeamKyc(u);
   if (result?.error) {
     const { sendFailureMessage } = require('../utils/mailer');
@@ -71,8 +71,9 @@ router.get('/user/:id', requireAuth('admin'), async (req, res) => {
 router.post('/user/:id/verify', requireAuth('admin'), async (req, res) => {
   const u = await User.findById(req.params.id);
   if (!u) throw fail('Not found', 404);
-  if (!kyc.kycComplete(u)) throw fail('This KYC is not complete yet');
-  u.kyc.verifiedAt = new Date().toISOString();
+  if (!kyc.idComplete(u)) throw fail('Aadhaar and PAN are not complete yet');
+  u.kyc.idVerifiedAt = new Date().toISOString();
+  if (kyc.kycComplete(u)) u.kyc.verifiedAt = u.kyc.idVerifiedAt;   // bank details too: fully verified
   u.kyc.verifiedBy = String(req.user._id);
   await u.save();
   res.json({ kyc: kyc.kycSummary(u) });

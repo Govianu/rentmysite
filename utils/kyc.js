@@ -74,12 +74,23 @@ function missing(k = {}) {
   return need;
 }
 const kycComplete = user => missing(user?.kyc).length === 0;
+// Identity part only: what an owner gives when uploading (bank details come later, once there is a customer)
+function idMissing(k = {}) {
+  const need = [];
+  if (!k.aadhaarLast4) need.push('Aadhaar number');
+  if (!k.pan) need.push('PAN');
+  if (!k.docs?.aadhaar) need.push(DOCS.aadhaar);
+  if (!k.docs?.pan) need.push(DOCS.pan);
+  return need;
+}
+const idComplete = user => idMissing(user?.kyc).length === 0;
 
 // What the owner (and the RentMySite team) see: masked, never the full numbers
 function kycSummary(user) {
   const k = user?.kyc || {};
   return {
     complete: kycComplete(user), missing: missing(k), verifiedAt: k.verifiedAt || null, submittedAt: k.submittedAt || null,
+    idComplete: idComplete(user), idMissing: idMissing(k), idVerifiedAt: k.idVerifiedAt || k.verifiedAt || null,
     aadhaar: k.aadhaarLast4 ? `•••• •••• ${k.aadhaarLast4}` : '',
     pan: k.pan ? `${k.pan.slice(0, 2)}•••••${k.pan.slice(-3)}` : '',
     accountName: k.accountName || '', accountNumber: mask(k.accountNumber), ifsc: k.ifsc || '', bankName: k.bankName || '',
@@ -177,4 +188,4 @@ function kycTeamView(u) {
   return { ...kycSummary(u), pan: k.pan || '', accountNumber: k.accountNumber || '', updatedDocs: k.docs || {} };
 }
 
-module.exports = { kycTeamView, notifyTeam, sendTeamKyc, cleanDetails, kycComplete, kycSummary, requireKyc, storeDoc, docPath, validAadhaar, DOCS };
+module.exports = { idComplete, kycTeamView, notifyTeam, sendTeamKyc, cleanDetails, kycComplete, kycSummary, requireKyc, storeDoc, docPath, validAadhaar, DOCS };

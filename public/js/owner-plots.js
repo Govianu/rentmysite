@@ -17,8 +17,8 @@
     const step = (n, done, title, text, action) => `<li class="op-step ${done ? 'done' : ''}"><span class="op-n">${done ? '✓' : n}</span><div><strong>${title}</strong><p class="meta">${text}</p>${action || ''}</div></li>`;
     return `<ol class="op-steps">
       ${step(1, uploaded, `Upload your ${w.noun}`, uploaded ? `${items.length} ${items.length === 1 ? w.noun : w.nouns} uploaded.` : 'Details, photos, a short video and documents – about 5 minutes.', uploaded ? `<button class="btn ghost small" type="button" data-new>+ Upload another ${w.noun}</button>` : '')}
-      ${step(2, k.complete, 'Complete your KYC', k.complete ? (k.verifiedAt ? 'Verified by our team.' : 'Complete – our team is checking it.') : `Still needed: ${esc(k.missing.join(', '))}. Aadhaar, PAN and bank details, so we can pay you safely.`, k.complete ? '' : '<a class="btn small" href="#profile">Fill in KYC</a>')}
-      ${step(3, live && k.verifiedAt, 'Team approval', live ? `Your ${w.noun} is live for ${w.seekers}. Our team takes it forward with you.` : `Our team checks your ${w.noun} and KYC together, usually within one working day.`)}
+      ${step(2, k.idComplete, 'Add your Aadhaar and PAN', k.idComplete ? (k.idVerifiedAt ? 'Verified by our team.' : 'Done – our team is checking it.') : `Needed: ${esc(k.idMissing.join(', '))}. Bank details are asked later, only when you get a customer.`, k.idComplete ? '' : '<a class="btn small" href="#profile">Add Aadhaar &amp; PAN</a>')}
+      ${step(3, live && k.idVerifiedAt, 'Team approval', live ? `Your ${w.noun} is live for ${w.seekers}. Our team takes it forward with you.` : `Our team checks your ${w.noun} and KYC together, usually within one working day.`)}
     </ol>`;
   }
 
@@ -115,7 +115,7 @@
       btn.textContent = $('opVideos').files.length ? 'Uploading photos and videos… please wait' : 'Uploading… please wait';
       try {
         const r = await api('/plots', { method: 'POST', body: fd });
-        toast(`${w.Noun} uploaded (${r.plotId}). Next: complete your KYC.`);
+        toast(`${w.Noun} uploaded (${r.plotId}). Next: add your Aadhaar and PAN.`);
         load(false);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (ex) {
