@@ -48,6 +48,7 @@ function defaults() {
         officeMap: process.env.OFFICE_MAP_URL || 'https://www.google.com/maps/search/?api=1&query=Govianu+Sadashivanagar+Bengaluru',
         officeHours: process.env.OFFICE_HOURS || 'Monday to Saturday, 10 am to 7 pm',
         plotFormUrl: process.env.PLOT_FORM_URL || 'https://rentmysite.ai/list-plot',
+        pmbFormUrl: process.env.PMB_FORM_URL || 'https://partnermybusiness.ai/list-place',
       },
       staffAlert: { templateName: '', variable: 'details' },
       // WhatsApp sent automatically to anyone whose call was missed (template outside the 24-hour window)

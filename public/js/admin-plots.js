@@ -6,6 +6,7 @@
   let data = null;
   const LABEL = { pending_review: 'To approve', live: 'Published', rejected: 'Rejected', removed: 'Taken down' };
   const box = () => document.getElementById('plotsAdmin');
+  const w = () => (data && data.format && data.format.words) || { noun: 'plot', Noun: 'Plot', seekers: 'people looking for space' };
 
   function kycDocs(userId, k) {
     return ['aadhaar', 'pan', 'bank'].map((d) => k.docs && k.docs[d]
@@ -13,7 +14,7 @@
       : `<span class="meta">${esc((k.docLabels && k.docLabels[d]) || d)}: missing</span>`).join(' ');
   }
   function kycBlock(k) {
-    if (!k) return '<div class="pa-kyc"><strong>KYC:</strong> <span class="meta">This plot was uploaded without an owner account (older upload), so there is no KYC.</span></div>';
+    if (!k) return `<div class="pa-kyc"><strong>KYC:</strong> <span class="meta">This ${w().noun} was uploaded without an account (older upload), so there is no KYC.</span></div>`;
     const state = k.verifiedAt ? '<span class="pill approved">KYC verified</span>' : k.complete ? '<span class="pill pending">KYC complete – check it</span>' : `<span class="pill rejected">KYC missing: ${esc(k.missing.join(', '))}</span>`;
     return `<div class="pa-kyc ${k.verifiedAt ? 'ok' : ''}"><strong>Owner KYC</strong> ${state}
       <div class="pa-cols" style="margin-top:.4rem"><div><b>Aadhaar:</b> ${esc(k.aadhaar || '—')}</div><div><b>PAN:</b> ${esc(k.pan || '—')}</div>
@@ -24,7 +25,7 @@
   function item(p) {
     const row = (k, v) => (v ? `<div><b>${esc(k)}:</b> ${esc(v)}</div>` : '');
     const actions = {
-      pending_review: `${p.kyc && p.kyc.complete && !p.kyc.verifiedAt ? '<button class="btn small" data-act="approve" data-kyc="1">✓ Approve plot &amp; verify KYC</button>' : `<button class="btn small" data-act="approve">✓ Approve &amp; publish${p.kyc && !p.kyc.complete ? ' (KYC still missing)' : ''}</button>`}<button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="reject">Reject</button>`,
+      pending_review: `${p.kyc && p.kyc.complete && !p.kyc.verifiedAt ? `<button class="btn small" data-act="approve" data-kyc="1">✓ Approve ${w().noun} &amp; verify KYC</button>` : `<button class="btn small" data-act="approve">✓ Approve &amp; publish${p.kyc && !p.kyc.complete ? ' (KYC still missing)' : ''}</button>`}<button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="reject">Reject</button>`,
       live: '<button class="btn ghost small" data-act="edit">Edit details</button><button class="btn warn small" data-act="remove">Take down</button>',
       rejected: '<button class="btn small" data-act="approve">Approve &amp; publish</button><button class="btn ghost small" data-act="edit">Edit details</button>',
       removed: '<button class="btn small" data-act="approve">Publish again</button>',
@@ -44,6 +45,7 @@
         </div>
         ${p.description ? `<p class="item-body">${esc(p.description)}</p>` : ''}
         <div class="pa-docs">${p.mapUrl ? `<a class="btn ghost small" href="${esc(p.mapUrl)}" target="_blank" rel="noopener">📍 Map</a>` : ''}
+          ${(p.videos || []).map((v, i) => `<a class="btn ghost small" href="${esc(v)}" target="_blank" rel="noopener">🎬 Video ${i + 1}</a>`).join('')}
           ${p.documents.map((d) => `<a class="btn ghost small" href="${esc(d.url)}" target="_blank" rel="noopener">📄 ${esc(d.kindText)}</a>`).join('') || '<span class="meta">No documents uploaded</span>'}
           <a class="btn ghost small" href="https://wa.me/${esc(p.ownerPhone.replace(/\D/g, ''))}" target="_blank" rel="noopener">WhatsApp owner</a></div>
         ${kycBlock(p.kyc)}
@@ -60,7 +62,7 @@
     if (nav) nav.dataset.count = data.counts.pending_review || '';
     box().innerHTML = `<div class="view-tabs" role="group" aria-label="Status">${Object.entries(LABEL).map(([k, v]) =>
       `<button type="button" data-st="${k}" aria-pressed="${k === status}">${v} (${data.counts[k] || 0})</button>`).join('')}</div>
-      ${data.plots.length ? data.plots.map(item).join('') : `<div class="list"><div class="empty"><strong>No plots here</strong>${status === 'pending_review' ? 'Plots owners upload from their dashboard (link: rentmysite.ai/list-plot) appear here with their KYC.' : ''}</div></div>`}
+      ${data.plots.length ? data.plots.map(item).join('') : `<div class="list"><div class="empty"><strong>Nothing here</strong>${status === 'pending_review' ? `${w().Nouns} uploaded from dashboards (link: ${location.host}${w().formPath}) appear here with the owner's KYC.` : ''}</div></div>`}
       ${status === 'pending_review' && data.kycWaiting.length ? `<h2 style="margin-top:1.6rem">KYC to verify (${data.kycWaiting.length})</h2><p class="meta">People who completed KYC but have no plot waiting: owners, space seekers and partners.</p>
         ${data.kycWaiting.map((u) => `<article class="pa-item" style="grid-template-columns:1fr"><div>
           <div class="item-top"><h3>${esc(u.business || u.name)}</h3><span class="pill">${esc(u.role === 'business' ? 'owner' : u.role)}</span></div>
@@ -119,11 +121,11 @@
     if (act === 'edit') return editDialog(p);
     let note = '';
     if (act === 'reject') { note = prompt('Reason (sent to the owner if they gave an email):', 'Please share clearer photos and the ownership document'); if (note === null) return; }
-    if (act === 'remove' && !confirm('Take this plot down? Space seekers will no longer see it.')) return;
+    if (act === 'remove' && !confirm(`Take this ${w().noun} down? It will no longer be shown publicly.`)) return;
     b.disabled = true;
     try {
       await api(`/plots/admin/${p.id}`, { method: 'PATCH', body: { action: act, note, verifyKyc: b.dataset.kyc === '1' } });
-      toast({ approve: b.dataset.kyc === '1' ? 'Plot published and KYC verified' : 'Published – space seekers can see it now', reject: 'Rejected', remove: 'Taken down' }[act] || 'Done');
+      toast({ approve: b.dataset.kyc === '1' ? `${w().Noun} published and KYC verified` : 'Published – it is shown publicly now', reject: 'Rejected', remove: 'Taken down' }[act] || 'Done');
       load();
     } catch (ex) { toast(ex.message, true); b.disabled = false; }
   });

@@ -26,17 +26,18 @@
   }
 
   function renderBrowse(el, { user = null } = {}) {
+    const W0 = { noun: 'plot', nouns: 'plots', browseTitle: 'Plots & land available', formPath: '/list-plot', team: 'RentMySite' };
     el.innerHTML = `<section class="pl-wrap" id="plots">
-      <div class="pl-head"><div><h2>Plots &amp; land available</h2><p class="meta">Approved by the RentMySite team. Tell us what you need and we coordinate with the owner.</p></div>
-        <a class="btn ghost small" href="/list-plot">Own a plot? List it free</a></div>
+      <div class="pl-head"><div><h2 data-w="title">${esc(W0.browseTitle)}</h2><p class="meta" data-w="sub">Approved by our team. Tell us what you need and we coordinate with the owner.</p></div>
+        <a class="btn ghost small" data-w="cta" href="${W0.formPath}">List yours free</a></div>
       <div class="pl-filters">
-        <label><span class="sr-only">Search</span><input data-f="q" placeholder="Search: EV parking, warehouse, corner plot…"></label>
+        <label><span class="sr-only">Search</span><input data-f="q" placeholder="Search by use, type or facility…"></label>
         <label><span class="sr-only">Area</span><input data-f="area" placeholder="Area, e.g. Yelahanka"></label>
         <label><span class="sr-only">Type</span><select data-f="type"><option value="">All types</option></select></label>
         <label><span class="sr-only">Minimum size</span><select data-f="minSqft"><option value="">Any size</option><option value="1000">1,000+ sq ft</option><option value="5000">5,000+ sq ft</option><option value="10000">10,000+ sq ft</option><option value="43560">1 acre+</option></select></label>
       </div>
       <p class="meta pl-n"></p>
-      <div class="pl-grid"><p class="meta">Loading plots…</p></div>
+      <div class="pl-grid"><p class="meta">Loading…</p></div>
     </section>`;
     let plots = [];
     let timer;
@@ -47,9 +48,14 @@
       const sel = el.querySelector('[data-f="type"]');
       if (sel.options.length === 1) sel.insertAdjacentHTML('beforeend', r.types.map((t) => `<option>${esc(t)}</option>`).join(''));
       plots = r.plots;
-      el.querySelector('.pl-n').textContent = `${plots.length} plot${plots.length === 1 ? '' : 's'}`;
+      const w = r.words || W0;
+      el.querySelector('[data-w="title"]').textContent = w.browseTitle;
+      el.querySelector('[data-w="cta"]').setAttribute('href', w.formPath);
+      el.querySelector('[data-w="cta"]').textContent = `Have a ${w.noun}? List it free`;
+      renderBrowse.w = w;
+      el.querySelector('.pl-n').textContent = `${plots.length} ${plots.length === 1 ? w.noun : w.nouns}`;
       el.querySelector('.pl-grid').innerHTML = plots.length ? plots.map(card).join('')
-        : '<p class="pl-empty"><strong>No plots match yet.</strong> New plots are added every week. Change the filters, or use “Find it for me”.</p>';
+        : `<p class="pl-empty"><strong>Nothing matches yet.</strong> New ${w.nouns} are added every week. Change the filters, or use “Find it for me”.</p>`;
     };
     el.addEventListener('input', (e) => { if (e.target.dataset.f) { clearTimeout(timer); timer = setTimeout(() => load().catch(() => {}), 300); } });
     el.addEventListener('click', (e) => {
@@ -71,13 +77,14 @@
     ].filter((r) => r[1]);
     d.innerHTML = `<div class="gdialog-body">
       <div class="pl-gallery">${p.photos.map((src) => `<a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="Photo of ${esc(p.title)}" loading="lazy"></a>`).join('') || '<span class="meta">No photos</span>'}</div>
+      ${(p.videos || []).map((src) => `<video src="${esc(src)}" controls preload="metadata" style="width:100%;max-height:320px;border-radius:12px;margin-bottom:.6rem;background:#000"></video>`).join('')}
       <h2>${esc(p.title)}</h2>
       <table class="pl-table">${rows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</table>
       ${p.amenities.length ? `<p class="pl-tags">${p.amenities.map((a) => `<span>${esc(a)}</span>`).join('')}</p>` : ''}
       ${p.description ? `<p>${esc(p.description)}</p>` : ''}
       <form class="pl-enq" novalidate>
-        <h3>Interested in this plot?</h3>
-        <p class="mk-note">Send your details: the RentMySite team calls you, arranges a site visit and coordinates with the owner. Your details are not shared with the owner.</p>
+        <h3>Interested in this ${(renderBrowse.w || { noun: 'plot' }).noun}?</h3>
+        <p class="mk-note">Send your details: the ${esc((renderBrowse.w || { team: "RentMySite" }).team)} team calls you, arranges a site visit and coordinates with the owner. Your details are not shared with the owner.</p>
         ${user ? '' : `<div class="row"><div class="field"><label>Your name</label><input name="name" autocomplete="name" required></div>
           <div class="field"><label>Mobile number</label><input name="phone" type="tel" autocomplete="tel" required></div></div>
           <div class="field"><label>Email <span class="hint">(optional)</span></label><input name="email" type="email" autocomplete="email"></div>`}

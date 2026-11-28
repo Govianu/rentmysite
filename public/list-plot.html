@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="/css/plots.css">
   <style>
-    body { background: #0E6B4A; min-height: 100vh; }
+    body { background: var(--teal, #0E6B4A); min-height: 100vh; }
     .lg { max-width: 640px; margin: 0 auto; padding: 1.2rem clamp(1rem, 4vw, 2rem) 3rem; }
     .lg .brandmark { color: #fff; display: inline-block; margin-bottom: 1.4rem; }
     .lg-card { background: var(--surface, #fff); border-radius: 20px; padding: clamp(1.2rem, 4vw, 2rem); }
@@ -28,25 +28,35 @@
 <main class="lg">
   <a class="brandmark" href="/">RentMySite<span>.ai</span></a>
   <div class="lg-card" id="lgCard">
-    <h1>List your plot, free</h1>
-    <p>Your plot is uploaded from your own <strong>owner dashboard</strong>, so you can follow every step there.</p>
+    <h1 data-w="h1">List your plot, free</h1>
+    <p data-w="intro">Your plot is uploaded from your own <strong>dashboard</strong>, so you can follow every step there.</p>
     <ol class="op-steps" style="grid-template-columns:1fr;margin-top:1rem">
-      <li class="op-step"><span class="op-n">1</span><div><strong>Sign in or create your free owner account</strong><p class="meta">We email you a one-time code – no password.</p></div></li>
-      <li class="op-step"><span class="op-n">2</span><div><strong>Upload your plot</strong><p class="meta">Details, photos and property documents – about 5 minutes.</p></div></li>
+      <li class="op-step"><span class="op-n">1</span><div><strong>Sign in or create your free account</strong><p class="meta">We email you a one-time code – no password.</p></div></li>
+      <li class="op-step"><span class="op-n">2</span><div><strong data-w="s2">Upload your plot</strong><p class="meta">Details, photos, a short video and documents – about 5 minutes.</p></div></li>
       <li class="op-step"><span class="op-n">3</span><div><strong>Complete your KYC</strong><p class="meta">Aadhaar, PAN and bank details, so we can pay you safely.</p></div></li>
-      <li class="op-step"><span class="op-n">4</span><div><strong>Our team approves</strong><p class="meta">Then your plot is shown to businesses and brands looking for space, and we take it forward with you.</p></div></li>
+      <li class="op-step"><span class="op-n">4</span><div><strong>Our team approves</strong><p class="meta" data-w="s4">Then it is shown to people looking, and we take it forward with you.</p></div></li>
     </ol>
     <div class="lg-actions">
-      <a class="btn" id="lgNew" href="/login?next=business%23plots">Create my free owner account</a>
+      <a class="btn" id="lgNew" href="/login?next=business%23plots">Create my free account</a>
       <a class="btn ghost" id="lgIn" href="/login?next=business%23plots#login">I already have an account – sign in</a>
     </div>
     <p class="meta" style="margin-top:1rem">Enquired on our website before? You already have an account: sign in with the same email. Questions? WhatsApp +91 81039 90990.</p>
+    <p class="meta" id="lgSee" style="margin-top:.4rem"></p>
   </div>
 </main>
 <script src="/js/api.js"></script>
 <script>
 (async function () {
   // Already signed in as an owner: straight to Upload my plot
+  try {
+    const { words: w } = await api('/plots/format');
+    document.title = `List your ${w.noun} | ${w.site}`;
+    document.querySelector('[data-w="h1"]').textContent = `List your ${w.noun}, free`;
+    document.querySelector('[data-w="intro"]').innerHTML = `Your ${w.noun} is uploaded from your own <strong>dashboard</strong>, so you can follow every step there.`;
+    document.querySelector('[data-w="s2"]').textContent = `Upload your ${w.noun}`;
+    document.querySelector('[data-w="s4"]').textContent = `Then your ${w.noun} is shown to ${w.seekers}, and we take it forward with you.`;
+    document.querySelector('.brandmark').innerHTML = w.brand === 'pmb' ? 'PartnerMyBusiness<span>.ai</span>' : 'RentMySite<span>.ai</span>';
+  } catch { /* keep the default wording */ }
   try {
     const { user } = await api('/auth/me');
     if (user && user.role === 'business') { location.replace('/business#plots'); return; }

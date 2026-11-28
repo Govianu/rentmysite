@@ -166,6 +166,22 @@ const TEMPLATES = [
     type: 'template',
     components: [{ type: 'BODY', format: 'TEXT', example: { name: 'Asha', link: 'https://rentmysite.ai/find#plots' }, text: 'Hi {{name}}, thank you for your enquiry on RentMySite.ai.\n\nYou can see the plots and spaces available right now here: {{link}}\n\nTell us what you need – the use, the area and the size – and we will shortlist the right sites for you.' }],
   },
+  {
+    // first WhatsApp to a RentMySite owner who enquired on the website: a question, no link yet (lib/site.js)
+    name: 'rms_enquiry_intro',
+    language: 'en',
+    category: 'utility',
+    type: 'template',
+    components: [{ type: 'BODY', format: 'TEXT', example: { name: 'Ravi' }, text: 'Hi {{name}}, thank you for your enquiry on RentMySite.ai. We help owners earn every month from dormant space – you keep the title, with no upfront cost.\n\nCould you tell me a little about your space: what it is, where it is and roughly how big?' }],
+  },
+  {
+    // first WhatsApp to a PartnerMyBusiness enquiry (lib/site.js)
+    name: 'pmb_enquiry_intro',
+    language: 'en',
+    category: 'utility',
+    type: 'template',
+    components: [{ type: 'BODY', format: 'TEXT', example: { name: 'Ravi' }, text: 'Hi {{name}}, thank you for your enquiry on PartnerMyBusiness.ai. We help businesses and professionals add new income with the right partners, usually with no upfront cost.\n\nCould you tell me a little about your business or profession, where you are, and which space or hours are free?' }],
+  },
 ];
 
 async function createTemplates() {

@@ -16,7 +16,15 @@ function firstName(name) {
 }
 
 function welcome(lead, role) {
-  const seeker = role === 'brand';
+  const name0 = firstName(lead.name);
+  if (lead.brand === 'pmb') {
+    return { template: 'pmb_enquiry_intro', body: { name: name0 }, text: `Hi ${name0}, thank you for your enquiry on PartnerMyBusiness.ai. We help businesses and professionals add new income with the right partners, usually with no upfront cost.\n\nCould you tell me a little about your business or profession, where you are, and which space or hours are free?` };
+  }
+  if (role !== 'brand') {
+    // Owners: start a conversation; the AI sends the upload link only once they are clearly interested
+    return { template: 'rms_enquiry_intro', body: { name: name0 }, text: `Hi ${name0}, thank you for your enquiry on RentMySite.ai. We help owners earn every month from dormant space – you keep the title, with no upfront cost.\n\nCould you tell me a little about your space: what it is, where it is and roughly how big?` };
+  }
+  const seeker = true;
   const name = firstName(lead.name);
   const link = seeker ? FIND() : `${FORM()}?phone=${lead.phone.slice(-10)}&src=web`;
   const template = seeker ? 'rms_enquiry_seeker' : 'rms_enquiry_owner';
@@ -37,6 +45,7 @@ async function sendWelcome(lead, role) {
     if (!ok.has(w.template)) {
       console.warn(`[site] template ${w.template} not approved yet – no welcome WhatsApp for ${lead.phone}`);
       lead.welcomePending = w.template;
+      lead.welcomeRole = role || '';
       return 'template not approved yet';
     }
     await engine.hubSend(null, lead.phone, { template: w.template, templateBody: w.body, shownText: w.text, by: 'ai' });
@@ -60,7 +69,7 @@ async function handleSiteEvent(ev) {
     // Never also put them in the 100-a-day follow-up: they get the website welcome instead
     if (['none', 'queued', undefined].includes(lead.campaign?.state)) lead.campaign = { state: 'skipped', reason: 'website enquiry – welcomed directly' };
     save();
-    const welcomeResult = ev.welcome === false ? 'not needed' : brand === 'rentmysite' ? await sendWelcome(lead, ev.role).catch((e) => `error: ${e.message}`) : 'not for this brand';
+    const welcomeResult = ev.welcome === false ? 'not needed' : await sendWelcome(lead, ev.role).catch((e) => `error: ${e.message}`);
     save();
     return { ok: true, phone, isNew, welcome: welcomeResult };
   }
@@ -86,8 +95,8 @@ async function handleSiteEvent(ev) {
 async function retryPendingWelcomes() {
   const waiting = Object.values(db.leads).filter((l) => l.welcomePending && !l.welcomeSentAt && now() - (l.createdAt || 0) < 7 * 24 * 3600_000);
   for (const l of waiting) {
-    const r = await sendWelcome(l, l.welcomePending === 'rms_enquiry_seeker' ? 'brand' : 'owner').catch(() => 'error');
-    if (r === 'template not approved yet') break;
+    const r = await sendWelcome(l, l.welcomeRole || (l.welcomePending === 'rms_enquiry_seeker' ? 'brand' : 'owner')).catch(() => 'error');
+    if (r === 'template not approved yet') continue;
   }
   if (waiting.length) save();
 }

@@ -19,21 +19,26 @@ const emails = require('../utils/emails');
 const { TYPES, UPLOAD_DIR, TEMP_DIR, mediaFilePath } = require('../utils/mediaUpload');
 const { notifyHub } = require('../utils/hubNotify');
 const kyc = require('../utils/kyc');
+const { W } = require('../utils/plotWords');
 
 // ---------- The format every plot is submitted in ----------
-const PLOT_TYPES = ['Vacant plot / land', 'Agricultural land', 'Converted (DC) land', 'Commercial site', 'Industrial plot / KIADB',
-  'Terrace or rooftop', 'Godown or warehouse', 'Shed or factory', 'Building / floor', 'Shop or showroom', 'Parking area', 'Other'];
+const PLOT_TYPES = W.types;
 const ROADS = { main: 'Main road / highway', inner: 'Inner road', outskirts: 'Outskirts / village road' };
 const ZONING = ['Residential', 'Commercial', 'Industrial', 'Agricultural', 'Converted (DC)', 'Mixed use', 'Not sure'];
-const PREFERENCES = { share: 'Revenue share with RentMySite', rent: 'Fixed monthly rent', lease: 'Long-term lease', open: 'Open to all options' };
-const AMENITIES = ['Electricity', 'Water / borewell', 'Compound wall', 'Gate', 'Drainage', 'Tar road access', 'Corner plot', 'Clear title', 'Khata available', 'Shed / structure on site'];
+const PREFERENCES = { share: `Revenue share with ${W.team}`, rent: 'Fixed monthly rent', lease: 'Long-term lease', open: 'Open to all options' };
+const AMENITIES = W.brand === 'pmb'
+  ? ['Electricity / power backup', 'Water', 'Washrooms', 'Parking', 'Kitchen', 'Air conditioning', 'Wi-Fi', 'Lift', 'Seating', 'Storage', 'Ground floor / road facing', 'Licences in place']
+  : ['Electricity', 'Water / borewell', 'Compound wall', 'Gate', 'Drainage', 'Tar road access', 'Corner plot', 'Clear title', 'Khata available', 'Shed / structure on site'];
 const UNITS = { sqft: 1, sqyd: 9, sqm: 10.7639, acre: 43560, gunta: 1089, cent: 435.6 };
 const UNIT_LABEL = { sqft: 'sq ft', sqyd: 'sq yd', sqm: 'sq m', acre: 'acre', gunta: 'gunta', cent: 'cent' };
-const DOC_KINDS = { title: 'Title / sale deed', ec: 'Encumbrance certificate (EC)', khata: 'Khata / RTC / patta', tax: 'Property tax receipt', conversion: 'DC conversion order', plan: 'Survey sketch / approved plan', other: 'Other document' };
-const FORMAT = { types: PLOT_TYPES, roads: ROADS, zoning: ZONING, preferences: PREFERENCES, amenities: AMENITIES, units: UNIT_LABEL, docKinds: DOC_KINDS };
+const DOC_KINDS = W.brand === 'pmb'
+  ? { lease: 'Rent / lease agreement', trade: 'Trade licence', gst: 'GST certificate', fssai: 'FSSAI licence', tax: 'Property tax receipt', title: 'Title / sale deed', other: 'Other document' }
+  : { title: 'Title / sale deed', ec: 'Encumbrance certificate (EC)', khata: 'Khata / RTC / patta', tax: 'Property tax receipt', conversion: 'DC conversion order', plan: 'Survey sketch / approved plan', other: 'Other document' };
+const FORMAT = { words: W, types: PLOT_TYPES, roads: ROADS, zoning: ZONING, preferences: PREFERENCES, amenities: AMENITIES, units: UNIT_LABEL, docKinds: DOC_KINDS };
 
 const MAX_PHOTOS = 12;
 const MAX_DOCS = 8;
+const MAX_VIDEOS = 3;
 const MB = 1024 * 1024;
 
 const upload = multer({
@@ -41,32 +46,35 @@ const upload = multer({
     destination: (req, file, cb) => fs.mkdir(TEMP_DIR, { recursive: true }, (err) => cb(err, TEMP_DIR)),
     filename: (req, file, cb) => cb(null, crypto.randomUUID()),
   }),
-  limits: { fileSize: 25 * MB, files: MAX_PHOTOS + MAX_DOCS, fields: 60, fieldSize: 6000 },
+  limits: { fileSize: 100 * MB, files: MAX_PHOTOS + MAX_DOCS + MAX_VIDEOS, fields: 60, fieldSize: 6000 },
   fileFilter(req, file, cb) {
-    const ok = file.fieldname === 'photos' ? /^image\/(jpeg|png|webp)$/.test(file.mimetype) : /^(image\/(jpeg|png|webp)|application\/pdf)$/.test(file.mimetype);
-    cb(ok ? null : fail(file.fieldname === 'photos' ? 'Photos must be JPG, PNG or WebP' : 'Documents must be PDF, JPG or PNG', 415), ok);
+    const ok = file.fieldname === 'photos' ? /^image\/(jpeg|png|webp)$/.test(file.mimetype)
+      : file.fieldname === 'videos' ? /^video\/(mp4|webm|quicktime)$/.test(file.mimetype)
+      : /^(image\/(jpeg|png|webp)|application\/pdf)$/.test(file.mimetype);
+    cb(ok ? null : fail(file.fieldname === 'photos' ? 'Photos must be JPG, PNG or WebP' : file.fieldname === 'videos' ? 'Videos must be MP4, MOV or WebM' : 'Documents must be PDF, JPG or PNG', 415), ok);
   },
 });
 function uploadFiles(req, res, next) {
-  upload.fields([{ name: 'photos', maxCount: MAX_PHOTOS }, { name: 'documents', maxCount: MAX_DOCS }])(req, res, (err) => {
+  upload.fields([{ name: 'photos', maxCount: MAX_PHOTOS }, { name: 'documents', maxCount: MAX_DOCS }, { name: 'videos', maxCount: MAX_VIDEOS }])(req, res, (err) => {
     if (err instanceof multer.MulterError) {
-      const msg = err.code === 'LIMIT_FILE_SIZE' ? 'Each file must be 25 MB or smaller' : err.code === 'LIMIT_FILE_COUNT' || err.code === 'LIMIT_UNEXPECTED_FILE' ? `Up to ${MAX_PHOTOS} photos and ${MAX_DOCS} documents` : 'Upload failed, please try again';
+      const msg = err.code === 'LIMIT_FILE_SIZE' ? 'Videos must be 100 MB or smaller (photos 10 MB, documents 25 MB)' : err.code === 'LIMIT_FILE_COUNT' || err.code === 'LIMIT_UNEXPECTED_FILE' ? `Up to ${MAX_PHOTOS} photos, ${MAX_VIDEOS} videos and ${MAX_DOCS} documents` : 'Upload failed, please try again';
       return next(fail(msg, 400));
     }
     next(err);
   });
 }
-const allFiles = (req) => [...(req.files?.photos || []), ...(req.files?.documents || [])];
+const allFiles = (req) => [...(req.files?.photos || []), ...(req.files?.documents || []), ...(req.files?.videos || [])];
 const cleanup = (files) => Promise.all(files.map((f) => fs.promises.unlink(f.path).catch(() => {})));
 
-async function storeFile(file, { photo }) {
+async function storeFile(file, { photo, video }) {
   if (photo && file.size > 10 * MB) throw fail('Each photo must be 10 MB or smaller', 413);
-  const type = TYPES.find((t) => t.mimeType === file.mimetype);
+  if (!photo && !video && file.size > 25 * MB) throw fail('Each document must be 25 MB or smaller', 413);
+  const type = TYPES.find((t) => t.mimeType === (file.mimetype === 'video/quicktime' ? 'video/mp4' : file.mimetype));
   const fh = await fs.promises.open(file.path, 'r');
   const sig = Buffer.alloc(16);
   let n;
   try { ({ bytesRead: n } = await fh.read(sig, 0, 16, 0)); } finally { await fh.close(); }
-  if (!type || !type.matches(sig.subarray(0, n))) throw fail(`"${file.originalname}" is not a valid ${photo ? 'photo' : 'PDF or image'}`, 415);
+  if (!type || !type.matches(sig.subarray(0, n))) throw fail(`"${file.originalname}" is not a valid ${photo ? 'photo' : video ? 'video' : 'PDF or image'}`, 415);
   const key = `plot-${path.basename(file.filename)}.${type.extension}`;
   await fs.promises.mkdir(UPLOAD_DIR, { recursive: true });
   await fs.promises.rename(file.path, path.join(UPLOAD_DIR, key));
@@ -113,14 +121,14 @@ function plotFields(b, existing = {}) {
     description: b.description !== undefined ? str(b.description).slice(0, 2000) : existing.description || '',
   };
   f.title = str(b.title).slice(0, 120) || existing.title
-    || `${f.sizeSqft ? fmtSqft(f.sizeSqft) + ' ' : ''}${(type || 'plot').toLowerCase().replace(/ \/.*/, '')}${f.locality ? ' in ' + titleCase(f.locality) : ''}`;
+    || `${f.sizeSqft ? fmtSqft(f.sizeSqft) + ' ' : ''}${(type || W.noun).toLowerCase().replace(/ \/.*/, '')}${f.locality ? ' in ' + titleCase(f.locality) : ''}`;
   f.title = f.title.charAt(0).toUpperCase() + f.title.slice(1);
   return f;
 }
 
 function validatePlot(f) {
-  if (!f.type) throw fail('Choose the type of plot or space');
-  if (!f.sizeSqft) throw fail('Enter the size of the plot');
+  if (!f.type) throw fail(`Choose the type of ${W.noun}`);
+  if (!f.sizeSqft) throw fail(`Enter the size of the ${W.noun}`);
   if (!f.locality) throw fail('Enter the area / locality');
   if (!f.address && !f.mapUrl) throw fail('Enter the address or a Google Maps link');
 }
@@ -136,7 +144,7 @@ function publicPlot(p) {
     frontageFt: p.frontageFt || 0, zoning: p.zoning, currentUse: p.currentUse || '', availableFrom: p.availableFrom || '',
     preference: p.preference, preferenceText: PREFERENCES[p.preference] || '', expectedRent: p.expectedRent || 0,
     amenities: p.amenities || [], description: p.description || '',
-    photos: (p.photos || []).map((ph) => photoUrl(p, ph)), publishedAt: p.publishedAt || null,
+    photos: (p.photos || []).map((ph) => photoUrl(p, ph)), videos: (p.videos || []).map((v) => photoUrl(p, v)), publishedAt: p.publishedAt || null,
   };
 }
 
@@ -155,7 +163,7 @@ async function nextPlotId() {
   const n = (await Plot.find({})).length + 1;
   let id;
   for (let i = n; ; i++) {
-    id = `RMS-PLOT-${String(i).padStart(4, '0')}`;
+    id = `${W.idPrefix}-${String(i).padStart(4, '0')}`;
     if (!(await Plot.findOne({ plotId: id }))) return id;
   }
 }
@@ -173,7 +181,7 @@ router.get('/format', (req, res) => res.json(FORMAT));
 // An owner submits a plot: goes to the team for approval
 async function ownerOnly(req, res, next) {
   const u = await optionalUser(req);
-  if (!u || u.role !== 'business') return next(fail('Sign in to your owner dashboard to upload your plot', 401));
+  if (!u || u.role !== 'business') return next(fail(`Sign in to your dashboard to upload your ${W.noun}`, 401));
   req.owner = u;
   next();
 }
@@ -194,21 +202,23 @@ router.post('/', rateLimit(8, 60 * 60 * 1000), ownerOnly, uploadFiles, async (re
     const ownerEmail = u.email || '';
     if (!ownerName) throw fail('Enter your name');
     if (!ownerPhone) throw fail('Enter a valid 10-digit mobile number');
-    if (b.consent !== 'yes' && b.consent !== 'on' && b.consent !== 'true') throw fail('Tick the box to confirm you own the plot or are authorised to list it');
+    if (b.consent !== 'yes' && b.consent !== 'on' && b.consent !== 'true') throw fail(`Tick the box to confirm you own or run this ${W.noun}, or are authorised to list it`);
     const f = plotFields(b);
     validatePlot(f);
     const photos = req.files?.photos || [];
-    if (!photos.length) throw fail('Add at least one photo of the plot');
+    if (!photos.length) throw fail(`Add at least one photo of the ${W.noun}`);
     const storedPhotos = [];
     for (const file of photos) storedPhotos.push(await storeFile(file, { photo: true }));
     const kinds = (Array.isArray(b.docKinds) ? b.docKinds : str(b.docKinds).split(',')).map((k) => String(k).trim());
+    const storedVideos = [];
+    for (const file of req.files?.videos || []) storedVideos.push(await storeFile(file, { video: true }));
     const storedDocs = [];
     for (const [i, file] of (req.files?.documents || []).entries()) storedDocs.push({ ...(await storeFile(file, { photo: false })), kind: DOC_KINDS[kinds[i]] ? kinds[i] : 'other' });
 
     const plotId = await nextPlotId();
     const plot = await Plot.create({
       ...f, plotId, owner: u._id, ownerName, ownerPhone, ownerEmail, ownerRole: ['owner', 'family', 'agent', 'other'].includes(b.ownerRole) ? b.ownerRole : 'owner',
-      photos: storedPhotos, documents: storedDocs, status: 'pending_review', source: str(b.source).slice(0, 40) || 'website',
+      photos: storedPhotos, videos: storedVideos, documents: storedDocs, status: 'pending_review', source: str(b.source).slice(0, 40) || 'website',
       history: [{ at: new Date().toISOString(), what: 'Submitted by the owner' }],
     });
     // In the CRM, so the team follows up
@@ -219,7 +229,7 @@ router.post('/', rateLimit(8, 60 * 60 * 1000), ownerOnly, uploadFiles, async (re
     }).catch((e) => console.error('[plots] lead:', e.message));
     await sendMail(emails.plotSubmitted({ plot: adminPlot(plot) })).catch((e) => console.error('[plots] team email:', e.message));
     if (ownerEmail) await sendMail(emails.plotReceived({ plot: adminPlot(plot) })).catch((e) => console.error('[plots] owner email:', e.message));
-    notifyHub({ type: 'plot', status: 'submitted', phone: ownerPhone, name: ownerName, email: ownerEmail, area: f.locality, plotId, title: plot.title, photos: storedPhotos.length, documents: storedDocs.length });
+    notifyHub({ type: 'plot', status: 'submitted', phone: ownerPhone, name: ownerName, email: ownerEmail, area: f.locality, plotId, title: plot.title, photos: storedPhotos.length, videos: storedVideos.length, documents: storedDocs.length });
     res.status(201).json({ plotId, title: plot.title });
   } catch (e) {
     await cleanup(files);
@@ -239,7 +249,7 @@ router.get('/', async (req, res) => {
   if (area) rows = rows.filter((p) => `${p.locality} ${p.city}`.toLowerCase().includes(area));
   if (q) rows = rows.filter((p) => [p.title, p.type, p.locality, p.description, p.zoning, ...p.amenities].some((x) => String(x).toLowerCase().includes(q)));
   rows.sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)));
-  res.json({ plots: rows.slice(0, 300), types: PLOT_TYPES });
+  res.json({ plots: rows.slice(0, 300), types: PLOT_TYPES, words: W });
 });
 
 // ---------- Team (admins) ----------
@@ -267,7 +277,7 @@ router.get('/admin/list', admin, async (req, res) => {
 
 router.get('/admin/:id/file/:key', admin, async (req, res) => {
   const p = await Plot.findById(req.params.id);
-  const f = p && [...(p.photos || []), ...(p.documents || [])].find((x) => x.key === req.params.key);
+  const f = p && [...(p.photos || []), ...(p.videos || []), ...(p.documents || [])].find((x) => x.key === req.params.key);
   if (!f) throw fail('File not found', 404);
   res.set({ 'Content-Type': f.mimeType, 'Content-Disposition': `inline; filename="${String(f.name || f.key).replace(/[^\w.\- ]/g, '_')}"`, 'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'private, no-store' });
   if (f.mimeType === 'application/pdf') res.set('Content-Security-Policy', 'sandbox');
@@ -277,7 +287,7 @@ router.get('/admin/:id/file/:key', admin, async (req, res) => {
 // approve | reject | remove | edit (details can be corrected before approving)
 router.patch('/admin/:id', admin, async (req, res) => {
   const p = await Plot.findById(req.params.id);
-  if (!p) throw fail('Plot not found', 404);
+  if (!p) throw fail(`${W.Noun} not found`, 404);
   const b = req.body || {};
   const by = req.user.name || req.user.email;
   const at = new Date().toISOString();
@@ -329,14 +339,14 @@ router.get('/admin/by-phone/:phone', admin, async (req, res) => {
 router.get('/admin/phones', admin, async (req, res) => {
   const out = {};
   for (const p of await Plot.find({})) if (p.status !== 'removed') { const k = last10(p.ownerPhone); out[k] = out[k] === 'live' ? 'live' : p.status; }
-  res.json({ phones: out });
+  res.json({ phones: out, words: W });
 });
 
 // ---------- One plot ----------
 // Photos are public once the plot is live (admins can always see them)
 router.get('/:id/photo/:key', async (req, res) => {
   const p = await Plot.findById(req.params.id);
-  const ph = p && (p.photos || []).find((x) => x.key === req.params.key);
+  const ph = p && [...(p.photos || []), ...(p.videos || [])].find((x) => x.key === req.params.key);
   if (!ph) throw fail('Photo not found', 404);
   if (p.status !== 'live') {
     const u = await optionalUser(req);
@@ -349,14 +359,14 @@ router.get('/:id/photo/:key', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const p = await Plot.findById(req.params.id);
-  if (!p || p.status !== 'live') throw fail('This plot isn’t available', 404);
+  if (!p || p.status !== 'live') throw fail(`This ${W.noun} isn’t available`, 404);
   res.json({ plot: publicPlot(p) });
 });
 
 // Someone looking for space is interested: the team gets the enquiry and coordinates (no direct contact)
 router.post('/:id/enquire', rateLimit(10, 60 * 60 * 1000), async (req, res) => {
   const p = await Plot.findById(req.params.id);
-  if (!p || p.status !== 'live') throw fail('This plot isn’t available', 404);
+  if (!p || p.status !== 'live') throw fail(`This ${W.noun} isn’t available`, 404);
   const b = req.body || {};
   const u = await optionalUser(req);
   const name = str(b.name).slice(0, 100) || u?.name || '';

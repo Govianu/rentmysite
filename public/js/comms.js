@@ -23,7 +23,7 @@
   // Plots owners uploaded on this site (/list-plot) – only RentMySite has them; elsewhere the tab stays hidden
   async function plotPhones() {
     if (S.plotsOn === false) return {};
-    try { const r = await api('/plots/admin/phones'); S.plotsOn = true; return (S.plotPhones = r.phones || {}); } catch { S.plotsOn = false; return {}; }
+    try { const r = await api('/plots/admin/phones'); S.plotsOn = true; S.plotWords = r.words || null; return (S.plotPhones = r.phones || {}); } catch { S.plotsOn = false; return {}; }
   }
 
   window.loadComms = async function () {
@@ -61,7 +61,7 @@
         <button class="btn ${myPhone ? 'ghost ' : ''}small" type="submit">${myPhone ? 'Update' : 'Save'}</button>
         <span class="meta">${myPhone ? 'Customer messages, missed calls and reminders also come to this WhatsApp.' : 'Add it so customer messages, missed calls and reminders reach your phone too.'}</span></form>`;
     el.innerHTML = `${viewBar}${phoneBar}${askNotif}${warn.length && isHubAdmin() ? `<div class="comms-banner">${warn.map(esc).join('<br>')}</div>` : ''}
-      <div class="comms-tabs" role="tablist">${subs.map(([k, l]) => `<button type="button" data-sub="${k}" ${k === S.sub ? 'aria-current="page"' : ''}>${l}</button>`).join('')}<span style="flex:1"></span>${adminCtl}</div>
+      <div class="comms-tabs" role="tablist">${subs.map(([k, l]) => (k === 'uploads' && S.plotWords ? [k, 'Uploaded ' + S.plotWords.nouns] : [k, l])).map(([k, l]) => `<button type="button" data-sub="${k}" ${k === S.sub ? 'aria-current="page"' : ''}>${l}</button>`).join('')}<span style="flex:1"></span>${adminCtl}</div>
       <div id="commsBody"><p class="meta">Loading…</p></div>`;
     el.querySelectorAll('[data-sub]').forEach((b) => b.addEventListener('click', () => { S.sub = b.dataset.sub; window.loadComms(); }));
     document.getElementById('cMyPhone').addEventListener('submit', (e) => {
@@ -135,14 +135,14 @@
   async function uploads() {
     const r = await api('/plots/admin/list?status=all');
     const LBL = { pending_review: 'to approve', live: 'published', rejected: 'rejected', removed: 'taken down' };
-    body().innerHTML = `<p class="meta">Everything owners uploaded at rentmysite.ai/list-plot: ${r.counts.pending_review} to approve, ${r.counts.live} published. Click a row to open that person's chat and history. Approve plot + KYC in <a href="#plots">Approvals</a>.</p>
+    body().innerHTML = `<p class="meta">Everything uploaded from dashboards (link: ${esc((S.plotWords && S.plotWords.formPath) || '/list-plot')}): ${r.counts.pending_review} to approve, ${r.counts.live} published. Click a row to open that person's chat and history. Approve it with the KYC in <a href="#plots">Approvals</a>.</p>
       <div class="table-wrap"><table><thead><tr><th>Photo</th><th>Plot</th><th>Owner</th><th>Area</th><th>Size</th><th>Files</th><th>Status</th><th>Uploaded</th><th></th></tr></thead><tbody>
       ${r.plots.map((p) => `<tr class="comms-row" data-ph="91${esc(L10(p.ownerPhone))}">
         <td>${p.photos[0] ? `<img src="${esc(p.photos[0])}" alt="" style="width:72px;height:52px;object-fit:cover;border-radius:6px">` : '—'}</td>
         <td><strong>${esc(p.title)}</strong><div class="meta">${esc(p.plotId)} · ${esc(p.type)}</div></td>
         <td>${esc(p.ownerName)}<div class="meta">${esc(p.ownerPhone)}</div></td>
         <td>${esc(p.locality)}</td><td>${esc(p.sizeText)}</td>
-        <td class="meta">${p.photos.length} photos · ${p.documents.length} docs</td>
+        <td class="meta">${p.photos.length} photos${(p.videos || []).length ? ` · ${p.videos.length} videos` : ''} · ${p.documents.length} docs</td>
         <td><span class="pill ${p.status === 'live' ? 'approved' : p.status === 'pending_review' ? 'pending' : 'rejected'}">${LBL[p.status] || esc(p.status)}</span></td>
         <td class="meta">${when(Date.parse(p.createdAt))}</td>
         <td style="white-space:nowrap"><button class="btn small" type="button" data-call="91${esc(L10(p.ownerPhone))}">📞 Call</button> <button class="btn ghost small" type="button" data-wa="91${esc(L10(p.ownerPhone))}">💬 WhatsApp</button></td></tr>`).join('') || '<tr><td colspan="9" class="empty"><strong>No uploads yet</strong>When an owner uploads a plot (the AI and the welcome WhatsApp send them the link), it shows here.</td></tr>'}
@@ -155,12 +155,12 @@
     if (!box || S.plotsOn === false) return;
     try {
       const { plots } = await api('/plots/admin/by-phone/' + L10(phone));
-      if (!plots.length) { box.innerHTML = '<h3>Uploaded plots</h3><p class="meta">Nothing uploaded yet. The link to send them: rentmysite.ai/list-plot</p>'; return; }
-      box.innerHTML = '<h3>Uploaded plots</h3>' + plots.map((p) => `<div class="comms-card">
+      if (!plots.length) { box.innerHTML = '<h3>Uploaded ' + ((S.plotWords && S.plotWords.nouns) || 'plots') + '</h3><p class="meta">Nothing uploaded yet. The link to send them: ' + location.host + ((S.plotWords && S.plotWords.formPath) || '/list-plot') + '</p>'; return; }
+      box.innerHTML = '<h3>Uploaded ' + ((S.plotWords && S.plotWords.nouns) || 'plots') + '</h3>' + plots.map((p) => `<div class="comms-card">
         <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap"><strong style="flex:1">${esc(p.title)}</strong><span class="pill ${p.status === 'live' ? 'approved' : p.status === 'pending_review' ? 'pending' : 'rejected'}">${esc({ pending_review: 'to approve', live: 'published', rejected: 'rejected', removed: 'taken down' }[p.status] || p.status)}</span></div>
         <p class="meta">${esc(p.plotId)} · ${esc(p.type)} · ${esc(p.sizeText)} · ${esc(p.locality)}${p.address ? ' · ' + esc(p.address) : ''}</p>
         <div style="display:flex;gap:.3rem;flex-wrap:wrap">${p.photos.map((src) => `<a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="" style="width:90px;height:66px;object-fit:cover;border-radius:6px"></a>`).join('')}</div>
-        <p style="display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0 0">${p.mapUrl ? `<a class="btn ghost small" href="${esc(p.mapUrl)}" target="_blank" rel="noopener">📍 Map</a>` : ''}${p.documents.map((d) => `<a class="btn ghost small" href="${esc(d.url)}" target="_blank" rel="noopener">📄 ${esc(d.kindText)}</a>`).join('')}<a class="btn small" href="#plots">Review in Approvals</a></p>
+        <p style="display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0 0">${p.mapUrl ? `<a class="btn ghost small" href="${esc(p.mapUrl)}" target="_blank" rel="noopener">📍 Map</a>` : ''}${(p.videos || []).map((v, i) => `<a class="btn ghost small" href="${esc(v)}" target="_blank" rel="noopener">🎬 Video ${i + 1}</a>`).join('')}${p.documents.map((d) => `<a class="btn ghost small" href="${esc(d.url)}" target="_blank" rel="noopener">📄 ${esc(d.kindText)}</a>`).join('')}<a class="btn small" href="#plots">Review in Approvals</a></p>
       </div>`).join('');
       box.querySelectorAll('a[href="#plots"]').forEach((a) => a.addEventListener('click', closeLead));
     } catch { box.innerHTML = ''; }
@@ -180,7 +180,7 @@
         <select id="cCamp"><option value="">Any campaign state</option>${['none', 'queued', 'sent', 'replied', 'failed', 'skipped'].map((s) => `<option ${s === S.leadCampaign ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
       <p class="meta">${res.total} leads${res.total > res.rows.length ? ` (showing ${res.rows.length})` : ''}</p>
       <div class="table-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Stage</th><th>Contacted by</th><th>Last contact</th><th>Assigned to</th><th>WhatsApp campaign</th><th>Notes</th><th>Actions</th></tr></thead><tbody>
-      ${res.rows.map((l) => `<tr class="comms-row" data-ph="${esc(l.phone)}"><td><strong>${esc(l.name || '—')}</strong>${pp[L10(l.phone)] ? ` <span class="pill ${pp[L10(l.phone)] === 'live' ? 'approved' : 'pending'}" title="Uploaded a plot">📷 plot ${pp[L10(l.phone)] === 'live' ? 'published' : pp[L10(l.phone)] === 'pending_review' ? 'to approve' : esc(pretty(pp[L10(l.phone)]))}</span>` : ''}${l.waitingSince ? `<br><span class="pill rejected">${l.waitingKind === 'missed_call' ? '📞 missed call' : 'waiting'} ${ago(l.waitingSince)}</span> <button class="btn ghost small" type="button" data-done="${esc(l.phone)}">Done</button>` : ''}</td><td>${esc(ph(l.phone))}</td>
+      ${res.rows.map((l) => `<tr class="comms-row" data-ph="${esc(l.phone)}"><td><strong>${esc(l.name || '—')}</strong>${pp[L10(l.phone)] ? ` <span class="pill ${pp[L10(l.phone)] === 'live' ? 'approved' : 'pending'}" title="Uploaded">📷 ${(S.plotWords && S.plotWords.noun) || 'plot'} ${pp[L10(l.phone)] === 'live' ? 'published' : pp[L10(l.phone)] === 'pending_review' ? 'to approve' : esc(pretty(pp[L10(l.phone)]))}</span>` : ''}${l.waitingSince ? `<br><span class="pill rejected">${l.waitingKind === 'missed_call' ? '📞 missed call' : 'waiting'} ${ago(l.waitingSince)}</span> <button class="btn ghost small" type="button" data-done="${esc(l.phone)}">Done</button>` : ''}</td><td>${esc(ph(l.phone))}</td>
         <td>${/^https?:\/\//.test(l.area || '') ? `<a href="${esc(l.area)}" target="_blank" rel="noopener">📍 map</a>` : esc(l.area)}</td>
         <td>${pill(l.stage)}</td>
         <td>${l.contactedByName ? `<strong>${esc(l.contactedByName)}</strong><div class="meta">${when(l.contactedAt)} · ${esc(l.contactedHow)}</div>` : '<span class="meta">not yet</span>'}</td>
